@@ -84,7 +84,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
     static final String pigTextures[] = { "morecreeps:textures/entity/ggpig1.png",
         "morecreeps:textures/entity/ggpig2.png", "morecreeps:textures/entity/ggpig3.png",
         "morecreeps:textures/entity/ggpig4.png", "morecreeps:textures/entity/ggpig5.png",
-        "morecreeps:textures/entity/ggpig6.png", "/mob/creeps/ggpig7.png", "morecreeps:textures/entity/ggpig8.png",
+        "morecreeps:textures/entity/ggpig6.png", "/textures/entity/ggpig7.png", "morecreeps:textures/entity/ggpig8.png",
         "morecreeps:textures/entity/ggpig9.png", "morecreeps:textures/entity/ggpiga.png" };
     public static final int leveldamage[] = { 0, 200, 600, 1000, 1500, 2000, 2700, 3500, 4400, 5400, 6600, 7900, 9300,
         10800, 12400, 14100, 15800, 17600, 19500, 21500, 25000, 30000 };
@@ -140,9 +140,6 @@ public class CREEPSEntityGuineaPig extends EntityMob {
             .setBaseValue(basehealth);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
             .setBaseValue(moveSpeed);
-        this.getAttributeMap()
-            .registerAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(attackStrength);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
             .setBaseValue(attackStrength);
     }
@@ -150,23 +147,19 @@ public class CREEPSEntityGuineaPig extends EntityMob {
     protected void updateAITick() {
         super.updateEntityActionState();
 
-        if (!this.attackEntityAsMob(entitymain) && !hasPath() && tamed && ridingEntity == null && wanderstate != 2) {
-
-            if (entityplayer != null) {
+        if (!this.attackEntityAsMob(entitymain) && !hasPath() && tamed && ridingEntity == null && wanderstate != 2 && (entityplayer != null)) {
                 float f = entityplayer.getDistanceToEntity(this);
 
                 if (f <= 5F);
-            }
+
         }
 
-        if (this.getAttackTarget() instanceof EntityPlayer) {
-
-            if (getDistanceToEntity(entityplayer) < 6F) {
+        if (this.getAttackTarget() instanceof EntityPlayer && (getDistanceToEntity(entityplayer) < 6F)) {
                 this.setAttackTarget(null);
-            }
+
         }
 
-        if ((float) health < (float) basehealth * (0.1F * (float) skillhealing) && skillhealing > 0) {
+        if ((float) health < basehealth * (0.1F * skillhealing) && skillhealing > 0) {
             this.attackEntity(entityplayer, (float) attackStrength);
         }
     }
@@ -176,13 +169,13 @@ public class CREEPSEntityGuineaPig extends EntityMob {
      * (Animals, Spiders at day, peaceful PigZombies).
      */
     protected Entity findPlayerToAttack() {
-        Object obj = null;
+        Entity obj = null;
 
         if (tamed && wanderstate == 0) {
             List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(16D, 16D, 16D));
 
-            for (int i = 0; i < list.size(); i++) {
-                Entity entity = (Entity) list.get(i);
+            for (Object o : list) {
+                Entity entity = (Entity) o;
 
                 if (entity instanceof EntityCreature) {
                     EntityCreature entitycreature = (EntityCreature) entity;
@@ -192,7 +185,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
                         && !(entitycreature instanceof CREEPSEntityHunchback)
                         && !(entitycreature instanceof CREEPSEntityGuineaPig)
                         && (!(entitycreature instanceof CREEPSEntityArmyGuy)
-                            || !((CREEPSEntityArmyGuy) entitycreature).loyal)) {
+                        || !((CREEPSEntityArmyGuy) entitycreature).loyal)) {
                         obj = entitycreature;
                     }
                 }
@@ -203,7 +196,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
 
                 EntityPlayer entityplayer = (EntityPlayer) entity;
 
-                if (entityplayer == null || obj != null && !(obj instanceof EntityPlayer)) {
+                if (obj != null && !(obj instanceof EntityPlayer)) {
                     continue;
                 }
 
@@ -217,7 +210,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
             }
         }
 
-        return ((Entity) (obj));
+        return obj;
     }
 
     /**

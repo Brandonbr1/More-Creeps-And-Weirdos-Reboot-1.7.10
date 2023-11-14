@@ -47,7 +47,7 @@ public class CREEPSEntitySnowDevil extends EntityMob {
         "Annihilation", "Bloodshed", "Destructo", "Rub Out", "Massacre", "Felony", "The Mangler", "Destroyer",
         "The Marauder", "Wreck", "Vaporizer", "Wasteland", "Demolition Duo", "Two Knocks", "Double Trouble",
         "Thing One & Thing Two", "Wipeout", "Devil Duo", "Two Shot", "Misunderstood", "Twice As Nice" };
-    static final String snowTextures[] = { "/mob/creeps/snowdevil1.png", "/mob/creeps/snowdevil2.png" };
+    static final String snowTextures[] = { "morecreeps:textures/entity/snowdevil1.png", "morecreeps:textures/entity/snowdevil2.png" };
 
     public String texture;
 

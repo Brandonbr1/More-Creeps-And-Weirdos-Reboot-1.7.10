@@ -38,14 +38,14 @@ public class CREEPSEntityCamel extends EntityMob {
     public int basehealth;
     public float modelsize;
     public String name;
-    static final String Names[] = { "Stanley", "Cid", "Hunchy", "The Heat", "Herman the Hump", "Dr. Hump",
+    static final String[] Names = { "Stanley", "Cid", "Hunchy", "The Heat", "Herman the Hump", "Dr. Hump",
         "Little Lousie", "Spoony G", "Mixmaster C", "The Maestro", "Duncan the Dude", "Charlie Camel", "Chip",
         "Charles Angstrom III", "Mr. Charles", "Cranky Carl", "Carl the Rooster", "Tiny the Peach", "Desert Dan",
         "Dungby", "Doofus" };
-    static final String camelTextures[] = { "/mob/creeps/camel.png", "/mob/creeps/camel.png", "/mob/creeps/camel.png",
-        "/mob/creeps/camel.png", "/mob/creeps/camelwhite.png", "/mob/creeps/camelblack.png",
-        "/mob/creeps/camelbrown.png", "/mob/creeps/camelgrey.png", "/mob/creeps/camel.png", "/mob/creeps/camel.png",
-        "/mob/creeps/camel.png", "/mob/creeps/camel.png", "/mob/creeps/camelwhite.png" };
+    static final String[] camelTextures = { "morecreeps:textures/entity/camel.png", "morecreeps:textures/entity/camel.png", "morecreeps:textures/entity/camel.png",
+        "morecreeps:textures/entity/camel.png", "morecreeps:textures/entity/camelwhite.png", "morecreeps:textures/entity/camelblack.png",
+        "morecreeps:textures/entity/camelbrown.png", "morecreeps:textures/entity/camelgrey.png", "morecreeps:textures/entity/camel.png", "morecreeps:textures/entity/camel.png",
+        "morecreeps:textures/entity/camel.png", "morecreeps:textures/entity/camel.png", "morecreeps:textures/entity/camelwhite.png" };
 
     public CREEPSEntityCamel(World world) {
         super(world);
@@ -135,6 +135,7 @@ public class CREEPSEntityCamel extends EntityMob {
     }
 
     public void onLivingUpdate() {
+        super.onLivingUpdate();
         if (modelsize > 1.75F) {
             ignoreFrustumCheck = true;
         }
@@ -142,12 +143,13 @@ public class CREEPSEntityCamel extends EntityMob {
 
     public void moveEntityWithHeading(float p_70612_1_, float p_70612_2_) {
         if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase) {
-            this.prevRotationYaw = this.rotationYaw = this.riddenByEntity.rotationYaw;
-            this.rotationPitch = this.riddenByEntity.rotationPitch * 0.5F;
+            EntityLivingBase rider = (EntityLivingBase) this.riddenByEntity;
+            this.rotationYaw = rider.rotationYaw;
+            this.rotationPitch = rider.rotationPitch * 0.5F;
             this.setRotation(this.rotationYaw, this.rotationPitch);
             this.rotationYawHead = this.renderYawOffset = this.rotationYaw;
-            p_70612_1_ = ((EntityLivingBase) this.riddenByEntity).moveStrafing * 0.5F;
-            p_70612_2_ = ((EntityLivingBase) this.riddenByEntity).moveForward;
+            p_70612_1_ = rider.moveStrafing * 0.5F;
+            p_70612_2_ = rider.moveForward;
 
             if (p_70612_2_ <= 0.0F) {
                 p_70612_2_ *= 0.25F;
@@ -162,8 +164,8 @@ public class CREEPSEntityCamel extends EntityMob {
                 this.motionY = 0.43;
 
                 if (this.isPotionActive(Potion.jump)) {
-                    this.motionY += (double) ((float) (this.getActivePotionEffect(Potion.jump)
-                        .getAmplifier() + 1) * 0.1F);
+                    this.motionY += (float) (this.getActivePotionEffect(Potion.jump)
+                        .getAmplifier() + 1) * 0.1F;
                 }
 
                 this.setJumping(true);
@@ -172,8 +174,8 @@ public class CREEPSEntityCamel extends EntityMob {
                 if (p_70612_2_ > 0.0F) {
                     float f2 = MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F);
                     float f3 = MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F);
-                    this.motionX += (double) (-0.4F * f2);
-                    this.motionZ += (double) (0.4F * f3);
+                    this.motionX += -0.4F * f2;
+                    this.motionZ += 0.4F * f3;
                 }
 
                 net.minecraftforge.common.ForgeHooks.onLivingJump(this);
@@ -183,9 +185,8 @@ public class CREEPSEntityCamel extends EntityMob {
             this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
             if (!this.worldObj.isRemote) {
-                this.setAIMoveSpeed(
-                    (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-                        .getAttributeValue());
+                this.setAIMoveSpeed((float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+                    .getAttributeValue());
                 super.moveEntityWithHeading(p_70612_1_, p_70612_2_);
             }
 
@@ -201,8 +202,6 @@ public class CREEPSEntityCamel extends EntityMob {
             this.limbSwingAmount += (f4 - this.limbSwingAmount) * 0.4F;
             this.limbSwing += this.limbSwingAmount;
         } else {
-            this.stepHeight = 0.5F;
-            this.jumpMovementFactor = 0.02F;
             super.moveEntityWithHeading(p_70612_1_, p_70612_2_);
         }
     }
@@ -220,8 +219,7 @@ public class CREEPSEntityCamel extends EntityMob {
             }
 
             if (rand.nextInt(10) == 0) {
-                EntityLiving entityliving = func_21018_getClosestTarget(this, 15D);
-                return entityliving;
+                return func_21018_getClosestTarget(this, 15D);
             }
         }
 
@@ -282,14 +280,14 @@ public class CREEPSEntityCamel extends EntityMob {
             double d = entity.posX - posX;
             double d2 = entity.posZ - posZ;
             float f1 = MathHelper.sqrt_double(d * d + d2 * d2);
-            motionX = (d / (double) f1) * 0.20000000000000001D * (0.850000011920929D + motionX * 0.20000000298023224D);
-            motionZ = (d2 / (double) f1) * 0.20000000000000001D
+            motionX = (d / f1) * 0.20000000000000001D * (0.850000011920929D + motionX * 0.20000000298023224D);
+            motionZ = (d2 / f1) * 0.20000000000000001D
                 * (0.80000001192092896D + motionZ * 0.20000000298023224D);
             motionY = 0.10000000596246449D;
             fallDistance = -25F;
         }
 
-        if ((double) f > 2D && (double) f < 7D
+        if (f > 2D && f < 7D
             && (entity instanceof EntityPlayer)
             && spittimer-- < 0
             && (riddenByEntity instanceof CREEPSEntityCamelJockey)) {
@@ -306,9 +304,9 @@ public class CREEPSEntityCamel extends EntityMob {
             for (int i = 0; i < 40; i++) {
                 CREEPSFxSpit creepsfxspit = new CREEPSFxSpit(
                     worldObj,
-                    posX + d1 * (double) (4.5F - (2.0F - modelsize)),
+                    posX + d1 * (4.5F - (2.0F - modelsize)),
                     (posY + 2.4000000953674316D) - (double) (2.0F - modelsize),
-                    posZ + d3 * (double) (4.5F - (2.0F - modelsize)),
+                    posZ + d3 * (4.5F - (2.0F - modelsize)),
                     MoreCreepsAndWeirdos.partBubble);
                 creepsfxspit.renderDistanceWeight = 10D;
                 Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxspit);
@@ -318,6 +316,7 @@ public class CREEPSEntityCamel extends EntityMob {
         }
 
         if ((double) f < 3.2999999999999998D - (2D - (double) modelsize)
+            && entity.getBoundingBox() != null
             && entity.getBoundingBox().maxY > entity.getBoundingBox().minY
             && entity.getBoundingBox().minY < entity.getBoundingBox().maxY) {
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), attack);
@@ -541,7 +540,7 @@ public class CREEPSEntityCamel extends EntityMob {
         tamed = nbttagcompound.getBoolean("Tamed");
 
         if (basetexture == null) {
-            basetexture = "/mob/creeps/camel.png";
+            basetexture = "/textures/entity/camel.png";
         }
 
         texture = basetexture;

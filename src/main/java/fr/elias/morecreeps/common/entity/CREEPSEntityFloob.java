@@ -123,8 +123,6 @@ public class CREEPSEntityFloob extends EntityMob {
 
                 if (d1 < d * d && d1 > 3D) {
                     double d2 = targetedEntity.posX - posX;
-                    double d3 = (targetedEntity.getBoundingBox().minY + (double) (targetedEntity.height / 2.0F))
-                        - (posY + (double) (height / 2.0F));
                     double d4 = targetedEntity.posZ - posZ;
                     renderYawOffset = rotationYaw = (-(float) Math.atan2(d2, d4) * 180F) / (float) Math.PI;
                     worldObj.playSoundAtEntity(
@@ -134,8 +132,7 @@ public class CREEPSEntityFloob extends EntityMob {
                         (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
                     CREEPSEntityRay creepsentityray = new CREEPSEntityRay(worldObj, this);
 
-                    if (creepsentityray != null && getHealth() > 0) {
-                        if (!worldObj.isRemote) worldObj.spawnEntityInWorld(creepsentityray);
+                    if (getHealth() > 0 && !worldObj.isRemote) {worldObj.spawnEntityInWorld(creepsentityray);
                     }
                 }
             }

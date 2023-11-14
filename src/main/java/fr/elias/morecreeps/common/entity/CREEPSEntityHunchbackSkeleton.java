@@ -27,7 +27,7 @@ public class CREEPSEntityHunchbackSkeleton extends EntityMob {
 
     public CREEPSEntityHunchbackSkeleton(World world) {
         super(world);
-        texture = "/mob/creeps/hunchbackskeleton1.png";
+        texture = "/textures/entity/hunchbackskeleton1.png";
         health = rand.nextInt(10) + 10;
         timeleft = rand.nextInt(500) + 200;
         modelsize = 1.0F;
@@ -101,13 +101,13 @@ public class CREEPSEntityHunchbackSkeleton extends EntityMob {
         }
 
         if (timeleft < 500 && timeleft > 300) {
-            texture = "/mob/creeps/hunchbackskeleton2.png";
+            texture = "/textures/entity/hunchbackskeleton2.png";
         } else if (timeleft < 300 && timeleft > 200) {
-            texture = "/mob/creeps/hunchbackskeleton3.png";
+            texture = "/textures/entity/hunchbackskeleton3.png";
         } else if (timeleft < 200 && timeleft > 100) {
-            texture = "/mob/creeps/hunchbackskeleton4.png";
+            texture = "/textures/entity/hunchbackskeleton4.png";
         } else if (timeleft < 100 && timeleft > 1) {
-            texture = "/mob/creeps/hunchbackskeleton5.png";
+            texture = "/textures/entity/hunchbackskeleton5.png";
         } else if (timeleft < 1) {
             smoke();
             health = 0;

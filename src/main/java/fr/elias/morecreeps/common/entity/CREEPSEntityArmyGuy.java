@@ -263,14 +263,13 @@ public class CREEPSEntityArmyGuy extends EntityMob implements IRangedAttackMob, 
             && ((CREEPSEntityArmyGuy) this.getAttackTarget()).loyal) {
             setAttackTarget(null);
         }
-        EntityLivingBase livingbase = (EntityLivingBase) this.getAttackTarget();
+        EntityLivingBase livingbase = this.getAttackTarget();
         if (livingbase != null && (livingbase.getAITarget() instanceof EntityPlayer)) {
             setAttackTarget(livingbase);
         }
         if (!loyal && this.getAttackTarget() != null && (this.getAttackTarget() instanceof CREEPSEntityArmyGuy)) {
             setAttackTarget(null);
         }
-        System.out.println("[ENTITY] ArmyGuy is loyal :" + loyal);
         if (legright) {
             this.setJumping(true);
         }

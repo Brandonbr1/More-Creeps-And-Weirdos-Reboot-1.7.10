@@ -60,7 +60,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature {
 
     public CREEPSEntityRocketGiraffe(World world) {
         super(world);
-        basetexture = "/mob/creeps/rocketgiraffe.png";
+        basetexture = "morecreeps:textures/entity/rocketgiraffe.png";
         texture = basetexture;
         moveSpeed = 0.65F;
         basehealth = rand.nextInt(50) + 30;
@@ -388,7 +388,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature {
                         .toString());
                 health = basehealth;
                 this.setHealth(health);
-                basetexture = "/mob/creeps/rocketgiraffetamed.png";
+                basetexture = "morecreeps:textures/entity/rocketgiraffetamed.png";
                 texture = basetexture;
             }
         }

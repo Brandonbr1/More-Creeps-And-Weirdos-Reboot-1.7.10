@@ -148,21 +148,21 @@ public class MoreCreepsAndWeirdos {
         // Loads config
         CREEPSConfig.preInit(event);
 
-        partBubble = new Item().setUnlocalizedName("morecreeps:partBubble")
+        partBubble = new Item().setUnlocalizedName("partBubble")
             .setTextureName("morecreeps:bubble");
-        partWhite = new Item().setUnlocalizedName("morecreeps:partWhite")
+        partWhite = new Item().setUnlocalizedName("partWhite")
             .setTextureName("morecreeps:White");
-        partRed = new Item().setUnlocalizedName("morecreeps:partRed")
+        partRed = new Item().setUnlocalizedName("partRed")
             .setTextureName("morecreeps:Red");
-        partBlack = new Item().setUnlocalizedName("morecreeps:partBlack")
+        partBlack = new Item().setUnlocalizedName("partBlack")
             .setTextureName("morecreeps:Black");
-        partYellow = new Item().setUnlocalizedName("morecreeps:partYellow")
+        partYellow = new Item().setUnlocalizedName("partYellow")
             .setTextureName("morecreeps:Yellow");
-        partBlue = new Item().setUnlocalizedName("morecreeps:partBlue")
+        partBlue = new Item().setUnlocalizedName("partBlue")
             .setTextureName("morecreeps:Blue");
-        partShrink = new Item().setUnlocalizedName("morecreeps:partShrink")
+        partShrink = new Item().setUnlocalizedName("partShrink")
             .setTextureName("morecreeps:Shrink");
-        partBarf = new Item().setUnlocalizedName("morecreeps:partBarf")
+        partBarf = new Item().setUnlocalizedName("partBarf")
             .setTextureName("morecreeps:Barf");
         GameRegistry.registerItem(partBubble, "partBubble");
         GameRegistry.registerItem(partWhite, "partWhite");
@@ -173,13 +173,13 @@ public class MoreCreepsAndWeirdos {
         GameRegistry.registerItem(partShrink, "partShrink");
         GameRegistry.registerItem(partBarf, "partBarf");
 
-        zebrahelmet = (new CREEPSItemArmorZebra(zebraARMOR, 5, 0)).setUnlocalizedName("morecreeps:zebraHelmet")
+        zebrahelmet = (new CREEPSItemArmorZebra(zebraARMOR, 5, 0)).setUnlocalizedName("zebraHelmet")
             .setTextureName("morecreeps:zebraHelmet");
-        zebrabody = (new CREEPSItemArmorZebra(zebraARMOR, 5, 1)).setUnlocalizedName("morecreeps:zebraBody")
+        zebrabody = (new CREEPSItemArmorZebra(zebraARMOR, 5, 1)).setUnlocalizedName("zebraBody")
             .setTextureName("morecreeps:zebraBody");
-        zebralegs = new CREEPSItemArmorZebra(zebraARMOR, 5, 2).setUnlocalizedName("morecreeps:zebraLegs")
+        zebralegs = new CREEPSItemArmorZebra(zebraARMOR, 5, 2).setUnlocalizedName("zebraLegs")
             .setTextureName("morecreeps:zebralegs");
-        zebraboots = (new CREEPSItemArmorZebra(zebraARMOR, 5, 3)).setUnlocalizedName("morecreeps:zebraBoots")
+        zebraboots = (new CREEPSItemArmorZebra(zebraARMOR, 5, 3)).setUnlocalizedName("zebraBoots")
             .setTextureName("morecreeps:zebraBoots");
         GameRegistry.registerItem(zebrahelmet, "zebraHelmet");
         GameRegistry.registerItem(zebrabody, "zebraBody");
@@ -221,121 +221,121 @@ public class MoreCreepsAndWeirdos {
         GameRegistry.registerItem(a_caveman, "a_caveman");
 
         blorpcola = new CREEPSItemBlorpCola().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:blorpCola")
+            .setUnlocalizedName("blorpCola")
             .setTextureName("morecreeps:blorpCola");
         bandaid = new CREEPSItemBandAid().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:bandAid")
+            .setUnlocalizedName("bandAid")
             .setTextureName("morecreeps:bandAid");
         goodonut = new CREEPSItemGooDonut().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:gooDonut")
+            .setUnlocalizedName("gooDonut")
             .setTextureName("morecreeps:gooDonut");
         money = new CREEPSItemMoney().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:money")
+            .setUnlocalizedName("money")
             .setTextureName("morecreeps:money");
         raygun = new CREEPSItemRayGun().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:raygun")
+            .setUnlocalizedName("raygun")
             .setTextureName("morecreeps:raygun");
         shrinkray = new CREEPSItemShrinkRay().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:shrinkray")
+            .setUnlocalizedName("shrinkray")
             .setTextureName("morecreeps:shrinkray");
         shrinkshrink = new Item().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:shrinkshrink")
+            .setUnlocalizedName("shrinkshrink")
             .setTextureName("morecreeps:shrinkshrink");
         limbs = new CREEPSItemLimbs().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:limbs")
+            .setUnlocalizedName("limbs")
             .setTextureName("morecreeps:limbs");
         babyjarempty = new CREEPSItemBabyJarEmpty().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:babyJarEmpty")
+            .setUnlocalizedName("babyJarEmpty")
             .setTextureName("morecreeps:babyJarEmpty");
         babyjarfull = new CREEPSItemBabyJarFull().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:babyJarFull")
+            .setUnlocalizedName("babyJarFull")
             .setTextureName("morecreeps:babyJarFull");
         mobilephone = new CREEPSItemMobilePhone().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:mobilephone")
+            .setUnlocalizedName("mobilephone")
             .setTextureName("morecreeps:mobilephone");
         growray = new CREEPSItemGrowRay().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:growray")
+            .setUnlocalizedName("growray")
             .setTextureName("morecreeps:growray");
         frisbee = new CREEPSItemFrisbee().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:frisbee")
+            .setUnlocalizedName("frisbee")
             .setTextureName("morecreeps:frisbee");
         rayray = new CREEPSItemRayRay().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:rayray")
+            .setUnlocalizedName("rayray")
             .setTextureName("morecreeps:rayray");
         guineapigradio = new CREEPSItemGuineaPigRadio().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:guineapigRadio")
+            .setUnlocalizedName("guineapigRadio")
             .setTextureName("morecreeps:guineapigRadio");
         evilegg = new CREEPSItemEvilEgg().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:evilEgg")
+            .setUnlocalizedName("evilEgg")
             .setTextureName("morecreeps:evilEgg");
         rocket = new Item().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:rocket")
+            .setUnlocalizedName("rocket")
             .setTextureName("morecreeps:rocket");
         atompacket = new CREEPSItemAtom().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:atomPacket")
+            .setUnlocalizedName("atomPacket")
             .setTextureName("morecreeps:atomPacket");
         ram16k = new Item().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:ram16k")
+            .setUnlocalizedName("ram16k")
             .setTextureName("morecreeps:ram16k");
         battery = new CREEPSItemBattery().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:battery")
+            .setUnlocalizedName("battery")
             .setTextureName("morecreeps:battery");
         horseheadgem = new CREEPSItemHorseHeadGem().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:horseHeadGem")
+            .setUnlocalizedName("horseHeadGem")
             .setTextureName("morecreeps:horseHeadGem");
         armygem = new CREEPSItemArmyGem().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:armyGem")
+            .setUnlocalizedName("armyGem")
             .setTextureName("morecreeps:armyGem");
         gun = new CREEPSItemGun().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:gun")
+            .setUnlocalizedName("gun")
             .setTextureName("morecreeps:gun");
         bullet = new CREEPSItemBullet().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:bullet")
+            .setUnlocalizedName("bullet")
             .setTextureName("morecreeps:bullet");
         lifegem = new CREEPSItemLifeGem().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:lifeGem")
+            .setUnlocalizedName("lifeGem")
             .setTextureName("morecreeps:lifeGem");
         lolly = new CREEPSItemLolly().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:lolly")
+            .setUnlocalizedName("lolly")
             .setTextureName("morecreeps:lolly");
         armsword = new CREEPSItemArmSword().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:armSword")
+            .setUnlocalizedName("armSword")
             .setTextureName("morecreeps:armSword");
         donut = new CREEPSItemDonut().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:donut")
+            .setUnlocalizedName("donut")
             .setTextureName("morecreeps:donut");
         extinguisher = new CREEPSItemExtinguisher().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:extinguisher")
+            .setUnlocalizedName("extinguisher")
             .setTextureName("morecreeps:extinguisher");
         zebrahide = new Item().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:zebrahide")
+            .setUnlocalizedName("zebrahide")
             .setTextureName("morecreeps:zebrahide");
         firegem = new CREEPSItemFireGem().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:fireGem")
+            .setUnlocalizedName("fireGem")
             .setTextureName("morecreeps:fireGem");
         earthgem = new CREEPSItemEarthGem().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:earthGem")
+            .setUnlocalizedName("earthGem")
             .setTextureName("morecreeps:earthGem");
         mininggem = new CREEPSItemEarthGem().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:miningGem")
+            .setUnlocalizedName("miningGem")
             .setTextureName("morecreeps:miningGem");
         healinggem = new CREEPSItemHealingGem().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:healingGem")
+            .setUnlocalizedName("healingGem")
             .setTextureName("morecreeps:healingGem");
         skygem = new CREEPSItemSkyGem().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:skyGem")
+            .setUnlocalizedName("skyGem")
             .setTextureName("morecreeps:skyGem");
         gemsword = new CREEPSItemGemSword().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:gemSword")
+            .setUnlocalizedName("gemSword")
             .setTextureName("morecreeps:gemSword");
         moopsworm = new CREEPSItemMoopsWorm().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:moopsWorm")
+            .setUnlocalizedName("moopsWorm")
             .setTextureName("morecreeps:moopsWorm");
         cavemanclub = new CREEPSItemCavemanClub().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:cavemanClub")
+            .setUnlocalizedName("cavemanClub")
             .setTextureName("morecreeps:cavemanClub");
         popsicle = new CREEPSItemPopsicle().setCreativeTab(creepsTab)
-            .setUnlocalizedName("morecreeps:popsicle")
+            .setUnlocalizedName("popsicle")
             .setTextureName("morecreeps:popsicle");
 
         GameRegistry.registerItem(blorpcola, "blorpCola", "morecreeps");
@@ -684,6 +684,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+        // todo terminate the entity
+        /*
         addMob(
             CREEPSEntityCamelJockey.class,
             "CamelJockey",
@@ -693,6 +695,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+         */
         addMob(
             CREEPSEntityCaveman.class,
             "Caveman",
@@ -747,7 +751,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-        addMob(
+        // todo
+      /*  addMob(
             CREEPSEntityG.class,
             "G",
             CREEPSConfig.g_ID,
@@ -756,6 +761,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+       */
         addMob(
             CREEPSEntityGooGoat.class,
             "GooGoat",
@@ -765,6 +772,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+        // todo terminate the entity
+        /*
         addMob(
             CREEPSEntityGuineaPig.class,
             "GuineaPig",
@@ -774,6 +783,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+         */
         addMob(
             CREEPSEntityHippo.class,
             "Hippo",
@@ -792,6 +803,10 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+        // todo terminate the mod
+
+        /*
+
         addMob(
             CREEPSEntityHotdog.class,
             "Hotdog",
@@ -801,6 +816,10 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+         */
+        // todo terminate the mod
+        /*
         addMob(
             CREEPSEntityHunchback.class,
             "Hunchback",
@@ -810,7 +829,11 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-        addMob(
+
+         */
+
+        // todo terminate the mod
+    /*    addMob(
             CREEPSEntityInvisibleMan.class,
             "InvisibleMan",
             CREEPSConfig.invisibleman_ID,
@@ -819,6 +842,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+     */
         addMob(
             CREEPSEntityKid.class,
             "Kid",
@@ -855,6 +880,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+        // todo terminate the mod
+        /*
         addMob(
             CREEPSEntityMummy.class,
             "Mummy",
@@ -864,6 +891,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+         */
         addMob(
             CREEPSEntityNonSwimmer.class,
             "NonSwimmer",
@@ -891,6 +920,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+        // todo terminate the entity
+        /*
         addMob(
             CREEPSEntityRobotTodd.class,
             "RobotTodd",
@@ -900,6 +931,10 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+         */
+        // todo terminate the entity
+        /*
         addMob(
             CREEPSEntityRocketGiraffe.class,
             "RocketGiraffe",
@@ -909,6 +944,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+         */
         addMob(
             CREEPSEntityRockMonster.class,
             "RockMonster",
@@ -918,6 +955,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+        // todo terminate entity
+        /*
         addMob(
             CREEPSEntitySneakySal.class,
             "SneakySal",
@@ -927,6 +966,11 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+         */
+        // todo terminate entity
+        /*
+
         addMob(
             CREEPSEntitySnowDevil.class,
             "SnowDevil",
@@ -936,6 +980,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+         */
         addMob(
             CREEPSEntityThief.class,
             "Thief",
@@ -945,6 +991,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+        // todo terminate the entity
+        /*
         addMob(
             CREEPSEntityZebra.class,
             "Zebra",
@@ -954,6 +1002,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+         */
 
         proxy.render();
         proxy.renderModelItem();

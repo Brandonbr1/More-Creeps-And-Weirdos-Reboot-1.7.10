@@ -89,7 +89,7 @@ public class CREEPSEntityHunchback extends EntityMob {
 
             if (caketimer == 0) {
                 tamed = false;
-                texture = "/mob/creeps/hunchback.png";
+                texture = "/textures/entity/hunchback.png";
                 basetexture = texture;
                 caketimer = rand.nextInt(700) + 300;
             }
@@ -256,7 +256,7 @@ public class CREEPSEntityHunchback extends EntityMob {
                 entityplayer.addStat(MoreCreepsAndWeirdos.achievehunchback, 1);
                 confetti();
 
-                texture = "/mob/creeps/hunchbackcake.png";
+                texture = "/textures/entity/hunchbackcake.png";
                 basetexture = texture;
                 worldObj.playSoundAtEntity(
                     this,

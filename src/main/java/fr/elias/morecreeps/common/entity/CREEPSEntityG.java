@@ -23,7 +23,7 @@ public class CREEPSEntityG extends EntityMob {
 
     public CREEPSEntityG(World world) {
         super(world);
-        texture = "morecreeps:textures/entity/g.png";
+        texture = "morecreeeps:textures/entity/g.png";
         setSize(width * 2.0F, height * 2.5F);
         modelsize = 2.0F;
         this.getNavigator()

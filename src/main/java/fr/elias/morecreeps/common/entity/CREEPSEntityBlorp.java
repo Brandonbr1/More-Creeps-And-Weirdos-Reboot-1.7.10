@@ -70,83 +70,82 @@ public class CREEPSEntityBlorp extends EntityAnimal {
      * use this to react to sunlight and start to burn.
      */
     public void onLivingUpdate() {
-        if (blorpsize > 2.0F) {
-            ignoreFrustumCheck = true;
-        }
+        handleBlorpSize();
 
         super.onLivingUpdate();
 
+        handleAttackTarget();
+
+        if (hungry) {
+            int[] treeCoords = findTree(this, 2D);
+
+            if (treeCoords[1] != 0) {
+                int treeX = treeCoords[0];
+                int treeY = treeCoords[1];
+                int treeZ = treeCoords[2];
+
+                if (treeX == -1) {
+                    return;
+                }
+
+                playBlorpEatSound();
+                worldObj.setBlockToAir(treeX, treeY, treeZ);
+
+                hungrytime += rand.nextInt(100) + 25;
+                handleHungrytime();
+
+                faceTreeTop(treeX, treeY, treeZ, 10F);
+
+                int motionAdjustmentX = calculateMotionAdjustment(treeX, posX);
+                int motionAdjustmentZ = calculateMotionAdjustment(treeZ, posZ);
+
+                motionX += motionAdjustmentX * 0.050000000000000003D;
+                motionZ += motionAdjustmentZ * 0.050000000000000003D;
+            }
+        } else {
+            handleHungrytime();
+        }
+    }
+
+    private void handleBlorpSize() {
+        if (blorpsize > 2.0F) {
+            ignoreFrustumCheck = true;
+        }
+    }
+
+    private void handleAttackTarget() {
         if (getAttackTarget() != null) {
             hungry = false;
             hungrytime = 100;
         }
+    }
 
-        if (hungry) {
-            int ai[] = findTree(this, Double.valueOf(2D));
+    private void handleHungrytime() {
+        hungrytime--;
 
-            if (ai[1] != 0) {
-                int i = ai[0];
-                int j = ai[1];
-                int k = ai[2];
-                worldObj.playSoundAtEntity(
-                    this,
-                    "morecreeps:blorpeat",
-                    1.0F,
-                    (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-                worldObj.setBlockToAir(i, j, k);
-                hungrytime = hungrytime + rand.nextInt(100) + 25;
-
-                if (hungrytime > 1000) {
-                    hungry = false;
-
-                    if (blorpsize < 6F) {
-                        blorpsize = blorpsize + 0.3F;
-                    }
-
-                    blorplevel++;
-                    float health = this.getHealth();
-                    health = 10 * blorplevel + 25;
-                    setSize(width * blorpsize, 2.0F + height * blorpsize);
-                    worldObj.playSoundAtEntity(
-                        this,
-                        "morecreeps:blorpgrow",
-                        1.0F,
-                        (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-                }
-
-                faceTreeTop(i, j, k, 10F);
-                int l = 0;
-                int i1 = 0;
-
-                if (posX < (double) i) {
-                    l = i - MathHelper.floor_double(posX);
-                    motionX += 0.050000000000000003D;
-                } else {
-                    l = MathHelper.floor_double(posX) - i;
-                    motionX -= 0.050000000000000003D;
-                }
-
-                if (posZ < (double) k) {
-                    i1 = k - MathHelper.floor_double(posZ);
-                    motionZ += 0.050000000000000003D;
-                } else {
-                    i1 = MathHelper.floor_double(posZ) - k;
-                    motionZ -= 0.050000000000000003D;
-                }
-
-                double d = l + i1;
-            }
-        } else {
-            hungrytime--;
-
-            if (hungrytime < 1) {
-                hungry = true;
-                hungrytime = 1;
-            }
+        if (hungrytime < 1) {
+            hungry = true;
+            hungrytime = 1;
         }
     }
 
-    // previously called : getBlockpathWeight
+    private void playBlorpEatSound() {
+        worldObj.playSoundAtEntity(this, "morecreeps:blorpeat", 1.0F,
+            (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+    }
+
+    private int calculateMotionAdjustment(int treeCoord, double position) {
+        int adjustment;
+
+        if (position < treeCoord) {
+            adjustment = treeCoord - MathHelper.floor_double(position);
+        } else {
+            adjustment = MathHelper.floor_double(position) - treeCoord;
+        }
+
+        return adjustment;
+    }
+
     public float getBlockPathWeight(int iPosX, int iPosY, int iPosZ) {
         if (worldObj.getBlock(iPosX, iPosY, iPosZ) == Blocks.leaves
             || worldObj.getBlock(iPosX, iPosY, iPosZ) == Blocks.log) {
@@ -196,18 +195,18 @@ public class CREEPSEntityBlorp extends EntityAnimal {
             double d = entity.posX - posX;
             double d2 = entity.posZ - posZ;
             float f1 = MathHelper.sqrt_double(d * d + d2 * d2);
-            motionX = (d / (double) f1) * 0.20000000000000001D * 0.80000001192092896D + motionX * 0.20000000298023224D;
-            motionZ = (d2 / (double) f1) * 0.20000000000000001D * 0.80000001192092896D + motionZ * 0.20000000298023224D;
-            motionY = 0.70000000596246448D + (double) blorpsize * 0.050000004559D;
+            motionX = (d / f1) * 0.20000000000000001D * 0.80000001192092896D + motionX * 0.20000000298023224D;
+            motionZ = (d2 / f1) * 0.20000000000000001D * 0.80000001192092896D + motionZ * 0.20000000298023224D;
+            motionY = 0.70000000596246448D + blorpsize * 0.050000004559D;
             fallDistance = -(25F + blorpsize * 5F);
         } else {
-            double d1 = 2.5D + ((double) blorpsize - 1.5D) * 0.80000000000000004D;
+            double d1 = 2.5D + (blorpsize - 1.5D) * 0.80000000000000004D;
 
             if (d1 > 3.5D) {
                 d1 = 3.5D;
             }
 
-            if ((double) f < d1 && entity.getBoundingBox().maxY > getBoundingBox().minY
+            if (f < d1 && entity.getBoundingBox().maxY > getBoundingBox().minY
                 && entity.getBoundingBox().minY < getBoundingBox().maxY) {
                 attackTime = 20;
 
@@ -220,33 +219,38 @@ public class CREEPSEntityBlorp extends EntityAnimal {
         }
     }
 
-    public int[] findTree(Entity entity, Double double1) {
-        AxisAlignedBB axisalignedbb = entity.getBoundingBox()
-            .expand(double1.doubleValue(), double1.doubleValue(), double1.doubleValue());
-        int i = MathHelper.floor_double(axisalignedbb.minX);
-        int j = MathHelper.floor_double(axisalignedbb.maxX + 1.0D);
-        int k = MathHelper.floor_double(axisalignedbb.minY);
-        int l = MathHelper.floor_double(axisalignedbb.maxY + 1.0D);
-        int i1 = MathHelper.floor_double(axisalignedbb.minZ);
-        int j1 = MathHelper.floor_double(axisalignedbb.maxZ + 1.0D);
+    public int[] findTree(Entity entity, double double1) {
+        if (entity == null || worldObj == null) {
+            return new int[]{-1, 0, 0};
+        }
+        if (entity.getBoundingBox() == null) {
+            return new int[]{-1, 0, 0};
+        }
+        AxisAlignedBB boundingBox = entity.getBoundingBox().expand(double1, double1, double1);
+        int minX = MathHelper.floor_double(boundingBox.minX);
+        int maxX = MathHelper.floor_double(boundingBox.maxX + 1.0D);
+        int minY = MathHelper.floor_double(boundingBox.minY);
+        int maxY = MathHelper.floor_double(boundingBox.maxY + 1.0D);
+        int minZ = MathHelper.floor_double(boundingBox.minZ);
+        int maxZ = MathHelper.floor_double(boundingBox.maxZ + 1.0D);
 
-        for (int k1 = i; k1 < j; k1++) {
-            for (int l1 = k; l1 < l; l1++) {
-                for (int i2 = i1; i2 < j1; i2++) {
-                    Block j2 = worldObj.getBlock(k1, l1, i2);
+        for (int x = minX; x < maxX; x++) {
+            for (int y = minY; y < maxY; y++) {
+                for (int z = minZ; z < maxZ; z++) {
+                    Block block = worldObj.getBlock(x, y, z);
 
-                    if (j2 != Blocks.air && j2 == Blocks.leaves) {
-                        return (new int[] { k1, l1, i2 });
+                    if (block != Blocks.air && block == Blocks.leaves) {
+                        return new int[]{x, y, z};
                     }
 
-                    if (j2 != Blocks.air && blorplevel > 3 && j2 == Blocks.log) {
-                        return (new int[] { k1, l1, i2 });
+                    if (block != Blocks.air && blorplevel > 3 && block == Blocks.log) {
+                        return new int[]{x, y, z};
                     }
                 }
             }
         }
 
-        return (new int[] { -1, 0, 0 });
+        return new int[]{-1, 0, 0};
     }
 
     /**

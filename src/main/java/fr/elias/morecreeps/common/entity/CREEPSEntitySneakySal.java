@@ -71,7 +71,7 @@ public class CREEPSEntitySneakySal extends EntityMob {
     public CREEPSEntitySneakySal(World world) {
         super(world);
         salslots = new int[30];
-        basetexture = "/mob/creeps/sneakysal.png";
+        basetexture = "morecreeps:textures/entity/sneakysal.png";
         texture = basetexture;
         moveSpeed = 0.65F;
         attackStrength = 3;

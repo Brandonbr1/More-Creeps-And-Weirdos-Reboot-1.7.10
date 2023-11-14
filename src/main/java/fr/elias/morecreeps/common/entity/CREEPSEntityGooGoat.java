@@ -81,12 +81,12 @@ public class CREEPSEntityGooGoat extends EntityAnimal {
         }
 
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue((double) modelspeed);
+            .setBaseValue(modelspeed);
         super.onLivingUpdate();
 
         if (hungry) {
             int i = MathHelper.floor_double(posX);
-            int j = MathHelper.floor_double(getBoundingBox().minY);
+            int j = MathHelper.floor_double(posY);
             int k = MathHelper.floor_double(posZ);
             Block l = worldObj.getBlock(i, j - 1, k);
 
@@ -101,11 +101,10 @@ public class CREEPSEntityGooGoat extends EntityAnimal {
                     goatlevel++;
                     attack++;
                     this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-                        .setBaseValue((double) (15 * goatlevel + 25));
-                    texture = (new StringBuilder()).append("morecreeps:textures/entity/googoat")
-                        .append(goatlevel)
-                        .append(".png")
-                        .toString();
+                        .setBaseValue(15 * goatlevel + 25);
+                    texture = "morecreeps:textures/entity/googoat" +
+                        goatlevel +
+                        ".png";
                     worldObj.playSoundAtEntity(
                         this,
                         "morecreeps:googoatstretch",

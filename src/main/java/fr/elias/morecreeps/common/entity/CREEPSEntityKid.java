@@ -139,7 +139,7 @@ public class CREEPSEntityKid extends EntityAnimal {
     /**
      * Takes a coordinate in and returns a weight to determine how likely this creature will try to path to the block.
      * Args: x, y, z
-     * 
+     *
      * @return
      */
     public float getBlockPathWeight(int x, int y, int z) {
@@ -313,7 +313,7 @@ public class CREEPSEntityKid extends EntityAnimal {
 
         if (rand.nextInt(5) == 0) {
             int i = MathHelper.floor_double(posX);
-            int j = MathHelper.floor_double(getBoundingBox().minY);
+            int j = MathHelper.floor_double(posY);
             int k = MathHelper.floor_double(posZ);
             Block l = worldObj.getBlock(i, j - 1, k);
             Block i1 = worldObj.getBlock(i, j, k);

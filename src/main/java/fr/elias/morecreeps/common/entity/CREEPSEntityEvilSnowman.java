@@ -63,7 +63,7 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
         }
 
         int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(getBoundingBox().minY);
+        int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);
         Block l = worldObj.getBlock(i, j - 1, k);
         Block i1 = worldObj.getBlock(i, j, k);
@@ -86,7 +86,7 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
 
         setSize(snowsize * 0.45F, snowsize * 2.0F);
 
-        if ((double) snowsize < 0.050000000000000003D) {
+        if (snowsize < 0.050000000000000003D) {
             setDead();
         }
     }

@@ -56,6 +56,7 @@ public class CREEPSEntityDigBug extends EntityMob {
         lifespan = 5000;
         holedepth = 0;
         modelsize = 1.0F;
+        this.setSize(1.0F, 1.0F);
         this.targetTasks.addTask(0, new CREEPSEntityDigBug.AIFindPlayerToAttack());
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
     }
@@ -105,12 +106,13 @@ public class CREEPSEntityDigBug extends EntityMob {
      */
     public void onLivingUpdate() {
         super.onLivingUpdate();
-
+        if (worldObj == null) {
+            return;
+        }
         if (prevPosX != posX || prevPosY != posY) {
-            texture = (new StringBuilder()).append("/mob/creeps/digbug")
-                .append(String.valueOf(skinframe))
-                .append(".png")
-                .toString();
+            texture = "/textures/entity/digbug" +
+                skinframe +
+                ".png";
             skinframe++;
 
             if (skinframe > 3) {
@@ -120,7 +122,7 @@ public class CREEPSEntityDigBug extends EntityMob {
 
         if (digstage == 0 && posY < 90D && digtimer-- < 1) {
             int i = MathHelper.floor_double(posX);
-            int i1 = MathHelper.floor_double(getBoundingBox().minY);
+            int i1 = MathHelper.floor_double(posY);
             int i2 = MathHelper.floor_double(posZ);
             Block l2 = worldObj.getBlock(i, i1 - 1, i2);
             holedepth = rand.nextInt(2) + 3;
@@ -142,7 +144,7 @@ public class CREEPSEntityDigBug extends EntityMob {
 
         if (digstage == 1) {
             int j = MathHelper.floor_double(posX);
-            int j1 = MathHelper.floor_double(getBoundingBox().minY);
+            int j1 = MathHelper.floor_double(posY);
             int j2 = MathHelper.floor_double(posZ);
             worldObj.setBlockToAir(j, j1, j2);
             worldObj.setBlockToAir(j, j1 + 1, j2);
@@ -193,7 +195,7 @@ public class CREEPSEntityDigBug extends EntityMob {
                         xx = 0.0D;
                         setPosition((int) (holeX + xx), (int) (holeY - yy), (int) (holeZ + zz));
 
-                        if (yy++ > (double) holedepth) {
+                        if (yy++ > holedepth) {
                             for (int k3 = 0; k3 < rand.nextInt(8) + 5; k3++) {
                                 int l3 = rand.nextInt(40) + 40;
                                 int i4 = rand.nextInt(40) + 40;
@@ -242,11 +244,10 @@ public class CREEPSEntityDigBug extends EntityMob {
             }
 
             digtimer = 50;
-            List list = null;
-            list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(5D, 1.0D, 5D));
+            List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(5D, 1.0D, 5D));
 
-            for (int k1 = 0; k1 < list.size(); k1++) {
-                Entity entity = (Entity) list.get(k1);
+            for (Object o : list) {
+                Entity entity = (Entity) o;
 
                 if ((entity != null) & (entity instanceof CREEPSEntityBubbleScum)) {
                     entity.setDead();
@@ -375,10 +376,10 @@ public class CREEPSEntityDigBug extends EntityMob {
         double d = entity.posX - posX;
         double d1 = entity.posZ - posZ;
         float f1 = MathHelper.sqrt_double(d * d + d1 * d1);
-        motionX = (d / (double) f1) * 0.40000000000000002D * 0.10000000192092896D + motionX * 0.18000000098023225D;
-        motionZ = (d1 / (double) f1) * 0.40000000000000002D * 0.070000001920928964D + motionZ * 0.18000000098023225D;
+        motionX = (d / f1) * 0.40000000000000002D * 0.10000000192092896D + motionX * 0.18000000098023225D;
+        motionZ = (d1 / f1) * 0.40000000000000002D * 0.070000001920928964D + motionZ * 0.18000000098023225D;
 
-        if ((double) f < 2D - (1.0D - (double) modelsize) && entity.getBoundingBox().maxY > getBoundingBox().minY
+        if (f < 2D - (1.0D - modelsize) && entity.getBoundingBox().maxY > getBoundingBox().minY
             && entity.getBoundingBox().minY < getBoundingBox().maxY) {
             attackTime = 10;
             entity.motionX = -(motionX * 3D);
@@ -429,7 +430,7 @@ public class CREEPSEntityDigBug extends EntityMob {
      */
     public boolean getCanSpawnHere() {
         int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(getBoundingBox().minY);
+        int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);
         int l = worldObj.getFullBlockLightValue(i, j, k);
         Block i1 = worldObj.getBlock(i, j - 1, k);
@@ -459,8 +460,8 @@ public class CREEPSEntityDigBug extends EntityMob {
         if (entity instanceof EntityPlayer) {
             List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(32D, 32D, 32D));
 
-            for (int j = 0; j < list.size(); j++) {
-                Entity entity1 = (Entity) list.get(j);
+            for (Object o : list) {
+                Entity entity1 = (Entity) o;
 
                 if (entity1 instanceof CREEPSEntityDigBug) {
                     CREEPSEntityDigBug creepsentitydigbug = (CREEPSEntityDigBug) entity1;

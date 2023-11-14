@@ -25,8 +25,8 @@ public class CREEPSEntityCastleGuard extends EntityMob {
     public boolean attacked;
     public float hammerswing;
     public float modelsize;
-    static final String guardTextures[] = { "/mob/creeps/castleguard1.png", "/mob/creeps/castleguard2.png",
-        "/mob/creeps/castleguard3.png", "/mob/creeps/castleguard4.png", "/mob/creeps/castleguard5.png" };
+    static final String guardTextures[] = { "/textures/entity/castleguard1.png", "/textures/entity/castleguard2.png",
+        "/textures/entity/castleguard3.png", "/textures/entity/castleguard4.png", "/textures/entity/castleguard5.png" };
 
     public CREEPSEntityCastleGuard(World world) {
         super(world);

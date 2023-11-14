@@ -41,7 +41,7 @@ public class CREEPSEntitySquimp extends EntityWaterMob {
 
     public CREEPSEntitySquimp(World world) {
         super(world);
-        texture = "/mob/creeps/squimp.png";
+        texture = "/textures/entity/squimp.png";
         moveSpeed = 0.0F;
         health = rand.nextInt(20) + 10;
         stolen = false;

@@ -107,7 +107,7 @@ public class CREEPSEntityPreacher extends EntityMob {
     public void onLivingUpdate() {
         if (inWater || isEntityInsideOpaqueBlock()) {
             int i = MathHelper.floor_double(posX);
-            int l = MathHelper.floor_double(getBoundingBox().minY);
+            int l = MathHelper.floor_double(posY);
             int j1 = MathHelper.floor_double(posZ);
             Block l1 = worldObj.getBlock(i, l + 2, j1);
 
@@ -130,7 +130,7 @@ public class CREEPSEntityPreacher extends EntityMob {
                 waittime = rand.nextInt(500) + 500;
             } else {
                 int j = MathHelper.floor_double(victimEntity.posX);
-                int i1 = MathHelper.floor_double(victimEntity.getBoundingBox().minY);
+                int i1 = MathHelper.floor_double(victimEntity.posY);
                 int k1 = MathHelper.floor_double(victimEntity.posZ);
                 Block i2 = worldObj.getBlock(j, i1 + 2, k1);
 
@@ -216,7 +216,7 @@ public class CREEPSEntityPreacher extends EntityMob {
             return false;
         }
         int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(getBoundingBox().minY);
+        int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);
         if (worldObj.getCollidingBoundingBoxes(this, getBoundingBox())
             .size() == 0 && worldObj.canBlockSeeTheSky(i, j, k)

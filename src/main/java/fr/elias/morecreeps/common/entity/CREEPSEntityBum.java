@@ -98,7 +98,7 @@ public class CREEPSEntityBum extends EntityMob {
                 timetopee = rand.nextInt(600) + 600;
                 bumrotation = 999F;
                 int j = MathHelper.floor_double(posX);
-                int k = MathHelper.floor_double(getBoundingBox().minY);
+                int k = MathHelper.floor_double(posY);
                 int l = MathHelper.floor_double(posZ);
 
                 for (int i1 = -1; i1 < 2; i1++) {

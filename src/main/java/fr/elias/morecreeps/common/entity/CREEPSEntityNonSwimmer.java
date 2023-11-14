@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,6 +45,7 @@ public class CREEPSEntityNonSwimmer extends EntityAnimal {
         towel = false;
         waittime = rand.nextInt(1500) + 500;
         modelsize = 1.0F;
+        setSize(width * 1, height * 2);
         this.getNavigator()
             .setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
@@ -52,6 +54,7 @@ public class CREEPSEntityNonSwimmer extends EntityAnimal {
         this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
+
     }
 
     public void applyEntityAttributes() {
@@ -74,58 +77,74 @@ public class CREEPSEntityNonSwimmer extends EntityAnimal {
      * use this to react to sunlight and start to burn.
      */
     public void onLivingUpdate() {
+        IAttributeInstance movementSpeedAttribute = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+        double waterMovementSpeed = 0.05D;
+        double defaultMovementSpeed = 0.5D;
+
         if (inWater) {
-            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-                .setBaseValue(0.05D);
+            movementSpeedAttribute.setBaseValue(waterMovementSpeed);
             swimming = true;
             wet = true;
         } else {
-            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-                .setBaseValue(0.5D);
-            int i = MathHelper.floor_double(posX);
-            int k = MathHelper.floor_double(getBoundingBox().minY);
-            int i1 = MathHelper.floor_double(posZ);
-            Block k1 = worldObj.getBlock(i, k, i1);
+            movementSpeedAttribute.setBaseValue(defaultMovementSpeed);
 
-            if (k1 != Blocks.flowing_water && k1 != Blocks.water) {
+            int posXFloor = MathHelper.floor_double(posX);
+            int posYFloor = MathHelper.floor_double(posY);
+            int posZFloor = MathHelper.floor_double(posZ);
+
+            Block block = getBlockAt(posXFloor, posYFloor, posZFloor);
+
+            if (!isWaterBlock(block)) {
                 swimming = false;
-                EntityPlayer entityplayersp = worldObj.getClosestPlayerToEntity(this, 3F);
+                EntityPlayer closestPlayer = worldObj.getClosestPlayerToEntity(this, 3F);
 
-                if (entityplayersp != null) {
-                    float f = entityplayersp.getDistanceToEntity(this);
+                if (closestPlayer != null) {
+                    float distance = closestPlayer.getDistanceToEntity(this);
 
-                    if (f < 4F && !saved && timeonland++ > 155 && wet) {
-                        giveReward((EntityPlayerMP) entityplayersp);
+                    if (distance < 4F && !saved && timeonland++ > 155 && wet) {
+                        giveReward((EntityPlayerMP) closestPlayer);
                     }
                 }
             }
         }
 
         if (saved && rand.nextInt(100) == 0 && !towel && onGround) {
-            int j = MathHelper.floor_double(posX);
-            int l = MathHelper.floor_double(getBoundingBox().minY);
-            int j1 = MathHelper.floor_double(posZ);
-            Block l1 = worldObj.getBlock(j, l, j1);
+            int towelPosX = MathHelper.floor_double(posX);
+            int towelPosY = MathHelper.floor_double(posY);
+            int towelPosZ = MathHelper.floor_double(posZ);
 
-            if (l1 != Blocks.water && l1 != Blocks.flowing_water) {
+            Block towelBlock = getBlockAt(towelPosX, towelPosY, towelPosZ);
+
+            if (!isWaterBlock(towelBlock)) {
                 towel = true;
-                CREEPSEntityTowel creepsentitytowel = new CREEPSEntityTowel(worldObj);
-                creepsentitytowel.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
-                int i2 = rand.nextInt(6);
-                creepsentitytowel.texture = (new StringBuilder()).append("morecreeps:textures/entity/towel")
-                    .append(String.valueOf(i2))
-                    .append(".png")
-                    .toString();
-                creepsentitytowel.basetexture = (new StringBuilder()).append("/mob/creeps/towel")
-                    .append(String.valueOf(i2))
-                    .append(".png")
-                    .toString();
-                worldObj.spawnEntityInWorld(creepsentitytowel);
-                mountEntity(creepsentitytowel);
+                CREEPSEntityTowel towelEntity = createTowelEntity();
+                worldObj.spawnEntityInWorld(towelEntity);
+                mountEntity(towelEntity);
             }
         }
 
         super.onLivingUpdate();
+    }
+
+    private Block getBlockAt(int x, int y, int z) {
+        return worldObj.getBlock(x, y, z);
+    }
+
+    private boolean isWaterBlock(Block block) {
+        return block == Blocks.water || block == Blocks.flowing_water;
+    }
+
+    private CREEPSEntityTowel createTowelEntity() {
+        int textureIndex = rand.nextInt(6);
+        String texturePath = "morecreeps:textures/entity/towel" + textureIndex + ".png";
+        String baseTexturePath = "/textures/entity/towel" + textureIndex + ".png";
+
+        CREEPSEntityTowel towelEntity = new CREEPSEntityTowel(worldObj);
+        towelEntity.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
+        towelEntity.texture = texturePath;
+        towelEntity.basetexture = baseTexturePath;
+
+        return towelEntity;
     }
 
     public void giveReward(EntityPlayerMP entityplayersp) {
@@ -147,8 +166,7 @@ public class CREEPSEntityNonSwimmer extends EntityAnimal {
         faceEntity(entityplayersp, 0.0F, 0.0F);
 
         if (!worldObj.isRemote) {
-            if (entityplayersp != null) {
-                EntityItem entityitem = null;
+                EntityItem entityitem;
 
                 switch (i) {
                     case 1:
@@ -189,13 +207,13 @@ public class CREEPSEntityNonSwimmer extends EntityAnimal {
                 entityitem.posX = entityplayersp.posX + d * 0.5D;
                 entityitem.posY = entityplayersp.posY + 0.5D;
                 entityitem.posZ = entityplayersp.posZ + d1 * 0.5D;
-            }
+
         }
     }
 
     public int[] findTree(Entity entity, Double double1) {
         AxisAlignedBB axisalignedbb = entity.boundingBox
-            .expand(double1.doubleValue(), double1.doubleValue(), double1.doubleValue());
+            .expand(double1, double1, double1);
         int i = MathHelper.floor_double(axisalignedbb.minX);
         int j = MathHelper.floor_double(axisalignedbb.maxX + 1.0D);
         int k = MathHelper.floor_double(axisalignedbb.minY);

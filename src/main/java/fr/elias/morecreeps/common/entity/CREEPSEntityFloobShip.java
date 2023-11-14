@@ -150,7 +150,7 @@ public class CREEPSEntityFloobShip extends EntityFlying {
 
             if (onGround) {
                 int i = MathHelper.floor_double(posX);
-                int k = MathHelper.floor_double(getBoundingBox().minY);
+                     int k = MathHelper.floor_double(posY);
                 int l = MathHelper.floor_double(posZ);
                 Block i1 = worldObj.getBlock(i, k - 1, l);
 
@@ -213,7 +213,7 @@ public class CREEPSEntityFloobShip extends EntityFlying {
         }
 
         int j = MathHelper.floor_double(posX);
-        int k = MathHelper.floor_double(getBoundingBox().minY);
+             int k = MathHelper.floor_double(posY);
         int l = MathHelper.floor_double(posZ);
         Block i1 = worldObj.getBlock(j, k - 1, l);
 

@@ -136,8 +136,6 @@ public class CREEPSEntityHotdog extends EntityMob {
             .setBaseValue(basehealth);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
             .setBaseValue(moveSpeed);
-        this.getAttributeMap()
-            .registerAttribute(SharedMonsterAttributes.attackDamage);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
             .setBaseValue(attackStrength);
     }

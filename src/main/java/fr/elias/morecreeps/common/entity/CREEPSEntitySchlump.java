@@ -41,7 +41,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
 
     public CREEPSEntitySchlump(World world) {
         super(world);
-        texture = "/mob/creeps/schlump.png";
+        texture = "/textures/entity/schlump.png";
         moveSpeed = 0.0F;
         health = rand.nextInt(10) + 10;
         saved = false;

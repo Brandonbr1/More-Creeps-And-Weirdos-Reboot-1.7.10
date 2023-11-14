@@ -245,7 +245,7 @@ public class CREEPSEntityEvilScientist extends EntityMob {
                 motionZ = 0.0D;
                 motionY = 0.30000001192092896D;
                 int l = MathHelper.floor_double(posX);
-                int k2 = MathHelper.floor_double(getBoundingBox().minY);
+                int k2 = MathHelper.floor_double(posY);
                 int j4 = MathHelper.floor_double(posZ);
                 worldObj.setBlockToAir(l, k2 + 2, j4);
 
@@ -277,7 +277,7 @@ public class CREEPSEntityEvilScientist extends EntityMob {
 
             if (rand.nextInt(200) == 0) {
                 int i1 = MathHelper.floor_double(posX);
-                int l2 = MathHelper.floor_double(getBoundingBox().minY);
+                int l2 = MathHelper.floor_double(posY);
                 int k4 = MathHelper.floor_double(posZ);
                 worldObj.addWeatherEffect(new EntityLightningBolt(worldObj, i1, l2 + 3, k4));
             }
@@ -306,12 +306,12 @@ public class CREEPSEntityEvilScientist extends EntityMob {
                         double d4 = rand.nextGaussian() * 0.02D;
                         worldObj.spawnParticle(
                             "largesmoke",
-                            ((double) (2.0F + (float) towerX) + (double) (rand.nextFloat() * width * 2.0F))
+                            ((2.0F + towerX) + (double) (rand.nextFloat() * width * 2.0F))
                                 - (double) width,
-                            (double) (1.0F + (float) towerY + (float) towerHeight)
+                            (1.0F + towerY + towerHeight)
                                 + (double) (rand.nextFloat() * height)
                                 + 2D,
-                            (2D + ((double) towerZ + (double) (rand.nextFloat() * width * 2.0F))) - (double) width,
+                            (2D + (towerZ + (double) (rand.nextFloat() * width * 2.0F))) - (double) width,
                             d,
                             d2,
                             d4);
@@ -327,9 +327,9 @@ public class CREEPSEntityEvilScientist extends EntityMob {
                         double d5 = rand.nextGaussian() * 0.02D;
                         worldObj.spawnParticle(
                             "largesmoke",
-                            ((double) towerX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                            (double) (towerY + towerHeight) + (double) (rand.nextFloat() * height) + 2D,
-                            ((double) towerZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                            (towerX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                            (towerY + towerHeight) + (double) (rand.nextFloat() * height) + 2D,
+                            (towerZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
                             d1,
                             d3,
                             d5);
@@ -352,7 +352,7 @@ public class CREEPSEntityEvilScientist extends EntityMob {
 
         if (stage == 4) {
             int l1 = MathHelper.floor_double(posX);
-            int k3 = MathHelper.floor_double(getBoundingBox().minY);
+            int k3 = MathHelper.floor_double(posY);
             int l4 = MathHelper.floor_double(posZ);
 
             for (int i5 = 0; i5 < rand.nextInt(5) + 1; i5++) {
@@ -626,7 +626,7 @@ public class CREEPSEntityEvilScientist extends EntityMob {
      */
     public boolean getCanSpawnHere() {
         int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(getBoundingBox().minY);
+        int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);
         int l = worldObj.getFullBlockLightValue(i, j, k);
         Block i1 = worldObj.getBlock(i, j - 1, k);

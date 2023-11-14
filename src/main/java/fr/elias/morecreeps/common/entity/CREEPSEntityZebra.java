@@ -43,11 +43,11 @@ public class CREEPSEntityZebra extends EntityAnimal {
     public String texture;
     public double moveSpeed;
     public float health;
-    static final String Names[] = { "Stanley", "Cid", "Hunchy", "The Heat", "Herman the Hump", "Dr. Hump",
+    static final String[] Names = { "Stanley", "Cid", "Hunchy", "The Heat", "Herman the Hump", "Dr. Hump",
         "Little Lousie", "Spoony G", "Mixmaster C", "The Maestro", "Duncan the Dude", "Charlie Camel", "Chip",
         "Charles Angstrom III", "Mr. Charles", "Cranky Carl", "Carl the Rooster", "Tiny the Peach", "Desert Dan",
         "Dungby", "Doofus" };
-    static final String camelTextures[] = { "/mob/creeps/zebra.png" };
+    static final String[] camelTextures = { "morecreeps:textures/entity/zebra.png" };
 
     public CREEPSEntityZebra(World world) {
         super(world);
@@ -547,7 +547,7 @@ public class CREEPSEntityZebra extends EntityAnimal {
         tamed = nbttagcompound.getBoolean("Tamed");
 
         if (basetexture == null) {
-            basetexture = "/mob/creeps/zebra.png";
+            basetexture = "/textures/entity/zebra.png";
         }
 
         texture = basetexture;

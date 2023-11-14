@@ -42,33 +42,33 @@ public class CREEPSEntityEvilLight extends EntityLiving {
      */
     public void onLivingUpdate() {
         float health = this.getHealth();
+
         if (lifespan-- < 1 || handleWaterMovement()) {
             health = 0;
             setDead();
         }
 
-        Object obj = null;
-        List list = worldObj.getEntitiesWithinAABBExcludingEntity(
-            this,
-            getBoundingBox().addCoord(motionX, motionY, motionZ)
-                .expand(1.0D, 1.0D, 1.0D));
-        double d = 0.0D;
+        if (this.getBoundingBox() != null) {
+            List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(
+                this,
+                this.getBoundingBox().expand(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 
-        for (int i = 0; i < list.size(); i++) {
-            Entity entity = (Entity) list.get(i);
+            for (Entity entity : list) {
+                if (entity.canBeCollidedWith() && (entity instanceof EntityLivingBase)
+                    && !(entity instanceof CREEPSEntityEvilLight)
+                    && !(entity instanceof CREEPSEntityEvilScientist)
+                    && !(entity instanceof CREEPSEntityEvilChicken)
+                    && !(entity instanceof CREEPSEntityEvilCreature)
+                    && !(entity instanceof CREEPSEntityEvilPig)) {
 
-            if (entity.canBeCollidedWith() && (entity instanceof EntityLivingBase)
-                && !(entity instanceof CREEPSEntityEvilLight)
-                && !(entity instanceof CREEPSEntityEvilScientist)
-                && !(entity instanceof CREEPSEntityEvilChicken)
-                && !(entity instanceof CREEPSEntityEvilCreature)
-                && !(entity instanceof CREEPSEntityEvilPig)) {
-                entity.setFire(3);
-                entity.motionX = rand.nextFloat() * 0.7F;
-                entity.motionY = rand.nextFloat() * 0.4F;
-                entity.motionZ = rand.nextFloat() * 0.7F;
-                worldObj
-                    .playSoundAtEntity(this, "morecreeps:evillight", 0.2F, 1.0F / (rand.nextFloat() * 0.1F + 0.95F));
+                    entity.setFire(3);
+                    entity.motionX = rand.nextFloat() * 0.7F;
+                    entity.motionY = rand.nextFloat() * 0.4F;
+                    entity.motionZ = rand.nextFloat() * 0.7F;
+
+                    worldObj.playSoundAtEntity(this, "morecreeps:evillight", 0.2F,
+                        1.0F / (rand.nextFloat() * 0.1F + 0.95F));
+                }
             }
         }
 

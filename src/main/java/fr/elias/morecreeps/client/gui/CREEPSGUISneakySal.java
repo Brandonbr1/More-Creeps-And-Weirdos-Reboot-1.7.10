@@ -59,6 +59,7 @@ public class CREEPSGUISneakySal extends GuiScreen {
         World world = Minecraft.getMinecraft().theWorld;
         world.playSoundAtEntity(entityplayersp, "morecreeps:salgreeting", 1.0F, 1.0F);
         saleprice = sneakysal.saleprice;
+        assert sneakysal != null;
         buttonList.add(
             new GuiButton(
                 2,
@@ -66,13 +67,10 @@ public class CREEPSGUISneakySal extends GuiScreen {
                 height / 4 + 8 + byte0,
                 155,
                 20,
-                (new StringBuilder()).append("\2472    $\2476")
-                    .append(
-                        String.valueOf(
-                            Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[0]] * saleprice)))
-                    .append("\247f ")
-                    .append(String.valueOf(CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[0]]))
-                    .toString()));
+                "\2472    $\2476" +
+                    Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[0]] * saleprice) +
+                    "\247f " +
+                    CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[0]]));
         buttonList.add(
             new GuiButton(
                 3,
@@ -80,13 +78,10 @@ public class CREEPSGUISneakySal extends GuiScreen {
                 height / 4 + 8 + byte0,
                 155,
                 20,
-                (new StringBuilder()).append("   \2472    $\2476")
-                    .append(
-                        String.valueOf(
-                            Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[1]] * saleprice)))
-                    .append("\247f ")
-                    .append(String.valueOf(CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[1]]))
-                    .toString()));
+                "   \2472    $\2476" +
+                    Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[1]] * saleprice) +
+                    "\247f " +
+                    CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[1]]));
         buttonList.add(
             new GuiButton(
                 4,
@@ -94,13 +89,10 @@ public class CREEPSGUISneakySal extends GuiScreen {
                 height / 4 + 35 + byte0,
                 155,
                 20,
-                (new StringBuilder()).append("\2472    $\2476")
-                    .append(
-                        String.valueOf(
-                            Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[2]] * saleprice)))
-                    .append("\247f ")
-                    .append(String.valueOf(CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[2]]))
-                    .toString()));
+                "\2472    $\2476" +
+                    Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[2]] * saleprice) +
+                    "\247f " +
+                    CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[2]]));
         buttonList.add(
             new GuiButton(
                 5,
@@ -108,13 +100,10 @@ public class CREEPSGUISneakySal extends GuiScreen {
                 height / 4 + 35 + byte0,
                 155,
                 20,
-                (new StringBuilder()).append("\2472    $\2476")
-                    .append(
-                        String.valueOf(
-                            Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[3]] * saleprice)))
-                    .append("\247f ")
-                    .append(String.valueOf(CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[3]]))
-                    .toString()));
+                "\2472    $\2476" +
+                    Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[3]] * saleprice) +
+                    "\247f " +
+                    CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[3]]));
         buttonList.add(
             new GuiButton(
                 6,
@@ -122,13 +111,10 @@ public class CREEPSGUISneakySal extends GuiScreen {
                 height / 4 + 65 + byte0,
                 155,
                 20,
-                (new StringBuilder()).append("\2472    $\2476")
-                    .append(
-                        String.valueOf(
-                            Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[4]] * saleprice)))
-                    .append("\247f ")
-                    .append(String.valueOf(CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[4]]))
-                    .toString()));
+                "\2472    $\2476" +
+                    Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[4]] * saleprice) +
+                    "\247f " +
+                    CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[4]]));
         buttonList.add(
             new GuiButton(
                 7,
@@ -136,13 +122,10 @@ public class CREEPSGUISneakySal extends GuiScreen {
                 height / 4 + 65 + byte0,
                 155,
                 20,
-                (new StringBuilder()).append("\2472    $\2476")
-                    .append(
-                        String.valueOf(
-                            Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[5]] * saleprice)))
-                    .append("\247f ")
-                    .append(String.valueOf(CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[5]]))
-                    .toString()));
+                "\2472    $\2476" +
+                    Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[5]] * saleprice) +
+                    "\247f " +
+                    CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[5]]));
         buttonList.add(
             new GuiButton(
                 8,
@@ -150,13 +133,10 @@ public class CREEPSGUISneakySal extends GuiScreen {
                 height / 4 + 95 + byte0,
                 155,
                 20,
-                (new StringBuilder()).append("\2472    $\2476")
-                    .append(
-                        String.valueOf(
-                            Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[6]] * saleprice)))
-                    .append("\247f ")
-                    .append(String.valueOf(CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[6]]))
-                    .toString()));
+                "\2472    $\2476" +
+                    Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[6]] * saleprice) +
+                    "\247f " +
+                    CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[6]]));
         buttonList.add(
             new GuiButton(
                 9,
@@ -164,13 +144,10 @@ public class CREEPSGUISneakySal extends GuiScreen {
                 height / 4 + 95 + byte0,
                 155,
                 20,
-                (new StringBuilder()).append("\2472    $\2476")
-                    .append(
-                        String.valueOf(
-                            Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[7]] * saleprice)))
-                    .append("\247f ")
-                    .append(String.valueOf(CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[7]]))
-                    .toString()));
+                "\2472    $\2476" +
+                    Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[7]] * saleprice) +
+                    "\247f " +
+                    CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[7]]));
         buttonList.add(
             new GuiButton(
                 10,
@@ -178,13 +155,10 @@ public class CREEPSGUISneakySal extends GuiScreen {
                 height / 4 + 125 + byte0,
                 155,
                 20,
-                (new StringBuilder()).append("\2472    $\2476")
-                    .append(
-                        String.valueOf(
-                            Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[8]] * saleprice)))
-                    .append("\247f ")
-                    .append(String.valueOf(CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[8]]))
-                    .toString()));
+                "\2472    $\2476" +
+                    Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[8]] * saleprice) +
+                    "\247f " +
+                    CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[8]]));
         buttonList.add(
             new GuiButton(
                 11,
@@ -192,13 +166,10 @@ public class CREEPSGUISneakySal extends GuiScreen {
                 height / 4 + 125 + byte0,
                 155,
                 20,
-                (new StringBuilder()).append("\2472    $\2476")
-                    .append(
-                        String.valueOf(
-                            Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[9]] * saleprice)))
-                    .append("\247f ")
-                    .append(String.valueOf(CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[9]]))
-                    .toString()));
+                "\2472    $\2476" +
+                    Math.round((float) CREEPSEntitySneakySal.salprices[sneakysal.salslots[9]] * saleprice) +
+                    "\247f " +
+                    CREEPSEntitySneakySal.saldescriptions[sneakysal.salslots[9]]));
         buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 158 + byte0, 98, 20, "RIPOFF SAL"));
         buttonList.add(new GuiButton(1, width / 2 + 2, height / 4 + 158 + byte0, 98, 20, "DONE"));
     }

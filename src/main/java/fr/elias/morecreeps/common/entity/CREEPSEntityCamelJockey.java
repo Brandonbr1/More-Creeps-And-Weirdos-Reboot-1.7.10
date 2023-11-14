@@ -155,9 +155,11 @@ public class CREEPSEntityCamelJockey extends EntityMob {
                 return true;
             }
 
-            if (entity != this && worldObj.difficultySetting.getDifficultyId() > 0) {
+           /*if (entity != this && worldObj.difficultySetting.getDifficultyId() > 0) {
                 this.attackEntityAsMob(entity);
             }
+
+            */
 
             return true;
         } else {
@@ -173,17 +175,17 @@ public class CREEPSEntityCamelJockey extends EntityMob {
             double d = entity.posX - posX;
             double d1 = entity.posZ - posZ;
             float f1 = MathHelper.sqrt_double(d * d + d1 * d1);
-            motionX = (d / (double) f1) * 0.20000000000000001D * (0.850000011920929D + motionX * 0.20000000298023224D);
-            motionZ = (d1 / (double) f1) * 0.20000000000000001D
+            motionX = (d / f1) * 0.20000000000000001D * (0.850000011920929D + motionX * 0.20000000298023224D);
+            motionZ = (d1 / f1) * 0.20000000000000001D
                 * (0.80000001192092896D + motionZ * 0.20000000298023224D);
             motionY = 0.10000000596246449D;
             fallDistance = -25F;
         }
 
-        if ((double) f < 2D && entity.getBoundingBox().maxY > this.getBoundingBox().minY
+        if (f < 2D && entity.getBoundingBox() != null && this.getBoundingBox() != null
+            && entity.getBoundingBox().maxY > this.getBoundingBox().minY
             && entity.getBoundingBox().minY < this.getBoundingBox().maxY
             && !(entity instanceof CREEPSEntityCamel)) {
-            // attackTime = 20;
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), attack);
         }
     }
