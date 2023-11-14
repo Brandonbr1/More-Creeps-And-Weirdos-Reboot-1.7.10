@@ -1,186 +1,14 @@
 package fr.elias.morecreeps.proxy;
 
-import java.util.Random;
-
-import org.lwjgl.input.Keyboard;
-
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fr.elias.morecreeps.client.config.CREEPSConfig;
-import fr.elias.morecreeps.client.models.CREEPSModelArmyGuy;
-import fr.elias.morecreeps.client.models.CREEPSModelArmyGuyArm;
-import fr.elias.morecreeps.client.models.CREEPSModelAtom;
-import fr.elias.morecreeps.client.models.CREEPSModelBigBaby;
-import fr.elias.morecreeps.client.models.CREEPSModelBlorp;
-import fr.elias.morecreeps.client.models.CREEPSModelBubbleScum;
-import fr.elias.morecreeps.client.models.CREEPSModelBum;
-import fr.elias.morecreeps.client.models.CREEPSModelCamel;
-import fr.elias.morecreeps.client.models.CREEPSModelCamelJockey;
-import fr.elias.morecreeps.client.models.CREEPSModelCastleCritter;
-import fr.elias.morecreeps.client.models.CREEPSModelCastleKing;
-import fr.elias.morecreeps.client.models.CREEPSModelCaveman;
-import fr.elias.morecreeps.client.models.CREEPSModelDesertLizard;
-import fr.elias.morecreeps.client.models.CREEPSModelDigBug;
-import fr.elias.morecreeps.client.models.CREEPSModelDoghouse;
-import fr.elias.morecreeps.client.models.CREEPSModelEvilChicken;
-import fr.elias.morecreeps.client.models.CREEPSModelEvilCreature;
-import fr.elias.morecreeps.client.models.CREEPSModelEvilLight;
-import fr.elias.morecreeps.client.models.CREEPSModelEvilPig;
-import fr.elias.morecreeps.client.models.CREEPSModelEvilScientist;
-import fr.elias.morecreeps.client.models.CREEPSModelEvilSnowman;
-import fr.elias.morecreeps.client.models.CREEPSModelFloob;
-import fr.elias.morecreeps.client.models.CREEPSModelFloobShip;
-import fr.elias.morecreeps.client.models.CREEPSModelG;
-import fr.elias.morecreeps.client.models.CREEPSModelGPig;
-import fr.elias.morecreeps.client.models.CREEPSModelGooGoat;
-import fr.elias.morecreeps.client.models.CREEPSModelHippo;
-import fr.elias.morecreeps.client.models.CREEPSModelHorseHead;
-import fr.elias.morecreeps.client.models.CREEPSModelHotdog;
-import fr.elias.morecreeps.client.models.CREEPSModelHunchback;
-import fr.elias.morecreeps.client.models.CREEPSModelKid;
-import fr.elias.morecreeps.client.models.CREEPSModelLawyerFromHell;
-import fr.elias.morecreeps.client.models.CREEPSModelLolliman;
-import fr.elias.morecreeps.client.models.CREEPSModelManDog;
-import fr.elias.morecreeps.client.models.CREEPSModelNonSwimmer;
-import fr.elias.morecreeps.client.models.CREEPSModelPreacher;
-import fr.elias.morecreeps.client.models.CREEPSModelPyramidGuardian;
-import fr.elias.morecreeps.client.models.CREEPSModelRatMan;
-import fr.elias.morecreeps.client.models.CREEPSModelRobotTed;
-import fr.elias.morecreeps.client.models.CREEPSModelRobotTodd;
-import fr.elias.morecreeps.client.models.CREEPSModelRockMonster;
-import fr.elias.morecreeps.client.models.CREEPSModelRocketGiraffe;
-import fr.elias.morecreeps.client.models.CREEPSModelSchlump;
-import fr.elias.morecreeps.client.models.CREEPSModelSneakySal;
-import fr.elias.morecreeps.client.models.CREEPSModelSnowDevil;
-import fr.elias.morecreeps.client.models.CREEPSModelSquimp;
-import fr.elias.morecreeps.client.models.CREEPSModelTombstone;
-import fr.elias.morecreeps.client.models.CREEPSModelTowel;
-import fr.elias.morecreeps.client.models.CREEPSModelTrophy;
-import fr.elias.morecreeps.client.models.CREEPSModelZebra;
-import fr.elias.morecreeps.client.other.TickClientHandlerEvent;
-import fr.elias.morecreeps.client.particles.CREEPSFxAtoms;
-import fr.elias.morecreeps.client.particles.CREEPSFxBlood;
-import fr.elias.morecreeps.client.particles.CREEPSFxBubbles;
-import fr.elias.morecreeps.client.particles.CREEPSFxConfetti;
-import fr.elias.morecreeps.client.particles.CREEPSFxDirt;
-import fr.elias.morecreeps.client.particles.CREEPSFxFoam;
-import fr.elias.morecreeps.client.particles.CREEPSFxPee;
-import fr.elias.morecreeps.client.particles.CREEPSFxSmoke;
-import fr.elias.morecreeps.client.render.CREEPSRenderArmyGuy;
-import fr.elias.morecreeps.client.render.CREEPSRenderArmyGuyArm;
-import fr.elias.morecreeps.client.render.CREEPSRenderAtom;
-import fr.elias.morecreeps.client.render.CREEPSRenderBabyMummy;
-import fr.elias.morecreeps.client.render.CREEPSRenderBigBaby;
-import fr.elias.morecreeps.client.render.CREEPSRenderBlackSoul;
-import fr.elias.morecreeps.client.render.CREEPSRenderBlorp;
-import fr.elias.morecreeps.client.render.CREEPSRenderBubbleScum;
-import fr.elias.morecreeps.client.render.CREEPSRenderBum;
-import fr.elias.morecreeps.client.render.CREEPSRenderCamel;
-import fr.elias.morecreeps.client.render.CREEPSRenderCamelJockey;
-import fr.elias.morecreeps.client.render.CREEPSRenderCastleCritter;
-import fr.elias.morecreeps.client.render.CREEPSRenderCastleKing;
-import fr.elias.morecreeps.client.render.CREEPSRenderCaveman;
-import fr.elias.morecreeps.client.render.CREEPSRenderDesertLizard;
-import fr.elias.morecreeps.client.render.CREEPSRenderDigBug;
-import fr.elias.morecreeps.client.render.CREEPSRenderDoghouse;
-import fr.elias.morecreeps.client.render.CREEPSRenderEvilChicken;
-import fr.elias.morecreeps.client.render.CREEPSRenderEvilCreature;
-import fr.elias.morecreeps.client.render.CREEPSRenderEvilLight;
-import fr.elias.morecreeps.client.render.CREEPSRenderEvilPig;
-import fr.elias.morecreeps.client.render.CREEPSRenderEvilScientist;
-import fr.elias.morecreeps.client.render.CREEPSRenderEvilSnowman;
-import fr.elias.morecreeps.client.render.CREEPSRenderFloob;
-import fr.elias.morecreeps.client.render.CREEPSRenderFloobShip;
-import fr.elias.morecreeps.client.render.CREEPSRenderG;
-import fr.elias.morecreeps.client.render.CREEPSRenderGooGoat;
-import fr.elias.morecreeps.client.render.CREEPSRenderGuineaPig;
-import fr.elias.morecreeps.client.render.CREEPSRenderHippo;
-import fr.elias.morecreeps.client.render.CREEPSRenderHorseHead;
-import fr.elias.morecreeps.client.render.CREEPSRenderHotdog;
-import fr.elias.morecreeps.client.render.CREEPSRenderHunchback;
-import fr.elias.morecreeps.client.render.CREEPSRenderKid;
-import fr.elias.morecreeps.client.render.CREEPSRenderLawyerFromHell;
-import fr.elias.morecreeps.client.render.CREEPSRenderLolliman;
-import fr.elias.morecreeps.client.render.CREEPSRenderManDog;
-import fr.elias.morecreeps.client.render.CREEPSRenderNonSwimmer;
-import fr.elias.morecreeps.client.render.CREEPSRenderPreacher;
-import fr.elias.morecreeps.client.render.CREEPSRenderPyramidGuardian;
-import fr.elias.morecreeps.client.render.CREEPSRenderRatMan;
-import fr.elias.morecreeps.client.render.CREEPSRenderRobotTed;
-import fr.elias.morecreeps.client.render.CREEPSRenderRobotTodd;
-import fr.elias.morecreeps.client.render.CREEPSRenderRockMonster;
-import fr.elias.morecreeps.client.render.CREEPSRenderRocketGiraffe;
-import fr.elias.morecreeps.client.render.CREEPSRenderSchlump;
-import fr.elias.morecreeps.client.render.CREEPSRenderSneakySal;
-import fr.elias.morecreeps.client.render.CREEPSRenderSnowDevil;
-import fr.elias.morecreeps.client.render.CREEPSRenderSquimp;
-import fr.elias.morecreeps.client.render.CREEPSRenderThief;
-import fr.elias.morecreeps.client.render.CREEPSRenderTombstone;
-import fr.elias.morecreeps.client.render.CREEPSRenderTowel;
-import fr.elias.morecreeps.client.render.CREEPSRenderTrophy;
-import fr.elias.morecreeps.client.render.CREEPSRenderZebra;
+import fr.elias.morecreeps.client.models.*;
+import fr.elias.morecreeps.client.particles.*;
+import fr.elias.morecreeps.client.render.*;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.entity.CREEPSEntityArmyGuy;
-import fr.elias.morecreeps.common.entity.CREEPSEntityArmyGuyArm;
-import fr.elias.morecreeps.common.entity.CREEPSEntityAtom;
-import fr.elias.morecreeps.common.entity.CREEPSEntityBabyMummy;
-import fr.elias.morecreeps.common.entity.CREEPSEntityBigBaby;
-import fr.elias.morecreeps.common.entity.CREEPSEntityBlackSoul;
-import fr.elias.morecreeps.common.entity.CREEPSEntityBlorp;
-import fr.elias.morecreeps.common.entity.CREEPSEntityBubbleScum;
-import fr.elias.morecreeps.common.entity.CREEPSEntityBum;
-import fr.elias.morecreeps.common.entity.CREEPSEntityCamel;
-import fr.elias.morecreeps.common.entity.CREEPSEntityCamelJockey;
-import fr.elias.morecreeps.common.entity.CREEPSEntityCastleCritter;
-import fr.elias.morecreeps.common.entity.CREEPSEntityCastleKing;
-import fr.elias.morecreeps.common.entity.CREEPSEntityCaveman;
-import fr.elias.morecreeps.common.entity.CREEPSEntityDesertLizard;
-import fr.elias.morecreeps.common.entity.CREEPSEntityDigBug;
-import fr.elias.morecreeps.common.entity.CREEPSEntityDoghouse;
-import fr.elias.morecreeps.common.entity.CREEPSEntityEvilChicken;
-import fr.elias.morecreeps.common.entity.CREEPSEntityEvilCreature;
-import fr.elias.morecreeps.common.entity.CREEPSEntityEvilLight;
-import fr.elias.morecreeps.common.entity.CREEPSEntityEvilPig;
-import fr.elias.morecreeps.common.entity.CREEPSEntityEvilScientist;
-import fr.elias.morecreeps.common.entity.CREEPSEntityEvilSnowman;
-import fr.elias.morecreeps.common.entity.CREEPSEntityFloob;
-import fr.elias.morecreeps.common.entity.CREEPSEntityFloobShip;
-import fr.elias.morecreeps.common.entity.CREEPSEntityFrisbee;
-import fr.elias.morecreeps.common.entity.CREEPSEntityG;
-import fr.elias.morecreeps.common.entity.CREEPSEntityGooDonut;
-import fr.elias.morecreeps.common.entity.CREEPSEntityGooGoat;
-import fr.elias.morecreeps.common.entity.CREEPSEntityGrow;
-import fr.elias.morecreeps.common.entity.CREEPSEntityGuineaPig;
-import fr.elias.morecreeps.common.entity.CREEPSEntityHippo;
-import fr.elias.morecreeps.common.entity.CREEPSEntityHorseHead;
-import fr.elias.morecreeps.common.entity.CREEPSEntityHotdog;
-import fr.elias.morecreeps.common.entity.CREEPSEntityHunchback;
-import fr.elias.morecreeps.common.entity.CREEPSEntityKid;
-import fr.elias.morecreeps.common.entity.CREEPSEntityLawyerFromHell;
-import fr.elias.morecreeps.common.entity.CREEPSEntityLolliman;
-import fr.elias.morecreeps.common.entity.CREEPSEntityManDog;
-import fr.elias.morecreeps.common.entity.CREEPSEntityMoney;
-import fr.elias.morecreeps.common.entity.CREEPSEntityNonSwimmer;
-import fr.elias.morecreeps.common.entity.CREEPSEntityPreacher;
-import fr.elias.morecreeps.common.entity.CREEPSEntityPyramidGuardian;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRatMan;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRay;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRobotTed;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRobotTodd;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRockMonster;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRocketGiraffe;
-import fr.elias.morecreeps.common.entity.CREEPSEntitySchlump;
-import fr.elias.morecreeps.common.entity.CREEPSEntityShrink;
-import fr.elias.morecreeps.common.entity.CREEPSEntitySneakySal;
-import fr.elias.morecreeps.common.entity.CREEPSEntitySnowDevil;
-import fr.elias.morecreeps.common.entity.CREEPSEntitySquimp;
-import fr.elias.morecreeps.common.entity.CREEPSEntityThief;
-import fr.elias.morecreeps.common.entity.CREEPSEntityTombstone;
-import fr.elias.morecreeps.common.entity.CREEPSEntityTowel;
-import fr.elias.morecreeps.common.entity.CREEPSEntityTrophy;
-import fr.elias.morecreeps.common.entity.CREEPSEntityZebra;
+import fr.elias.morecreeps.common.entity.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderSnowball;
@@ -193,15 +21,15 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
+import org.lwjgl.input.Keyboard;
+
+import java.util.Random;
 
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy
 {
 	public void render()
 	{
-		MinecraftForge.EVENT_BUS.register(new TickClientHandlerEvent());
-		FMLCommonHandler.instance().bus().register(new TickClientHandlerEvent());
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityArmyGuy.class, new CREEPSRenderArmyGuy(new CREEPSModelArmyGuy(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityArmyGuyArm.class, new CREEPSRenderArmyGuyArm(new CREEPSModelArmyGuyArm(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityAtom.class, new CREEPSRenderAtom(new CREEPSModelAtom(), 0.5F));
@@ -247,14 +75,14 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityRocketGiraffe.class, new CREEPSRenderRocketGiraffe(new CREEPSModelRocketGiraffe(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityRockMonster.class, new CREEPSRenderRockMonster(new CREEPSModelRockMonster(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntitySchlump.class, new CREEPSRenderSchlump(new CREEPSModelSchlump(), 0.5F));
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityShrink.class, new RenderSnowball(MoreCreepsAndWeirdos.shrinkshrink));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityRay.class, new RenderSnowball(MoreCreepsAndWeirdos.rayray));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityGrow.class, new RenderSnowball(MoreCreepsAndWeirdos.shrinkshrink));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityMoney.class, new RenderSnowball(MoreCreepsAndWeirdos.money));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityGooDonut.class, new RenderSnowball(MoreCreepsAndWeirdos.goodonut));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityFrisbee.class, new RenderSnowball(MoreCreepsAndWeirdos.frisbee));
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntitySneakySal.class, new CREEPSRenderSneakySal(new CREEPSModelSneakySal(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntitySnowDevil.class, new CREEPSRenderSnowDevil(new CREEPSModelSnowDevil(), new CREEPSModelSnowDevil(0.5F), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntitySquimp.class, new CREEPSRenderSquimp(new CREEPSModelSquimp(), 0.5F));
@@ -264,9 +92,9 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityTrophy.class, new CREEPSRenderTrophy(new CREEPSModelTrophy(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityZebra.class, new CREEPSRenderZebra(new CREEPSModelZebra(), 0.5F));
 	}
-	
-	
-	
+
+
+
 	public void shrinkBlast(World world, Entity entity, Random rand)
 	{
         for (int i = 0; i < 8; i++)
@@ -290,7 +118,7 @@ public class ClientProxy extends CommonProxy
             Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
         }
 	}
-	
+
 	public void rocketGoBoom(World world, Entity entity, Random rand)
 	{
         for (int i = 0; i < 20; i++)
@@ -307,7 +135,7 @@ public class ClientProxy extends CommonProxy
             Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
         }
 	}
-	
+
 	public void rocketSmoke(World world, Entity entity, Item item)
 	{
         CREEPSFxSmoke creepsfxsmoke = new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, item, 13, 3F);
@@ -320,7 +148,7 @@ public class ClientProxy extends CommonProxy
         creepsfxsmoke2.renderDistanceWeight = 15D;
         Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke2);
 	}
-	
+
 	public void robotTedSmoke(World world, double posX, double posY, double posZ, int floattimer, float modelspeed)
 	{
         for (int i = 0; i < 15; i++)
@@ -336,7 +164,7 @@ public class ClientProxy extends CommonProxy
             Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke1);
         }
 	}
-	
+
 	public void barf(World world, EntityPlayer player)
 	{
         double d = -MathHelper.sin((player.rotationYaw * (float)Math.PI) / 180F);
@@ -377,7 +205,7 @@ public class ClientProxy extends CommonProxy
 	        }
 		}
 	}
-	
+
 	public void dirt(World world, EntityPlayer player, Random random, int l, int i1, int k)
 	{
         for (int j1 = 0; j1 < 15; j1++)
