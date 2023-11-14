@@ -54,7 +54,7 @@ public class CREEPSEntitySchlump extends EntityAnimal
         placed = false;
         deathtimer = -1;
     }
-    
+
     public void applyEntityAttributes()
     {
     	super.applyEntityAttributes();
@@ -70,7 +70,7 @@ public class CREEPSEntitySchlump extends EntityAnimal
         return new CREEPSEntitySchlump(worldObj);
     }
 
-    
+
 
     /**
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
@@ -105,7 +105,7 @@ public class CREEPSEntitySchlump extends EntityAnimal
 
             if (age > 6000)
             {
-                
+
                 confetti();
                 worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
                 entityplayer.addStat(MoreCreepsAndWeirdos.achieveschlump, 1);
@@ -191,7 +191,7 @@ public class CREEPSEntitySchlump extends EntityAnimal
         int j = MathHelper.floor_double(this.getBoundingBox().minY);
         int k = MathHelper.floor_double(posZ);
 
-        if (worldObj.canBlockSeeTheSky(i, j, k));
+        if (worldObj.canBlockSeeTheSky(i, j, k))
         {
         	MoreCreepsAndWeirdos.proxy.addChatMessage("Your Schlump needs to be indoors or it will die!");
             worldObj.playSoundAtEntity(this, "morecreeps:schlump-indoors", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
@@ -238,8 +238,8 @@ public class CREEPSEntitySchlump extends EntityAnimal
                 {
                     Block l2 = worldObj.getBlock((int)posX + l1, (int)posY + k2, (int)posZ + j2);
 
-                    
-                    
+
+
                     if (l2 == Blocks.wooden_door)
                     {
                         j1 += 10;
@@ -269,7 +269,7 @@ public class CREEPSEntitySchlump extends EntityAnimal
                     {
                         j1 += 15;
                     }
-                    
+
                     if (l2 == Blocks.brick_block)
                     {
                         j1 += 3;
@@ -429,7 +429,7 @@ public class CREEPSEntitySchlump extends EntityAnimal
             i = 42;
         }
 
-        
+
 
         if (entityplayer != null)
         {
