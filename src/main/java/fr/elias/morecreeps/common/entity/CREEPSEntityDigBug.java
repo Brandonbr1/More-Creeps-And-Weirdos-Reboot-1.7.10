@@ -110,7 +110,7 @@ public class CREEPSEntityDigBug extends EntityMob {
             return;
         }
         if (prevPosX != posX || prevPosY != posY) {
-            texture = "/textures/entity/digbug" +
+            texture = "morecreeps:textures/entity/digbug" +
                 skinframe +
                 ".png";
             skinframe++;
