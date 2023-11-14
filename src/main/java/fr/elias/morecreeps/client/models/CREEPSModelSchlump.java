@@ -45,7 +45,7 @@ public class CREEPSModelSchlump extends ModelBase
     public ModelRenderer b24;
     public ModelRenderer b25;
     public float modelsize;
-    public float swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+    public float swingProgress;
     public int age;
     public ModelRenderer nose;
     public ModelRenderer head2;
@@ -472,6 +472,17 @@ public class CREEPSModelSchlump extends ModelBase
         b40.rotateAngleY = -2.472378F;
         b40.rotateAngleZ = 0.0F;
         b40.mirror = false;
+        initializeSwingProgress();
+    }
+
+    private void initializeSwingProgress() {
+        if (FMLClientHandler.instance() != null &&
+            FMLClientHandler.instance().getClient() != null &&
+            FMLClientHandler.instance().getClient().thePlayer != null) {
+            swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+        } else {
+            swingProgress = 0.0F;
+        }
     }
 
     /**

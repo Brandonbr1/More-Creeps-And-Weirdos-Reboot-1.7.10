@@ -31,7 +31,7 @@ public class CREEPSModelNonSwimmer extends ModelBase
     public float modelsize;
     public boolean swimming;
     public float tailwag;
-    public float swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+    public float swingProgress;
     public int taildirection;
 
     public CREEPSModelNonSwimmer()
@@ -71,8 +71,18 @@ public class CREEPSModelNonSwimmer extends ModelBase
         bipedLeftLeg.mirror = true;
         bipedLeftLeg.addBox(-2F, 0.0F, -2F, 4, 12, 4, f);
         bipedLeftLeg.setRotationPoint(2.0F, 12F + f1, 0.0F);
+        initializeSwingProgress();
     }
 
+    private void initializeSwingProgress() {
+        if (FMLClientHandler.instance() != null &&
+            FMLClientHandler.instance().getClient() != null &&
+            FMLClientHandler.instance().getClient().thePlayer != null) {
+            swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+        } else {
+            swingProgress = 0.0F;
+        }
+    }
     /**
      * Sets the models various rotation angles then renders the model.
      */

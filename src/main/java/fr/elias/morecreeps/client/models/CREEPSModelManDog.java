@@ -37,7 +37,7 @@ public class CREEPSModelManDog extends ModelBase
     public boolean isSneak;
     private float mouthopen;
     private float mouthangle;
-    public float swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+    public float swingProgress;
     public boolean superfly;
 
     public CREEPSModelManDog()
@@ -108,6 +108,17 @@ public class CREEPSModelManDog extends ModelBase
         bipedLeftLeg.mirror = true;
         bipedLeftLeg.addBox(-2F, 0.0F, -2F, 4, 12, 4, f);
         bipedLeftLeg.setRotationPoint(2.0F, 12F + f1, 0.0F);
+        initializeSwingProgress();
+    }
+
+    private void initializeSwingProgress() {
+        if (FMLClientHandler.instance() != null &&
+            FMLClientHandler.instance().getClient() != null &&
+            FMLClientHandler.instance().getClient().thePlayer != null) {
+            swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+        } else {
+            swingProgress = 0.0F;
+        }
     }
 
     /**

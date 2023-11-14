@@ -5,6 +5,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
+import scala.tools.nsc.doc.model.Entity$;
 
 public class CREEPSModelG extends ModelBase
 {
@@ -33,7 +34,7 @@ public class CREEPSModelG extends ModelBase
     public ModelRenderer g4;
     public ModelRenderer eyeR;
     public float modelsize;
-    public float swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+    public float swingProgress;
 
     public CREEPSModelG()
     {
@@ -84,12 +85,22 @@ public class CREEPSModelG extends ModelBase
         eyeR = new ModelRenderer(this, 0, 0);
         eyeR.addBox(1.0F, -17F, -2.5F, 3, 3, 1, f2);
         eyeR.setRotationPoint(0.0F, 8F, 0.0F);
+        initializeSwingProgress();
+    }
+    private void initializeSwingProgress() {
+        if (FMLClientHandler.instance() != null &&
+            FMLClientHandler.instance().getClient() != null &&
+            FMLClientHandler.instance().getClient().thePlayer != null) {
+            swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+        } else {
+            swingProgress = 0.0F;
+        }
     }
 
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+    public void render(Entity$ entity, float f, float f1, float f2, float f3, float f4, float f5)
     {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         eyeL.render(f5);

@@ -22,7 +22,7 @@ public class CREEPSModelRockMonster extends ModelBase
      * Records whether the model should be rendered holding an item in the left hand, and if that item is a block.
      */
     public boolean heldItemLeft;
-    public float swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+    public float swingProgress;
 
     /**
      * Records whether the model should be rendered holding an item in the right hand, and if that item is a block.
@@ -68,6 +68,17 @@ public class CREEPSModelRockMonster extends ModelBase
         bipedLeftLeg.mirror = true;
         bipedLeftLeg.addBox(-2F, 0.0F, -4F, 9, 12, 10, f);
         bipedLeftLeg.setRotationPoint(6F, 18F + f1, 0.0F);
+        initializeSwingProgress();
+    }
+
+    private void initializeSwingProgress() {
+        if (FMLClientHandler.instance() != null &&
+            FMLClientHandler.instance().getClient() != null &&
+            FMLClientHandler.instance().getClient().thePlayer != null) {
+            swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+        } else {
+            swingProgress = 0.0F;
+        }
     }
 
     /**

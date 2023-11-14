@@ -30,7 +30,7 @@ public class CREEPSModelFloob extends ModelBase
      */
     public boolean heldItemRight;
     public boolean isSneak;
-    public float swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+    public float swingProgress;
 
     public CREEPSModelFloob()
     {
@@ -41,7 +41,15 @@ public class CREEPSModelFloob extends ModelBase
     {
         this(f, 0.0F);
     }
-
+    private void initializeSwingProgress() {
+        if (FMLClientHandler.instance() != null &&
+            FMLClientHandler.instance().getClient() != null &&
+            FMLClientHandler.instance().getClient().thePlayer != null) {
+            swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+        } else {
+            swingProgress = 0.0F;
+        }
+    }
     public CREEPSModelFloob(float f, float f1)
     {
         heldItemLeft = false;
@@ -80,6 +88,7 @@ public class CREEPSModelFloob extends ModelBase
         bipedLeftLeg.mirror = true;
         bipedLeftLeg.addBox(-2F, -4F, -2F, 3, 16, 3, f);
         bipedLeftLeg.setRotationPoint(3F, 12F + f1, 0.0F);
+        initializeSwingProgress();
     }
 
     /**

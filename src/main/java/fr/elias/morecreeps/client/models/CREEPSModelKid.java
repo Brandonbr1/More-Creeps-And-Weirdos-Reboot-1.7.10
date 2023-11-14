@@ -27,7 +27,7 @@ public class CREEPSModelKid extends ModelBase
     public boolean isSneak;
     public ModelRenderer lolly;
     public ModelRenderer stick;
-    public float swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+    public float swingProgress;
 
     public CREEPSModelKid()
     {
@@ -72,8 +72,17 @@ public class CREEPSModelKid extends ModelBase
         stick.addBox(-1F, 8F, -5F, 1, 1, 3, 0.0F);
         stick.setRotationPoint(-5F, 2.0F, 0.0F);
         stick.mirror = false;
+        initializeSwingProgress();
     }
-
+    private void initializeSwingProgress() {
+        if (FMLClientHandler.instance() != null &&
+            FMLClientHandler.instance().getClient() != null &&
+            FMLClientHandler.instance().getClient().thePlayer != null) {
+            swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+        } else {
+            swingProgress = 0.0F;
+        }
+    }
     /**
      * Sets the models various rotation angles then renders the model.
      */

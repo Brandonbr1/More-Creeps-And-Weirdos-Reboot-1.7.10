@@ -28,7 +28,7 @@ public class CREEPSModelEvilScientist extends ModelBase
      */
     public boolean heldItemRight;
     public boolean isSneak;
-    public float swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+    public float swingProgress;
 
     public CREEPSModelEvilScientist()
     {
@@ -38,6 +38,15 @@ public class CREEPSModelEvilScientist extends ModelBase
     public CREEPSModelEvilScientist(float f)
     {
         this(f, 0.0F);
+    }
+    private void initializeSwingProgress() {
+        if (FMLClientHandler.instance() != null &&
+            FMLClientHandler.instance().getClient() != null &&
+            FMLClientHandler.instance().getClient().thePlayer != null) {
+            swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+        } else {
+            swingProgress = 0.0F;
+        }
     }
 
     public CREEPSModelEvilScientist(float f, float f1)
@@ -72,6 +81,7 @@ public class CREEPSModelEvilScientist extends ModelBase
         bipedLeftLeg.mirror = true;
         bipedLeftLeg.addBox(-2F, 0.0F, -2F, 4, 12, 4, f);
         bipedLeftLeg.setRotationPoint(2.0F, 12F + f1, 0.0F);
+        initializeSwingProgress();
     }
 
     /**
