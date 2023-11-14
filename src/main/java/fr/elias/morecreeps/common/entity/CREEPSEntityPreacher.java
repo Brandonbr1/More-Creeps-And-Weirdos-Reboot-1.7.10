@@ -34,12 +34,12 @@ public class CREEPSEntityPreacher extends EntityMob
     private Entity victimEntity;
     public int raise;
     public boolean getvictim;
-    
+
     private float victimspeed;
     private int waittime;
     private int raiselevel;
     public int revenge;
-    
+
     public String texture;
 
     public CREEPSEntityPreacher(World world)
@@ -63,7 +63,7 @@ public class CREEPSEntityPreacher extends EntityMob
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntitySheep.class, 0, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPig.class, 0, true));
     }
-    
+
     public void applyEntityAttributes()
     {
     	super.applyEntityAttributes();
@@ -218,14 +218,26 @@ public class CREEPSEntityPreacher extends EntityMob
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
-    public boolean getCanSpawnHere()
-    {
+    public boolean getCanSpawnHere() {
+        if (worldObj == null || getBoundingBox() == null) {
+            return false;
+        }
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(getBoundingBox().minY);
         int k = MathHelper.floor_double(posZ);
-        int l = worldObj.getFullBlockLightValue(i, j, k);
-        Block i1 = worldObj.getBlock(i, j - 1, k);
-        return i1 != Blocks.sand && i1 != Blocks.cobblestone && i1 != Blocks.log && i1 != Blocks.double_stone_slab && i1 != Blocks.stone_slab && i1 != Blocks.planks && i1 != Blocks.wool && worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).size() == 0 && worldObj.canBlockSeeTheSky(i, j, k) && rand.nextInt(25) == 0 && l > 10;
+        if (worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).size() == 0 &&
+            worldObj.canBlockSeeTheSky(i, j, k) &&
+            rand.nextInt(25) == 0) {
+            int l = worldObj.getFullBlockLightValue(i, j, k);
+            Block i1 = worldObj.getBlock(i, j - 1, k);
+            return i1 != null &&
+                i1 != Blocks.sand && i1 != Blocks.cobblestone &&
+                i1 != Blocks.log && i1 != Blocks.double_stone_slab &&
+                i1 != Blocks.stone_slab && i1 != Blocks.planks &&
+                i1 != Blocks.wool && l > 10;
+        }
+
+        return false;
     }
 
     /**
@@ -393,7 +405,7 @@ public class CREEPSEntityPreacher extends EntityMob
     /**
      * Will get destroyed next tick.
      */
-    
+
     public void onDeath(DamageSource damagesource)
     {
     	super.onDeath(damagesource);
@@ -402,7 +414,7 @@ public class CREEPSEntityPreacher extends EntityMob
     	{
         	if (!player.func_147099_x().hasAchievementUnlocked(MoreCreepsAndWeirdos.achievegotohell))
         	{
-        		
+
         		worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
         		player.addStat(MoreCreepsAndWeirdos.achievegotohell, 1);
         		confetti(player);

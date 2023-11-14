@@ -94,7 +94,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
         tasks.addTask(7, new EntityAILookIdle(this));
         targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
     }
-    
+
     public void applyEntityAttributes()
     {
     	super.applyEntityAttributes();
@@ -102,7 +102,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
     	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(moveSpeed);
     }
 
-    
+
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
@@ -404,9 +404,9 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
                     	worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
                     	entityplayer.addStat(MoreCreepsAndWeirdos.achieverocketgiraffe, 1);
                 		}
-                
+
             	}
-            	
+
             	if (!world.isRemote){
                     if (!playermp.func_147099_x().hasAchievementUnlocked(MoreCreepsAndWeirdos.achieverocketgiraffe))
                     {
@@ -415,7 +415,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
                         playermp.addStat(MoreCreepsAndWeirdos.achieverocketgiraffe, 1);
                     }
             	}
-            
+
                 smoke();
                 worldObj.playSoundAtEntity(this, "morecreeps:giraffetamed", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
                 tamed = true;
@@ -435,7 +435,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
         }
 
         String s1 = "";
-        		
+
 
         if (tamedfood > 1)
         {
@@ -557,11 +557,22 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(this.getBoundingBox().minY);
         int k = MathHelper.floor_double(posZ);
+        if (worldObj == null) {
+            return false;
+        }
         int l = worldObj.getBlockLightOpacity(i, j, k);
-        Block i1 = worldObj.getBlock(i, j - 1, k);
-        return i1 != Blocks.snow && i1 != Blocks.cobblestone && i1 != Blocks.planks && i1 != Blocks.wool && worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).size() == 0 && worldObj.checkBlockCollision(getBoundingBox()) && worldObj.canBlockSeeTheSky(i, j, k) && rand.nextInt(15) == 0 && l > 8;
-    }
+        if (worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).size() == 0 &&
+            worldObj.checkBlockCollision(getBoundingBox()) &&
+            worldObj.canBlockSeeTheSky(i, j, k) &&
+            rand.nextInt(15) == 0 &&
+            l > 8) {
+            Block i1 = worldObj.getBlock(i, j - 1, k);
 
+            return i1 != null && i1 != Blocks.snow && i1 != Blocks.cobblestone &&
+                i1 != Blocks.planks && i1 != Blocks.wool;
+        }
+        return false;
+    }
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
