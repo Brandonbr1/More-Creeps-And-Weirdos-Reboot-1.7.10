@@ -9,5 +9,6 @@ public class CREEPSItemArmorZebra extends ItemArmor
     {
         super(enumarmormaterial, j, k);
         this.setCreativeTab(MoreCreepsAndWeirdos.creepsTab);
+
     }
 }
