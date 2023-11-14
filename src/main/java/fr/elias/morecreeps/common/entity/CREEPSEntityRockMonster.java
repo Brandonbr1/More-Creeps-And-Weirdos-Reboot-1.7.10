@@ -44,7 +44,7 @@ public class CREEPSEntityRockMonster extends EntityMob
         modelsize = 3F;
         this.getNavigator().setBreakDoors(true);
         tasks.addTask(0, new EntityAISwimming(this));
-        tasks.addTask(2, new AIAttackEntity()); 
+        tasks.addTask(2, new AIAttackEntity());
         tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 0.35D));
         tasks.addTask(5, new EntityAIWander(this, 0.35D));
         tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 16F));
@@ -93,7 +93,7 @@ public class CREEPSEntityRockMonster extends EntityMob
     	public CREEPSEntityRockMonster rockM = CREEPSEntityRockMonster.this;
     	public int attackTime;
     	public AIAttackEntity() {}
-    	
+
 		@Override
 		public boolean shouldExecute() {
             EntityLivingBase entitylivingbase = this.rockM.getAttackTarget();
@@ -116,7 +116,7 @@ public class CREEPSEntityRockMonster extends EntityMob
                     entitylivingbase.motionZ = motionZ * 3D;
                     this.rockM.attackEntityAsMob(entitylivingbase);// or entitylivingbase.attackEntityFrom blablabla...
                 }
-                
+
                 this.rockM.getMoveHelper().setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
             }
             else if (d0 < 256.0D)
@@ -154,7 +154,7 @@ public class CREEPSEntityRockMonster extends EntityMob
         super.readEntityFromNBT(nbttagcompound);
         modelsize = nbttagcompound.getFloat("ModelSize");
     }
-    
+
     public boolean getCanSpawnHere()
     {
         int i = MathHelper.floor_double(posX);
@@ -172,30 +172,24 @@ public class CREEPSEntityRockMonster extends EntityMob
         return 1;
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float i)
-    {
-    	Entity entity = damagesource.getEntity();
-    	if(entity != null)
-    	{
-            if (entity instanceof EntityPlayer)
-            {
-                List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(32D, 32D, 32D));
-
-                for (int j = 0; j < list.size(); j++)
-                {
-                    Entity entity1 = (Entity)list.get(j);
-
-                    if (entity1 instanceof CREEPSEntityRockMonster)
-                    {
-                        CREEPSEntityRockMonster creepsentityrockmonster = (CREEPSEntityRockMonster)entity1;
+    public boolean attackEntityFrom(DamageSource damagesource, float i) {
+        Entity entity = damagesource.getEntity();
+        if (worldObj == null) {
+            return super.attackEntityFrom(DamageSource.causeMobDamage(this), i);
+        }
+        if (entity instanceof EntityPlayer) {
+            List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(32D, 32D, 32D));
+            for (Object o : list) {
+                if (o instanceof Entity) {
+                    Entity entity1 = (Entity) o;
+                    if (entity1 instanceof CREEPSEntityRockMonster) {
+                        CREEPSEntityRockMonster creepsentityrockmonster = (CREEPSEntityRockMonster) entity1;
                         creepsentityrockmonster.becomeAngryAt(entity);
                     }
                 }
-
-                becomeAngryAt(entity);
             }
-    	}
-
+            becomeAngryAt(entity);
+        }
         return super.attackEntityFrom(DamageSource.causeMobDamage(this), i);
     }
 
@@ -246,7 +240,7 @@ public class CREEPSEntityRockMonster extends EntityMob
     {
         Entity entity = damagesource.getEntity();
 
-        if (entity != null && (entity instanceof EntityPlayer) && !((EntityPlayerMP)entity).func_147099_x().hasAchievementUnlocked(MoreCreepsAndWeirdos.achieverockmonster))
+        if ((entity instanceof EntityPlayer) && !((EntityPlayerMP) entity).func_147099_x().hasAchievementUnlocked(MoreCreepsAndWeirdos.achieverockmonster))
         {
             worldObj.playSoundAtEntity(entity, "morecreeps:achievement", 1.0F, 1.0F);
             ((EntityPlayer) entity).addStat(MoreCreepsAndWeirdos.achieverockmonster, 1);

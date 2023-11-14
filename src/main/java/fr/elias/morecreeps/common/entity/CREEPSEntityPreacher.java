@@ -222,6 +222,9 @@ public class CREEPSEntityPreacher extends EntityMob
         if (worldObj == null || getBoundingBox() == null) {
             return false;
         }
+        if (posX == 0 && posY == 0 && posZ == 0) {
+            return false;
+        }
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(getBoundingBox().minY);
         int k = MathHelper.floor_double(posZ);

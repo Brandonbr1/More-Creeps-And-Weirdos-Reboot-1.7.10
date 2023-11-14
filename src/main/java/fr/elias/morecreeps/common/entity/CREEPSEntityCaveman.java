@@ -81,7 +81,7 @@ public class CREEPSEntityCaveman extends EntityMob
     	super.applyEntityAttributes();
     	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(25D);
     	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.45D);
-    	
+
     }
 
     /**
@@ -289,18 +289,12 @@ public class CREEPSEntityCaveman extends EntityMob
         }
 
         EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
+        if (entityplayersp != null) {
         float f = getDistanceToEntity(entityplayersp);
-
-        if (f < 8F)
-        {
-            ignoreFrustumCheck = true;
-        }
-        else
-        {
-            ignoreFrustumCheck = false;
+            ignoreFrustumCheck = f < 8F;
         }
     }
-    
+
     public boolean isMovementBlocked()
     {
     	return frozen >= 1 || this.wanderstate == 2 ? true : false;
@@ -382,27 +376,27 @@ public class CREEPSEntityCaveman extends EntityMob
         {
             super(CREEPSEntityCaveman.this, EntityPlayer.class, 0, true);
         }
-        
+
         public void updateTask()
         {
         	try{
         	EntityLivingBase target = CREEPSEntityCaveman.this.getAttackTarget();
         	float f = getDistanceToEntity(target);
         	attackEntity(target, f);}
-        	
+
         	catch (NullPointerException ex)
 			{
 			ex.printStackTrace();
 			}
         }
-        
-        
+
+
         public boolean shouldExecute()
         {
             return !evil || frozen > 0 && super.shouldExecute();
         }
     }
-    
+
     /**
      * knocks back this entity
      */
@@ -498,7 +492,7 @@ public class CREEPSEntityCaveman extends EntityMob
             }
         }
 
-        if (entity != null && (entity instanceof EntityPlayer) && frozen > 0)
+        if (entity instanceof EntityPlayer)
         {
             worldObj.playSoundAtEntity(this, "morecreeps:cavemanice", 0.5F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 
@@ -525,7 +519,7 @@ public class CREEPSEntityCaveman extends EntityMob
     {
         for (int l = 0; l < 40; l++)
         {
-            worldObj.spawnParticle("SNOWBALLPOOF".toLowerCase(), i, (double)j + 0.5D, k, 1.0D, 1.0D, 1.0D);
+            worldObj.spawnParticle("SNOWBALLPOOF".toLowerCase(), i, j + 0.5D, k, 1.0D, 1.0D, 1.0D);
         }
         if(worldObj.isRemote)
         {
@@ -545,13 +539,13 @@ public class CREEPSEntityCaveman extends EntityMob
                 double d = entity.posX - posX;
                 double d1 = entity.posZ - posZ;
                 float f1 = MathHelper.sqrt_double(d * d + d1 * d1);
-                motionX = (d / (double)f1) * 0.20000000000000001D * (0.45000001192092898D + motionX * 0.20000000298023224D);
-                motionZ = (d1 / (double)f1) * 0.20000000000000001D * (0.40000001192092893D + motionZ * 0.20000000298023224D);
+                motionX = (d / f1) * 0.20000000000000001D * (0.45000001192092898D + motionX * 0.20000000298023224D);
+                motionZ = (d1 / f1) * 0.20000000000000001D * (0.40000001192092893D + motionZ * 0.20000000298023224D);
                 motionY = 0.46000000596246449D;
                 fallDistance = -25F;
             }
 
-            if ((double)f < 2.8999999999999999D && entity.getBoundingBox().maxY > getBoundingBox().minY && entity.getBoundingBox().minY < getBoundingBox().maxY)
+            if (f < 2.8999999999999999D && entity.getBoundingBox().maxY > getBoundingBox().minY && entity.getBoundingBox().minY < getBoundingBox().maxY)
             {
                 if (hammerswing == 0.0F)
                 {
@@ -565,7 +559,7 @@ public class CREEPSEntityCaveman extends EntityMob
                 }
             }
 
-            if ((double)f < 2.3500000000000001D && entity.getBoundingBox().maxY > getBoundingBox().minY && entity.getBoundingBox().minY < getBoundingBox().maxY)
+            if (f < 2.3500000000000001D && entity.getBoundingBox().maxY > getBoundingBox().minY && entity.getBoundingBox().minY < getBoundingBox().maxY)
             {
                 attackTime = 20;
                 entity.attackEntityFrom(DamageSource.causeMobDamage(this), attack);
@@ -576,16 +570,21 @@ public class CREEPSEntityCaveman extends EntityMob
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
-    public boolean getCanSpawnHere()
-    {
-    	int i = MathHelper.floor_double(posX);
+    public boolean getCanSpawnHere() {
+        if (worldObj == null) {
+            return false;
+        }
+        int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(getBoundingBox().minY);
         int k = MathHelper.floor_double(posZ);
-    	int l = worldObj.getFullBlockLightValue(i, j, k);
-    	return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && super.getCanSpawnHere();
-        
-        /*IBlockState i1 = worldObj.getBlockState(new BlockPos(i, j - 1, k));
-        return (i1 == Blocks.snow.getDefaultState() || i1 == Blocks.ice.getDefaultState() || i1 == Blocks.snow.getDefaultState()) && worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).size() == 0;*/
+        if (getBoundingBox() == null) {
+            return false;
+        }
+        int l = worldObj.getFullBlockLightValue(i, j, k);
+        if (this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL) {
+            return false;
+        }
+        return super.getCanSpawnHere();
     }
 
     /**
@@ -682,7 +681,7 @@ public class CREEPSEntityCaveman extends EntityMob
         }
 
         EntityLivingBase entityToAttack = this.getAttackTarget();
-        
+
         if (entityToAttack != null)
         {
             if (cavegirl)
