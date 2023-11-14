@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelEvilChicken extends ModelBase
-{
+public class CREEPSModelEvilChicken extends ModelBase {
+
     public ModelRenderer headChicken;
     public ModelRenderer body;
     public ModelRenderer leg1;
@@ -17,8 +17,7 @@ public class CREEPSModelEvilChicken extends ModelBase
     public ModelRenderer gizzard;
     public float modelsize;
 
-    public CREEPSModelEvilChicken()
-    {
+    public CREEPSModelEvilChicken() {
         byte byte0 = -16;
         headChicken = new ModelRenderer(this, 0, 0);
         headChicken.addBox(-2F, -6F, -10F, 4, 8, 3, 2.0F);
@@ -49,8 +48,7 @@ public class CREEPSModelEvilChicken extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         headChicken.render(f5);
         beak.render(f5);
@@ -65,17 +63,16 @@ public class CREEPSModelEvilChicken extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
         headChicken.rotateAngleX = -(f4 / 97.29578F);
-        headChicken.rotateAngleY = f3 / (180F / (float)Math.PI);
+        headChicken.rotateAngleY = f3 / (180F / (float) Math.PI);
         beak.rotateAngleX = headChicken.rotateAngleX;
         beak.rotateAngleY = headChicken.rotateAngleY;
         gizzard.rotateAngleX = headChicken.rotateAngleX;
         gizzard.rotateAngleY = headChicken.rotateAngleY;
-        body.rotateAngleX = ((float)Math.PI / 2F);
+        body.rotateAngleX = ((float) Math.PI / 2F);
         leg1.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         wingL.rotateAngleZ = f2;
         wingR.rotateAngleZ = -f2;
     }

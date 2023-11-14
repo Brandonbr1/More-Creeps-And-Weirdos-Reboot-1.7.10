@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelCaveman extends ModelBase
-{
+public class CREEPSModelCaveman extends ModelBase {
+
     /**
      * Records whether the model should be rendered holding an item in the left hand, and if that item is a block.
      */
@@ -40,18 +40,15 @@ public class CREEPSModelCaveman extends ModelBase
     public boolean cavegirl;
     public boolean evil;
 
-    public CREEPSModelCaveman()
-    {
+    public CREEPSModelCaveman() {
         this(0.0F);
     }
 
-    public CREEPSModelCaveman(float f)
-    {
+    public CREEPSModelCaveman(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelCaveman(float f, float f1)
-    {
+    public CREEPSModelCaveman(float f, float f1) {
         bipedBody = new ModelRenderer(this, 17, 0);
         bipedBody.addBox(-3F, 0.0F, -2F, 6, 9, 4);
         bipedBody.setRotationPoint(0.0F, 7F, 0.0F);
@@ -140,8 +137,7 @@ public class CREEPSModelCaveman extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         bipedBody.render(f5);
         bipedHead.render(f5);
@@ -153,39 +149,31 @@ public class CREEPSModelCaveman extends ModelBase
         club2.render(f5);
         club3.render(f5);
 
-        if (frozen > 4)
-        {
+        if (frozen > 4) {
             ice1.render(f5);
         }
 
-        if (frozen > 3)
-        {
+        if (frozen > 3) {
             ice5.render(f5);
         }
 
-        if (frozen > 2)
-        {
+        if (frozen > 2) {
             ice3.render(f5);
         }
 
-        if (frozen > 1)
-        {
+        if (frozen > 1) {
             ice4.render(f5);
         }
 
-        if (frozen > 0)
-        {
+        if (frozen > 0) {
             ice2.render(f5);
         }
 
-        if (cavegirl)
-        {
+        if (cavegirl) {
             bust.render(f5);
             girlhair.render(f5);
             flower.render(f5);
-        }
-        else
-        {
+        } else {
             beard.render(f5);
         }
     }
@@ -193,22 +181,22 @@ public class CREEPSModelCaveman extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        girlhair.rotateAngleY = flower.rotateAngleY = beard.rotateAngleY = bipedHead.rotateAngleY = f3 / (180F / (float)Math.PI);
-        girlhair.rotateAngleX = flower.rotateAngleX = beard.rotateAngleX = bipedHead.rotateAngleX = f4 / (180F / (float)Math.PI);
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        girlhair.rotateAngleY = flower.rotateAngleY = beard.rotateAngleY = bipedHead.rotateAngleY = f3
+            / (180F / (float) Math.PI);
+        girlhair.rotateAngleX = flower.rotateAngleX = beard.rotateAngleX = bipedHead.rotateAngleX = f4
+            / (180F / (float) Math.PI);
         bust.rotateAngleY = bipedBody.rotateAngleY;
         bust.rotateAngleX = bipedBody.rotateAngleX;
 
-        if (frozen < 1)
-        {
-            if (hammerswing != 0.0F)
-            {
+        if (frozen < 1) {
+            if (hammerswing != 0.0F) {
                 club1.rotateAngleX = club2.rotateAngleX = club3.rotateAngleX = bipedRightArm.rotateAngleX = hammerswing;
-            }
-            else
-            {
-                club1.rotateAngleX = club2.rotateAngleX = club3.rotateAngleX = bipedRightArm.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 2.0F * f1 * 0.5F;
+            } else {
+                club1.rotateAngleX = club2.rotateAngleX = club3.rotateAngleX = bipedRightArm.rotateAngleX = MathHelper
+                    .cos(f * 0.6662F + (float) Math.PI) * 2.0F
+                    * f1
+                    * 0.5F;
             }
 
             bipedLeftArm.rotateAngleX = MathHelper.cos(f * 0.6662F) * 2.0F * f1 * 0.5F;
@@ -221,7 +209,7 @@ public class CREEPSModelCaveman extends ModelBase
             club1.rotateAngleZ = club2.rotateAngleZ = club3.rotateAngleZ = bipedRightArm.rotateAngleZ;
             club1.rotateAngleX = club2.rotateAngleX = club3.rotateAngleX = bipedRightArm.rotateAngleX;
             bipedRightLeg.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-            bipedLeftLeg.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+            bipedLeftLeg.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         }
     }
 }

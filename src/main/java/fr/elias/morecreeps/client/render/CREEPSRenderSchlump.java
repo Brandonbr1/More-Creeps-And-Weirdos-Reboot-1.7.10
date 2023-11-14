@@ -1,36 +1,27 @@
 package fr.elias.morecreeps.client.render;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelSchlump;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRockMonster;
 import fr.elias.morecreeps.common.entity.CREEPSEntitySchlump;
 
-public class CREEPSRenderSchlump extends RenderLiving
-{
+public class CREEPSRenderSchlump extends RenderLiving {
+
     protected CREEPSModelSchlump modelBipedMain;
     public static ResourceLocation layer_texture = new ResourceLocation("morecreeps:textures/entity/schlumpnight.png");
 
-    public CREEPSRenderSchlump(CREEPSModelSchlump creepsmodelschlump, float f)
-    {
+    public CREEPSRenderSchlump(CREEPSModelSchlump creepsmodelschlump, float f) {
         super(creepsmodelschlump, f);
         modelBipedMain = creepsmodelschlump;
     }
 
-    
-    
-    protected void fattenup(CREEPSEntitySchlump creepsentityschlump, float f)
-    {
+    protected void fattenup(CREEPSEntitySchlump creepsentityschlump, float f) {
         GL11.glScalef(creepsentityschlump.modelsize, creepsentityschlump.modelsize, creepsentityschlump.modelsize);
     }
 
@@ -38,31 +29,24 @@ public class CREEPSRenderSchlump extends RenderLiving
      * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
      * entityLiving, partialTickTime
      */
-    protected void preRenderCallback(EntityLivingBase entityliving, float f)
-    {
-        CREEPSEntitySchlump creepsentityschlump = (CREEPSEntitySchlump)entityliving;
+    protected void preRenderCallback(EntityLivingBase entityliving, float f) {
+        CREEPSEntitySchlump creepsentityschlump = (CREEPSEntitySchlump) entityliving;
         modelBipedMain.age = creepsentityschlump.age;
-        fattenup((CREEPSEntitySchlump)entityliving, f);
-    }
-    
-    protected int shouldRenderPass(EntityLiving entityliving, int i, float f)
-    {
-        return eyeGlow((CREEPSEntitySchlump)entityliving, i, f);
+        fattenup((CREEPSEntitySchlump) entityliving, f);
     }
 
-    protected int eyeGlow(CREEPSEntitySchlump creepsentityschlump, int i, float f)
-    {
-        if (i != 0)
-        {
+    protected int shouldRenderPass(EntityLiving entityliving, int i, float f) {
+        return eyeGlow((CREEPSEntitySchlump) entityliving, i, f);
+    }
+
+    protected int eyeGlow(CREEPSEntitySchlump creepsentityschlump, int i, float f) {
+        if (i != 0) {
             return -1;
         }
 
-        if (i != 0)
-        {
+        if (i != 0) {
             return -1;
-        }
-        else
-        {
+        } else {
             bindTexture(layer_texture);
             float f1 = (1.0F - creepsentityschlump.getBrightness(1.0F)) * 0.5F;
             GL11.glEnable(GL11.GL_BLEND);
@@ -73,13 +57,12 @@ public class CREEPSRenderSchlump extends RenderLiving
         }
     }
 
-    protected ResourceLocation getEntityTexture(CREEPSEntitySchlump entity)
-    {
-		return new ResourceLocation(entity.texture);
-	}
+    protected ResourceLocation getEntityTexture(CREEPSEntitySchlump entity) {
+        return new ResourceLocation(entity.texture);
+    }
 
-	protected ResourceLocation getEntityTexture(Entity entity) {
+    protected ResourceLocation getEntityTexture(Entity entity) {
 
-		return getEntityTexture((CREEPSEntitySchlump) entity);
-	}
+        return getEntityTexture((CREEPSEntitySchlump) entity);
+    }
 }

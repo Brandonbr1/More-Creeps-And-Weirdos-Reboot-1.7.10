@@ -1,8 +1,5 @@
 package fr.elias.morecreeps.client.render;
 
-import org.lwjgl.opengl.GL11;
-
-import fr.elias.morecreeps.common.entity.CREEPSEntityGuineaPig;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;
@@ -13,42 +10,50 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
-public class CREEPSRenderGuineaPig extends RenderLiving
-{
+import org.lwjgl.opengl.GL11;
+
+import fr.elias.morecreeps.common.entity.CREEPSEntityGuineaPig;
+
+public class CREEPSRenderGuineaPig extends RenderLiving {
+
     protected ModelBiped modelBipedMain;
 
-    public CREEPSRenderGuineaPig(ModelBase modelbase, ModelBase modelbase1, float f)
-    {
+    public CREEPSRenderGuineaPig(ModelBase modelbase, ModelBase modelbase1, float f) {
         super(modelbase, f);
     }
 
-    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2, float f, float f1)
-    {
+    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2, float f, float f1) {
         super.doRender(entityliving, d, d1, d2, f, f1);
         float f2 = 1.6F;
         float f3 = 0.01666667F * f2;
         float f4 = entityliving.getDistanceToEntity(renderManager.livingPlayer);
         String s = "";
 
-        if (((CREEPSEntityGuineaPig)entityliving).speedboost > 0)
-        {
+        if (((CREEPSEntityGuineaPig) entityliving).speedboost > 0) {
             s = "\2473* \247f";
         }
 
-        s = (new StringBuilder()).append(s).append(((CREEPSEntityGuineaPig)entityliving).name).toString();
-        String s1 = String.valueOf(((CREEPSEntityGuineaPig)entityliving).level);
+        s = (new StringBuilder()).append(s)
+            .append(((CREEPSEntityGuineaPig) entityliving).name)
+            .toString();
+        String s1 = String.valueOf(((CREEPSEntityGuineaPig) entityliving).level);
 
-        if (((CREEPSEntityGuineaPig)entityliving).getHealth() < ((CREEPSEntityGuineaPig)entityliving).getMaxHealth() / 2 && s.length() > 0)
-        {
-            s = (new StringBuilder()).append(s).append(" \247c * WOUNDED *").toString();
+        if (((CREEPSEntityGuineaPig) entityliving).getHealth()
+            < ((CREEPSEntityGuineaPig) entityliving).getMaxHealth() / 2 && s.length() > 0) {
+            s = (new StringBuilder()).append(s)
+                .append(" \247c * WOUNDED *")
+                .toString();
         }
 
-        if (f4 < 20F && s.length() > 0)
-        {
-            s = (new StringBuilder()).append(s).append(" \2475<\2476").append(s1).append("\2475>").toString();
+        if (f4 < 20F && s.length() > 0) {
+            s = (new StringBuilder()).append(s)
+                .append(" \2475<\2476")
+                .append(s1)
+                .append("\2475>")
+                .toString();
             FontRenderer fontrenderer = getFontRendererFromRenderManager();
             GL11.glPushMatrix();
-            GL11.glTranslatef((float)d + 0.0F, (float)d1 + 1.1F, (float)d2);
+            GL11.glTranslatef((float) d + 0.0F, (float) d1 + 1.1F, (float) d2);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
             GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -59,8 +64,8 @@ public class CREEPSRenderGuineaPig extends RenderLiving
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             Tessellator tessellator = Tessellator.instance;
-            float f5 = (1.0F - ((CREEPSEntityGuineaPig)entityliving).modelsize) * 20F;
-            int i = 10 + (int)f5;
+            float f5 = (1.0F - ((CREEPSEntityGuineaPig) entityliving).modelsize) * 20F;
+            int i = 10 + (int) f5;
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             tessellator.startDrawingQuads();
             int j = fontrenderer.getStringWidth(s) / 2;
@@ -69,8 +74,8 @@ public class CREEPSRenderGuineaPig extends RenderLiving
             tessellator.addVertex(-j - 1, 8 + i, 0.0D);
             tessellator.addVertex(j + 1, 8 + i, 0.0D);
             tessellator.addVertex(j + 1, -1 + i, 0.0D);
-            float f6 = ((CREEPSEntityGuineaPig)entityliving).getHealth();
-            float f7 = ((CREEPSEntityGuineaPig)entityliving).getMaxHealth();
+            float f6 = ((CREEPSEntityGuineaPig) entityliving).getHealth();
+            float f7 = ((CREEPSEntityGuineaPig) entityliving).getMaxHealth();
             float f8 = f6 / f7;
             float f9 = 50F * f8;
             tessellator.setColorRGBA_F(1.0F, 0.0F, 0.0F, 1.0F);
@@ -96,27 +101,27 @@ public class CREEPSRenderGuineaPig extends RenderLiving
         }
     }
 
-    protected void fattenup(CREEPSEntityGuineaPig creepsentityguineapig, float f)
-    {
-        GL11.glScalef(creepsentityguineapig.modelsize, creepsentityguineapig.modelsize, creepsentityguineapig.modelsize);
-    }
-    protected void preRenderCallback(EntityLivingBase entityliving, float f)
-    {
-        fattenup((CREEPSEntityGuineaPig)entityliving, f);
-    }
-    
-    public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
-    {
-        doRenderLiving((EntityLiving)entity, d, d1, d2, f, f1);
+    protected void fattenup(CREEPSEntityGuineaPig creepsentityguineapig, float f) {
+        GL11.glScalef(
+            creepsentityguineapig.modelsize,
+            creepsentityguineapig.modelsize,
+            creepsentityguineapig.modelsize);
     }
 
-    protected ResourceLocation getEntityTexture(CREEPSEntityGuineaPig entity)
-    {
-		return new ResourceLocation(entity.texture);
-	}
+    protected void preRenderCallback(EntityLivingBase entityliving, float f) {
+        fattenup((CREEPSEntityGuineaPig) entityliving, f);
+    }
 
-	protected ResourceLocation getEntityTexture(Entity entity) {
+    public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
+        doRenderLiving((EntityLiving) entity, d, d1, d2, f, f1);
+    }
 
-		return getEntityTexture((CREEPSEntityGuineaPig) entity);
-	}
+    protected ResourceLocation getEntityTexture(CREEPSEntityGuineaPig entity) {
+        return new ResourceLocation(entity.texture);
+    }
+
+    protected ResourceLocation getEntityTexture(Entity entity) {
+
+        return getEntityTexture((CREEPSEntityGuineaPig) entity);
+    }
 }

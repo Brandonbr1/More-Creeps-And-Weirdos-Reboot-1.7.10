@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelLawyerFromHell extends ModelBase
-{
+public class CREEPSModelLawyerFromHell extends ModelBase {
+
     ModelRenderer headLawyer;
     ModelRenderer body;
     ModelRenderer rightarm;
@@ -22,18 +22,15 @@ public class CREEPSModelLawyerFromHell extends ModelBase
     ModelRenderer shoeR;
     public float modelsize;
 
-    public CREEPSModelLawyerFromHell()
-    {
+    public CREEPSModelLawyerFromHell() {
         this(0.0F);
     }
 
-    public CREEPSModelLawyerFromHell(float f)
-    {
+    public CREEPSModelLawyerFromHell(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelLawyerFromHell(float f, float f1)
-    {
+    public CREEPSModelLawyerFromHell(float f, float f1) {
         float f2 = 0.0F;
         headLawyer = new ModelRenderer(this, 0, 0);
         headLawyer.addBox(-4F, -10F, -4F, 8, 8, 8, f2);
@@ -79,8 +76,7 @@ public class CREEPSModelLawyerFromHell extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         headLawyer.render(f5);
         body.render(f5);
@@ -100,22 +96,25 @@ public class CREEPSModelLawyerFromHell extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        glasses.rotateAngleY = headLawyer.rotateAngleY = f3 / (180F / (float)Math.PI);
-        glasses.rotateAngleX = headLawyer.rotateAngleX = f4 / (180F / (float)Math.PI);
-        watch1.rotateAngleX = watch2.rotateAngleX = rightarm.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 2.0F * f1 * 0.5F;
-        case2.rotateAngleX = casehandle.rotateAngleX = leftarm.rotateAngleX = MathHelper.cos(f * 0.6662F) * 2.0F * f1 * 0.5F;
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        glasses.rotateAngleY = headLawyer.rotateAngleY = f3 / (180F / (float) Math.PI);
+        glasses.rotateAngleX = headLawyer.rotateAngleX = f4 / (180F / (float) Math.PI);
+        watch1.rotateAngleX = watch2.rotateAngleX = rightarm.rotateAngleX = MathHelper.cos(
+            f * 0.6662F + (float) Math.PI) * 2.0F * f1 * 0.5F;
+        case2.rotateAngleX = casehandle.rotateAngleX = leftarm.rotateAngleX = MathHelper.cos(f * 0.6662F) * 2.0F
+            * f1
+            * 0.5F;
         watch1.rotateAngleZ = watch2.rotateAngleZ = rightarm.rotateAngleZ = 0.0F;
         case2.rotateAngleZ = casehandle.rotateAngleZ = leftarm.rotateAngleZ = 0.0F;
         shoeR.rotateAngleX = rightleg.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        shoeL.rotateAngleX = leftleg.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        shoeL.rotateAngleX = leftleg.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         rightleg.rotateAngleY = 0.0F;
         leftleg.rotateAngleY = 0.0F;
         rightarm.rotateAngleY = 0.0F;
         leftarm.rotateAngleY = 0.0F;
         watch1.rotateAngleZ = watch2.rotateAngleZ = rightarm.rotateAngleZ += MathHelper.cos(f2 * 0.09F) * 0.05F + 0.05F;
-        case2.rotateAngleZ = casehandle.rotateAngleZ = leftarm.rotateAngleZ -= MathHelper.cos(f2 * 0.09F) * 0.05F + 0.05F;
+        case2.rotateAngleZ = casehandle.rotateAngleZ = leftarm.rotateAngleZ -= MathHelper.cos(f2 * 0.09F) * 0.05F
+            + 0.05F;
         watch1.rotateAngleX = watch2.rotateAngleX = rightarm.rotateAngleX += MathHelper.sin(f2 * 0.067F) * 0.05F;
         case2.rotateAngleX = casehandle.rotateAngleX = leftarm.rotateAngleX -= MathHelper.sin(f2 * 0.067F) * 0.05F;
     }

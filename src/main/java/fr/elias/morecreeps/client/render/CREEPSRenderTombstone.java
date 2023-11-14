@@ -1,9 +1,5 @@
 package fr.elias.morecreeps.client.render;
 
-import org.lwjgl.opengl.GL11;
-
-import fr.elias.morecreeps.client.models.CREEPSModelTombstone;
-import fr.elias.morecreeps.common.entity.CREEPSEntityTombstone;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -11,32 +7,40 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
-public class CREEPSRenderTombstone extends RenderLiving
-{
-    public CREEPSRenderTombstone(CREEPSModelTombstone creepsmodeltombstone, float f)
-    {
+import org.lwjgl.opengl.GL11;
+
+import fr.elias.morecreeps.client.models.CREEPSModelTombstone;
+import fr.elias.morecreeps.common.entity.CREEPSEntityTombstone;
+
+public class CREEPSRenderTombstone extends RenderLiving {
+
+    public CREEPSRenderTombstone(CREEPSModelTombstone creepsmodeltombstone, float f) {
         super(creepsmodeltombstone, f);
     }
 
-    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2, float f, float f1)
-    {
+    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2, float f, float f1) {
         super.doRender(entityliving, d, d1, d2, f, f1);
         float f2 = 1.6F;
         float f3 = 0.01666667F * f2;
         float f4 = entityliving.getDistanceToEntity(renderManager.livingPlayer);
         String s = "";
         String s1 = "";
-        String s2 = String.valueOf(((CREEPSEntityTombstone)entityliving).name);
-        String s3 = String.valueOf(((CREEPSEntityTombstone)entityliving).level);
-        String s4 = String.valueOf(((CREEPSEntityTombstone)entityliving).deathtype);
-        s = (new StringBuilder()).append("\247fHere lies \2476").append(s2).toString();
-        s1 = (new StringBuilder()).append("\247f a level \2476").append(s3).append(" \247f").append(s4).toString();
+        String s2 = String.valueOf(((CREEPSEntityTombstone) entityliving).name);
+        String s3 = String.valueOf(((CREEPSEntityTombstone) entityliving).level);
+        String s4 = String.valueOf(((CREEPSEntityTombstone) entityliving).deathtype);
+        s = (new StringBuilder()).append("\247fHere lies \2476")
+            .append(s2)
+            .toString();
+        s1 = (new StringBuilder()).append("\247f a level \2476")
+            .append(s3)
+            .append(" \247f")
+            .append(s4)
+            .toString();
 
-        if (f4 < 4F && s.length() > 0)
-        {
+        if (f4 < 4F && s.length() > 0) {
             FontRenderer fontrenderer = getFontRendererFromRenderManager();
             GL11.glPushMatrix();
-            GL11.glTranslatef((float)d + 0.0F, (float)d1 + 1.1F, (float)d2);
+            GL11.glTranslatef((float) d + 0.0F, (float) d1 + 1.1F, (float) d2);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
             GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -52,8 +56,7 @@ public class CREEPSRenderTombstone extends RenderLiving
             tessellator.startDrawingQuads();
             int i = fontrenderer.getStringWidth(s);
 
-            if (fontrenderer.getStringWidth(s1) > i)
-            {
+            if (fontrenderer.getStringWidth(s1) > i) {
                 i = fontrenderer.getStringWidth(s1);
             }
 
@@ -77,18 +80,17 @@ public class CREEPSRenderTombstone extends RenderLiving
             GL11.glPopMatrix();
         }
     }
-    public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
-    {
-        doRenderLiving((EntityLiving)entity, d, d1, d2, f, f1);
+
+    public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
+        doRenderLiving((EntityLiving) entity, d, d1, d2, f, f1);
     }
 
-    protected ResourceLocation getEntityTexture(CREEPSEntityTombstone entity)
-    {
-		return new ResourceLocation(entity.texture);
-	}
+    protected ResourceLocation getEntityTexture(CREEPSEntityTombstone entity) {
+        return new ResourceLocation(entity.texture);
+    }
 
-	protected ResourceLocation getEntityTexture(Entity entity) {
+    protected ResourceLocation getEntityTexture(Entity entity) {
 
-		return getEntityTexture((CREEPSEntityTombstone) entity);
-	}
+        return getEntityTexture((CREEPSEntityTombstone) entity);
+    }
 }

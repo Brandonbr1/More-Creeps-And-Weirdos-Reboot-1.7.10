@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelCastleKing extends ModelBase
-{
+public class CREEPSModelCastleKing extends ModelBase {
+
     public ModelRenderer bipedHead;
     public ModelRenderer bipedBody;
     public ModelRenderer bipedRightArm;
@@ -18,18 +18,15 @@ public class CREEPSModelCastleKing extends ModelBase
     public ModelRenderer leftshoe;
     public float hammerswing;
 
-    public CREEPSModelCastleKing()
-    {
+    public CREEPSModelCastleKing() {
         this(0.0F);
     }
 
-    public CREEPSModelCastleKing(float f)
-    {
+    public CREEPSModelCastleKing(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelCastleKing(float f, float f1)
-    {
+    public CREEPSModelCastleKing(float f, float f1) {
         float f2 = 0.0F;
         crown = new ModelRenderer(this, 40, 2);
         crown.addBox(-3F, -12F, -3F, 6, 4, 6, 0.0F);
@@ -63,8 +60,7 @@ public class CREEPSModelCastleKing extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         bipedHead.render(f5);
         bipedBody.render(f5);
@@ -80,22 +76,18 @@ public class CREEPSModelCastleKing extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        crown.rotateAngleY = bipedHead.rotateAngleY = f3 / (180F / (float)Math.PI);
-        crown.rotateAngleX = bipedHead.rotateAngleX = f4 / (180F / (float)Math.PI);
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        crown.rotateAngleY = bipedHead.rotateAngleY = f3 / (180F / (float) Math.PI);
+        crown.rotateAngleX = bipedHead.rotateAngleX = f4 / (180F / (float) Math.PI);
         rightshoe.rotateAngleX = bipedRightLeg.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        leftshoe.rotateAngleX = bipedLeftLeg.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        leftshoe.rotateAngleX = bipedLeftLeg.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         bipedRightLeg.rotateAngleY = 0.0F;
         bipedLeftLeg.rotateAngleY = 0.0F;
 
-        if (hammerswing != 0.0F)
-        {
+        if (hammerswing != 0.0F) {
             bipedRightArm.rotateAngleX = hammerswing;
-        }
-        else
-        {
-            bipedRightArm.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 2.0F * f1 * 0.5F;
+        } else {
+            bipedRightArm.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 2.0F * f1 * 0.5F;
         }
 
         bipedLeftArm.rotateAngleX = MathHelper.cos(f * 0.6662F) * 2.0F * f1 * 0.5F;

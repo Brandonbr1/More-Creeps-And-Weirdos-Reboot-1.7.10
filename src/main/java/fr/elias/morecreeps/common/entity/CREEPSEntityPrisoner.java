@@ -1,17 +1,9 @@
 package fr.elias.morecreeps.common.entity;
 
-import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.port.EnumParticleTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,12 +15,14 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class CREEPSEntityPrisoner extends EntityMob
-{
-    static final String prisonerTextures[] =
-    {
-        "morecreeps:textures/entity/prisoner1.png", "morecreeps:textures/entity/prisoner2.png", "morecreeps:textures/entity/prisoner3.png", "morecreeps:textures/entity/prisoner4.png", "morecreeps:textures/entity/prisoner5.png"
-    };
+import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
+import fr.elias.morecreeps.common.port.EnumParticleTypes;
+
+public class CREEPSEntityPrisoner extends EntityMob {
+
+    static final String prisonerTextures[] = { "morecreeps:textures/entity/prisoner1.png",
+        "morecreeps:textures/entity/prisoner2.png", "morecreeps:textures/entity/prisoner3.png",
+        "morecreeps:textures/entity/prisoner4.png", "morecreeps:textures/entity/prisoner5.png" };
     protected double attackRange;
     private int waittime;
     public float modelsize;
@@ -37,8 +31,7 @@ public class CREEPSEntityPrisoner extends EntityMob
     public boolean evil;
     public String texture;
 
-    public CREEPSEntityPrisoner(World world)
-    {
+    public CREEPSEntityPrisoner(World world) {
         super(world);
         texture = prisonerTextures[rand.nextInt(prisonerTextures.length)];
         attackRange = 16D;
@@ -47,15 +40,13 @@ public class CREEPSEntityPrisoner extends EntityMob
         waittime = rand.nextInt(1500) + 500;
         modelsize = 1.0F;
 
-        if (rand.nextInt(2) == 0)
-        {
+        if (rand.nextInt(2) == 0) {
             evil = true;
-        }
-        else
-        {
+        } else {
             evil = false;
         }
-        this.getNavigator().setBreakDoors(true);
+        this.getNavigator()
+            .setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.4D, true));
         this.tasks.addTask(2, new EntityAIMoveTowardsRestriction(this, 0.5D));
@@ -64,47 +55,40 @@ public class CREEPSEntityPrisoner extends EntityMob
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
     }
-    
-    public void applyEntityAttributes()
-    {
-    	super.applyEntityAttributes();
-    	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(25D);
-    	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.45D);
+
+    public void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
+            .setBaseValue(25D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+            .setBaseValue(0.45D);
     }
 
     /**
      * Checks if this entity is inside of an opaque block
      */
-    public boolean isEntityInsideOpaqueBlock()
-    {
+    public boolean isEntityInsideOpaqueBlock() {
         return false;
     }
-    
-    public double getYOffset()
-    {
+
+    public double getYOffset() {
         return inWater ? -1.4D : 0.0D;
     }
-    
-    public void onLivingUpdate()
-    {
-        if (inWater)
-        {
+
+    public void onLivingUpdate() {
+        if (inWater) {
             getYOffset();
-        }
-        else
-        {
+        } else {
             int i = MathHelper.floor_double(posX);
             int j = MathHelper.floor_double(getBoundingBox().minY);
             int k = MathHelper.floor_double(posZ);
             Block l = worldObj.getBlock(i, j, k);
             EntityPlayer entityplayersp = worldObj.getClosestPlayerToEntity(this, 2D);
 
-            if (entityplayersp != null)
-            {
+            if (entityplayersp != null) {
                 float f = entityplayersp.getDistanceToEntity(this);
 
-                if (f < 3F && canEntityBeSeen(entityplayersp) && !saved && timeonland++ > 50 && !evil)
-                {
+                if (f < 3F && canEntityBeSeen(entityplayersp) && !saved && timeonland++ > 50 && !evil) {
                     giveReward(entityplayersp);
                 }
             }
@@ -113,31 +97,28 @@ public class CREEPSEntityPrisoner extends EntityMob
         super.onLivingUpdate();
     }
 
-    public void giveReward(EntityPlayer player)
-    {
+    public void giveReward(EntityPlayer player) {
         MoreCreepsAndWeirdos.prisonercount++;
 
-        if (!((EntityPlayerMP)player).func_147099_x().hasAchievementUnlocked(MoreCreepsAndWeirdos.achieveprisoner))
-        {
+        if (!((EntityPlayerMP) player).func_147099_x()
+            .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieveprisoner)) {
             worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
             player.addStat(MoreCreepsAndWeirdos.achieveprisoner, 1);
             confetti(player);
-        }
-        else if (!((EntityPlayerMP)player).func_147099_x().hasAchievementUnlocked(MoreCreepsAndWeirdos.achieve5prisoner) && MoreCreepsAndWeirdos.prisonercount == 5)
-        {
-            worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
-            player.addStat(MoreCreepsAndWeirdos.achieve5prisoner, 1);
-            confetti(player);
-        }
-        else if (!((EntityPlayerMP)player).func_147099_x().hasAchievementUnlocked(MoreCreepsAndWeirdos.achieve10prisoner) && MoreCreepsAndWeirdos.prisonercount == 10)
-        {
-            worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
-            player.addStat(MoreCreepsAndWeirdos.achieve10prisoner, 1);
-            confetti(player);
-        }
+        } else if (!((EntityPlayerMP) player).func_147099_x()
+            .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieve5prisoner) && MoreCreepsAndWeirdos.prisonercount == 5) {
+                worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
+                player.addStat(MoreCreepsAndWeirdos.achieve5prisoner, 1);
+                confetti(player);
+            } else if (!((EntityPlayerMP) player).func_147099_x()
+                .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieve10prisoner)
+                && MoreCreepsAndWeirdos.prisonercount == 10) {
+                    worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
+                    player.addStat(MoreCreepsAndWeirdos.achieve10prisoner, 1);
+                    confetti(player);
+                }
 
-        if (rand.nextInt(4) == 0)
-        {
+        if (rand.nextInt(4) == 0) {
             worldObj.playSoundAtEntity(this, "morecreeps:prisonersorry", 1.0F, 1.0F);
             return;
         }
@@ -147,14 +128,14 @@ public class CREEPSEntityPrisoner extends EntityMob
         int i = rand.nextInt(4) + 1;
         faceEntity(player, 0.0F, 0.0F);
 
-        if (player != null)
-        {
+        if (player != null) {
             EntityItem entityitem = null;
 
-            switch (i)
-            {
+            switch (i) {
                 case 1:
-                    entityitem = entityDropItem(new ItemStack(MoreCreepsAndWeirdos.lolly, rand.nextInt(2) + 1, 0), 1.0F);
+                    entityitem = entityDropItem(
+                        new ItemStack(MoreCreepsAndWeirdos.lolly, rand.nextInt(2) + 1, 0),
+                        1.0F);
                     break;
 
                 case 2:
@@ -166,31 +147,33 @@ public class CREEPSEntityPrisoner extends EntityMob
                     break;
 
                 case 4:
-                    entityitem = entityDropItem(new ItemStack(MoreCreepsAndWeirdos.money, rand.nextInt(20) + 1, 0), 1.0F);
+                    entityitem = entityDropItem(
+                        new ItemStack(MoreCreepsAndWeirdos.money, rand.nextInt(20) + 1, 0),
+                        1.0F);
                     break;
 
                 default:
-                    entityitem = entityDropItem(new ItemStack(MoreCreepsAndWeirdos.money, rand.nextInt(5) + 1, 0), 1.0F);
+                    entityitem = entityDropItem(
+                        new ItemStack(MoreCreepsAndWeirdos.money, rand.nextInt(5) + 1, 0),
+                        1.0F);
                     break;
             }
 
-            double d = -MathHelper.sin((((EntityPlayer)(player)).rotationYaw * (float)Math.PI) / 180F);
-            double d1 = MathHelper.cos((((EntityPlayer)(player)).rotationYaw * (float)Math.PI) / 180F);
-            entityitem.posX = ((EntityPlayer)(player)).posX + d * 0.5D;
-            entityitem.posY = ((EntityPlayer)(player)).posY + 0.5D;
-            entityitem.posZ = ((EntityPlayer)(player)).posZ + d1 * 0.5D;
+            double d = -MathHelper.sin((((EntityPlayer) (player)).rotationYaw * (float) Math.PI) / 180F);
+            double d1 = MathHelper.cos((((EntityPlayer) (player)).rotationYaw * (float) Math.PI) / 180F);
+            entityitem.posX = ((EntityPlayer) (player)).posX + d * 0.5D;
+            entityitem.posY = ((EntityPlayer) (player)).posY + 0.5D;
+            entityitem.posZ = ((EntityPlayer) (player)).posZ + d1 * 0.5D;
         }
     }
 
     /**
      * Called when the entity is attacked.
      */
-    public boolean attackEntityFrom(DamageSource damagesource, float i)
-    {
+    public boolean attackEntityFrom(DamageSource damagesource, float i) {
         Entity entity = damagesource.getEntity();
 
-        if (entity instanceof EntityPlayer)
-        {
+        if (entity instanceof EntityPlayer) {
             evil = true;
         }
 
@@ -201,8 +184,7 @@ public class CREEPSEntityPrisoner extends EntityMob
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound)
-    {
+    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         nbttagcompound.setFloat("modelsize", modelsize);
         nbttagcompound.setBoolean("saved", saved);
@@ -213,8 +195,7 @@ public class CREEPSEntityPrisoner extends EntityMob
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound)
-    {
+    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
         modelsize = nbttagcompound.getFloat("modelsize");
         saved = nbttagcompound.getBoolean("saved");
@@ -225,28 +206,80 @@ public class CREEPSEntityPrisoner extends EntityMob
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
-    public int getMaxSpawnedInChunk()
-    {
+    public int getMaxSpawnedInChunk() {
         return 1;
     }
 
-    private void smoke()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 2; j++)
-            {
+    private void smoke() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 2; j++) {
                 double d = rand.nextGaussian() * 0.02D;
                 double d1 = rand.nextGaussian() * 0.02D;
                 double d2 = rand.nextGaussian() * 0.02D;
-                worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, ((posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width) + (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, d, d1, d2);
-                worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width - (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, d, d1, d2);
-                worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F) + (double)i) - (double)width, d, d1, d2);
-                worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)i - (double)width, d, d1, d2);
-                worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, ((posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width) + (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F) + (double)i) - (double)width, d, d1, d2);
-                worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width - (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)i - (double)width, d, d1, d2);
-                worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, ((posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width) + (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F) + (double)i) - (double)width, d, d1, d2);
-                worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width - (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)i - (double)width, d, d1, d2);
+                worldObj.spawnParticle(
+                    EnumParticleTypes.EXPLOSION_NORMAL,
+                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    EnumParticleTypes.EXPLOSION_NORMAL,
+                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    EnumParticleTypes.EXPLOSION_NORMAL,
+                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    EnumParticleTypes.EXPLOSION_NORMAL,
+                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    EnumParticleTypes.EXPLOSION_NORMAL,
+                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    EnumParticleTypes.EXPLOSION_NORMAL,
+                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    EnumParticleTypes.EXPLOSION_NORMAL,
+                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    EnumParticleTypes.EXPLOSION_NORMAL,
+                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
+                    d,
+                    d1,
+                    d2);
             }
         }
     }
@@ -254,14 +287,10 @@ public class CREEPSEntityPrisoner extends EntityMob
     /**
      * Returns the sound this mob makes while it's alive.
      */
-    protected String getLivingSound()
-    {
-        if (rand.nextInt(5) == 0)
-        {
+    protected String getLivingSound() {
+        if (rand.nextInt(5) == 0) {
             return "morecreeps:prisoner";
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -269,25 +298,27 @@ public class CREEPSEntityPrisoner extends EntityMob
     /**
      * Returns the sound this mob makes when it is hurt.
      */
-    protected String getHurtSound()
-    {
+    protected String getHurtSound() {
         return "morecreeps:prisonerhurt";
     }
 
     /**
      * Returns the sound this mob makes on death.
      */
-    protected String getDeathSound()
-    {
+    protected String getDeathSound() {
         return "morecreeps:prisonerdeath";
     }
 
-    public void confetti(EntityPlayer player)
-    {
-        double d = -MathHelper.sin((player.rotationYaw * (float)Math.PI) / 180F);
-        double d1 = MathHelper.cos((player.rotationYaw * (float)Math.PI) / 180F);
+    public void confetti(EntityPlayer player) {
+        double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
+        double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
         CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(worldObj);
-        creepsentitytrophy.setLocationAndAngles(player.posX + d * 3D, player.posY - 2D, player.posZ + d1 * 3D, player.rotationYaw, 0.0F);
+        creepsentitytrophy.setLocationAndAngles(
+            player.posX + d * 3D,
+            player.posY - 2D,
+            player.posZ + d1 * 3D,
+            player.rotationYaw,
+            0.0F);
         worldObj.spawnEntityInWorld(creepsentitytrophy);
     }
 }

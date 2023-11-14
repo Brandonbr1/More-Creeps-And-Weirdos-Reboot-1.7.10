@@ -4,8 +4,8 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class CREEPSModelSquimp extends ModelBase
-{
+public class CREEPSModelSquimp extends ModelBase {
+
     public ModelRenderer head;
     public ModelRenderer body;
     public ModelRenderer leg1;
@@ -13,18 +13,15 @@ public class CREEPSModelSquimp extends ModelBase
     public ModelRenderer leg3;
     public ModelRenderer leg4;
 
-    public CREEPSModelSquimp()
-    {
+    public CREEPSModelSquimp() {
         this(0.0F);
     }
 
-    public CREEPSModelSquimp(float f)
-    {
+    public CREEPSModelSquimp(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelSquimp(float f, float f1)
-    {
+    public CREEPSModelSquimp(float f, float f1) {
         byte byte0 = 10;
         head = new ModelRenderer(this, 0, 0);
         head.addBox(-4F, -4F, -4F, 8, 8, 8, f);
@@ -57,8 +54,7 @@ public class CREEPSModelSquimp extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         head.render(f5);
         body.render(f5);
@@ -71,10 +67,9 @@ public class CREEPSModelSquimp extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        head.rotateAngleX = -(f4 / (180F / (float)Math.PI));
-        head.rotateAngleY = f3 / (180F / (float)Math.PI);
-        body.rotateAngleX = ((float)Math.PI / 2F);
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        head.rotateAngleX = -(f4 / (180F / (float) Math.PI));
+        head.rotateAngleY = f3 / (180F / (float) Math.PI);
+        body.rotateAngleX = ((float) Math.PI / 2F);
     }
 }

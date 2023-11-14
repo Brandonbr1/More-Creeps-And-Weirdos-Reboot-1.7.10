@@ -2,8 +2,6 @@ package fr.elias.morecreeps.common.entity;
 
 import java.util.List;
 
-import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.port.EnumParticleTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
@@ -15,8 +13,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-public class CREEPSEntityTombstone extends EntityAnimal
-{
+import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
+import fr.elias.morecreeps.common.port.EnumParticleTypes;
+
+public class CREEPSEntityTombstone extends EntityAnimal {
+
     public int interest;
     private boolean primed;
     public boolean tamed;
@@ -51,8 +52,7 @@ public class CREEPSEntityTombstone extends EntityAnimal
     public String basetexture;
     public String texture;
 
-    public CREEPSEntityTombstone(World world)
-    {
+    public CREEPSEntityTombstone(World world) {
         super(world);
         texture = "morecreeps:textures/entity/tombstone.png";
         basetexture = "";
@@ -86,58 +86,53 @@ public class CREEPSEntityTombstone extends EntityAnimal
         skillspeed = 0;
         deathtype = "";
     }
-    
-    public void applyEntityAttributes()
-    {
-    	super.applyEntityAttributes();
-    	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100D);
-    	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.0D);
-    }
 
+    public void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
+            .setBaseValue(100D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+            .setBaseValue(0.0D);
+    }
 
     /**
      * This function is used when two same-species animals in 'love mode' breed to generate the new baby animal.
      */
-    public EntityAnimal createChild(EntityAgeable entityanimal)
-    {
+    public EntityAnimal createChild(EntityAgeable entityanimal) {
         return new CREEPSEntityTombstone(worldObj);
     }
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
-    public boolean interact(EntityPlayer entityplayer)
-    {
+    public boolean interact(EntityPlayer entityplayer) {
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
         used = false;
 
-        if (itemstack == null)
-        {
-            entityplayer.addChatMessage(new ChatComponentText("Use a \2474LifeGem\247f on this tombstone to bring your pet back to life!"));
+        if (itemstack == null) {
+            entityplayer.addChatMessage(
+                new ChatComponentText("Use a \2474LifeGem\247f on this tombstone to bring your pet back to life!"));
             return false;
         }
 
-        if (itemstack != null && itemstack.getItem() != MoreCreepsAndWeirdos.lifegem)
-        {
-        	entityplayer.addChatMessage(new ChatComponentText("Use a \2474LifeGem\247f on this tombstone to bring your pet back to life!"));
+        if (itemstack != null && itemstack.getItem() != MoreCreepsAndWeirdos.lifegem) {
+            entityplayer.addChatMessage(
+                new ChatComponentText("Use a \2474LifeGem\247f on this tombstone to bring your pet back to life!"));
             return false;
         }
 
-        if (itemstack != null && itemstack.getItem() == MoreCreepsAndWeirdos.lifegem)
-        {
+        if (itemstack != null && itemstack.getItem() == MoreCreepsAndWeirdos.lifegem) {
             itemstack.stackSize--;
             entityplayer.swingItem();
 
-            if (itemstack.stackSize < 1)
-            {
+            if (itemstack.stackSize < 1) {
                 entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, null);
                 itemstack.stackSize = 0;
             }
 
             smoke();
 
-            if (deathtype.equals("GuineaPig"))
-            {
+            if (deathtype.equals("GuineaPig")) {
                 CREEPSEntityGuineaPig creepsentityguineapig = new CREEPSEntityGuineaPig(worldObj);
                 creepsentityguineapig.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
                 creepsentityguineapig.interest = interest;
@@ -161,12 +156,9 @@ public class CREEPSEntityTombstone extends EntityAnimal
                 creepsentityguineapig.skillspeed = skillspeed;
                 creepsentityguineapig.texture = basetexture;
 
-                if (wanderstate == 1)
-                {
+                if (wanderstate == 1) {
                     creepsentityguineapig.moveSpeed = 0.0F;
-                }
-                else
-                {
+                } else {
                     creepsentityguineapig.moveSpeed = speedboost <= 0 ? baseSpeed : baseSpeed + 0.5F;
                 }
 
@@ -174,8 +166,7 @@ public class CREEPSEntityTombstone extends EntityAnimal
                 setDead();
             }
 
-            if (deathtype.equals("Hotdog"))
-            {
+            if (deathtype.equals("Hotdog")) {
                 CREEPSEntityHotdog creepsentityhotdog = new CREEPSEntityHotdog(worldObj);
                 creepsentityhotdog.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
                 creepsentityhotdog.interest = interest;
@@ -200,18 +191,14 @@ public class CREEPSEntityTombstone extends EntityAnimal
                 creepsentityhotdog.health = 5;
                 creepsentityhotdog.texture = basetexture;
 
-                if (wanderstate == 1)
-                {
+                if (wanderstate == 1) {
                     creepsentityhotdog.moveSpeed = 0.0F;
-                }
-                else
-                {
+                } else {
                     creepsentityhotdog.moveSpeed = speedboost <= 0 ? baseSpeed : baseSpeed + 0.5F;
                 }
 
-                if(!worldObj.isRemote)
-                worldObj.spawnEntityInWorld(creepsentityhotdog);
-                
+                if (!worldObj.isRemote) worldObj.spawnEntityInWorld(creepsentityhotdog);
+
                 setDead();
             }
         }
@@ -219,26 +206,35 @@ public class CREEPSEntityTombstone extends EntityAnimal
         return true;
     }
 
-    private void smoke()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            for (int j = 0; j < 30; j++)
-            {
+    private void smoke() {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 30; j++) {
                 double d = rand.nextGaussian() * 0.02D;
                 double d2 = rand.nextGaussian() * 0.02D;
                 double d4 = rand.nextGaussian() * 0.02D;
-                worldObj.spawnParticle(EnumParticleTypes.HEART, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + 0.5D + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, d, d2, d4);
+                worldObj.spawnParticle(
+                    EnumParticleTypes.HEART,
+                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                    posY + 0.5D + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                    d,
+                    d2,
+                    d4);
             }
 
-            for (int k = 0; k < 4; k++)
-            {
-                for (int l = 0; l < 10; l++)
-                {
+            for (int k = 0; k < 4; k++) {
+                for (int l = 0; l < 10; l++) {
                     double d1 = rand.nextGaussian() * 0.02D;
                     double d3 = rand.nextGaussian() * 0.02D;
                     double d5 = rand.nextGaussian() * 0.02D;
-                    worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + (double)(rand.nextFloat() * height) + (double)k, (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, d1, d3, d5);
+                    worldObj.spawnParticle(
+                        EnumParticleTypes.EXPLOSION_NORMAL,
+                        (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                        posY + (double) (rand.nextFloat() * height) + (double) k,
+                        (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                        d1,
+                        d3,
+                        d5);
                 }
             }
         }
@@ -248,29 +244,22 @@ public class CREEPSEntityTombstone extends EntityAnimal
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
-    public void onLivingUpdate()
-    {
-    }
+    public void onLivingUpdate() {}
 
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
-    public boolean getCanSpawnHere()
-    {
+    public boolean getCanSpawnHere() {
         return true;
     }
 
     /**
      * Returns the sound this mob makes while it's alive.
      */
-    protected String getLivingSound()
-    {
-        if (rand.nextInt(10) == 0)
-        {
+    protected String getLivingSound() {
+        if (rand.nextInt(10) == 0) {
             return "morecreeps:tombstone";
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -278,24 +267,21 @@ public class CREEPSEntityTombstone extends EntityAnimal
     /**
      * Returns the sound this mob makes when it is hurt.
      */
-    protected String getHurtSound()
-    {
+    protected String getHurtSound() {
         return null;
     }
 
     /**
      * Returns the sound this mob makes on death.
      */
-    protected String getDeathSound()
-    {
+    protected String getDeathSound() {
         return null;
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound)
-    {
+    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         nbttagcompound.setString("DeathType", deathtype);
         nbttagcompound.setInteger("Interest", interest);
@@ -324,8 +310,7 @@ public class CREEPSEntityTombstone extends EntityAnimal
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound)
-    {
+    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
         deathtype = nbttagcompound.getString("DeathType");
         interest = nbttagcompound.getInteger("Interest");
@@ -351,31 +336,26 @@ public class CREEPSEntityTombstone extends EntityAnimal
         modelsize = nbttagcompound.getFloat("ModelSize");
     }
 
-    public void onDeath(Entity entity)
-    {
-    }
+    public void onDeath(Entity entity) {}
 
     /**
      * Determines if an entity can be despawned, used on idle far away entities
      */
-    protected boolean canDespawn()
-    {
+    protected boolean canDespawn() {
         return false;
     }
 
     /**
      * Checks if this entity is inside of an opaque block
      */
-    public boolean isEntityInsideOpaqueBlock()
-    {
+    public boolean isEntityInsideOpaqueBlock() {
         return false;
     }
 
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
-    public int getMaxSpawnedInChunk()
-    {
+    public int getMaxSpawnedInChunk() {
         return 1;
     }
 }

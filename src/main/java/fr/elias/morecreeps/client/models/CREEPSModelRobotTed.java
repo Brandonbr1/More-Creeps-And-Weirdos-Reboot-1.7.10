@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelRobotTed extends ModelBase
-{
+public class CREEPSModelRobotTed extends ModelBase {
+
     public ModelRenderer tedhead;
     public ModelRenderer body;
     public ModelRenderer body2;
@@ -34,18 +34,15 @@ public class CREEPSModelRobotTed extends ModelBase
     public boolean isSneak;
     public float robotsize;
 
-    public CREEPSModelRobotTed()
-    {
+    public CREEPSModelRobotTed() {
         this(0.0F);
     }
 
-    public CREEPSModelRobotTed(float f)
-    {
+    public CREEPSModelRobotTed(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelRobotTed(float f, float f1)
-    {
+    public CREEPSModelRobotTed(float f, float f1) {
         float f2 = 0.0F;
         tedhead = new ModelRenderer(this, 0, 0);
         tedhead.addBox(-2.5F, -6F, -3F, 5, 6, 6, f2);
@@ -100,8 +97,7 @@ public class CREEPSModelRobotTed extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         tedhead.render(f5);
         body.render(f5);
@@ -122,23 +118,22 @@ public class CREEPSModelRobotTed extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        tedhead.rotateAngleY = f3 / (180F / (float)Math.PI);
-        tedhead.rotateAngleX = f4 / (180F / (float)Math.PI);
-        hornR.rotateAngleY = f3 / (180F / (float)Math.PI);
-        hornR.rotateAngleX = f4 / (180F / (float)Math.PI);
-        hornL.rotateAngleY = f3 / (180F / (float)Math.PI);
-        hornL.rotateAngleX = f4 / (180F / (float)Math.PI);
-        visor.rotateAngleY = f3 / (180F / (float)Math.PI);
-        visor.rotateAngleX = f4 / (180F / (float)Math.PI);
-        eyeL.rotateAngleY = f3 / (180F / (float)Math.PI);
-        eyeL.rotateAngleX = f4 / (180F / (float)Math.PI);
-        eyeR.rotateAngleY = f3 / (180F / (float)Math.PI);
-        eyeR.rotateAngleX = f4 / (180F / (float)Math.PI);
-        arm1R.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 3F * f1 * 0.5F - 0.5F;
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        tedhead.rotateAngleY = f3 / (180F / (float) Math.PI);
+        tedhead.rotateAngleX = f4 / (180F / (float) Math.PI);
+        hornR.rotateAngleY = f3 / (180F / (float) Math.PI);
+        hornR.rotateAngleX = f4 / (180F / (float) Math.PI);
+        hornL.rotateAngleY = f3 / (180F / (float) Math.PI);
+        hornL.rotateAngleX = f4 / (180F / (float) Math.PI);
+        visor.rotateAngleY = f3 / (180F / (float) Math.PI);
+        visor.rotateAngleX = f4 / (180F / (float) Math.PI);
+        eyeL.rotateAngleY = f3 / (180F / (float) Math.PI);
+        eyeL.rotateAngleX = f4 / (180F / (float) Math.PI);
+        eyeR.rotateAngleY = f3 / (180F / (float) Math.PI);
+        eyeR.rotateAngleX = f4 / (180F / (float) Math.PI);
+        arm1R.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 3F * f1 * 0.5F - 0.5F;
         arm1L.rotateAngleX = MathHelper.cos(f * 0.6662F) * 3F * f1 * 0.5F - 0.5F;
-        arm2R.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 3F * f1 * 0.5F - 0.95F;
+        arm2R.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 3F * f1 * 0.5F - 0.95F;
         arm2L.rotateAngleX = MathHelper.cos(f * 0.6662F) * 3F * f1 * 0.5F - 0.95F;
     }
 }

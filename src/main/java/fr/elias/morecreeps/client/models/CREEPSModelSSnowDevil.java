@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelSSnowDevil extends ModelBase
-{
+public class CREEPSModelSSnowDevil extends ModelBase {
+
     public ModelRenderer horn1;
     public ModelRenderer horn2;
     public ModelRenderer horn3;
@@ -20,8 +20,7 @@ public class CREEPSModelSSnowDevil extends ModelBase
     public ModelRenderer leg3;
     public ModelRenderer leg4;
 
-    public CREEPSModelSSnowDevil(int i, float f)
-    {
+    public CREEPSModelSSnowDevil(int i, float f) {
         horn1 = new ModelRenderer(this, 44, 0);
         horn1.addBox(8F, -9F, -4F, 1, 3, 1, f);
         horn1.setRotationPoint(0.0F, 18 - i, -6F);
@@ -63,8 +62,7 @@ public class CREEPSModelSSnowDevil extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         horn1.render(f5);
         horn2.render(f5);
@@ -83,25 +81,24 @@ public class CREEPSModelSSnowDevil extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        horn1.rotateAngleX = -(f4 / (180F / (float)Math.PI));
-        horn1.rotateAngleY = f3 / (180F / (float)Math.PI);
-        horn2.rotateAngleX = -(f4 / (180F / (float)Math.PI));
-        horn2.rotateAngleY = f3 / (180F / (float)Math.PI);
-        horn3.rotateAngleX = -(f4 / (180F / (float)Math.PI));
-        horn3.rotateAngleY = f3 / (180F / (float)Math.PI);
-        horn4.rotateAngleX = -(f4 / (180F / (float)Math.PI));
-        horn4.rotateAngleY = f3 / (180F / (float)Math.PI);
-        headSnowdevil.rotateAngleX = -(f4 / (180F / (float)Math.PI));
-        headSnowdevil.rotateAngleY = f3 / (180F / (float)Math.PI);
-        headSnowdevil2.rotateAngleX = -(f4 / (180F / (float)Math.PI));
-        headSnowdevil2.rotateAngleY = f3 / (180F / (float)Math.PI);
-        butt.rotateAngleX = ((float)Math.PI / 2F) + (float)((double)f1 * 0.053999999999999999D);
-        body.rotateAngleX = ((float)Math.PI / 2F);
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        horn1.rotateAngleX = -(f4 / (180F / (float) Math.PI));
+        horn1.rotateAngleY = f3 / (180F / (float) Math.PI);
+        horn2.rotateAngleX = -(f4 / (180F / (float) Math.PI));
+        horn2.rotateAngleY = f3 / (180F / (float) Math.PI);
+        horn3.rotateAngleX = -(f4 / (180F / (float) Math.PI));
+        horn3.rotateAngleY = f3 / (180F / (float) Math.PI);
+        horn4.rotateAngleX = -(f4 / (180F / (float) Math.PI));
+        horn4.rotateAngleY = f3 / (180F / (float) Math.PI);
+        headSnowdevil.rotateAngleX = -(f4 / (180F / (float) Math.PI));
+        headSnowdevil.rotateAngleY = f3 / (180F / (float) Math.PI);
+        headSnowdevil2.rotateAngleX = -(f4 / (180F / (float) Math.PI));
+        headSnowdevil2.rotateAngleY = f3 / (180F / (float) Math.PI);
+        butt.rotateAngleX = ((float) Math.PI / 2F) + (float) ((double) f1 * 0.053999999999999999D);
+        body.rotateAngleX = ((float) Math.PI / 2F);
         leg1.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
+        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         leg4.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
     }
 }

@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelBlorp extends ModelBase
-{
+public class CREEPSModelBlorp extends ModelBase {
+
     public ModelRenderer headBlorp;
     public ModelRenderer unusedModel;
     public ModelRenderer body;
@@ -22,8 +22,7 @@ public class CREEPSModelBlorp extends ModelBase
     public ModelRenderer nose;
     public ModelRenderer ant;
 
-    public CREEPSModelBlorp()
-    {
+    public CREEPSModelBlorp() {
         float f = 0.0F;
         int i = 4;
         ant = new ModelRenderer(this, 28, 0);
@@ -71,8 +70,7 @@ public class CREEPSModelBlorp extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         ant.render(f5);
         nose.render(f5);
@@ -91,20 +89,19 @@ public class CREEPSModelBlorp extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        ant.rotateAngleY = f3 / (180F / (float)Math.PI);
-        ant.rotateAngleX = f4 / (180F / (float)Math.PI);
-        nose.rotateAngleY = f3 / (180F / (float)Math.PI);
-        nose.rotateAngleX = f4 / (180F / (float)Math.PI);
-        headBlorp.rotateAngleY = f3 / (180F / (float)Math.PI);
-        headBlorp.rotateAngleX = f4 / (180F / (float)Math.PI);
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        ant.rotateAngleY = f3 / (180F / (float) Math.PI);
+        ant.rotateAngleX = f4 / (180F / (float) Math.PI);
+        nose.rotateAngleY = f3 / (180F / (float) Math.PI);
+        nose.rotateAngleX = f4 / (180F / (float) Math.PI);
+        headBlorp.rotateAngleY = f3 / (180F / (float) Math.PI);
+        headBlorp.rotateAngleX = f4 / (180F / (float) Math.PI);
         leg3.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-        leg1.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-        arm1R.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.0F * f1 * 0.5F;
+        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
+        leg1.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
+        arm1R.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.0F * f1 * 0.5F;
         arm1L.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.0F * f1 * 0.5F;
-        arm2R.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.5F * f1 * 0.5F;
+        arm2R.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.5F * f1 * 0.5F;
         arm2L.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.5F * f1 * 0.5F;
         headBlorp.rotationPointY = MathHelper.cos(f * 0.6662F) * 6F * f1 - 10F;
         nose.rotationPointY = MathHelper.cos(f * 0.6662F) * 6F * f1 - 10F;

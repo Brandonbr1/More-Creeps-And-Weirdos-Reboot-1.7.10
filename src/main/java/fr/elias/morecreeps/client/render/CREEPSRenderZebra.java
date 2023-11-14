@@ -1,9 +1,5 @@
 package fr.elias.morecreeps.client.render;
 
-import org.lwjgl.opengl.GL11;
-
-import fr.elias.morecreeps.client.models.CREEPSModelZebra;
-import fr.elias.morecreeps.common.entity.CREEPSEntityZebra;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -12,18 +8,21 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
-public class CREEPSRenderZebra extends RenderLiving
-{
+import org.lwjgl.opengl.GL11;
+
+import fr.elias.morecreeps.client.models.CREEPSModelZebra;
+import fr.elias.morecreeps.common.entity.CREEPSEntityZebra;
+
+public class CREEPSRenderZebra extends RenderLiving {
+
     protected CREEPSModelZebra modelBipedMain;
 
-    public CREEPSRenderZebra(CREEPSModelZebra creepsmodelzebra, float f)
-    {
+    public CREEPSRenderZebra(CREEPSModelZebra creepsmodelzebra, float f) {
         super(creepsmodelzebra, f);
         modelBipedMain = creepsmodelzebra;
     }
 
-    protected void fattenup(CREEPSEntityZebra creepsentityzebra, float f)
-    {
+    protected void fattenup(CREEPSEntityZebra creepsentityzebra, float f) {
         GL11.glScalef(creepsentityzebra.modelsize, creepsentityzebra.modelsize, creepsentityzebra.modelsize);
     }
 
@@ -31,28 +30,29 @@ public class CREEPSRenderZebra extends RenderLiving
      * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
      * entityLiving, partialTickTime
      */
-    protected void preRenderCallback(EntityLivingBase entityliving, float f)
-    {
-        CREEPSEntityZebra creepsentityzebra = (CREEPSEntityZebra)entityliving;
+    protected void preRenderCallback(EntityLivingBase entityliving, float f) {
+        CREEPSEntityZebra creepsentityzebra = (CREEPSEntityZebra) entityliving;
         modelBipedMain.tamed = creepsentityzebra.tamed;
-        fattenup((CREEPSEntityZebra)entityliving, f);
+        fattenup((CREEPSEntityZebra) entityliving, f);
     }
 
-    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2, float f, float f1)
-    {
+    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2, float f, float f1) {
         super.doRender(entityliving, d, d1, d2, f, f1);
         float f2 = 1.6F;
         float f3 = 0.01666667F * f2;
         float f4 = entityliving.getDistanceToEntity(renderManager.livingPlayer);
         String s = "";
-        s = (new StringBuilder()).append(s).append(((CREEPSEntityZebra)entityliving).name).toString();
+        s = (new StringBuilder()).append(s)
+            .append(((CREEPSEntityZebra) entityliving).name)
+            .toString();
 
-        if (f4 < 25F && s.length() > 0 && ((CREEPSEntityZebra)entityliving).riddenByEntity == null)
-        {
-            s = (new StringBuilder()).append("\2476").append(s).toString();
+        if (f4 < 25F && s.length() > 0 && ((CREEPSEntityZebra) entityliving).riddenByEntity == null) {
+            s = (new StringBuilder()).append("\2476")
+                .append(s)
+                .toString();
             FontRenderer fontrenderer = getFontRendererFromRenderManager();
             GL11.glPushMatrix();
-            GL11.glTranslatef((float)d + 0.0F, (float)d1 + 1.1F, (float)d2);
+            GL11.glTranslatef((float) d + 0.0F, (float) d1 + 1.1F, (float) d2);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
             GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -63,8 +63,8 @@ public class CREEPSRenderZebra extends RenderLiving
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             Tessellator tessellator = Tessellator.instance;
-            float f5 = (2.0F - ((CREEPSEntityZebra)entityliving).modelsize) * 80F;
-            int i = -100 + (int)f5;
+            float f5 = (2.0F - ((CREEPSEntityZebra) entityliving).modelsize) * 80F;
+            int i = -100 + (int) f5;
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             tessellator.startDrawingQuads();
             int j = fontrenderer.getStringWidth(s) / 2;
@@ -85,18 +85,17 @@ public class CREEPSRenderZebra extends RenderLiving
             GL11.glPopMatrix();
         }
     }
-    public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
-    {
-        doRenderLiving((EntityLiving)entity, d, d1, d2, f, f1);
+
+    public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
+        doRenderLiving((EntityLiving) entity, d, d1, d2, f, f1);
     }
 
-    protected ResourceLocation getEntityTexture(CREEPSEntityZebra entity)
-    {
-		return new ResourceLocation(entity.texture);
-	}
+    protected ResourceLocation getEntityTexture(CREEPSEntityZebra entity) {
+        return new ResourceLocation(entity.texture);
+    }
 
-	protected ResourceLocation getEntityTexture(Entity entity) {
+    protected ResourceLocation getEntityTexture(Entity entity) {
 
-		return getEntityTexture((CREEPSEntityZebra) entity);
-	}
+        return getEntityTexture((CREEPSEntityZebra) entity);
+    }
 }

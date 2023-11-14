@@ -4,23 +4,20 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class CREEPSModelTombstone extends ModelBase
-{
+public class CREEPSModelTombstone extends ModelBase {
+
     public ModelRenderer cross1;
     public ModelRenderer cross2;
 
-    public CREEPSModelTombstone()
-    {
+    public CREEPSModelTombstone() {
         this(0.0F);
     }
 
-    public CREEPSModelTombstone(float f)
-    {
+    public CREEPSModelTombstone(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelTombstone(float f, float f1)
-    {
+    public CREEPSModelTombstone(float f, float f1) {
         cross1 = new ModelRenderer(this, 0, 0);
         cross1.addBox(-1.5F, -13F, -1.5F, 3, 13, 3, 0.0F);
         cross1.setRotationPoint(0.0F, 25F, 0.0F);
@@ -40,8 +37,7 @@ public class CREEPSModelTombstone extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
         cross1.render(f5);
         cross2.render(f5);
@@ -50,8 +46,7 @@ public class CREEPSModelTombstone extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity)
-    {
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
         super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
     }
 }

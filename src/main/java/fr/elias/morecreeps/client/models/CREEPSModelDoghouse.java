@@ -4,8 +4,8 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class CREEPSModelDoghouse extends ModelBase
-{
+public class CREEPSModelDoghouse extends ModelBase {
+
     public ModelRenderer body;
     public ModelRenderer roof2;
     public ModelRenderer roof1;
@@ -17,18 +17,15 @@ public class CREEPSModelDoghouse extends ModelBase
     public ModelRenderer win3;
     public ModelRenderer win4;
 
-    public CREEPSModelDoghouse()
-    {
+    public CREEPSModelDoghouse() {
         this(2.0F);
     }
 
-    public CREEPSModelDoghouse(float f)
-    {
+    public CREEPSModelDoghouse(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelDoghouse(float f, float f1)
-    {
+    public CREEPSModelDoghouse(float f, float f1) {
         body = new ModelRenderer(this, 0, 0);
         body.addBox(-5F, -10F, -5F, 10, 7, 10, 0.0F);
         body.setRotationPoint(0.0F, 27F, 0.0F);
@@ -104,8 +101,7 @@ public class CREEPSModelDoghouse extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
         body.render(f5);
         roof2.render(f5);
@@ -122,8 +118,7 @@ public class CREEPSModelDoghouse extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity)
-    {
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
         super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
     }
 }

@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelDesertLizard extends ModelBase
-{
+public class CREEPSModelDesertLizard extends ModelBase {
+
     public ModelRenderer headDesertlizard;
     public ModelRenderer fin;
     public ModelRenderer body;
@@ -20,20 +20,17 @@ public class CREEPSModelDesertLizard extends ModelBase
     public float tailwag;
     public int taildirection;
 
-    public CREEPSModelDesertLizard()
-    {
+    public CREEPSModelDesertLizard() {
         this(6, 0.0F);
         tailwag = 0.0F;
         taildirection = 1;
     }
 
-    public CREEPSModelDesertLizard(float f)
-    {
+    public CREEPSModelDesertLizard(float f) {
         this(6, f);
     }
 
-    public CREEPSModelDesertLizard(int i, float f)
-    {
+    public CREEPSModelDesertLizard(int i, float f) {
         fin = new ModelRenderer(this, 16, 9);
         fin.addBox(0.0F, -8F, -2F, 1, 16, 7, f);
         fin.setRotationPoint(0.0F, 17 - i, 2.0F);
@@ -69,8 +66,7 @@ public class CREEPSModelDesertLizard extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         headDesertlizard.render(f5);
         fin.render(f5);
@@ -87,30 +83,24 @@ public class CREEPSModelDesertLizard extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        headDesertlizard.rotateAngleX = -(f4 / (180F / (float)Math.PI));
-        headDesertlizard.rotateAngleY = f3 / (180F / (float)Math.PI);
-        mouth.rotateAngleX = -(f4 / (180F / (float)Math.PI));
-        mouth.rotateAngleY = f3 / (180F / (float)Math.PI);
-        fin.rotateAngleX = ((float)Math.PI / 2F);
-        body.rotateAngleX = ((float)Math.PI / 2F);
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        headDesertlizard.rotateAngleX = -(f4 / (180F / (float) Math.PI));
+        headDesertlizard.rotateAngleY = f3 / (180F / (float) Math.PI);
+        mouth.rotateAngleX = -(f4 / (180F / (float) Math.PI));
+        mouth.rotateAngleY = f3 / (180F / (float) Math.PI);
+        fin.rotateAngleX = ((float) Math.PI / 2F);
+        body.rotateAngleX = ((float) Math.PI / 2F);
 
-        if (taildirection > 0)
-        {
+        if (taildirection > 0) {
             tailwag += 0.0008F;
 
-            if (tailwag > 0.18F)
-            {
+            if (tailwag > 0.18F) {
                 taildirection = taildirection * -1;
             }
-        }
-        else
-        {
+        } else {
             tailwag -= 0.0008F;
 
-            if ((double)tailwag < -0.20000000000000001D)
-            {
+            if ((double) tailwag < -0.20000000000000001D) {
                 taildirection = taildirection * -1;
             }
         }
@@ -120,8 +110,8 @@ public class CREEPSModelDesertLizard extends ModelBase
         tail0.rotateAngleX = 1.440796F;
         tail1.rotateAngleX = 1.380796F;
         leg1.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
+        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         leg4.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
     }
 }

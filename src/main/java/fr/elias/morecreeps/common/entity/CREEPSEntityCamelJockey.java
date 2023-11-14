@@ -11,8 +11,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public class CREEPSEntityCamelJockey extends EntityMob
-{
+public class CREEPSEntityCamelJockey extends EntityMob {
+
     protected double attackrange;
     public boolean bone;
     protected int attack;
@@ -35,8 +35,7 @@ public class CREEPSEntityCamelJockey extends EntityMob
     public double speed;
     public double strength;
 
-    public CREEPSEntityCamelJockey(World world)
-    {
+    public CREEPSEntityCamelJockey(World world) {
         super(world);
         bone = false;
         texture = "morecreeps:textures/entity/jockey.png";
@@ -50,37 +49,37 @@ public class CREEPSEntityCamelJockey extends EntityMob
         modelsize = 0.6F;
         health = 25;
         speed = 0.55;
-        strength = 1; 
+        strength = 1;
     }
 
-    public void applyEntityAttributes()
-    {
-    	super.applyEntityAttributes();
-    	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(health);
-    	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speed);
-    	this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(strength);
+    public void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
+            .setBaseValue(health);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+            .setBaseValue(speed);
+        this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
+            .setBaseValue(strength);
     }
 
     /**
      * Called to update the entity's position/logic.
      */
-    public void onUpdate()
-    {
+    public void onUpdate() {
         super.onUpdate();
 
-        if (ridingEntity == null)
-        {
-            for (int i = 0; i < worldObj.loadedEntityList.size(); i++)
-            {
-                Entity entity = (Entity)worldObj.loadedEntityList.get(i);
+        if (ridingEntity == null) {
+            for (int i = 0; i < worldObj.loadedEntityList.size(); i++) {
+                Entity entity = (Entity) worldObj.loadedEntityList.get(i);
 
-                if (((entity instanceof CREEPSEntityCamel) || entity.riddenByEntity == null) && (entity instanceof CREEPSEntityCamel) && entity.riddenByEntity == null && !((CREEPSEntityCamel)entity).tamed)
-                {
+                if (((entity instanceof CREEPSEntityCamel) || entity.riddenByEntity == null)
+                    && (entity instanceof CREEPSEntityCamel)
+                    && entity.riddenByEntity == null
+                    && !((CREEPSEntityCamel) entity).tamed) {
                     double d = entity.getDistance(posX, posY, posZ);
-                    CREEPSEntityCamel creepsentitycamel = (CREEPSEntityCamel)entity;
+                    CREEPSEntityCamel creepsentitycamel = (CREEPSEntityCamel) entity;
 
-                    if (d < 4D && entity.riddenByEntity == null)
-                    {
+                    if (d < 4D && entity.riddenByEntity == null) {
                         mountEntity(entity);
                     }
 
@@ -88,15 +87,12 @@ public class CREEPSEntityCamelJockey extends EntityMob
                     creepsentitycamel.tamed = false;
                     creepsentitycamel.name = "";
 
-                    if (d < 16D && creepsentitycamel.canEntityBeSeen(this))
-                    {
+                    if (d < 16D && creepsentitycamel.canEntityBeSeen(this)) {
                         this.attackEntity(creepsentitycamel, 0);
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             rotationYaw = ridingEntity.rotationYaw;
         }
     }
@@ -104,28 +100,22 @@ public class CREEPSEntityCamelJockey extends EntityMob
     /**
      * Returns the Y Offset of this entity.
      */
-    public double getYOffset()
-    {
-        if (ridingEntity instanceof CREEPSEntityCamel)
-        {
-            return (double)(this.getYOffset() + 1.5F);
-        }
-        else
-        {
-            return (double)this.getYOffset();
+    public double getYOffset() {
+        if (ridingEntity instanceof CREEPSEntityCamel) {
+            return (double) (this.getYOffset() + 1.5F);
+        } else {
+            return (double) this.getYOffset();
         }
     }
 
-    public void updateRiderPosition()
-    {
+    public void updateRiderPosition() {
         riddenByEntity.setPosition(posX, posY + getMountedYOffset() + riddenByEntity.getYOffset(), posZ);
     }
 
     /**
      * Returns the Y offset from the entity's position for any entity riding this one.
      */
-    public double getMountedYOffset()
-    {
+    public double getMountedYOffset() {
         return 0.5D;
     }
 
@@ -133,12 +123,10 @@ public class CREEPSEntityCamelJockey extends EntityMob
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
-    public void onLivingUpdate()
-    {
+    public void onLivingUpdate() {
         super.onLivingUpdate();
 
-        if (handleWaterMovement())
-        {
+        if (handleWaterMovement()) {
             motionY = 0.15999999642372131D;
         }
     }
@@ -147,42 +135,32 @@ public class CREEPSEntityCamelJockey extends EntityMob
      * Takes a coordinate in and returns a weight to determine how likely this creature will try to path to the block.
      * Args: x, y, z
      */
-    public float getBlockPathWeight(int x, int y, int z)
-    {
-        if (worldObj.getBlock(x, y, z) == Blocks.sand || worldObj.getBlock(x, y, z) == Blocks.gravel)
-        {
+    public float getBlockPathWeight(int x, int y, int z) {
+        if (worldObj.getBlock(x, y, z) == Blocks.sand || worldObj.getBlock(x, y, z) == Blocks.gravel) {
             return 10F;
-        }
-        else
-        {
-            return -(float)y;
+        } else {
+            return -(float) y;
         }
     }
 
     /**
      * Called when the entity is attacked.
      */
-    public boolean attackEntityFrom(DamageSource damagesource, int i)
-    {
+    public boolean attackEntityFrom(DamageSource damagesource, int i) {
         Entity entity = damagesource.getEntity();
         hungry = false;
 
-        if (super.attackEntityFrom(DamageSource.causeMobDamage(this), i))
-        {
-            if (riddenByEntity == entity || ridingEntity == entity)
-            {
+        if (super.attackEntityFrom(DamageSource.causeMobDamage(this), i)) {
+            if (riddenByEntity == entity || ridingEntity == entity) {
                 return true;
             }
 
-            if (entity != this && worldObj.difficultySetting.getDifficultyId() > 0)
-            {
+            if (entity != this && worldObj.difficultySetting.getDifficultyId() > 0) {
                 this.attackEntityAsMob(entity);
             }
 
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -190,22 +168,22 @@ public class CREEPSEntityCamelJockey extends EntityMob
     /**
      * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
      */
-    protected void attackEntity(Entity entity, float f)
-    {
-        if (onGround)
-        {
+    protected void attackEntity(Entity entity, float f) {
+        if (onGround) {
             double d = entity.posX - posX;
             double d1 = entity.posZ - posZ;
             float f1 = MathHelper.sqrt_double(d * d + d1 * d1);
-            motionX = (d / (double)f1) * 0.20000000000000001D * (0.850000011920929D + motionX * 0.20000000298023224D);
-            motionZ = (d1 / (double)f1) * 0.20000000000000001D * (0.80000001192092896D + motionZ * 0.20000000298023224D);
+            motionX = (d / (double) f1) * 0.20000000000000001D * (0.850000011920929D + motionX * 0.20000000298023224D);
+            motionZ = (d1 / (double) f1) * 0.20000000000000001D
+                * (0.80000001192092896D + motionZ * 0.20000000298023224D);
             motionY = 0.10000000596246449D;
             fallDistance = -25F;
         }
 
-        if ((double)f < 2D && entity.getBoundingBox().maxY > this.getBoundingBox().minY && entity.getBoundingBox().minY < this.getBoundingBox().maxY && !(entity instanceof CREEPSEntityCamel))
-        {
-            //attackTime = 20;
+        if ((double) f < 2D && entity.getBoundingBox().maxY > this.getBoundingBox().minY
+            && entity.getBoundingBox().minY < this.getBoundingBox().maxY
+            && !(entity instanceof CREEPSEntityCamel)) {
+            // attackTime = 20;
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), attack);
         }
     }
@@ -213,30 +191,27 @@ public class CREEPSEntityCamelJockey extends EntityMob
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
-    public boolean getCanSpawnHere()
-    {
+    public boolean getCanSpawnHere() {
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(this.getBoundingBox().minY);
         int k = MathHelper.floor_double(posZ);
         int l = worldObj.getBlockLightOpacity(i, j, k);
-        //Block i1 = worldObj.getBlockState(new BlockPos(getPosition())).getBlock();
+        // Block i1 = worldObj.getBlockState(new BlockPos(getPosition())).getBlock();
 
-        if (j < 50)
-        {
+        if (j < 50) {
             return super.getCanSpawnHere();
-        }
-        else
-        {
+        } else {
             return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && l > 6 && super.getCanSpawnHere();
-        	//return (i1 == Blocks.sand || i1 == Blocks.dirt || i1 == Blocks.gravel) && i1 != Blocks.cobblestone && worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).size() == 0 && worldObj.checkBlockCollision(getBoundingBox()) && worldObj.canBlockSeeSky(getPosition()) && l > 6;
+            // return (i1 == Blocks.sand || i1 == Blocks.dirt || i1 == Blocks.gravel) && i1 != Blocks.cobblestone &&
+            // worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).size() == 0 &&
+            // worldObj.checkBlockCollision(getBoundingBox()) && worldObj.canBlockSeeSky(getPosition()) && l > 6;
         }
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound)
-    {
+    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         nbttagcompound.setBoolean("Hungry", hungry);
         nbttagcompound.setFloat("ModelSize", modelsize);
@@ -245,8 +220,7 @@ public class CREEPSEntityCamelJockey extends EntityMob
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound)
-    {
+    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
         hungry = nbttagcompound.getBoolean("Hungry");
         modelsize = nbttagcompound.getFloat("ModelSize");
@@ -255,27 +229,25 @@ public class CREEPSEntityCamelJockey extends EntityMob
     /**
      * Plays living's sound at its position
      */
-    public void playLivingSound()
-    {
+    public void playLivingSound() {
         String s = getLivingSound();
 
-        if (s != null)
-        {
-            worldObj.playSoundAtEntity(this, s, getSoundVolume(), (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
+        if (s != null) {
+            worldObj.playSoundAtEntity(
+                this,
+                s,
+                getSoundVolume(),
+                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
         }
     }
 
     /**
      * Returns the sound this mob makes while it's alive.
      */
-    protected String getLivingSound()
-    {
-        if (ridingEntity != null)
-        {
+    protected String getLivingSound() {
+        if (ridingEntity != null) {
             return "morecreeps:cameljockeyget";
-        }
-        else
-        {
+        } else {
             return "morecreeps:cameljockey";
         }
     }
@@ -283,31 +255,26 @@ public class CREEPSEntityCamelJockey extends EntityMob
     /**
      * Returns the sound this mob makes when it is hurt.
      */
-    protected String getHurtSound()
-    {
+    protected String getHurtSound() {
         return "morecreeps:cameljockeyhurt";
     }
 
     /**
      * Returns the sound this mob makes on death.
      */
-    protected String getDeathSound()
-    {
+    protected String getDeathSound() {
         return "morecreeps:cameljockeydeath";
     }
 
     /**
      * Called when the mob's health reaches 0.
      */
-    public void onDeath(DamageSource damagesource)
-    {
-        if (rand.nextInt(10) == 0)
-        {
+    public void onDeath(DamageSource damagesource) {
+        if (rand.nextInt(10) == 0) {
             dropItem(Items.porkchop, rand.nextInt(3) + 1);
         }
 
-        if (rand.nextInt(10) == 0)
-        {
+        if (rand.nextInt(10) == 0) {
             dropItem(Items.reeds, rand.nextInt(3) + 1);
         }
 
@@ -317,8 +284,7 @@ public class CREEPSEntityCamelJockey extends EntityMob
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
-    public int getMaxSpawnedInChunk()
-    {
+    public int getMaxSpawnedInChunk() {
         return 2;
     }
 }

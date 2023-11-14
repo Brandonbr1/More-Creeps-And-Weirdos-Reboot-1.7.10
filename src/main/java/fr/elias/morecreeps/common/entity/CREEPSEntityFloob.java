@@ -1,17 +1,10 @@
 package fr.elias.morecreeps.common.entity;
 
-import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -23,8 +16,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class CREEPSEntityFloob extends EntityMob
-{
+import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
+
+public class CREEPSEntityFloob extends EntityMob {
+
     private boolean foundplayer;
     private boolean stolen;
     private PathEntity pathToEntity;
@@ -45,8 +40,7 @@ public class CREEPSEntityFloob extends EntityMob
     public float modelsize;
     public String texture;
 
-    public CREEPSEntityFloob(World world)
-    {
+    public CREEPSEntityFloob(World world) {
         super(world);
         texture = "morecreeps:textures/entity/floob.png";
         stolen = false;
@@ -56,7 +50,8 @@ public class CREEPSEntityFloob extends EntityMob
         rayTime = rand.nextInt(50) + 50;
         isImmuneToFire = true;
         modelsize = 1.0F;
-        this.getNavigator().setBreakDoors(true);
+        this.getNavigator()
+            .setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.5D));
         this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
@@ -65,19 +60,21 @@ public class CREEPSEntityFloob extends EntityMob
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 1, true));
     }
-    protected void applyEntityAttributes()
-    {
+
+    protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(25);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
+            .setBaseValue(25);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+            .setBaseValue(0.5D);
+        this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
+            .setBaseValue(1D);
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound)
-    {
+    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         nbttagcompound.setFloat("ModelSize", modelsize);
     }
@@ -85,8 +82,7 @@ public class CREEPSEntityFloob extends EntityMob
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound)
-    {
+    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
         modelsize = nbttagcompound.getFloat("ModelSize");
     }
@@ -95,53 +91,51 @@ public class CREEPSEntityFloob extends EntityMob
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
-    public void onLivingUpdate()
-    {
-        if (this.getAttackTarget() instanceof CREEPSEntityFloob)
-        {
-        	this.setAttackTarget(null);
+    public void onLivingUpdate() {
+        if (this.getAttackTarget() instanceof CREEPSEntityFloob) {
+            this.setAttackTarget(null);
         }
 
         targetedEntity = worldObj.getClosestPlayerToEntity(this, 3D);
 
-        if (targetedEntity != null && (targetedEntity instanceof EntityPlayer) && canEntityBeSeen(targetedEntity))
-        {
+        if (targetedEntity != null && (targetedEntity instanceof EntityPlayer) && canEntityBeSeen(targetedEntity)) {
             float f = rotationYaw;
 
-            for (int i = 0; i < 360; i++)
-            {
+            for (int i = 0; i < 360; i++) {
                 rotationYaw = i;
             }
 
-            if (rand.nextInt(4) == 0)
-            {
+            if (rand.nextInt(4) == 0) {
                 setAttackTarget((EntityLivingBase) targetedEntity);
             }
         }
 
-        if (rayTime-- < 1)
-        {
+        if (rayTime-- < 1) {
             rayTime = rand.nextInt(50) + 25;
             double d = 64D;
             targetedEntity = worldObj.getClosestPlayerToEntity(this, 30D);
 
-            if (targetedEntity != null && canEntityBeSeen(targetedEntity) && targetedEntity == getAttackTarget() && (targetedEntity instanceof EntityPlayer) && !isDead)
-            {
+            if (targetedEntity != null && canEntityBeSeen(targetedEntity)
+                && targetedEntity == getAttackTarget()
+                && (targetedEntity instanceof EntityPlayer)
+                && !isDead) {
                 double d1 = targetedEntity.getDistanceSqToEntity(this);
 
-                if (d1 < d * d && d1 > 3D)
-                {
+                if (d1 < d * d && d1 > 3D) {
                     double d2 = targetedEntity.posX - posX;
-                    double d3 = (targetedEntity.getBoundingBox().minY + (double)(targetedEntity.height / 2.0F)) - (posY + (double)(height / 2.0F));
+                    double d3 = (targetedEntity.getBoundingBox().minY + (double) (targetedEntity.height / 2.0F))
+                        - (posY + (double) (height / 2.0F));
                     double d4 = targetedEntity.posZ - posZ;
-                    renderYawOffset = rotationYaw = (-(float)Math.atan2(d2, d4) * 180F) / (float)Math.PI;
-                    worldObj.playSoundAtEntity(this, "morecreeps:raygun", getSoundVolume(), (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+                    renderYawOffset = rotationYaw = (-(float) Math.atan2(d2, d4) * 180F) / (float) Math.PI;
+                    worldObj.playSoundAtEntity(
+                        this,
+                        "morecreeps:raygun",
+                        getSoundVolume(),
+                        (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
                     CREEPSEntityRay creepsentityray = new CREEPSEntityRay(worldObj, this);
 
-                    if (creepsentityray != null && getHealth() > 0)
-                    {
-                    	if(!worldObj.isRemote)
-                        worldObj.spawnEntityInWorld(creepsentityray);
+                    if (creepsentityray != null && getHealth() > 0) {
+                        if (!worldObj.isRemote) worldObj.spawnEntityInWorld(creepsentityray);
                     }
                 }
             }
@@ -154,16 +148,12 @@ public class CREEPSEntityFloob extends EntityMob
      * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in attacking
      * (Animals, Spiders at day, peaceful PigZombies).
      */
-    protected Entity findPlayerToAttack()
-    {
+    protected Entity findPlayerToAttack() {
         EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(this, 20D);
 
-        if (entityplayer != null && canEntityBeSeen(entityplayer))
-        {
+        if (entityplayer != null && canEntityBeSeen(entityplayer)) {
             return entityplayer;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -171,109 +161,110 @@ public class CREEPSEntityFloob extends EntityMob
     /**
      * Plays living's sound at its position
      */
-    public void playLivingSound()
-    {
+    public void playLivingSound() {
         String s = getLivingSound();
 
-        if (s != null)
-        {
-            worldObj.playSoundAtEntity(this, s, getSoundVolume(), (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (1.0F - modelsize) * 2.0F);
+        if (s != null) {
+            worldObj.playSoundAtEntity(
+                this,
+                s,
+                getSoundVolume(),
+                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (1.0F - modelsize) * 2.0F);
         }
     }
 
     /**
      * Returns the sound this mob makes while it's alive.
      */
-    protected String getLivingSound()
-    {
+    protected String getLivingSound() {
         return "morecreeps:floob";
     }
 
     /**
      * Returns the sound this mob makes when it is hurt.
      */
-    protected String getHurtSound()
-    {
+    protected String getHurtSound() {
         return "morecreeps:floobhurt";
     }
 
     /**
      * Returns the sound this mob makes on death.
      */
-    protected String getDeathSound()
-    {
+    protected String getDeathSound() {
         return "morecreeps:floobdeath";
     }
 
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
-    public boolean getCanSpawnHere()
-    {
+    public boolean getCanSpawnHere() {
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(getBoundingBox().minY);
         int k = MathHelper.floor_double(posZ);
         int l = worldObj.getFullBlockLightValue(i, j, k);
         Block i1 = worldObj.getBlock(i, j - 1, k);
-        return i1 != Blocks.cobblestone && i1 != Blocks.log && i1 != Blocks.stone_slab && i1 != Blocks.double_stone_slab && i1 != Blocks.planks && i1 != Blocks.wool && worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).size() == 0 && worldObj.canBlockSeeTheSky(i, j, k) && rand.nextInt(5) == 0 && l > 10;
+        return i1 != Blocks.cobblestone && i1 != Blocks.log
+            && i1 != Blocks.stone_slab
+            && i1 != Blocks.double_stone_slab
+            && i1 != Blocks.planks
+            && i1 != Blocks.wool
+            && worldObj.getCollidingBoundingBoxes(this, getBoundingBox())
+                .size() == 0
+            && worldObj.canBlockSeeTheSky(i, j, k)
+            && rand.nextInt(5) == 0
+            && l > 10;
     }
 
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
-    public int getMaxSpawnedInChunk()
-    {
+    public int getMaxSpawnedInChunk() {
         return 1;
     }
 
     /**
      * Returns the item that this EntityLiving is holding, if any.
      */
-    public ItemStack getHeldItem()
-    {
+    public ItemStack getHeldItem() {
         return heldObj;
     }
 
-    public void confetti()
-    {
-    	MoreCreepsAndWeirdos.proxy.confettiA(this, worldObj);
+    public void confetti() {
+        MoreCreepsAndWeirdos.proxy.confettiA(this, worldObj);
     }
 
     /**
      * Called when the mob's health reaches 0.
      */
-    public void onDeath(DamageSource damagesource)
-    {
+    public void onDeath(DamageSource damagesource) {
         Object obj = damagesource.getEntity();
 
         EntityPlayer player = (EntityPlayer) damagesource.getEntity();
-        
-        if ((obj instanceof CREEPSEntityRocket) && ((CREEPSEntityRocket)obj).owner != null)
-        {
-            obj = ((CREEPSEntityRocket)obj).owner;
+
+        if ((obj instanceof CREEPSEntityRocket) && ((CREEPSEntityRocket) obj).owner != null) {
+            obj = ((CREEPSEntityRocket) obj).owner;
         }
 
-        if (obj instanceof EntityPlayer)
-        {
+        if (obj instanceof EntityPlayer) {
             MoreCreepsAndWeirdos.floobcount++;
 
-            if (!((EntityPlayerMP)player).func_147099_x().hasAchievementUnlocked(MoreCreepsAndWeirdos.achievefloobkill))
-            {
+            if (!((EntityPlayerMP) player).func_147099_x()
+                .hasAchievementUnlocked(MoreCreepsAndWeirdos.achievefloobkill)) {
                 worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
                 player.addStat(MoreCreepsAndWeirdos.achievefloobkill, 1);
                 confetti();
             }
 
-            if (!((EntityPlayerMP)player).func_147099_x().hasAchievementUnlocked(MoreCreepsAndWeirdos.achievefloobicide) && MoreCreepsAndWeirdos.floobcount >= 20)
-            {
+            if (!((EntityPlayerMP) player).func_147099_x()
+                .hasAchievementUnlocked(MoreCreepsAndWeirdos.achievefloobicide)
+                && MoreCreepsAndWeirdos.floobcount >= 20) {
                 worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
                 player.addStat(MoreCreepsAndWeirdos.achievefloobicide, 1);
                 confetti();
             }
         }
 
-        if (rand.nextInt(6) == 0)
-        {
+        if (rand.nextInt(6) == 0) {
             dropItem(MoreCreepsAndWeirdos.raygun, 1);
         }
 

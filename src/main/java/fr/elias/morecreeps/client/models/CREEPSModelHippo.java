@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelHippo extends ModelBase
-{
+public class CREEPSModelHippo extends ModelBase {
+
     public ModelRenderer headHippo;
     public ModelRenderer snout;
     public ModelRenderer body;
@@ -26,18 +26,15 @@ public class CREEPSModelHippo extends ModelBase
     public float tailwag;
     public int taildirection;
 
-    public CREEPSModelHippo()
-    {
+    public CREEPSModelHippo() {
         this(0.0F);
     }
 
-    public CREEPSModelHippo(float f)
-    {
+    public CREEPSModelHippo(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelHippo(float f, float f1)
-    {
+    public CREEPSModelHippo(float f, float f1) {
         taildirection = 1;
         float f2 = 0.0F;
         headHippo = new ModelRenderer(this, 16, 20);
@@ -96,8 +93,7 @@ public class CREEPSModelHippo extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         headHippo.render(f5);
         snout.render(f5);
@@ -120,28 +116,22 @@ public class CREEPSModelHippo extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        headHippo.rotateAngleY = f3 / (180F / (float)Math.PI);
-        headHippo.rotateAngleX = f4 / (180F / (float)Math.PI);
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        headHippo.rotateAngleY = f3 / (180F / (float) Math.PI);
+        headHippo.rotateAngleX = f4 / (180F / (float) Math.PI);
         snout.rotateAngleY = noseR.rotateAngleY = noseL.rotateAngleY = eyeR.rotateAngleY = eyeL.rotateAngleY = toothL.rotateAngleY = toothR.rotateAngleY = earL.rotateAngleY = earR.rotateAngleY = headHippo.rotateAngleY;
         snout.rotateAngleX = noseR.rotateAngleX = noseL.rotateAngleX = eyeR.rotateAngleX = eyeL.rotateAngleX = toothL.rotateAngleX = toothR.rotateAngleX = earL.rotateAngleX = earR.rotateAngleX = headHippo.rotateAngleX;
 
-        if (taildirection > 0)
-        {
+        if (taildirection > 0) {
             tailwag += 0.0002F;
 
-            if (tailwag > 0.067F)
-            {
+            if (tailwag > 0.067F) {
                 taildirection = taildirection * -1;
             }
-        }
-        else
-        {
+        } else {
             tailwag -= 0.0002F;
 
-            if ((double)tailwag < -0.067000000000000004D)
-            {
+            if ((double) tailwag < -0.067000000000000004D) {
                 taildirection = taildirection * -1;
             }
         }
@@ -149,8 +139,8 @@ public class CREEPSModelHippo extends ModelBase
         mouth.rotateAngleX = headHippo.rotateAngleX + 0.45203F + tailwag;
         mouth.rotateAngleY = headHippo.rotateAngleY;
         leg1.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
+        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         leg4.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
     }
 }

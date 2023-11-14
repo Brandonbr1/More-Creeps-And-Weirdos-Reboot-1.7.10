@@ -1,14 +1,12 @@
 package fr.elias.morecreeps.client.models;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelArmyGuy extends ModelBase
-{
+public class CREEPSModelArmyGuy extends ModelBase {
+
     public ModelRenderer bipedHead;
     public ModelRenderer bipedHeadwear;
     public ModelRenderer bipedBody;
@@ -37,20 +35,17 @@ public class CREEPSModelArmyGuy extends ModelBase
     public boolean head;
     public boolean shooting;
     public float modelsize;
-    //public float swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+    // public float swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
 
-    public CREEPSModelArmyGuy()
-    {
+    public CREEPSModelArmyGuy() {
         this(0.0F);
     }
 
-    public CREEPSModelArmyGuy(float f)
-    {
+    public CREEPSModelArmyGuy(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelArmyGuy(float f, float f1)
-    {
+    public CREEPSModelArmyGuy(float f, float f1) {
         armright = false;
         armleft = false;
         legright = false;
@@ -90,38 +85,31 @@ public class CREEPSModelArmyGuy extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         bipedHead.render(f5);
 
-        if (!head)
-        {
+        if (!head) {
             bipedBody.render(f5);
         }
 
-        if (!armright)
-        {
+        if (!armright) {
             bipedRightArm.render(f5);
         }
 
-        if (!armleft)
-        {
+        if (!armleft) {
             bipedLeftArm.render(f5);
         }
 
-        if (!legright)
-        {
+        if (!legright) {
             bipedRightLeg.render(f5);
         }
 
-        if (!legleft)
-        {
+        if (!legleft) {
             bipedLeftLeg.render(f5);
         }
 
-        if (!helmet)
-        {
+        if (!helmet) {
             bipedHeadwear.render(f5);
         }
     }
@@ -129,68 +117,65 @@ public class CREEPSModelArmyGuy extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        bipedHead.rotateAngleY = f3 / (180F / (float)Math.PI);
-        bipedHead.rotateAngleX = f4 / (180F / (float)Math.PI);
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        bipedHead.rotateAngleY = f3 / (180F / (float) Math.PI);
+        bipedHead.rotateAngleX = f4 / (180F / (float) Math.PI);
         bipedHeadwear.rotateAngleY = bipedHead.rotateAngleY;
         bipedHeadwear.rotateAngleX = bipedHead.rotateAngleX;
-        bipedRightArm.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 2.0F * f1 * 0.5F;
+        bipedRightArm.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 2.0F * f1 * 0.5F;
         bipedLeftArm.rotateAngleX = MathHelper.cos(f * 0.6662F) * 2.0F * f1 * 0.5F;
         bipedRightArm.rotateAngleZ = 0.0F;
         bipedLeftArm.rotateAngleZ = 0.0F;
         bipedRightLeg.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        bipedLeftLeg.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        bipedLeftLeg.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         bipedRightLeg.rotateAngleY = 0.0F;
         bipedLeftLeg.rotateAngleY = 0.0F;
 
-        if (isRiding)
-        {
-            bipedRightArm.rotateAngleX += -((float)Math.PI / 5F);
-            bipedLeftArm.rotateAngleX += -((float)Math.PI / 5F);
-            bipedRightLeg.rotateAngleX = -((float)Math.PI * 2F / 5F);
-            bipedLeftLeg.rotateAngleX = -((float)Math.PI * 2F / 5F);
-            bipedRightLeg.rotateAngleY = ((float)Math.PI / 10F);
-            bipedLeftLeg.rotateAngleY = -((float)Math.PI / 10F);
+        if (isRiding) {
+            bipedRightArm.rotateAngleX += -((float) Math.PI / 5F);
+            bipedLeftArm.rotateAngleX += -((float) Math.PI / 5F);
+            bipedRightLeg.rotateAngleX = -((float) Math.PI * 2F / 5F);
+            bipedLeftLeg.rotateAngleX = -((float) Math.PI * 2F / 5F);
+            bipedRightLeg.rotateAngleY = ((float) Math.PI / 10F);
+            bipedLeftLeg.rotateAngleY = -((float) Math.PI / 10F);
         }
 
-        if (heldItemLeft)
-        {
-            bipedLeftArm.rotateAngleX = bipedLeftArm.rotateAngleX * 0.5F - ((float)Math.PI / 10F);
+        if (heldItemLeft) {
+            bipedLeftArm.rotateAngleX = bipedLeftArm.rotateAngleX * 0.5F - ((float) Math.PI / 10F);
         }
 
-        if (heldItemRight)
-        {
-            bipedRightArm.rotateAngleX = bipedRightArm.rotateAngleX * 0.5F - ((float)Math.PI / 10F);
+        if (heldItemRight) {
+            bipedRightArm.rotateAngleX = bipedRightArm.rotateAngleX * 0.5F - ((float) Math.PI / 10F);
         }
 
         bipedRightArm.rotateAngleY = 0.0F;
         bipedLeftArm.rotateAngleY = 0.0F;
 
-        /*if (swingProgress > -9990F)
-        {
-            float f6 = swingProgress;
-            bipedBody.rotateAngleY = MathHelper.sin(MathHelper.sqrt_float(f6) * (float)Math.PI * 2.0F) * 0.2F;
-            bipedRightArm.rotationPointZ = MathHelper.sin(bipedBody.rotateAngleY) * 5F;
-            bipedRightArm.rotationPointX = -MathHelper.cos(bipedBody.rotateAngleY) * 5F;
-            bipedLeftArm.rotationPointZ = -MathHelper.sin(bipedBody.rotateAngleY) * 5F;
-            bipedLeftArm.rotationPointX = MathHelper.cos(bipedBody.rotateAngleY) * 5F;
-            bipedRightArm.rotateAngleY += bipedBody.rotateAngleY;
-            bipedLeftArm.rotateAngleY += bipedBody.rotateAngleY;
-            bipedLeftArm.rotateAngleX += bipedBody.rotateAngleY;
-            f6 = 1.0F - swingProgress;
-            f6 *= f6;
-            f6 *= f6;
-            f6 = 1.0F - f6;
-            float f7 = MathHelper.sin(f6 * (float)Math.PI);
-            float f8 = MathHelper.sin(swingProgress * (float)Math.PI) * -(bipedHead.rotateAngleX - 0.7F) * 0.75F;
-            bipedRightArm.rotateAngleX -= (double)f7 * 1.2D + (double)f8;
-            bipedRightArm.rotateAngleY += bipedBody.rotateAngleY * 2.0F;
-            bipedRightArm.rotateAngleZ = MathHelper.sin(swingProgress * (float)Math.PI) * -0.4F;
-        }*/
+        /*
+         * if (swingProgress > -9990F)
+         * {
+         * float f6 = swingProgress;
+         * bipedBody.rotateAngleY = MathHelper.sin(MathHelper.sqrt_float(f6) * (float)Math.PI * 2.0F) * 0.2F;
+         * bipedRightArm.rotationPointZ = MathHelper.sin(bipedBody.rotateAngleY) * 5F;
+         * bipedRightArm.rotationPointX = -MathHelper.cos(bipedBody.rotateAngleY) * 5F;
+         * bipedLeftArm.rotationPointZ = -MathHelper.sin(bipedBody.rotateAngleY) * 5F;
+         * bipedLeftArm.rotationPointX = MathHelper.cos(bipedBody.rotateAngleY) * 5F;
+         * bipedRightArm.rotateAngleY += bipedBody.rotateAngleY;
+         * bipedLeftArm.rotateAngleY += bipedBody.rotateAngleY;
+         * bipedLeftArm.rotateAngleX += bipedBody.rotateAngleY;
+         * f6 = 1.0F - swingProgress;
+         * f6 *= f6;
+         * f6 *= f6;
+         * f6 = 1.0F - f6;
+         * float f7 = MathHelper.sin(f6 * (float)Math.PI);
+         * float f8 = MathHelper.sin(swingProgress * (float)Math.PI) * -(bipedHead.rotateAngleX - 0.7F) * 0.75F;
+         * bipedRightArm.rotateAngleX -= (double)f7 * 1.2D + (double)f8;
+         * bipedRightArm.rotateAngleY += bipedBody.rotateAngleY * 2.0F;
+         * bipedRightArm.rotateAngleZ = MathHelper.sin(swingProgress * (float)Math.PI) * -0.4F;
+         * }
+         */
 
-        if (isSneak)
-        {
+        if (isSneak) {
             bipedBody.rotateAngleX = 0.5F;
             bipedRightLeg.rotateAngleX -= 0.0F;
             bipedLeftLeg.rotateAngleX -= 0.0F;
@@ -201,9 +186,7 @@ public class CREEPSModelArmyGuy extends ModelBase
             bipedRightLeg.rotationPointY = 9F;
             bipedLeftLeg.rotationPointY = 9F;
             bipedHead.rotationPointY = 1.0F;
-        }
-        else
-        {
+        } else {
             bipedBody.rotateAngleX = 0.0F;
             bipedRightLeg.rotationPointZ = 0.0F;
             bipedLeftLeg.rotationPointZ = 0.0F;
@@ -217,18 +200,14 @@ public class CREEPSModelArmyGuy extends ModelBase
         bipedRightArm.rotateAngleX += MathHelper.sin(f2 * 0.067F) * 0.05F;
         bipedLeftArm.rotateAngleX -= MathHelper.sin(f2 * 0.067F) * 0.05F;
 
-        if (shooting)
-        {
+        if (shooting) {
             bipedRightArm.rotateAngleX = -1.257079F;
-        }
-        else
-        {
+        } else {
             bipedRightArm.rotateAngleX = 0.0F;
         }
     }
 
-    public void renderEars(float f)
-    {
+    public void renderEars(float f) {
         bipedEars.rotateAngleY = bipedHead.rotateAngleY;
         bipedEars.rotateAngleX = bipedHead.rotateAngleX;
         bipedEars.rotationPointX = 0.0F;
@@ -236,12 +215,11 @@ public class CREEPSModelArmyGuy extends ModelBase
         bipedEars.render(f);
     }
 
-    public void renderCloak(float f)
-    {
+    public void renderCloak(float f) {
         bipedCloak.render(f);
     }
-    public void postRenderArm(float p_178718_1_)
-    {
+
+    public void postRenderArm(float p_178718_1_) {
         this.bipedRightArm.postRender(p_178718_1_);
     }
 }

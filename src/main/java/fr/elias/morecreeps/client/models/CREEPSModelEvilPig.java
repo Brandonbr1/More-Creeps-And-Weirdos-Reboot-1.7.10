@@ -7,8 +7,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelEvilPig extends ModelBase
-{
+public class CREEPSModelEvilPig extends ModelBase {
+
     public static Random rand = new Random();
     public ModelRenderer body;
     public ModelRenderer headEvilpig;
@@ -23,8 +23,7 @@ public class CREEPSModelEvilPig extends ModelBase
     public ModelRenderer headEvilpig5;
     public int headEvilpigpop;
 
-    public CREEPSModelEvilPig()
-    {
+    public CREEPSModelEvilPig() {
         byte byte0 = 6;
         headEvilpig = new ModelRenderer(this, 0, 0);
         headEvilpig.addBox(-16F, -4F, -10F, 8, 8, 8);
@@ -64,8 +63,7 @@ public class CREEPSModelEvilPig extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         body.render(f5);
         headEvilpig.render(f5);
@@ -83,32 +81,29 @@ public class CREEPSModelEvilPig extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        body.rotateAngleX = ((float)Math.PI / 2F);
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        body.rotateAngleX = ((float) Math.PI / 2F);
         leg1.rotateAngleX = MathHelper.cos(f * 0.6662F + 0.0F) * 1.4F * f1;
-        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
+        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         leg4.rotateAngleX = MathHelper.cos(f * 0.6662F + 0.0F) * 1.4F * f1;
         headEvilpig.rotateAngleX = -(f4 / 50.29578F);
         headEvilpig.rotateAngleY = f3 / 50.29578F;
-        headEvilpig1.rotateAngleX = -(f4 / (180F / (float)Math.PI));
-        headEvilpig1.rotateAngleY = f3 / (180F / (float)Math.PI);
+        headEvilpig1.rotateAngleX = -(f4 / (180F / (float) Math.PI));
+        headEvilpig1.rotateAngleY = f3 / (180F / (float) Math.PI);
         headEvilpig2.rotateAngleX = -(f4 / 52.29578F);
         headEvilpig2.rotateAngleY = f3 / 52.29578F;
         headEvilpig3.rotateAngleX = -(f4 / 52.29578F);
         headEvilpig3.rotateAngleY = f3 / 52.29578F;
-        headEvilpig4.rotateAngleX = -(f4 / (180F / (float)Math.PI));
-        headEvilpig4.rotateAngleY = f3 / (180F / (float)Math.PI);
+        headEvilpig4.rotateAngleX = -(f4 / (180F / (float) Math.PI));
+        headEvilpig4.rotateAngleY = f3 / (180F / (float) Math.PI);
         headEvilpig5.rotateAngleX = -(f4 / 50.29578F);
         headEvilpig5.rotateAngleY = f3 / 50.29578F;
 
-        if (rand.nextInt(50) == 0)
-        {
+        if (rand.nextInt(50) == 0) {
             headEvilpigpop++;
 
-            if (headEvilpigpop > 5)
-            {
+            if (headEvilpigpop > 5) {
                 headEvilpigpop = 0;
             }
 
@@ -120,33 +115,27 @@ public class CREEPSModelEvilPig extends ModelBase
             headEvilpig5.rotationPointZ = -6F;
             int i = headEvilpigpop;
 
-            if (i == 0)
-            {
+            if (i == 0) {
                 headEvilpig.rotationPointZ = -13F;
             }
 
-            if (i == 1)
-            {
+            if (i == 1) {
                 headEvilpig1.rotationPointZ = -16F;
             }
 
-            if (i == 2)
-            {
+            if (i == 2) {
                 headEvilpig2.rotationPointZ = -13F;
             }
 
-            if (i == 3)
-            {
+            if (i == 3) {
                 headEvilpig3.rotationPointZ = -9F;
             }
 
-            if (i == 4)
-            {
+            if (i == 4) {
                 headEvilpig4.rotationPointZ = -12F;
             }
 
-            if (i == 5)
-            {
+            if (i == 5) {
                 headEvilpig5.rotationPointZ = -9F;
             }
         }

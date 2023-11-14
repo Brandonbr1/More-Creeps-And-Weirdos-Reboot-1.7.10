@@ -1,6 +1,5 @@
 package fr.elias.morecreeps.common.entity;
 
-import fr.elias.morecreeps.client.config.CREEPSConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
@@ -14,8 +13,10 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public class CREEPSEntityFloobShip extends EntityFlying
-{
+import fr.elias.morecreeps.client.config.CREEPSConfig;
+
+public class CREEPSEntityFloobShip extends EntityFlying {
+
     private boolean foundplayer;
     private PathEntity pathToEntity;
     protected Entity playerToAttack;
@@ -30,8 +31,7 @@ public class CREEPSEntityFloobShip extends EntityFlying
     public int lifespan;
     public String texture;
 
-    public CREEPSEntityFloobShip(World world)
-    {
+    public CREEPSEntityFloobShip(World world) {
         super(world);
         texture = "morecreeps:textures/entity/floobship.png";
         hasAttacked = false;
@@ -47,18 +47,18 @@ public class CREEPSEntityFloobShip extends EntityFlying
         lifespan = rand.nextInt(10000) + 1500;
     }
 
-    protected void applyEntityAttributes()
-    {
+    protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(150D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
+            .setBaseValue(150D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+            .setBaseValue(0.0D);
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound)
-    {
+    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         nbttagcompound.setBoolean("Landed", landed);
         nbttagcompound.setInteger("FloobCounter", floobcounter);
@@ -69,8 +69,7 @@ public class CREEPSEntityFloobShip extends EntityFlying
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound)
-    {
+    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
         landed = nbttagcompound.getBoolean("Landed");
         floobcounter = nbttagcompound.getInteger("FloobCounter");
@@ -78,52 +77,40 @@ public class CREEPSEntityFloobShip extends EntityFlying
         lifespan = nbttagcompound.getInteger("LifeSpan");
     }
 
-    public void setAngles(float f, float f1)
-    {
-    }
+    public void setAngles(float f, float f1) {}
 
     /**
      * Called when the mob is falling. Calculates and applies fall damage.
      */
-    public void fall(float distance, float damageMultiplier)
-    {
-    }
+    public void fall(float distance, float damageMultiplier) {}
 
     /**
      * returns true if this entity is by a ladder, false otherwise
      */
-    public boolean isOnLadder()
-    {
+    public boolean isOnLadder() {
         return false;
     }
 
     /**
      * Sets the rotation of the entity
      */
-    protected void setRotation(float f, float f1)
-    {
-    }
+    protected void setRotation(float f, float f1) {}
 
     /**
      * Sets the entity's position and rotation. Args: posX, posY, posZ, yaw, pitch
      */
-    public void setPositionAndRotation(double d, double d1, double d2, float f, float f1)
-    {
-    }
+    public void setPositionAndRotation(double d, double d1, double d2, float f, float f1) {}
 
     /**
      * Sets the position and rotation. Only difference from the other one is no bounding on the rotation. Args: posX,
      * posY, posZ, yaw, pitch
      */
-    public void setPositionAndRotation2(double d, double d1, double d2, float f, float f1, int i)
-    {
-    }
+    public void setPositionAndRotation2(double d, double d1, double d2, float f, float f1, int i) {}
 
     /**
      * Returns true if this entity should push and be pushed by other entities when colliding.
      */
-    public boolean canBePushed()
-    {
+    public boolean canBePushed() {
         return false;
     }
 
@@ -131,13 +118,11 @@ public class CREEPSEntityFloobShip extends EntityFlying
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
-    public void onLivingUpdate()
-    {
+    public void onLivingUpdate() {
         floobcounter--;
         lifespan--;
 
-        if (handleWaterMovement())
-        {
+        if (handleWaterMovement()) {
             motionY += 0.2800000011920929D;
             motionX += 0.97999999999999998D;
             motionX += 0.97999999999999998D;
@@ -146,16 +131,13 @@ public class CREEPSEntityFloobShip extends EntityFlying
         isJumping = false;
         super.onLivingUpdate();
 
-        if (isJumping || landed)
-        {
+        if (isJumping || landed) {
             motionY = 0.0D;
             bump = 0.0F;
         }
 
-        if (!landed || !onGround)
-        {
-            if (posY < 100D && !firstreset)
-            {
+        if (!landed || !onGround) {
+            if (posY < 100D && !firstreset) {
                 motionY = 4D;
                 bump = 4F;
                 firstreset = true;
@@ -166,37 +148,35 @@ public class CREEPSEntityFloobShip extends EntityFlying
             motionX *= 0.97999999999999998D;
             motionZ *= 0.97999999999999998D;
 
-            if (onGround)
-            {
+            if (onGround) {
                 int i = MathHelper.floor_double(posX);
                 int k = MathHelper.floor_double(getBoundingBox().minY);
                 int l = MathHelper.floor_double(posZ);
                 Block i1 = worldObj.getBlock(i, k - 1, l);
 
-                if (i1 == Blocks.flowing_water || i1 == Blocks.water || i1 == Blocks.leaves || i1 == Blocks.cactus)
-                {
+                if (i1 == Blocks.flowing_water || i1 == Blocks.water || i1 == Blocks.leaves || i1 == Blocks.cactus) {
                     thrusters();
                     bump = 3F;
                     motionX = rand.nextFloat() * 2.8F;
                     motionY = rand.nextFloat() * 0.6F;
                     motionZ = rand.nextFloat() * 2.8F;
-                }
-                else
-                {
+                } else {
                     landed = true;
                 }
             }
-        }
-        else if (floobcounter < 1)
-        {
+        } else if (floobcounter < 1) {
             thrusters();
             floobcounter = rand.nextInt(300) + 400;
-            worldObj.playSoundAtEntity(this, "morecreeps:floobshipspawn", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+            worldObj.playSoundAtEntity(
+                this,
+                "morecreeps:floobshipspawn",
+                1.0F,
+                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 
-            for (int j = 0; j < rand.nextInt(4) + 3; j++)
-            {
+            for (int j = 0; j < rand.nextInt(4) + 3; j++) {
                 CREEPSEntityFloob creepsentityfloob = new CREEPSEntityFloob(worldObj);
-                creepsentityfloob.setLocationAndAngles(posX + 3D + (double)j, posY + 1.0D, posZ + (double)j, rotationYaw, 0.0F);
+                creepsentityfloob
+                    .setLocationAndAngles(posX + 3D + (double) j, posY + 1.0D, posZ + (double) j, rotationYaw, 0.0F);
                 creepsentityfloob.motionX = rand.nextFloat() * 1.5F;
                 creepsentityfloob.motionY = rand.nextFloat() * 2.0F;
                 creepsentityfloob.motionZ = rand.nextFloat() * 1.5F;
@@ -209,25 +189,24 @@ public class CREEPSEntityFloobShip extends EntityFlying
     /**
      * knocks back this entity
      */
-    public void knockBack(Entity entity, int i, double d, double d1)
-    {
-    }
+    public void knockBack(Entity entity, int i, double d, double d1) {}
 
     /**
      * Called when the entity is attacked.
      */
-    public boolean attackEntityFrom(DamageSource damagesource, float i)
-    {
+    public boolean attackEntityFrom(DamageSource damagesource, float i) {
         Entity entity = damagesource.getEntity();
 
-        if (entity instanceof EntityPlayer)
-        {
+        if (entity instanceof EntityPlayer) {
             thrusters();
-            worldObj.playSoundAtEntity(this, "morecreeps:floobshipclang", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+            worldObj.playSoundAtEntity(
+                this,
+                "morecreeps:floobshipclang",
+                1.0F,
+                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
         }
 
-        if (rand.nextInt(10) == 0)
-        {
+        if (rand.nextInt(10) == 0) {
             bump = rand.nextInt(3);
             motionX = rand.nextFloat() * 0.8F;
             motionZ = rand.nextFloat() * 0.8F;
@@ -238,8 +217,7 @@ public class CREEPSEntityFloobShip extends EntityFlying
         int l = MathHelper.floor_double(posZ);
         Block i1 = worldObj.getBlock(j, k - 1, l);
 
-        if (i1 == Blocks.flowing_water || i1 == Blocks.water || i1 == Blocks.leaves || i1 == Blocks.cactus)
-        {
+        if (i1 == Blocks.flowing_water || i1 == Blocks.water || i1 == Blocks.leaves || i1 == Blocks.cactus) {
             thrusters();
             bump = 3F;
             motionY = rand.nextFloat() * 0.8F;
@@ -250,37 +228,91 @@ public class CREEPSEntityFloobShip extends EntityFlying
         return super.attackEntityFrom(DamageSource.causeMobDamage(this), i);
     }
 
-    private void thrusters()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 2; j++)
-            {
+    private void thrusters() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 2; j++) {
                 double d = rand.nextGaussian() * 0.02D;
                 double d1 = rand.nextGaussian() * 0.02D;
                 double d2 = rand.nextGaussian() * 0.02D;
-                worldObj.spawnParticle("EXPLOSION".toLowerCase(), ((posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width) + (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, d, d1, d2);
-                worldObj.spawnParticle("EXPLOSION".toLowerCase(), (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width - (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, d, d1, d2);
-                worldObj.spawnParticle("EXPLOSION".toLowerCase(), (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F) + (double)i) - (double)width, d, d1, d2);
-                worldObj.spawnParticle("EXPLOSION".toLowerCase(), (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)i - (double)width, d, d1, d2);
-                worldObj.spawnParticle("EXPLOSION".toLowerCase(), ((posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width) + (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F) + (double)i) - (double)width, d, d1, d2);
-                worldObj.spawnParticle("EXPLOSION".toLowerCase(), (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width - (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)i - (double)width, d, d1, d2);
-                worldObj.spawnParticle("EXPLOSION".toLowerCase(), ((posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width) + (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F) + (double)i) - (double)width, d, d1, d2);
-                worldObj.spawnParticle("EXPLOSION".toLowerCase(), (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width - (double)i, posY + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)i - (double)width, d, d1, d2);
+                worldObj.spawnParticle(
+                    "EXPLOSION".toLowerCase(),
+                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    "EXPLOSION".toLowerCase(),
+                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    "EXPLOSION".toLowerCase(),
+                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    "EXPLOSION".toLowerCase(),
+                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    "EXPLOSION".toLowerCase(),
+                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    "EXPLOSION".toLowerCase(),
+                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    "EXPLOSION".toLowerCase(),
+                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
+                    d,
+                    d1,
+                    d2);
+                worldObj.spawnParticle(
+                    "EXPLOSION".toLowerCase(),
+                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
+                    posY + (double) (rand.nextFloat() * height),
+                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
+                    d,
+                    d1,
+                    d2);
             }
         }
     }
 
-    public void onDeath(Entity entity)
-    {
-        if (lifespan > 0 && getHealth() > 0)
-        {
+    public void onDeath(Entity entity) {
+        if (lifespan > 0 && getHealth() > 0) {
             return;
         }
 
-        if (lifespan > 0 && CREEPSConfig.floobshipExplode)
-        {
-            worldObj.playSoundAtEntity(this, "morecreeps:floobshipexplode", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+        if (lifespan > 0 && CREEPSConfig.floobshipExplode) {
+            worldObj.playSoundAtEntity(
+                this,
+                "morecreeps:floobshipexplode",
+                1.0F,
+                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
             worldObj.createExplosion(null, posX, posY, posZ, 8F, true);
         }
 
@@ -290,14 +322,10 @@ public class CREEPSEntityFloobShip extends EntityFlying
     /**
      * Will get destroyed next tick.
      */
-    public void setDead()
-    {
-        if (lifespan > 0 && getHealth() > 0)
-        {
+    public void setDead() {
+        if (lifespan > 0 && getHealth() > 0) {
             return;
-        }
-        else
-        {
+        } else {
             super.setDead();
             return;
         }
@@ -306,52 +334,56 @@ public class CREEPSEntityFloobShip extends EntityFlying
     /**
      * Returns the sound this mob makes while it's alive.
      */
-    protected String getLivingSound()
-    {
+    protected String getLivingSound() {
         return "morecreeps:floobship";
     }
 
     /**
      * Returns the sound this mob makes when it is hurt.
      */
-    protected String getHurtSound()
-    {
+    protected String getHurtSound() {
         return "morecreeps:floobship";
     }
 
     /**
      * Returns the sound this mob makes on death.
      */
-    protected String getDeathSound()
-    {
+    protected String getDeathSound() {
         return "morecreeps:floobshipexplode";
     }
 
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
-    public boolean getCanSpawnHere()
-    {
-    	//Method used by Minecraft below, probably better to leave it alone?
+    public boolean getCanSpawnHere() {
+        // Method used by Minecraft below, probably better to leave it alone?
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(getBoundingBox().minY);
         int k = MathHelper.floor_double(posZ);
         int l = worldObj.getFullBlockLightValue(i, j, k);
         Block i1 = worldObj.getBlock(i, j - 1, k);
         int j1 = worldObj.countEntities(CREEPSEntityFloobShip.class);
-        return i1 != Blocks.cobblestone && i1 != Blocks.log && i1 != Blocks.double_stone_slab && i1 != Blocks.stone_slab && i1 != Blocks.planks && i1 != Blocks.wool && worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).size() == 0 && worldObj.canBlockSeeTheSky(i, j, k) && posY > 100D && rand.nextInt(100) == 0 /*&& l > 10*/ && (worldObj.difficultySetting != EnumDifficulty.PEACEFUL || j1 >= 2);
+        return i1 != Blocks.cobblestone && i1 != Blocks.log
+            && i1 != Blocks.double_stone_slab
+            && i1 != Blocks.stone_slab
+            && i1 != Blocks.planks
+            && i1 != Blocks.wool
+            && worldObj.getCollidingBoundingBoxes(this, getBoundingBox())
+                .size() == 0
+            && worldObj.canBlockSeeTheSky(i, j, k)
+            && posY > 100D
+            && rand.nextInt(100) == 0 /* && l > 10 */
+            && (worldObj.difficultySetting != EnumDifficulty.PEACEFUL || j1 >= 2);
     }
 
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
-    public int getMaxSpawnedInChunk()
-    {
+    public int getMaxSpawnedInChunk() {
         return 1;
     }
 
-    public float getShadowSize()
-    {
+    public float getShadowSize() {
         return 2.8F;
     }
 }

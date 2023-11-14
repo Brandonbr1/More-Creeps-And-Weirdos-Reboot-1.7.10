@@ -1,13 +1,14 @@
 package fr.elias.morecreeps.client.models;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelSchlump extends ModelBase
-{
+import cpw.mods.fml.client.FMLClientHandler;
+
+public class CREEPSModelSchlump extends ModelBase {
+
     public ModelRenderer head;
     public ModelRenderer body;
     public ModelRenderer armL;
@@ -68,18 +69,15 @@ public class CREEPSModelSchlump extends ModelBase
     public ModelRenderer b39;
     public ModelRenderer b40;
 
-    public CREEPSModelSchlump()
-    {
+    public CREEPSModelSchlump() {
         this(0.0F);
     }
 
-    public CREEPSModelSchlump(float f)
-    {
+    public CREEPSModelSchlump(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelSchlump(float f, float f1)
-    {
+    public CREEPSModelSchlump(float f, float f1) {
         head = new ModelRenderer(this, 0, 0);
         head.addBox(-3F, -6F, -3F, 6, 6, 6, 0.0F);
         head.setRotationPoint(0.0F, 14.93333F, 4F);
@@ -420,7 +418,7 @@ public class CREEPSModelSchlump extends ModelBase
         b32.addBox(0.0F, 0.0F, 0.0F, 3, 2, 1, 0.0F);
         b32.setRotationPoint(16.86667F, 23.3F, -11.4F);
         b32.rotateAngleX = -1.553343F;
-        b32.rotateAngleY = (float)Math.PI;
+        b32.rotateAngleY = (float) Math.PI;
         b32.rotateAngleZ = 0.0F;
         b32.mirror = false;
         b34 = new ModelRenderer(this, 34, 20);
@@ -476,10 +474,12 @@ public class CREEPSModelSchlump extends ModelBase
     }
 
     private void initializeSwingProgress() {
-        if (FMLClientHandler.instance() != null &&
-            FMLClientHandler.instance().getClient() != null &&
-            FMLClientHandler.instance().getClient().thePlayer != null) {
-            swingProgress = FMLClientHandler.instance().getClient().thePlayer.swingProgress;
+        if (FMLClientHandler.instance() != null && FMLClientHandler.instance()
+            .getClient() != null
+            && FMLClientHandler.instance()
+                .getClient().thePlayer != null) {
+            swingProgress = FMLClientHandler.instance()
+                .getClient().thePlayer.swingProgress;
         } else {
             swingProgress = 0.0F;
         }
@@ -488,8 +488,7 @@ public class CREEPSModelSchlump extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         head.render(f5);
         body.render(f5);
@@ -503,228 +502,183 @@ public class CREEPSModelSchlump extends ModelBase
         earL.render(f5);
         nose.render(f5);
 
-        if (age > 100)
-        {
+        if (age > 100) {
             stash.render(f5);
         }
 
-        if (age > 200)
-        {
+        if (age > 200) {
             b1.render(f5);
         }
 
-        if (age > 300)
-        {
+        if (age > 300) {
             b2.render(f5);
         }
 
-        if (age > 400)
-        {
+        if (age > 400) {
             b3.render(f5);
         }
 
-        if (age > 500)
-        {
+        if (age > 500) {
             b4.render(f5);
         }
 
-        if (age > 600)
-        {
+        if (age > 600) {
             b5.render(f5);
         }
 
-        if (age > 700)
-        {
+        if (age > 700) {
             b6.render(f5);
         }
 
-        if (age > 800)
-        {
+        if (age > 800) {
             b7.render(f5);
         }
 
-        if (age > 900)
-        {
+        if (age > 900) {
             b8.render(f5);
         }
 
-        if (age > 1000)
-        {
+        if (age > 1000) {
             b9.render(f5);
         }
 
-        if (age > 1100)
-        {
+        if (age > 1100) {
             b10.render(f5);
         }
 
-        if (age > 1200)
-        {
+        if (age > 1200) {
             b11.render(f5);
         }
 
-        if (age > 1300)
-        {
+        if (age > 1300) {
             b12.render(f5);
         }
 
-        if (age > 1400)
-        {
+        if (age > 1400) {
             b13.render(f5);
         }
 
-        if (age > 1500)
-        {
+        if (age > 1500) {
             b14.render(f5);
         }
 
-        if (age > 1600)
-        {
+        if (age > 1600) {
             b15.render(f5);
         }
 
-        if (age > 1700)
-        {
+        if (age > 1700) {
             b16.render(f5);
         }
 
-        if (age > 1800)
-        {
+        if (age > 1800) {
             b17.render(f5);
         }
 
-        if (age > 1900)
-        {
+        if (age > 1900) {
             b18.render(f5);
         }
 
-        if (age > 2000)
-        {
+        if (age > 2000) {
             b19.render(f5);
         }
 
-        if (age > 2100)
-        {
+        if (age > 2100) {
             b20.render(f5);
         }
 
-        if (age > 2200)
-        {
+        if (age > 2200) {
             b21.render(f5);
         }
 
-        if (age > 2300)
-        {
+        if (age > 2300) {
             b22.render(f5);
         }
 
-        if (age > 2400)
-        {
+        if (age > 2400) {
             b23.render(f5);
         }
 
-        if (age > 2500)
-        {
+        if (age > 2500) {
             b24.render(f5);
         }
 
-        if (age > 2600)
-        {
+        if (age > 2600) {
             b25.render(f5);
         }
 
-        if (age > 2700)
-        {
+        if (age > 2700) {
             b26.render(f5);
         }
 
-        if (age > 2800)
-        {
+        if (age > 2800) {
             b27.render(f5);
         }
 
-        if (age > 2900)
-        {
+        if (age > 2900) {
             b28.render(f5);
         }
 
-        if (age > 3000)
-        {
+        if (age > 3000) {
             b29.render(f5);
         }
 
-        if (age > 3100)
-        {
+        if (age > 3100) {
             b30.render(f5);
         }
 
-        if (age > 3200)
-        {
+        if (age > 3200) {
             b31.render(f5);
         }
 
-        if (age > 3300)
-        {
+        if (age > 3300) {
             b32.render(f5);
         }
 
-        if (age > 3400)
-        {
+        if (age > 3400) {
             b33.render(f5);
         }
 
-        if (age > 3500)
-        {
+        if (age > 3500) {
             b34.render(f5);
         }
 
-        if (age > 3600)
-        {
+        if (age > 3600) {
             b35.render(f5);
         }
 
-        if (age > 3700)
-        {
+        if (age > 3700) {
             b36.render(f5);
         }
 
-        if (age > 3800)
-        {
+        if (age > 3800) {
             b37.render(f5);
         }
 
-        if (age > 3900)
-        {
+        if (age > 3900) {
             b38.render(f5);
         }
 
-        if (age > 4000)
-        {
+        if (age > 4000) {
             b39.render(f5);
         }
 
-        if (age > 4100)
-        {
+        if (age > 4100) {
             b40.render(f5);
         }
 
-        if (age > 5000)
-        {
+        if (age > 5000) {
             head2.render(f5);
         }
 
-        if (age > 5000)
-        {
+        if (age > 5000) {
             neck2.render(f5);
         }
 
-        if (age > 6000)
-        {
+        if (age > 6000) {
             neck3.render(f5);
         }
 
-        if (age > 6000)
-        {
+        if (age > 6000) {
             head3.render(f5);
         }
     }
@@ -732,18 +686,19 @@ public class CREEPSModelSchlump extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        armR.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 2.0F * f1 * 0.5F;
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        armR.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 2.0F * f1 * 0.5F;
         armL.rotateAngleX = MathHelper.cos(f * 0.6662F) * 2.0F * f1 * 0.5F;
         armR.rotateAngleZ = 0.0F;
         armL.rotateAngleZ = 0.0F;
         legR.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        legL.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        legL.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         nose.rotateAngleX = earL.rotateAngleX = earR.rotateAngleX = stash.rotateAngleX = head.rotateAngleX = 0.0F;
         nose.rotateAngleZ = earL.rotateAngleZ = earR.rotateAngleZ = stash.rotateAngleZ = head.rotateAngleZ = 0.0F;
-        nose.rotateAngleX = earL.rotateAngleX = earR.rotateAngleX = stash.rotateAngleX = head.rotateAngleX += MathHelper.sin(f2 * 0.067F) * 0.05F;
-        nose.rotateAngleZ = earL.rotateAngleZ = earR.rotateAngleZ = stash.rotateAngleZ = head.rotateAngleZ += MathHelper.cos(f2 * 0.09F) * 0.05F + 0.05F;
+        nose.rotateAngleX = earL.rotateAngleX = earR.rotateAngleX = stash.rotateAngleX = head.rotateAngleX += MathHelper
+            .sin(f2 * 0.067F) * 0.05F;
+        nose.rotateAngleZ = earL.rotateAngleZ = earR.rotateAngleZ = stash.rotateAngleZ = head.rotateAngleZ += MathHelper
+            .cos(f2 * 0.09F) * 0.05F + 0.05F;
         neck2.rotateAngleX = 0.0F;
         head2.rotateAngleX = 0.0F;
         neck2.rotateAngleZ = 0.669215F;
@@ -794,15 +749,14 @@ public class CREEPSModelSchlump extends ModelBase
         armR.rotateAngleY = 0.0F;
         armL.rotateAngleY = 0.0F;
 
-        if (swingProgress > -9990F)
-        {
+        if (swingProgress > -9990F) {
             float f6 = swingProgress;
             f6 = 1.0F - swingProgress;
             f6 *= f6;
             f6 *= f6;
             f6 = 1.0F - f6;
-            float f7 = MathHelper.sin(f6 * (float)Math.PI);
-            armR.rotateAngleZ = MathHelper.sin(swingProgress * (float)Math.PI) * -0.4F;
+            float f7 = MathHelper.sin(f6 * (float) Math.PI);
+            armR.rotateAngleZ = MathHelper.sin(swingProgress * (float) Math.PI) * -0.4F;
         }
 
         armR.rotateAngleZ += MathHelper.cos(f2 * 0.09F) * 0.05F + 0.05F;

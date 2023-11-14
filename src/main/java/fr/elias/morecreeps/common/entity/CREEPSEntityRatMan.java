@@ -4,16 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -24,8 +15,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public class CREEPSEntityRatMan extends EntityMob
-{
+public class CREEPSEntityRatMan extends EntityMob {
+
     protected double attackrange;
     protected int attack;
     public boolean jumper;
@@ -34,8 +25,7 @@ public class CREEPSEntityRatMan extends EntityMob
     public float stepHeight;
     public String texture;
 
-    public CREEPSEntityRatMan(World world)
-    {
+    public CREEPSEntityRatMan(World world) {
         super(world);
         texture = "morecreeps:textures/entity/ratman.png";
         attack = 1;
@@ -45,7 +35,8 @@ public class CREEPSEntityRatMan extends EntityMob
         modelspeed = 0.61F;
         stepHeight = 1.0F;
 
-        this.getNavigator().setBreakDoors(true);
+        this.getNavigator()
+            .setBreakDoors(true);
         tasks.addTask(0, new EntityAISwimming(this));
         tasks.addTask(1, new EntityAIBreakDoor(this));
         tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.25D, false));
@@ -57,26 +48,25 @@ public class CREEPSEntityRatMan extends EntityMob
         targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
         targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
     }
-    public void applyEntityAttributes()
-    {
-    	super.applyEntityAttributes();
-    	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(7D);
-    	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
-    	this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1D);
+
+    public void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
+            .setBaseValue(7D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+            .setBaseValue(0.25D);
+        this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
+            .setBaseValue(1D);
     }
 
-    
-
-    public void updateRiderPosition()
-    {
+    public void updateRiderPosition() {
         riddenByEntity.setPosition(posX, posY + getMountedYOffset() + riddenByEntity.getYOffset(), posZ);
     }
 
     /**
      * Returns the Y offset from the entity's position for any entity riding this one.
      */
-    public double getMountedYOffset()
-    {
+    public double getMountedYOffset() {
         return 0.5D;
     }
 
@@ -84,18 +74,15 @@ public class CREEPSEntityRatMan extends EntityMob
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
-    public void onLivingUpdate()
-    {
-    	
-    	if (modelspeed < 0.05F)
-        {
+    public void onLivingUpdate() {
+
+        if (modelspeed < 0.05F) {
             modelspeed = 0.05F;
         }
-    	
+
         super.onLivingUpdate();
 
-        if (handleWaterMovement())
-        {
+        if (handleWaterMovement()) {
             motionY = 0.15999999642372131D;
         }
     }
@@ -104,42 +91,32 @@ public class CREEPSEntityRatMan extends EntityMob
      * Takes a coordinate in and returns a weight to determine how likely this creature will try to path to the block.
      * Args: x, y, z
      */
-    //the old "getBlockPathHeight" or something called like this
-    public float getBlockPathWeight(int x, int y, int z)
-    {
-        if (worldObj.getBlock(x, y, z) == Blocks.sand || worldObj.getBlock(x, y, z) == Blocks.gravel)
-        {
+    // the old "getBlockPathHeight" or something called like this
+    public float getBlockPathWeight(int x, int y, int z) {
+        if (worldObj.getBlock(x, y, z) == Blocks.sand || worldObj.getBlock(x, y, z) == Blocks.gravel) {
             return 10F;
-        }
-        else
-        {
-            return -(float)y;
+        } else {
+            return -(float) y;
         }
     }
 
     /**
      * Called when the entity is attacked.
      */
-    public boolean attackEntityFrom(DamageSource damagesource, float i)
-    {
+    public boolean attackEntityFrom(DamageSource damagesource, float i) {
         Entity entity = damagesource.getEntity();
 
-        if (super.attackEntityFrom(DamageSource.causeMobDamage(this), i))
-        {
-            if (riddenByEntity == entity || ridingEntity == entity)
-            {
+        if (super.attackEntityFrom(DamageSource.causeMobDamage(this), i)) {
+            if (riddenByEntity == entity || ridingEntity == entity) {
                 return true;
             }
 
-            if (entity != this && worldObj.difficultySetting != EnumDifficulty.PEACEFUL)
-            {
+            if (entity != this && worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
                 setRevengeTarget((EntityLivingBase) entity);
             }
 
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -147,21 +124,28 @@ public class CREEPSEntityRatMan extends EntityMob
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
-    public boolean getCanSpawnHere()
-    {
+    public boolean getCanSpawnHere() {
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(getBoundingBox().minY);
         int k = MathHelper.floor_double(posZ);
         int l = worldObj.getFullBlockLightValue(i, j, k);
         Block i1 = worldObj.getBlock(i, j - 1, k);
-        return (i1 == Blocks.sand || i1 == Blocks.dirt || i1 == Blocks.gravel) && i1 != Blocks.cobblestone && i1 != Blocks.log && i1 != Blocks.double_stone_slab && i1 != Blocks.stone_slab && i1 != Blocks.planks && i1 != Blocks.wool && worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).size() == 0 && worldObj.canBlockSeeTheSky(i, j, k) && l > 6;
+        return (i1 == Blocks.sand || i1 == Blocks.dirt || i1 == Blocks.gravel) && i1 != Blocks.cobblestone
+            && i1 != Blocks.log
+            && i1 != Blocks.double_stone_slab
+            && i1 != Blocks.stone_slab
+            && i1 != Blocks.planks
+            && i1 != Blocks.wool
+            && worldObj.getCollidingBoundingBoxes(this, getBoundingBox())
+                .size() == 0
+            && worldObj.canBlockSeeTheSky(i, j, k)
+            && l > 6;
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound)
-    {
+    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         nbttagcompound.setFloat("ModelSpeed", modelspeed);
         nbttagcompound.setFloat("ModelSize", modelsize);
@@ -170,8 +154,7 @@ public class CREEPSEntityRatMan extends EntityMob
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound)
-    {
+    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
         modelspeed = nbttagcompound.getFloat("ModelSpeed");
         modelsize = nbttagcompound.getFloat("ModelSize");
@@ -180,14 +163,10 @@ public class CREEPSEntityRatMan extends EntityMob
     /**
      * Returns the sound this mob makes while it's alive.
      */
-    protected String getLivingSound()
-    {
-        if (rand.nextInt(2) == 0)
-        {
+    protected String getLivingSound() {
+        if (rand.nextInt(2) == 0) {
             return "morecreeps:ratman";
-        }
-        else
-        {
+        } else {
             return "morecreeps:ratmanscratch";
         }
     }
@@ -195,36 +174,30 @@ public class CREEPSEntityRatMan extends EntityMob
     /**
      * Returns the sound this mob makes when it is hurt.
      */
-    protected String getHurtSound()
-    {
+    protected String getHurtSound() {
         return "morecreeps:ratmanhurt";
     }
 
     /**
      * Returns the sound this mob makes on death.
      */
-    protected String getDeathSound()
-    {
+    protected String getDeathSound() {
         return "morecreeps:ratmanhurt";
     }
 
     /**
      * Called when the mob's health reaches 0.
      */
-    public void onDeath(DamageSource damagesource)
-    {
-    	if(!worldObj.isRemote)
-    	{
-            if (rand.nextInt(10) == 0)
-            {
+    public void onDeath(DamageSource damagesource) {
+        if (!worldObj.isRemote) {
+            if (rand.nextInt(10) == 0) {
                 dropItem(Items.porkchop, rand.nextInt(3) + 1);
             }
 
-            if (rand.nextInt(10) == 0)
-            {
+            if (rand.nextInt(10) == 0) {
                 dropItem(Items.wheat_seeds, rand.nextInt(3) + 1);
             }
-    	}
+        }
 
         super.onDeath(damagesource);
     }
@@ -232,8 +205,7 @@ public class CREEPSEntityRatMan extends EntityMob
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
-    public int getMaxSpawnedInChunk()
-    {
+    public int getMaxSpawnedInChunk() {
         return 2;
     }
 }

@@ -4,8 +4,8 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class CREEPSModelTrophy extends ModelBase
-{
+public class CREEPSModelTrophy extends ModelBase {
+
     public ModelRenderer body;
     public ModelRenderer New_Shape2;
     public ModelRenderer New_Shape3;
@@ -21,18 +21,15 @@ public class CREEPSModelTrophy extends ModelBase
     public ModelRenderer New_Shape10;
     public ModelRenderer New_Shape9;
 
-    public CREEPSModelTrophy()
-    {
+    public CREEPSModelTrophy() {
         this(0.0F);
     }
 
-    public CREEPSModelTrophy(float f)
-    {
+    public CREEPSModelTrophy(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelTrophy(float f, float f1)
-    {
+    public CREEPSModelTrophy(float f, float f1) {
         float f2 = 0.0F;
         body = new ModelRenderer(this, 32, 24);
         body.addBox(-3F, -2F, -3F, 6, 2, 6, f2);
@@ -81,8 +78,7 @@ public class CREEPSModelTrophy extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
         body.render(f5);
         New_Shape2.render(f5);

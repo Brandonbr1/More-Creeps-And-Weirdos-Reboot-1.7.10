@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelRatMan extends ModelBase
-{
+public class CREEPSModelRatMan extends ModelBase {
+
     public ModelRenderer bipedLeftLeg;
     public ModelRenderer bipedRightLeg;
     public ModelRenderer body;
@@ -32,18 +32,15 @@ public class CREEPSModelRatMan extends ModelBase
     public boolean isSneak;
     public boolean jumper;
 
-    public CREEPSModelRatMan()
-    {
+    public CREEPSModelRatMan() {
         this(0.0F);
     }
 
-    public CREEPSModelRatMan(float f)
-    {
+    public CREEPSModelRatMan(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelRatMan(float f, float f1)
-    {
+    public CREEPSModelRatMan(float f, float f1) {
         heldItemLeft = false;
         heldItemRight = false;
         isSneak = false;
@@ -104,8 +101,7 @@ public class CREEPSModelRatMan extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         bipedLeftLeg.render(f5);
         bipedRightLeg.render(f5);
@@ -124,16 +120,17 @@ public class CREEPSModelRatMan extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        wiskers.rotateAngleY = snout.rotateAngleY = nose.rotateAngleY = earR.rotateAngleY = earL.rotateAngleY = ratHead.rotateAngleY = f3 / (180F / (float)Math.PI);
-        wiskers.rotateAngleX = snout.rotateAngleX = nose.rotateAngleX = earR.rotateAngleX = earL.rotateAngleX = ratHead.rotateAngleX = f4 / 77.29578F;
-        bipedRightArm.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 2.0F * f1 * 0.5F;
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        wiskers.rotateAngleY = snout.rotateAngleY = nose.rotateAngleY = earR.rotateAngleY = earL.rotateAngleY = ratHead.rotateAngleY = f3
+            / (180F / (float) Math.PI);
+        wiskers.rotateAngleX = snout.rotateAngleX = nose.rotateAngleX = earR.rotateAngleX = earL.rotateAngleX = ratHead.rotateAngleX = f4
+            / 77.29578F;
+        bipedRightArm.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 2.0F * f1 * 0.5F;
         bipedLeftArm.rotateAngleX = MathHelper.cos(f * 0.6662F) * 2.0F * f1 * 0.5F;
         bipedRightArm.rotateAngleZ = 0.0F;
         bipedLeftArm.rotateAngleZ = 0.0F;
         bipedRightLeg.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        tail.rotateAngleY = bipedLeftLeg.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        tail.rotateAngleY = bipedLeftLeg.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         bipedRightLeg.rotateAngleY = 0.0F;
         bipedLeftLeg.rotateAngleY = 0.0F;
         bipedRightArm.rotateAngleZ += MathHelper.cos(f2 * 0.09F) * 0.05F + 0.05F;
@@ -143,8 +140,7 @@ public class CREEPSModelRatMan extends ModelBase
         bipedRightArm.rotateAngleX -= 0.8470667F;
         bipedLeftArm.rotateAngleX -= 0.8470667F;
 
-        if (jumper)
-        {
+        if (jumper) {
             bipedRightArm.rotateAngleX = -1.473F;
             bipedLeftArm.rotateAngleX = -1.473F;
         }

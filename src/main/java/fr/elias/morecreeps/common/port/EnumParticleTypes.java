@@ -1,14 +1,14 @@
 package fr.elias.morecreeps.common.port;
 
 public class EnumParticleTypes {
-	
-	public static String EXPLOSION_NORMAL = "explode";
-	public static String EXPLOSION_LARGE = "largeexplode";
-	public static String EXPLOSION_HUGE = "hugeexplosion";
-	public static String FIREWORKS_SPARK = "fireworksSpark";
-	public static String WATER_BUBBLE = "bubble";
-	public static String WATER_SPLASH = "splash";
-	public static String WATER_WAKE = "wake";
+
+    public static String EXPLOSION_NORMAL = "explode";
+    public static String EXPLOSION_LARGE = "largeexplode";
+    public static String EXPLOSION_HUGE = "hugeexplosion";
+    public static String FIREWORKS_SPARK = "fireworksSpark";
+    public static String WATER_BUBBLE = "bubble";
+    public static String WATER_SPLASH = "splash";
+    public static String WATER_WAKE = "wake";
     public static String SUSPENDED = "suspended";
     public static String SUSPENDED_DEPTH = "depthsuspend";
     public static String CRIT = "crit";

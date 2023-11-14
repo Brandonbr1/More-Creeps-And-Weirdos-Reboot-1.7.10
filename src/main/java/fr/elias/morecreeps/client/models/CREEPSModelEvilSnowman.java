@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelEvilSnowman extends ModelBase
-{
+public class CREEPSModelEvilSnowman extends ModelBase {
+
     public ModelRenderer body2;
     public ModelRenderer body1;
     public ModelRenderer head;
@@ -31,18 +31,15 @@ public class CREEPSModelEvilSnowman extends ModelBase
     public boolean heldItemRight;
     public boolean isSneak;
 
-    public CREEPSModelEvilSnowman()
-    {
+    public CREEPSModelEvilSnowman() {
         this(0.0F);
     }
 
-    public CREEPSModelEvilSnowman(float f)
-    {
+    public CREEPSModelEvilSnowman(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelEvilSnowman(float f, float f1)
-    {
+    public CREEPSModelEvilSnowman(float f, float f1) {
         float f2 = 0.0F;
         body2 = new ModelRenderer(this, 20, 0);
         body2.addBox(-5F, -5F, -5F, 11, 11, 11, f2);
@@ -89,8 +86,7 @@ public class CREEPSModelEvilSnowman extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         body2.render(f5);
         body1.render(f5);
@@ -109,14 +105,13 @@ public class CREEPSModelEvilSnowman extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        head.rotateAngleY = f3 / (180F / (float)Math.PI);
-        head.rotateAngleX = f4 / (180F / (float)Math.PI);
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        head.rotateAngleY = f3 / (180F / (float) Math.PI);
+        head.rotateAngleX = f4 / (180F / (float) Math.PI);
         hat.rotateAngleY = hatbrim.rotateAngleY = nose.rotateAngleY = eyeL.rotateAngleY = eyeR.rotateAngleY = head.rotateAngleY;
         hat.rotateAngleX = hatbrim.rotateAngleX = nose.rotateAngleX = eyeL.rotateAngleX = eyeR.rotateAngleX = head.rotateAngleX;
-        arm1R.rotateAngleZ = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 3F * f1 * 0.5F + 0.3F + 0.49723F;
-        arm2R.rotateAngleZ = (MathHelper.cos(f * 0.6662F + (float)Math.PI) * 3F * f1 * 0.5F + 0.3F) - 0.40682F;
+        arm1R.rotateAngleZ = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 3F * f1 * 0.5F + 0.3F + 0.49723F;
+        arm2R.rotateAngleZ = (MathHelper.cos(f * 0.6662F + (float) Math.PI) * 3F * f1 * 0.5F + 0.3F) - 0.40682F;
         arm1L.rotateAngleZ = MathHelper.cos(f * 0.6662F) * 3F * f1 * 0.5F - 0.5F - 0.45203F;
         arm2L.rotateAngleZ = (MathHelper.cos(f * 0.6662F) * 3F * f1 * 0.5F - 0.5F) + 0.13561F;
     }

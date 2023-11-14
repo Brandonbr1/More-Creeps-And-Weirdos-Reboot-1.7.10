@@ -8,13 +8,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class CREEPSItemTombstone extends Item
-{
+public class CREEPSItemTombstone extends Item {
+
     public int zPosition;
     public static Random random = new Random();
 
-    public CREEPSItemTombstone(int j)
-    {
+    public CREEPSItemTombstone(int j) {
         super();
         maxStackSize = 1;
     }
@@ -22,12 +21,10 @@ public class CREEPSItemTombstone extends Item
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
-    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
-    {
+    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
         entityplayer.swingItem();
 
-        if (itemstack.stackSize < 1)
-        {
+        if (itemstack.stackSize < 1) {
             entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, null);
             itemstack.stackSize = 0;
         }
@@ -39,13 +36,11 @@ public class CREEPSItemTombstone extends Item
         return itemstack;
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound)
-    {
+    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         nbttagcompound.setInteger("TileZ", zPosition);
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound)
-    {
+    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         zPosition = nbttagcompound.getInteger("TileZ");
     }
 }

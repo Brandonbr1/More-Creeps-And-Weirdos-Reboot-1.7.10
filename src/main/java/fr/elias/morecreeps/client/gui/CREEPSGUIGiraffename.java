@@ -1,6 +1,5 @@
 package fr.elias.morecreeps.client.gui;
 
-import java.io.IOException;
 import java.util.Random;
 
 import net.minecraft.client.gui.GuiButton;
@@ -8,15 +7,14 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringTranslate;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.common.entity.CREEPSEntityRocketGiraffe;
 
-public class CREEPSGUIGiraffename extends GuiScreen
-{
+public class CREEPSGUIGiraffename extends GuiScreen {
+
     private CREEPSEntityRocketGiraffe giraffe;
     private GuiTextField namescreen;
     private boolean field_28217_m;
@@ -24,8 +22,7 @@ public class CREEPSGUIGiraffename extends GuiScreen
     protected int ySize;
     public static ResourceLocation guiTexture = new ResourceLocation("morecreeps:textures/gui/gui-screen");
 
-    public CREEPSGUIGiraffename(CREEPSEntityRocketGiraffe creepsentityrocketgiraffe)
-    {
+    public CREEPSGUIGiraffename(CREEPSEntityRocketGiraffe creepsentityrocketgiraffe) {
         giraffe = creepsentityrocketgiraffe;
         xSize = 256;
         ySize = 180;
@@ -34,19 +31,18 @@ public class CREEPSGUIGiraffename extends GuiScreen
     /**
      * Called from the main game loop to update the screen.
      */
-    public void updateScreen()
-    {
+    public void updateScreen() {
         namescreen.updateCursorCounter();
     }
 
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui()
-    {
+    public void initGui() {
         Keyboard.enableRepeatEvents(true);
         buttonList.clear();
-        buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 52 + 12, I18n.format("gui.cancel", new Object[0])));
+        buttonList
+            .add(new GuiButton(1, width / 2 - 100, height / 4 + 52 + 12, I18n.format("gui.cancel", new Object[0])));
         buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 32, "Save"));
         namescreen = new GuiTextField(fontRendererObj, width / 2 - 100, height / 4, 200, 20);
         namescreen.setMaxStringLength(31);
@@ -57,31 +53,25 @@ public class CREEPSGUIGiraffename extends GuiScreen
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
-    public void onGuiClosed()
-    {
+    public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
     }
 
     /**
      * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
      */
-    protected void actionPerformed(GuiButton guibutton)
-    {
-        if (!guibutton.enabled)
-        {
+    protected void actionPerformed(GuiButton guibutton) {
+        if (!guibutton.enabled) {
             return;
         }
 
-        if (guibutton.id == 1)
-        {
+        if (guibutton.id == 1) {
             mc.displayGuiScreen(null);
             return;
         }
 
-        if (guibutton.id == 0)
-        {
-            if (field_28217_m)
-            {
+        if (guibutton.id == 0) {
+            if (field_28217_m) {
                 return;
             }
 
@@ -96,22 +86,17 @@ public class CREEPSGUIGiraffename extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char c, int i)
-    {
+    protected void keyTyped(char c, int i) {
         namescreen.textboxKeyTyped(c, i);
 
-        if (c == '\r')
-        {
-            actionPerformed((GuiButton)buttonList.get(0));
+        if (c == '\r') {
+            actionPerformed((GuiButton) buttonList.get(0));
         }
 
-        if (i == 1)
-        {
+        if (i == 1) {
             mc.displayGuiScreen(null);
             return;
-        }
-        else
-        {
+        } else {
             return;
         }
     }
@@ -119,8 +104,7 @@ public class CREEPSGUIGiraffename extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int i, int j, int k)
-    {
+    protected void mouseClicked(int i, int j, int k) {
         super.mouseClicked(i, j, k);
         namescreen.mouseClicked(i, j, k);
     }
@@ -128,8 +112,7 @@ public class CREEPSGUIGiraffename extends GuiScreen
     /**
      * Draws the screen and all the components in it.
      */
-    public void drawScreen(int i, int j, float f)
-    {
+    public void drawScreen(int i, int j, float f) {
         drawDefaultBackground();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(guiTexture);

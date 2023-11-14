@@ -5,12 +5,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class CREEPSItemLolly extends Item
-{
+public class CREEPSItemLolly extends Item {
+
     private int healAmount;
 
-    public CREEPSItemLolly()
-    {
+    public CREEPSItemLolly() {
         super();
         healAmount = 2;
         maxStackSize = 32;
@@ -19,8 +18,7 @@ public class CREEPSItemLolly extends Item
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
-    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
-    {
+    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
         world.playSoundAtEntity(entityplayer, "morecreeps:lolly", 1.0F, 1.0F);
         itemstack.stackSize--;
         entityplayer.heal(healAmount);

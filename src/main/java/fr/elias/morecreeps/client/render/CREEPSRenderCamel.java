@@ -1,6 +1,5 @@
 package fr.elias.morecreeps.client.render;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -14,19 +13,17 @@ import org.lwjgl.opengl.GL11;
 import fr.elias.morecreeps.client.models.CREEPSModelCamel;
 import fr.elias.morecreeps.common.entity.CREEPSEntityCamel;
 
-public class CREEPSRenderCamel extends RenderLiving
-{
+public class CREEPSRenderCamel extends RenderLiving {
+
     protected CREEPSModelCamel modelBipedMain;
 
-    public CREEPSRenderCamel(CREEPSModelCamel creepsmodelcamel, float f)
-    {
+    public CREEPSRenderCamel(CREEPSModelCamel creepsmodelcamel, float f) {
         super(creepsmodelcamel, f);
         modelBipedMain = creepsmodelcamel;
         shadowSize = f;
     }
 
-    protected void fattenup(CREEPSEntityCamel creepsentitycamel, float f)
-    {
+    protected void fattenup(CREEPSEntityCamel creepsentitycamel, float f) {
         GL11.glScalef(creepsentitycamel.modelsize, creepsentitycamel.modelsize, creepsentitycamel.modelsize);
     }
 
@@ -34,26 +31,27 @@ public class CREEPSRenderCamel extends RenderLiving
      * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
      * entityLiving, partialTickTime
      */
-    protected void preRenderCallback(EntityLivingBase entityliving, float f)
-    {
-        fattenup((CREEPSEntityCamel)entityliving, f);
+    protected void preRenderCallback(EntityLivingBase entityliving, float f) {
+        fattenup((CREEPSEntityCamel) entityliving, f);
     }
 
-    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2, float f, float f1)
-    {
+    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2, float f, float f1) {
         super.doRender(entityliving, d, d1, d2, f, f1);
         float f2 = 1.6F;
         float f3 = 0.01666667F * f2;
         float f4 = entityliving.getDistanceToEntity(renderManager.livingPlayer);
         String s = "";
-        s = (new StringBuilder()).append(s).append(((CREEPSEntityCamel)entityliving).name).toString();
+        s = (new StringBuilder()).append(s)
+            .append(((CREEPSEntityCamel) entityliving).name)
+            .toString();
 
-        if (f4 < 25F && s.length() > 0 && ((CREEPSEntityCamel)entityliving).riddenByEntity == null)
-        {
-            s = (new StringBuilder()).append("\2476").append(s).toString();
+        if (f4 < 25F && s.length() > 0 && ((CREEPSEntityCamel) entityliving).riddenByEntity == null) {
+            s = (new StringBuilder()).append("\2476")
+                .append(s)
+                .toString();
             FontRenderer fontrenderer = getFontRendererFromRenderManager();
             GL11.glPushMatrix();
-            GL11.glTranslatef((float)d + 0.0F, (float)d1 + 1.1F, (float)d2);
+            GL11.glTranslatef((float) d + 0.0F, (float) d1 + 1.1F, (float) d2);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
             GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -63,17 +61,13 @@ public class CREEPSRenderCamel extends RenderLiving
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            
-            
+
             Tessellator tessellator = Tessellator.instance;
-            
-            
-            
-            float f5 = (2.0F - ((CREEPSEntityCamel)entityliving).modelsize) * 80F;
-            int i = -140 + (int)f5;
+
+            float f5 = (2.0F - ((CREEPSEntityCamel) entityliving).modelsize) * 80F;
+            int i = -140 + (int) f5;
             GL11.glDisable(GL11.GL_TEXTURE_2D);
-            
-            
+
             tessellator.startDrawingQuads();
             int j = fontrenderer.getStringWidth(s) / 2;
             tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
@@ -82,8 +76,7 @@ public class CREEPSRenderCamel extends RenderLiving
             tessellator.addVertex(j + 1, 8 + i, 0.0D);
             tessellator.addVertex(j + 1, -1 + i, 0.0D);
             tessellator.draw();
-            
-            
+
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, i, 0x20ffffff);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -102,18 +95,17 @@ public class CREEPSRenderCamel extends RenderLiving
      * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
      * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
      */
-    public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
-    {
-        doRenderLiving((EntityLiving)entity, d, d1, d2, f, f1);
+    public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
+        doRenderLiving((EntityLiving) entity, d, d1, d2, f, f1);
     }
 
     protected ResourceLocation getEntityTexture(CREEPSEntityCamel entity) {
-		return new ResourceLocation(entity.texture);
-	}
-    
-	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) {
-		
-		return getEntityTexture((CREEPSEntityCamel) entity);
-	}
+        return new ResourceLocation(entity.texture);
+    }
+
+    @Override
+    protected ResourceLocation getEntityTexture(Entity entity) {
+
+        return getEntityTexture((CREEPSEntityCamel) entity);
+    }
 }

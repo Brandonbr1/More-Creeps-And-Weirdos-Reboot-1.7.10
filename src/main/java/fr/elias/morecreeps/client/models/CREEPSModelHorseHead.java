@@ -4,8 +4,8 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class CREEPSModelHorseHead extends ModelBase
-{
+public class CREEPSModelHorseHead extends ModelBase {
+
     public ModelRenderer horeseHead;
     public ModelRenderer snout;
     public ModelRenderer earL;
@@ -16,18 +16,15 @@ public class CREEPSModelHorseHead extends ModelBase
     public ModelRenderer eyeL;
     public ModelRenderer eyeR;
 
-    public CREEPSModelHorseHead()
-    {
+    public CREEPSModelHorseHead() {
         this(0.0F);
     }
 
-    public CREEPSModelHorseHead(float f)
-    {
+    public CREEPSModelHorseHead(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelHorseHead(float f, float f1)
-    {
+    public CREEPSModelHorseHead(float f, float f1) {
         horeseHead = new ModelRenderer(this, 0, 0);
         horeseHead.addBox(-3F, -6F, -3F, 5, 5, 6, 0.0F);
         horeseHead.setRotationPoint(1.0F, 11F, -7F);
@@ -96,8 +93,7 @@ public class CREEPSModelHorseHead extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
         horeseHead.render(f5);
         snout.render(f5);

@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelZebra extends ModelBase
-{
+public class CREEPSModelZebra extends ModelBase {
+
     public ModelRenderer leg1;
     public ModelRenderer leg2;
     public ModelRenderer leg3;
@@ -30,18 +30,15 @@ public class CREEPSModelZebra extends ModelBase
     public ModelRenderer sidesaddleL;
     public boolean tamed;
 
-    public CREEPSModelZebra()
-    {
+    public CREEPSModelZebra() {
         this(0.0F);
     }
 
-    public CREEPSModelZebra(float f)
-    {
+    public CREEPSModelZebra(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelZebra(float f, float f1)
-    {
+    public CREEPSModelZebra(float f, float f1) {
         taildirection = 1;
         leg1 = new ModelRenderer(this, 16, 22);
         leg1.addBox(-1F, 0.0F, -1F, 2, 8, 2, 0.0F);
@@ -181,8 +178,7 @@ public class CREEPSModelZebra extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         leg1.render(f5);
         leg2.render(f5);
@@ -201,8 +197,7 @@ public class CREEPSModelZebra extends ModelBase
         earR.render(f5);
         tail2.render(f5);
 
-        if (tamed)
-        {
+        if (tamed) {
             saddle.render(f5);
             sidesaddleR.render(f5);
             sidesaddleL.render(f5);
@@ -212,31 +207,25 @@ public class CREEPSModelZebra extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        if (taildirection > 0)
-        {
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        if (taildirection > 0) {
             tailwag += 0.0002F;
 
-            if (tailwag > 0.067F)
-            {
+            if (tailwag > 0.067F) {
                 taildirection = taildirection * -1;
             }
-        }
-        else
-        {
+        } else {
             tailwag -= 0.0002F;
 
-            if ((double)tailwag < -0.067000000000000004D)
-            {
+            if ((double) tailwag < -0.067000000000000004D) {
                 taildirection = taildirection * -1;
             }
         }
 
-        tail.rotateAngleY = tail2.rotateAngleY = MathHelper.cos(f2 * 0.6662F + (float)Math.PI) * 0.24F;
+        tail.rotateAngleY = tail2.rotateAngleY = MathHelper.cos(f2 * 0.6662F + (float) Math.PI) * 0.24F;
         leg1.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
+        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         leg4.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
     }
 }

@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelBigBaby extends ModelBase
-{
+public class CREEPSModelBigBaby extends ModelBase {
+
     public ModelRenderer babyHead;
     public ModelRenderer babyBody;
     public ModelRenderer armL;
@@ -19,18 +19,15 @@ public class CREEPSModelBigBaby extends ModelBase
     public ModelRenderer earR;
     public float hammerswing;
 
-    public CREEPSModelBigBaby()
-    {
+    public CREEPSModelBigBaby() {
         this(0.0F);
     }
 
-    public CREEPSModelBigBaby(float f)
-    {
+    public CREEPSModelBigBaby(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelBigBaby(float f, float f1)
-    {
+    public CREEPSModelBigBaby(float f, float f1) {
         babyHead = new ModelRenderer(this, 0, 0);
         babyHead.addBox(-3F, -6F, -6F, 6, 6, 6, 0.0F);
         babyHead.setRotationPoint(0.0F, 18F, -1.5F);
@@ -106,8 +103,7 @@ public class CREEPSModelBigBaby extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         babyHead.render(f5);
         babyBody.render(f5);
@@ -124,21 +120,17 @@ public class CREEPSModelBigBaby extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        earL.rotateAngleY = earR.rotateAngleY = babyHead.rotateAngleY = f3 / (180F / (float)Math.PI);
-        earL.rotateAngleX = earR.rotateAngleX = babyHead.rotateAngleX = f4 / (180F / (float)Math.PI) + 0.25F;
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        earL.rotateAngleY = earR.rotateAngleY = babyHead.rotateAngleY = f3 / (180F / (float) Math.PI);
+        earL.rotateAngleX = earR.rotateAngleX = babyHead.rotateAngleX = f4 / (180F / (float) Math.PI) + 0.25F;
         armL.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        legL1.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 - 0.5576792F;
-        legL2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        legL1.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 - 0.5576792F;
+        legL2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
 
-        if (hammerswing != 0.0F)
-        {
+        if (hammerswing != 0.0F) {
             armR.rotateAngleX = hammerswing;
-        }
-        else
-        {
-            armR.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        } else {
+            armR.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         }
 
         legR1.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.5576792F;

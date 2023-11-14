@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelRobotTodd extends ModelBase
-{
+public class CREEPSModelRobotTodd extends ModelBase {
+
     public ModelRenderer robotHead;
     public ModelRenderer mouth;
     public ModelRenderer eyeL;
@@ -40,18 +40,15 @@ public class CREEPSModelRobotTodd extends ModelBase
     public float tailwag;
     public int taildirection;
 
-    public CREEPSModelRobotTodd()
-    {
+    public CREEPSModelRobotTodd() {
         this(0.0F);
     }
 
-    public CREEPSModelRobotTodd(float f)
-    {
+    public CREEPSModelRobotTodd(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelRobotTodd(float f, float f1)
-    {
+    public CREEPSModelRobotTodd(float f, float f1) {
         taildirection = 1;
         float f2 = 0.0F;
         robotHead = new ModelRenderer(this, 5, 0);
@@ -119,8 +116,7 @@ public class CREEPSModelRobotTodd extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         robotHead.render(f5);
         mouth.render(f5);
@@ -145,38 +141,32 @@ public class CREEPSModelRobotTodd extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        robotHead.rotateAngleY = f3 / (180F / (float)Math.PI);
-        robotHead.rotateAngleX = f4 / (180F / (float)Math.PI);
-        ears.rotateAngleY = f3 / (180F / (float)Math.PI);
-        ears.rotateAngleX = f4 / (180F / (float)Math.PI);
-        mouth.rotateAngleY = f3 / (180F / (float)Math.PI);
-        mouth.rotateAngleX = f4 / (180F / (float)Math.PI);
-        eyeL.rotateAngleY = f3 / (180F / (float)Math.PI);
-        eyeL.rotateAngleX = f4 / (180F / (float)Math.PI);
-        eyeR.rotateAngleY = f3 / (180F / (float)Math.PI);
-        eyeR.rotateAngleX = f4 / (180F / (float)Math.PI);
-        neck.rotateAngleY = f3 / (180F / (float)Math.PI);
-        neck.rotateAngleX = f4 / (180F / (float)Math.PI);
-        armR.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 2.0F * f1 * 0.5F - 0.5F;
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+        robotHead.rotateAngleY = f3 / (180F / (float) Math.PI);
+        robotHead.rotateAngleX = f4 / (180F / (float) Math.PI);
+        ears.rotateAngleY = f3 / (180F / (float) Math.PI);
+        ears.rotateAngleX = f4 / (180F / (float) Math.PI);
+        mouth.rotateAngleY = f3 / (180F / (float) Math.PI);
+        mouth.rotateAngleX = f4 / (180F / (float) Math.PI);
+        eyeL.rotateAngleY = f3 / (180F / (float) Math.PI);
+        eyeL.rotateAngleX = f4 / (180F / (float) Math.PI);
+        eyeR.rotateAngleY = f3 / (180F / (float) Math.PI);
+        eyeR.rotateAngleX = f4 / (180F / (float) Math.PI);
+        neck.rotateAngleY = f3 / (180F / (float) Math.PI);
+        neck.rotateAngleX = f4 / (180F / (float) Math.PI);
+        armR.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 2.0F * f1 * 0.5F - 0.5F;
         armL.rotateAngleX = MathHelper.cos(f * 0.6662F) * 2.0F * f1 * 0.5F - 0.5F;
 
-        if (taildirection > 0)
-        {
+        if (taildirection > 0) {
             tailwag += 0.0002F;
 
-            if (tailwag > 0.037F)
-            {
+            if (tailwag > 0.037F) {
                 taildirection = taildirection * -1;
             }
-        }
-        else
-        {
+        } else {
             tailwag -= 0.0002F;
 
-            if ((double)tailwag < -0.036999999999999998D)
-            {
+            if ((double) tailwag < -0.036999999999999998D) {
                 taildirection = taildirection * -1;
             }
         }
@@ -185,16 +175,16 @@ public class CREEPSModelRobotTodd extends ModelBase
         hand2L.rotateAngleZ = 0.03857F - tailwag;
         hand1R.rotateAngleZ = 0.13247F + tailwag;
         hand2R.rotateAngleZ = 0.04206F - tailwag;
-        hand1L.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 2.0F * f1 * 0.5F - 0.5F;
+        hand1L.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 2.0F * f1 * 0.5F - 0.5F;
         hand1R.rotateAngleX = MathHelper.cos(f * 0.6662F) * 2.0F * f1 * 0.5F - 0.5F;
-        hand2L.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 2.0F * f1 * 0.5F - 0.5F;
+        hand2L.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 2.0F * f1 * 0.5F - 0.5F;
         hand2R.rotateAngleX = MathHelper.cos(f * 0.6662F) * 2.0F * f1 * 0.5F - 0.5F;
         legR.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        legL.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        legL.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         legR.rotateAngleY = 0.0F;
         legL.rotateAngleY = 0.0F;
         footR.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        footL.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        footL.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         footR.rotateAngleY = 0.0F;
         footL.rotateAngleY = 0.0F;
     }

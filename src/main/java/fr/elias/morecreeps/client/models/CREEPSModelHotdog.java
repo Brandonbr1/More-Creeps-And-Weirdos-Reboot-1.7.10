@@ -5,8 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class CREEPSModelHotdog extends ModelBase
-{
+public class CREEPSModelHotdog extends ModelBase {
+
     public ModelRenderer body;
     public ModelRenderer leg1;
     public ModelRenderer leg2;
@@ -31,18 +31,15 @@ public class CREEPSModelHotdog extends ModelBase
     public float tailwag;
     public int taildirection;
 
-    public CREEPSModelHotdog()
-    {
+    public CREEPSModelHotdog() {
         this(0.0F);
     }
 
-    public CREEPSModelHotdog(float f)
-    {
+    public CREEPSModelHotdog(float f) {
         this(f, 0.0F);
     }
 
-    public CREEPSModelHotdog(float f, float f1)
-    {
+    public CREEPSModelHotdog(float f, float f1) {
         taildirection = 1;
         float f2 = 0.0F;
         float f3 = 0.0F;
@@ -125,8 +122,7 @@ public class CREEPSModelHotdog extends ModelBase
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         setRotationAngles(f, f1, f2, f3, f4, f5);
         body.render(f5);
         leg1.render(f5);
@@ -154,8 +150,7 @@ public class CREEPSModelHotdog extends ModelBase
     /**
      * Sets the models various rotation angles.
      */
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
         headDog.rotateAngleY = f3 / 97.29578F;
         headDog.rotateAngleX = f4 / 97.29578F;
         strapL.rotateAngleY = strapR.rotateAngleY = helmet.rotateAngleY = snout.rotateAngleY = nose.rotateAngleY = headDog.rotateAngleY;
@@ -166,35 +161,30 @@ public class CREEPSModelHotdog extends ModelBase
         earL.rotateAngleX = headDog.rotateAngleX - 2.66696F;
         earR.rotateAngleX = headDog.rotateAngleX + 2.66696F;
 
-        if (taildirection > 0)
-        {
+        if (taildirection > 0) {
             tailwag += 0.001F;
 
-            if (tailwag > 0.077F)
-            {
+            if (tailwag > 0.077F) {
                 taildirection = taildirection * -1;
             }
-        }
-        else
-        {
+        } else {
             tailwag -= 0.001F;
 
-            if ((double)tailwag < -0.076999999999999999D)
-            {
+            if ((double) tailwag < -0.076999999999999999D) {
                 taildirection = taildirection * -1;
             }
         }
 
-        tail.rotateAngleY = MathHelper.cos(f2 * 0.6662F + (float)Math.PI) * 1.4F;
+        tail.rotateAngleY = MathHelper.cos(f2 * 0.6662F + (float) Math.PI) * 1.4F;
         mouth.rotateAngleX = headDog.rotateAngleX + 0.54243F + tailwag;
         mouth.rotateAngleY = headDog.rotateAngleY;
         leg1.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
+        leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         leg4.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
         hoof1.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-        hoof2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-        hoof3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        hoof2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
+        hoof3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         hoof4.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
     }
 }
