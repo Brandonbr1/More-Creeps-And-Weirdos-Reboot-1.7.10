@@ -180,7 +180,7 @@ public class CREEPSEntityBum extends EntityMob {
 
     public boolean getCanSpawnHere() {
         int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(getBoundingBox().minY);
+        int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);
         int l = worldObj.getBlockLightOpacity(i, j, k);
         return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && l > 8 && super.getCanSpawnHere();

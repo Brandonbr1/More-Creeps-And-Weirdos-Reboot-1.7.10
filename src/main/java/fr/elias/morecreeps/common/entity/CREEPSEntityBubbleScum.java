@@ -248,7 +248,7 @@ public class CREEPSEntityBubbleScum extends EntityCreature {
     public boolean getCanSpawnHere() {
         // Method used by Minecraft below, probably better to leave it?
         int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(getBoundingBox().minY);
+        int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);
         return worldObj.getCollidingBoundingBoxes(this, getBoundingBox())
             .size() == 0 && rand.nextInt(5) == 0;

@@ -127,7 +127,7 @@ public class CREEPSEntityBlackSoul extends EntityMob {
         // Method used by Minecraft above, probably better to use it instead?
         /*
          * int i = MathHelper.floor_double(posX);
-         * int j = MathHelper.floor_double(getBoundingBox().minY);
+         * int j = MathHelper.floor_double(posY);
          * int k = MathHelper.floor_double(posZ);
          * int l = worldObj.getFullBlockLightValue(i, j, k);
          * Block i1 = worldObj.getBlockState(new BlockPos(i, j - 1, k)).getBlock();

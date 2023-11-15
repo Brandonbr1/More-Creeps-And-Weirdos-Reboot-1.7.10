@@ -266,7 +266,7 @@ public class CREEPSEntityBlorp extends EntityAnimal {
     public boolean getCanSpawnHere() {
         // Method used by Minecraft below, probably better to leave it?
         int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(getBoundingBox().minY);
+        int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);
         int l = worldObj.getFullBlockLightValue(i, j, k);
         Block i1 = worldObj.getBlock(i, j - 1, k);

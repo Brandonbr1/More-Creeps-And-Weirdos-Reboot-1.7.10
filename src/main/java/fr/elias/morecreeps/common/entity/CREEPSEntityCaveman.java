@@ -501,7 +501,7 @@ public class CREEPSEntityCaveman extends EntityMob {
             return false;
         }
         int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(getBoundingBox().minY);
+        int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);
         if (getBoundingBox() == null) {
             return false;

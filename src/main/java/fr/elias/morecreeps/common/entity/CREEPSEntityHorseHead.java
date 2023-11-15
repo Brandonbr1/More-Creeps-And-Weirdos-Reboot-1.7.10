@@ -263,7 +263,7 @@ public class CREEPSEntityHorseHead extends EntityAnimal {
      */
     public boolean getCanSpawnHere() {
         int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(getBoundingBox().minY);
+        int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);
         int l = worldObj.getBlockLightOpacity(i, j, k);
         Block i1 = worldObj.getBlock(i, j - 1, k);
