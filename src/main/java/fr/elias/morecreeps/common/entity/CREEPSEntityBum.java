@@ -179,7 +179,7 @@ public class CREEPSEntityBum extends EntityMob {
      */
 
     public boolean getCanSpawnHere() {
-        if(worldObj == null) {
+        if (worldObj == null || getBoundingBox() == null) {
             return false;
         }
         int i = MathHelper.floor_double(posX);

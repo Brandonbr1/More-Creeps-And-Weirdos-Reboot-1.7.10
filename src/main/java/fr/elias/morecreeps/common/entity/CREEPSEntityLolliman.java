@@ -287,7 +287,7 @@ public class CREEPSEntityLolliman extends EntityAnimal {
     }
 
     public boolean getCanSpawnHere() {
-        if(worldObj == null) {
+        if (worldObj == null || getBoundingBox() == null) {
             return false;
         }
         int i = MathHelper.floor_double(posX);

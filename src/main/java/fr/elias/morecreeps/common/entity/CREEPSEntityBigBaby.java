@@ -194,7 +194,7 @@ public class CREEPSEntityBigBaby extends EntityMob {
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
     public boolean getCanSpawnHere() {
-        if(worldObj == null) {
+        if (worldObj == null || getBoundingBox() == null) {
             return false;
         }
         return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.isValidLightLevel()

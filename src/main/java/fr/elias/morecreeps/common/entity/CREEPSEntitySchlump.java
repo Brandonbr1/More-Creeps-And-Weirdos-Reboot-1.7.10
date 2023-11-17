@@ -642,7 +642,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
     public boolean getCanSpawnHere() {
-        if(worldObj == null) {
+        if (worldObj == null || getBoundingBox() == null) {
             return false;
         }
         int i = MathHelper.floor_double(posX);

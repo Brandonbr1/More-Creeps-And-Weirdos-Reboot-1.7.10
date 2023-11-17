@@ -122,7 +122,7 @@ public class CREEPSEntityBlackSoul extends EntityMob {
      */
     @Override
     public boolean getCanSpawnHere() {
-        if(worldObj == null) {
+        if (worldObj == null || getBoundingBox() == null) {
             return false;
         }
         return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.isValidLightLevel()
