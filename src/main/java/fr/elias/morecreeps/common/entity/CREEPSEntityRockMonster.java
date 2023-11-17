@@ -149,6 +149,9 @@ public class CREEPSEntityRockMonster extends EntityMob {
     }
 
     public boolean getCanSpawnHere() {
+        if(worldObj == null) {
+            return false;
+        }
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(posY);
         int k = MathHelper.floor_double(posZ);

@@ -122,6 +122,9 @@ public class CREEPSEntityBlackSoul extends EntityMob {
      */
     @Override
     public boolean getCanSpawnHere() {
+        if(worldObj == null) {
+            return false;
+        }
         return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.isValidLightLevel()
             && super.getCanSpawnHere();
         // Method used by Minecraft above, probably better to use it instead?

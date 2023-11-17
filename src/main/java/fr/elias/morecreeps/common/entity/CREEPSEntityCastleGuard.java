@@ -67,6 +67,9 @@ public class CREEPSEntityCastleGuard extends EntityMob {
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
     public boolean getCanSpawnHere() {
+        if(worldObj == null) {
+            return false;
+        }
         AxisAlignedBB x = this.getBoundingBox();
 
         return worldObj.difficultySetting.getDifficultyId() > 0 && worldObj.checkNoEntityCollision(getBoundingBox())

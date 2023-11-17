@@ -246,6 +246,9 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
     public boolean getCanSpawnHere() {
+        if(worldObj == null) {
+            return false;
+        }
         return true;
     }
 

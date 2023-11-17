@@ -347,6 +347,9 @@ public class CREEPSEntityPyramidGuardian extends EntityMob {
     }
 
     public boolean getCanSpawnHere() {
+        if(worldObj == null) {
+            return false;
+        }
         return true;
     }
 }

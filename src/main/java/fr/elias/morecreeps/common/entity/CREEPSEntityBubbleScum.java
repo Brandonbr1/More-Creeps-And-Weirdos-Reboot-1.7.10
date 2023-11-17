@@ -246,6 +246,9 @@ public class CREEPSEntityBubbleScum extends EntityCreature {
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
     public boolean getCanSpawnHere() {
+        if(worldObj == null) {
+            return false;
+        }
         // Method used by Minecraft below, probably better to leave it?
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(posY);
