@@ -87,9 +87,9 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature {
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(basehealth);
+            .setBaseValue(70);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(moveSpeed);
+            .setBaseValue(0.65f);
     }
 
     /**

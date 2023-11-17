@@ -64,11 +64,11 @@ public class CREEPSEntityHunchback extends EntityMob {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(basehealth);
+            .setBaseValue(30);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(moveSpeed);
+            .setBaseValue(0.51f);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(attackStrength);
+            .setBaseValue(1);
     }
 
     /**

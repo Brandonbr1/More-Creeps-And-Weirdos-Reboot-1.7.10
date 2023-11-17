@@ -684,8 +684,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-        // todo terminate the entity
-        /*
         addMob(
             CREEPSEntityCamelJockey.class,
             "CamelJockey",
@@ -695,8 +693,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-
-         */
         addMob(
             CREEPSEntityCaveman.class,
             "Caveman",
@@ -772,8 +768,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-        // todo terminate the entity
-        /*
         addMob(
             CREEPSEntityGuineaPig.class,
             "GuineaPig",
@@ -783,8 +777,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-
-         */
         addMob(
             CREEPSEntityHippo.class,
             "Hippo",
@@ -803,9 +795,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-        // todo terminate the mod
-
-        /*
 
         addMob(
             CREEPSEntityHotdog.class,
@@ -816,10 +805,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-
-         */
-        // todo terminate the mod
-        /*
         addMob(
             CREEPSEntityHunchback.class,
             "Hunchback",
@@ -829,9 +814,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-
-         */
-
         // todo terminate the mod
     /*    addMob(
             CREEPSEntityInvisibleMan.class,
@@ -880,7 +862,7 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-        // todo terminate the mod
+        // todo
         /*
         addMob(
             CREEPSEntityMummy.class,
@@ -920,7 +902,7 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-        // todo terminate the entity
+        // todo
         /*
         addMob(
             CREEPSEntityRobotTodd.class,
@@ -933,8 +915,6 @@ public class MoreCreepsAndWeirdos {
             allBiomes());
 
          */
-        // todo terminate the entity
-        /*
         addMob(
             CREEPSEntityRocketGiraffe.class,
             "RocketGiraffe",
@@ -944,8 +924,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-
-         */
         addMob(
             CREEPSEntityRockMonster.class,
             "RockMonster",
@@ -955,8 +933,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-        // todo terminate entity
-        /*
         addMob(
             CREEPSEntitySneakySal.class,
             "SneakySal",
@@ -966,11 +942,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-
-         */
-        // todo terminate entity
-        /*
-
         addMob(
             CREEPSEntitySnowDevil.class,
             "SnowDevil",
@@ -980,8 +951,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-
-         */
         addMob(
             CREEPSEntityThief.class,
             "Thief",
@@ -991,8 +960,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-        // todo terminate the entity
-        /*
         addMob(
             CREEPSEntityZebra.class,
             "Zebra",
@@ -1002,9 +969,6 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
-
-         */
-
         proxy.render();
         proxy.renderModelItem();
         // Registers Recipes

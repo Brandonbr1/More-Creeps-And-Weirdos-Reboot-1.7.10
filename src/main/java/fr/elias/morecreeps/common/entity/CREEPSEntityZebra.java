@@ -77,9 +77,9 @@ public class CREEPSEntityZebra extends EntityAnimal {
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(basehealth);
+            .setBaseValue(25);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(moveSpeed);
+            .setBaseValue(0.65f);
     }
 
     /**

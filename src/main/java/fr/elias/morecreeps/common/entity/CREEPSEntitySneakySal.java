@@ -100,11 +100,11 @@ public class CREEPSEntitySneakySal extends EntityMob {
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(basehealth);
+            .setBaseValue(80);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(moveSpeed);
+            .setBaseValue(0.65f);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(attackStrength);
+            .setBaseValue(3);
     }
 
     /**

@@ -137,11 +137,11 @@ public class CREEPSEntityGuineaPig extends EntityMob {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(basehealth);
+            .setBaseValue(10);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(moveSpeed);
+            .setBaseValue(0.6f);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(attackStrength);
+            .setBaseValue(1);
     }
 
     protected void updateAITick() {

@@ -55,11 +55,11 @@ public class CREEPSEntityCamelJockey extends EntityMob {
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(health);
+            .setBaseValue(25);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(speed);
+            .setBaseValue(0.55);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(strength);
+            .setBaseValue(1);
     }
 
     /**

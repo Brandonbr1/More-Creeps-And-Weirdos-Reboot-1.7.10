@@ -133,11 +133,11 @@ public class CREEPSEntityHotdog extends EntityMob {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(basehealth);
+            .setBaseValue(20);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(moveSpeed);
+            .setBaseValue(0.76f);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(attackStrength);
+            .setBaseValue(1);
     }
 
     /**
