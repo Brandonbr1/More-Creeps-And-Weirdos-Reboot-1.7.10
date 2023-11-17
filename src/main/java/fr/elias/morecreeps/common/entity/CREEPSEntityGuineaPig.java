@@ -84,7 +84,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
     static final String pigTextures[] = { "morecreeps:textures/entity/ggpig1.png",
         "morecreeps:textures/entity/ggpig2.png", "morecreeps:textures/entity/ggpig3.png",
         "morecreeps:textures/entity/ggpig4.png", "morecreeps:textures/entity/ggpig5.png",
-        "morecreeps:textures/entity/ggpig6.png", "/textures/entity/ggpig7.png", "morecreeps:textures/entity/ggpig8.png",
+        "morecreeps:textures/entity/ggpig6.png", "morecreeps:textures/entity/ggpig7.png", "morecreeps:textures/entity/ggpig8.png",
         "morecreeps:textures/entity/ggpig9.png", "morecreeps:textures/entity/ggpiga.png" };
     public static final int leveldamage[] = { 0, 200, 600, 1000, 1500, 2000, 2700, 3500, 4400, 5400, 6600, 7900, 9300,
         10800, 12400, 14100, 15800, 17600, 19500, 21500, 25000, 30000 };

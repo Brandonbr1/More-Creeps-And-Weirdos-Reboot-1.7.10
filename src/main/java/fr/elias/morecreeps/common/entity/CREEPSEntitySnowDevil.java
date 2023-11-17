@@ -14,6 +14,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -94,38 +95,34 @@ public class CREEPSEntitySnowDevil extends EntityMob {
     protected Entity findPlayerToAttack() {
         EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(this, 15D);
 
-        if (entityplayer != null) {
-            if (!tamed) {
-                return entityplayer;
-            }
-
-            if (rand.nextInt(10) == 0) {
-                return entityplayer;
-            }
+        if (entityplayer != null && (!tamed || rand.nextInt(10) == 0)) {
+            return entityplayer;
         }
 
         if (rand.nextInt(6) == 0) {
             EntityLiving entityliving = getClosestTarget(this, 10D);
             return entityliving;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     public EntityLiving getClosestTarget(Entity entity, double d) {
-        List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(20D, 20D, 20D));
+        AxisAlignedBB boundingBox = getBoundingBox();
+        if (boundingBox == null) {
+            return null;
+        }
 
-        for (int i = 0; i < list.size(); i++) {
-            Entity entity1 = (Entity) list.get(i);
+        List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(20D, 20D, 20D));
 
-            if (!(entity1 instanceof EntityCreature)) {
-                continue;
-            }
+        for (Entity entity1 : list) {
+            if (entity1 instanceof EntityCreature) {
+                EntityCreature entitycreature = (EntityCreature) entity1;
+                EntityLivingBase attackTarget = entitycreature.getAttackTarget();
 
-            EntityCreature entitycreature = (EntityCreature) entity1;
-
-            if (entitycreature.getAttackTarget() instanceof EntityPlayer) {
-                return entitycreature;
+                if (attackTarget instanceof EntityPlayer) {
+                    return entitycreature;
+                }
             }
         }
 
@@ -140,8 +137,8 @@ public class CREEPSEntitySnowDevil extends EntityMob {
             double d = entity.posX - posX;
             double d1 = entity.posZ - posZ;
             float f1 = MathHelper.sqrt_double(d * d + d1 * d1);
-            motionX = (d / (double) f1) * 0.5D * 0.80000001192092896D + motionX * 0.20000000298023224D;
-            motionZ = (d1 / (double) f1) * 0.5D * 0.80000001192092896D + motionZ * 0.20000000298023224D;
+            motionX = (d / f1) * 0.5D * 0.80000001192092896D + motionX * 0.20000000298023224D;
+            motionZ = (d1 / f1) * 0.5D * 0.80000001192092896D + motionZ * 0.20000000298023224D;
             motionY = 0.40000000596046448D;
         } else if (tamed) {
             super.attackEntityAsMob(entity);

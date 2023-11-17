@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
@@ -217,7 +216,6 @@ public class ClientProxy extends CommonProxy {
                 entity.posX,
                 entity.posY,
                 entity.posZ,
-                MoreCreepsAndWeirdos.partShrink,
                 0.5F,
                 0);
             Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
@@ -231,7 +229,6 @@ public class ClientProxy extends CommonProxy {
                 entity.posX,
                 entity.posY,
                 entity.posZ,
-                MoreCreepsAndWeirdos.partShrink,
                 0.25F,
                 0);
             creepsfxsmoke.renderDistanceWeight = 30D;
@@ -247,20 +244,20 @@ public class ClientProxy extends CommonProxy {
                 j = MoreCreepsAndWeirdos.partRed;
             }
 
-            CREEPSFxSmoke creepsfxsmoke = new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, j, 1.0F, 0F);
+            CREEPSFxSmoke creepsfxsmoke = new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 1.0F, 0F);
             creepsfxsmoke.renderDistanceWeight = 30D;
             Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
         }
     }
 
     public void rocketSmoke(World world, Entity entity, Item item) {
-        CREEPSFxSmoke creepsfxsmoke = new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, item, 13, 3F);
+        CREEPSFxSmoke creepsfxsmoke = new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 13, 3F);
         creepsfxsmoke.renderDistanceWeight = 15D;
         Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
-        CREEPSFxSmoke creepsfxsmoke1 = new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, item, 14, 3F);
+        CREEPSFxSmoke creepsfxsmoke1 = new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 14, 3F);
         creepsfxsmoke1.renderDistanceWeight = 15D;
         Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke1);
-        CREEPSFxSmoke creepsfxsmoke2 = new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, item, 24, 3F);
+        CREEPSFxSmoke creepsfxsmoke2 = new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 24, 3F);
         creepsfxsmoke2.renderDistanceWeight = 15D;
         Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke2);
     }
@@ -272,7 +269,6 @@ public class ClientProxy extends CommonProxy {
                 posX - 0.40000000000000002D,
                 (posY - 0.5D) + (double) (floattimer / 100),
                 posZ,
-                MoreCreepsAndWeirdos.partWhite,
                 13,
                 0.4F - (0.51F - modelspeed));
             Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
@@ -284,7 +280,6 @@ public class ClientProxy extends CommonProxy {
                 posX + 0.40000000000000002D,
                 (posY - 0.5D) + (double) (floattimer / 100),
                 posZ,
-                MoreCreepsAndWeirdos.partWhite,
                 13,
                 0.4F - (0.51F - modelspeed));
             creepsfxsmoke1.renderDistanceWeight = 15D;
@@ -409,7 +404,6 @@ public class ClientProxy extends CommonProxy {
             ((player.posX + random.nextGaussian() * 0.25D) - random.nextGaussian() * 0.25D) + d * 1.0D,
             ((player.posY - 0.5D) + random.nextGaussian() * 0.5D) - random.nextGaussian() * 0.5D,
             ((player.posZ + random.nextGaussian() * 0.25D) - random.nextGaussian() * 0.25D) + d1 * 1.0D,
-            MoreCreepsAndWeirdos.partBubble,
             0.05F,
             0.0F);
         Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
@@ -421,7 +415,6 @@ public class ClientProxy extends CommonProxy {
             horsehead.posX,
             (horsehead.posY - 0.5D) + rand.nextGaussian() * 0.20000000000000001D,
             horsehead.posZ,
-            MoreCreepsAndWeirdos.instance.partWhite,
             0.25F,
             0.0F);
         Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
@@ -434,7 +427,6 @@ public class ClientProxy extends CommonProxy {
                 entity.posX,
                 entity.posY,
                 entity.posZ,
-                MoreCreepsAndWeirdos.partBlack,
                 0.2F,
                 0.5F);
             Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
@@ -448,7 +440,6 @@ public class ClientProxy extends CommonProxy {
                 entity.posX,
                 (entity.posY - 0.5D) + random.nextGaussian() * 0.20000000000000001D,
                 entity.posZ,
-                MoreCreepsAndWeirdos.partWhite,
                 0.65F,
                 0.0F);
             Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
@@ -462,7 +453,6 @@ public class ClientProxy extends CommonProxy {
                 entity.posX,
                 entity.posY,
                 entity.posZ,
-                MoreCreepsAndWeirdos.instance.partShrink,
                 0.25F,
                 0.0F);
             Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
@@ -475,7 +465,6 @@ public class ClientProxy extends CommonProxy {
             entity.posX,
             entity.posY,
             entity.posZ,
-            Items.egg,
             b0,
             0.5F);
         Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
@@ -494,7 +483,6 @@ public class ClientProxy extends CommonProxy {
                 entity.posX,
                 entity.posY,
                 entity.posZ,
-                MoreCreepsAndWeirdos.instance.partShrink,
                 0.5F,
                 0.0F);
             Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);

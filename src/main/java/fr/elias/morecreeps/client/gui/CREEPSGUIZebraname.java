@@ -15,51 +15,39 @@ import fr.elias.morecreeps.common.entity.CREEPSEntityZebra;
 
 public class CREEPSGUIZebraname extends GuiScreen {
 
-    private CREEPSEntityZebra zebra;
+    private final CREEPSEntityZebra zebra;
     private GuiTextField namescreen;
     private boolean field_28217_m;
-    protected int xSize;
-    protected int ySize;
+    protected int xSize = 256;
+    protected int ySize = 180;
 
     public CREEPSGUIZebraname(CREEPSEntityZebra creepsentityzebra) {
         zebra = creepsentityzebra;
-        xSize = 256;
-        ySize = 180;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
+    @Override
     public void updateScreen() {
         namescreen.updateCursorCounter();
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
+    @Override
     public void initGui() {
         Keyboard.enableRepeatEvents(true);
         buttonList.clear();
-        byte byte0 = 10;
-        buttonList
-            .add(new GuiButton(1, width / 2 - 100, height / 4 + 62 + 12, I18n.format("gui.cancel", new Object[0])));
+        buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 62 + 12, I18n.format("gui.cancel")));
         buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 42, "Save"));
         namescreen = new GuiTextField(fontRendererObj, width / 2 - 100, height / 4 + 10, 200, 20);
         namescreen.setMaxStringLength(31);
         namescreen.setCanLoseFocus(true);
-        namescreen.setText(zebra.name);
+        namescreen.setText(zebra.name != null ? zebra.name : "");
     }
 
-    /**
-     * Called when the screen is unloaded. Used to disable keyboard repeat events
-     */
+    @Override
     public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
     }
 
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
+    @Override
     protected void actionPerformed(GuiButton guibutton) {
         if (!guibutton.enabled) {
             return;
@@ -76,16 +64,13 @@ public class CREEPSGUIZebraname extends GuiScreen {
             }
 
             field_28217_m = true;
-            long l = (new Random()).nextLong();
             String s = namescreen.getText();
             zebra.name = s;
             mc.displayGuiScreen(null);
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
+    @Override
     protected void keyTyped(char c, int i) {
         namescreen.textboxKeyTyped(c, i);
 
@@ -95,23 +80,16 @@ public class CREEPSGUIZebraname extends GuiScreen {
 
         if (i == 1) {
             mc.displayGuiScreen(null);
-            return;
-        } else {
-            return;
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
+    @Override
     protected void mouseClicked(int i, int j, int k) {
         super.mouseClicked(i, j, k);
         namescreen.mouseClicked(i, j, k);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
+    @Override
     public void drawScreen(int i, int j, float f) {
         drawDefaultBackground();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -119,12 +97,7 @@ public class CREEPSGUIZebraname extends GuiScreen {
         int l = (width - xSize) / 2;
         int i1 = (height - (ySize + 16)) / 2;
         drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
-        drawCenteredString(
-            fontRendererObj,
-            "N A M E   Y O U R   Z E B R A",
-            width / 2,
-            (height / 4 - 40) + 30,
-            0xffffff);
+        drawCenteredString(fontRendererObj, "N A M E   Y O U R   Z E B R A", width / 2, (height / 4 - 40) + 30, 0xffffff);
         namescreen.drawTextBox();
         super.drawScreen(i, j, f);
     }

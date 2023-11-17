@@ -282,7 +282,6 @@ public class CREEPSEntitySneakySal extends EntityMob {
                 posX + d1 * 0.5D,
                 posY + 2D,
                 posZ + d3 * 0.5D,
-                MoreCreepsAndWeirdos.partWhite,
                 0.5F,
                 0.5F);
             creepsfxsmoke.renderDistanceWeight = 15D;

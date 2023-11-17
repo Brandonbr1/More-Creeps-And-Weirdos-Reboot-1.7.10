@@ -82,7 +82,6 @@ public class CREEPSEntityCastleKing extends EntityMob {
             (posX + random.nextGaussian() * 0.5D) - random.nextGaussian() * 0.5D,
             ((posY - 1.0D) + random.nextGaussian() * 0.5D) - random.nextGaussian() * 0.5D,
             (posZ + random.nextGaussian() * 0.5D) - random.nextGaussian() * 0.5D,
-            MoreCreepsAndWeirdos.partBlue,
             0.55F,
             0);
         creepsfxsmoke.renderDistanceWeight = 20D;
