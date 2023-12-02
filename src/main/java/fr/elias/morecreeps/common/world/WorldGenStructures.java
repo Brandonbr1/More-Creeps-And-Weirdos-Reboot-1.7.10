@@ -14,10 +14,16 @@ public class WorldGenStructures implements IWorldGenerator {
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
         IChunkProvider chunkProvider) {
+        if(world.provider.dimensionId != 0) {
+            return;
+        }
         generateSurface(world, world.rand, chunkX, chunkZ);
     }
 
     public void generateSurface(World world, Random random, int i, int j) {
+        if(world.provider.dimensionId != 0) {
+            return;
+        }
         if (CREEPSConfig.pyramids >= (1100 - CREEPSConfig.pyramidRarity * 100) + 100 && CREEPSConfig.pyramidGen) {
             if (random.nextInt(30) == 0) {
                 int k = i + random.nextInt(16) + 16;
