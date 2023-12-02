@@ -373,19 +373,20 @@ public class CREEPSEntityDigBug extends EntityMob {
      * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
      */
     protected void attackEntity(Entity entity, float f) {
-        double d = entity.posX - posX;
-        double d1 = entity.posZ - posZ;
-        float f1 = MathHelper.sqrt_double(d * d + d1 * d1);
-        motionX = (d / f1) * 0.40000000000000002D * 0.10000000192092896D + motionX * 0.18000000098023225D;
-        motionZ = (d1 / f1) * 0.40000000000000002D * 0.070000001920928964D + motionZ * 0.18000000098023225D;
-
-        if (f < 2D - (1.0D - modelsize) && entity.getBoundingBox().maxY > getBoundingBox().minY
-            && entity.getBoundingBox().minY < getBoundingBox().maxY) {
-            attackTime = 10;
-            entity.motionX = -(motionX * 3D);
-            entity.motionY = rand.nextFloat() * 2.133F;
-            entity.motionZ = -(motionZ * 3D);
-            this.attackEntityAsMob(entity);
+        if (entity.getBoundingBox() != null && getBoundingBox() != null) {
+            double d = entity.posX - posX;
+            double d1 = entity.posZ - posZ;
+            float f1 = MathHelper.sqrt_double(d * d + d1 * d1);
+            motionX = (d / f1) * 0.40000000000000002D * 0.10000000192092896D + motionX * 0.18000000098023225D;
+            motionZ = (d1 / f1) * 0.40000000000000002D * 0.070000001920928964D + motionZ * 0.18000000098023225D;
+            if (f < 2D - (1.0D - modelsize) && entity.getBoundingBox().maxY > getBoundingBox().minY
+                && entity.getBoundingBox().minY < getBoundingBox().maxY) {
+                attackTime = 10;
+                entity.motionX = -(motionX * 3D);
+                entity.motionY = rand.nextFloat() * 2.133F;
+                entity.motionZ = -(motionZ * 3D);
+                this.attackEntityAsMob(entity);
+            }
         }
     }
 
