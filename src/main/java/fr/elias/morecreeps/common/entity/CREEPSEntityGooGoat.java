@@ -47,6 +47,7 @@ public class CREEPSEntityGooGoat extends EntityAnimal {
         hungrytime = rand.nextInt(100) + 10;
         goatlevel = 1;
         modelspeed = 0.45F;
+        setEntitySize(width * goatsize, height * goatsize);
         this.getNavigator()
             .setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
@@ -58,7 +59,9 @@ public class CREEPSEntityGooGoat extends EntityAnimal {
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new CREEPSEntityGooGoat.AIAttackEntity(this, EntityPlayer.class, true));
     }
-
+    public void setEntitySize(float width, float height) {
+        setSize(width, height);
+    }
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
