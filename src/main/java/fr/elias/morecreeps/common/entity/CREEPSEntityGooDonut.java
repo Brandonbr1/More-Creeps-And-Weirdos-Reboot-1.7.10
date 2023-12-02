@@ -31,6 +31,9 @@ public class CREEPSEntityGooDonut extends EntityThrowable {
      * length * 64 * renderDistanceWeight Args: distance
      */
     public boolean isInRangeToRenderDist(double d) {
+        if (getBoundingBox() == null) {
+            return false;
+        }
         double d1 = getBoundingBox().getAverageEdgeLength() * 4D;
         d1 *= 64D;
         return d < d1 * d1;
@@ -94,9 +97,12 @@ public class CREEPSEntityGooDonut extends EntityThrowable {
      * Called to update the entity's position/logic.
      */
     public void onUpdate() {
+        if (worldObj == null || isDead) {
+            return;
+        }
+
         double d = motionX;
         double d1 = motionY;
-        double d2 = motionZ;
         prevPosX = posX;
         prevPosY = posY;
         prevPosZ = posZ;
@@ -108,17 +114,13 @@ public class CREEPSEntityGooDonut extends EntityThrowable {
 
         if (motionY != d1) {
             motionY = -bounceFactor * d1;
-        }
-
-        if (motionY != d1) {
-            motionY = -bounceFactor * d1;
         } else {
-            motionY -= 0.040000000000000001D;
+            motionY -= 0.04D;
         }
 
-        motionX *= 0.97999999999999998D;
+        motionX *= 0.98D;
         motionY *= 0.995D;
-        motionZ *= 0.97999999999999998D;
+        motionZ *= 0.98D;
 
         if (fuse-- <= 0) {
             explode();
@@ -130,9 +132,9 @@ public class CREEPSEntityGooDonut extends EntityThrowable {
                     float f = 0.85F;
                     worldObj.spawnParticle(
                         "BUBBLE",
-                        posX - motionX - 0.25D * (double) f,
-                        posY - motionY - 0.25D * (double) f,
-                        posZ - motionZ - 0.25D * (double) f,
+                        posX - motionX - 0.25D * f,
+                        posY - motionY - 0.25D * f,
+                        posZ - motionZ - 0.25D * f,
                         motionX,
                         motionY,
                         motionZ);
@@ -142,12 +144,11 @@ public class CREEPSEntityGooDonut extends EntityThrowable {
             setDead();
             if (!worldObj.isRemote) dropItem(MoreCreepsAndWeirdos.goodonut, 1);
         }
-
-        List list = worldObj.getEntitiesWithinAABBExcludingEntity(
+        if (getBoundingBox() != null) {
+        worldObj.getEntitiesWithinAABBExcludingEntity(
             this,
-            getBoundingBox().addCoord(motionX, motionY, motionZ)
-                .expand(1.0D, 1.0D, 1.0D));
-    }
+            getBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
+    }}
 
     private void explode() {
         if (!exploded) {
@@ -160,6 +161,5 @@ public class CREEPSEntityGooDonut extends EntityThrowable {
     @Override
     protected void onImpact(MovingObjectPosition p_70184_1_) {
         // TODO Auto-generated method stub
-
     }
 }
