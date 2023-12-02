@@ -893,6 +893,7 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+        /* // todo fix https://github.com/quentin452/More-Creeps-And-Weirdos-Reboot-1.7.10/issues/9
         addMob(
             CREEPSEntityRobotTed.class,
             "RobotTed",
@@ -902,6 +903,8 @@ public class MoreCreepsAndWeirdos {
             4,
             EnumCreatureType.creature,
             allBiomes());
+
+         */
         // todo
         /*
         addMob(
