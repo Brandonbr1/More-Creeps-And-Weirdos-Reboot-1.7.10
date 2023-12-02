@@ -1,7 +1,5 @@
 package fr.elias.morecreeps.common.entity;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -13,17 +11,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class CREEPSEntityKid extends EntityAnimal {
 
-    protected double attackrange;
+    protected final double attackrange;
     protected int attack;
     public float modelsize;
     public int checktimer;
-    public String texture;
+    public final String texture;
 
     public CREEPSEntityKid(World world) {
         super(world);
@@ -60,7 +59,7 @@ public class CREEPSEntityKid extends EntityAnimal {
     }
 
     /**
-     * Checks if this entity is inside of an opaque block
+     * Checks if this entity is inside an opaque block
      */
     public boolean isEntityInsideOpaqueBlock() {
         if (ridingEntity != null) {
@@ -76,19 +75,13 @@ public class CREEPSEntityKid extends EntityAnimal {
     public double getYOffset() {
         if (ridingEntity instanceof EntityPlayer) {
             float f = 0.6F - modelsize;
-
-            if (modelsize > 1.0F) {
-                f *= 0.55F;
-            }
-
-            return (double) 1.5F + f;
+            return (double) -1.6F + f;
         }
 
         if (ridingEntity instanceof CREEPSEntityLolliman) {
-            return (double) ((2.6F + (0.6F - modelsize))
-                - (2.0F - ((CREEPSEntityLolliman) ridingEntity).modelsize) * 2.75F);
+            return (2.6F + (0.6F - modelsize)) - (2.0F - ((CREEPSEntityLolliman) ridingEntity).modelsize) * 2.75F;
         } else {
-            return (double) 1.0;
+            return 1.0;
         }
     }
 
@@ -109,28 +102,25 @@ public class CREEPSEntityKid extends EntityAnimal {
      */
     public void onLivingUpdate() {
         super.onLivingUpdate();
-
+        if (worldObj == null) {
+            return;
+        }
         if (modelsize > 1.0F) {
             ignoreFrustumCheck = true;
         }
-
         if (handleWaterMovement()) {
             motionY = 0.15999999642372131D;
         }
-
-        if (ridingEntity != null && checktimer-- < 0) {
-            checktimer = 60;
-            List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(8D, 8D, 8D));
-
-            for (int i = 0; i < list.size(); i++) {
-                Entity entity = (Entity) list.get(i);
-
+        if (getBoundingBox() != null) {
+            AxisAlignedBB aabb = getBoundingBox().expand(8D, 8D, 8D);
+            for (Object object : worldObj.getEntitiesWithinAABB(Entity.class, aabb)) {
+                Entity entity = (Entity) object;
                 if (entity instanceof CREEPSEntityLolliman) {
                     worldObj.playSoundAtEntity(
                         this,
                         "morecreeps:kidfind",
                         1.0F,
-                        (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
+                        (rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
                 }
             }
         }
@@ -139,8 +129,6 @@ public class CREEPSEntityKid extends EntityAnimal {
     /**
      * Takes a coordinate in and returns a weight to determine how likely this creature will try to path to the block.
      * Args: x, y, z
-     *
-     * @return
      */
     public float getBlockPathWeight(int x, int y, int z) {
         if (worldObj.getBlock(x, y, z) == Blocks.sand || worldObj.getBlock(x, y, z) == Blocks.gravel) {
@@ -155,38 +143,37 @@ public class CREEPSEntityKid extends EntityAnimal {
      */
     public boolean interact(EntityPlayer entityplayer) {
         if (!(getAttackTarget() instanceof EntityPlayer)) {
-            rotationYaw = entityplayer.rotationYaw;
-            Object obj = entityplayer;
+            Entity obj = entityplayer;
 
             if (ridingEntity != obj) {
-                rotationYaw = ((Entity) obj).rotationYaw;
-                mountEntity((Entity) obj);
+                rotationYaw = obj.rotationYaw;
+                mountEntity(obj);
                 worldObj.playSoundAtEntity(
                     this,
                     "morecreeps:kidup",
                     1.0F,
-                    (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
+                    (rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
             } else {
-                obj = ((Entity) obj).riddenByEntity;
-                rotationYaw = ((Entity) obj).rotationYaw;
-                ((Entity) obj).fallDistance = -25F;
-                ((Entity) obj).mountEntity(null);
+                obj = obj.riddenByEntity;
+                rotationYaw = obj.rotationYaw;
+                obj.fallDistance = -25F;
+                obj.mountEntity(null);
                 double d = -MathHelper.sin((entityplayer.rotationYaw * (float) Math.PI) / 180F);
                 double d1 = MathHelper.cos((entityplayer.rotationYaw * (float) Math.PI) / 180F);
-                ((Entity) obj).motionX = d * 0.60000002384185791D;
-                ((Entity) obj).motionZ = d1 * 0.60000002384185791D;
+                obj.motionX = d * 0.60000002384185791D;
+                obj.motionZ = d1 * 0.60000002384185791D;
                 worldObj.playSoundAtEntity(
                     this,
                     "morecreeps:kiddown",
                     1.0F,
-                    (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
+                    (rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
             }
         } else {
             worldObj.playSoundAtEntity(
                 this,
                 "morecreeps:kidnontpickup",
                 1.0F,
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
+                (rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
         }
 
         return true;
@@ -209,8 +196,8 @@ public class CREEPSEntityKid extends EntityAnimal {
             double d = entity.posX - posX;
             double d1 = entity.posZ - posZ;
             float f1 = MathHelper.sqrt_double(d * d + d1 * d1);
-            motionX = (d / (double) f1) * 0.20000000000000001D * (0.850000011920929D + motionX * 0.20000000298023224D);
-            motionZ = (d1 / (double) f1) * 0.20000000000000001D
+            motionX = (d / f1) * 0.20000000000000001D * (0.850000011920929D + motionX * 0.20000000298023224D);
+            motionZ = (d1 / f1) * 0.20000000000000001D
                 * (0.80000001192092896D + motionZ * 0.20000000298023224D);
             motionY = 0.10000000596246449D;
             fallDistance = -25F;
@@ -225,26 +212,22 @@ public class CREEPSEntityKid extends EntityAnimal {
         }
 
         public void updateTask() {
-            try {
+            if (CREEPSEntityKid.this.getAttackTarget() != null) {
                 float f = CREEPSEntityKid.this.getDistanceToEntity(getAttackTarget());
                 if (f < 256F) {
                     attackEntity(CREEPSEntityKid.this.getAttackTarget(), f);
-                    CREEPSEntityKid.this.getLookHelper()
-                        .setLookPositionWithEntity(CREEPSEntityKid.this.getAttackTarget(), 10.0F, 10.0F);
-                    CREEPSEntityKid.this.getNavigator()
-                        .clearPathEntity();
-                    CREEPSEntityKid.this.getMoveHelper()
-                        .setMoveTo(
-                            CREEPSEntityKid.this.getAttackTarget().posX,
-                            CREEPSEntityKid.this.getAttackTarget().posY,
-                            CREEPSEntityKid.this.getAttackTarget().posZ,
-                            0.5D);
+                    CREEPSEntityKid.this.getLookHelper().setLookPositionWithEntity(
+                        CREEPSEntityKid.this.getAttackTarget(), 10.0F, 10.0F);
+                    CREEPSEntityKid.this.getNavigator().clearPathEntity();
+                    CREEPSEntityKid.this.getMoveHelper().setMoveTo(
+                        CREEPSEntityKid.this.getAttackTarget().posX,
+                        CREEPSEntityKid.this.getAttackTarget().posY,
+                        CREEPSEntityKid.this.getAttackTarget().posZ,
+                        0.5D);
                 }
                 if (f < 1F) {
                     CREEPSEntityKid.this.attackEntityAsMob(CREEPSEntityKid.this.getAttackTarget());
                 }
-            } catch (NullPointerException ex) {
-                ex.printStackTrace();
             }
         }
     }
@@ -268,8 +251,7 @@ public class CREEPSEntityKid extends EntityAnimal {
             && i1 != Blocks.stone_slab
             && i1 != Blocks.planks
             && i1 != Blocks.wool
-            && worldObj.getCollidingBoundingBoxes(this, getBoundingBox())
-                .size() == 0
+            && worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).isEmpty()
             && worldObj.canBlockSeeTheSky(i, j, k)
             && rand.nextInt(15) == 0
             && l > 6;
@@ -302,7 +284,7 @@ public class CREEPSEntityKid extends EntityAnimal {
                 this,
                 s,
                 getSoundVolume(),
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
+                (rand.nextFloat()) * 0.2F + 1.0F + (0.6F - modelsize) * 2.0F);
         }
     }
 
