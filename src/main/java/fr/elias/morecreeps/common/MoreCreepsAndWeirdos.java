@@ -7,8 +7,10 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 import fr.elias.morecreeps.client.config.CREEPSConfig;
 import fr.elias.morecreeps.client.gui.handler.CREEPSGuiHandler;
 import fr.elias.morecreeps.common.entity.CREEPSEntityArmyGuy;
@@ -108,6 +110,7 @@ import fr.elias.morecreeps.common.items.CREEPSItemShrinkRay;
 import fr.elias.morecreeps.common.items.CREEPSItemSkyGem;
 import fr.elias.morecreeps.common.items.CREEPSItemSpawner;
 import fr.elias.morecreeps.common.items.CREEPSList;
+import fr.elias.morecreeps.common.packets.SyncPlayerDataPacket;
 import fr.elias.morecreeps.common.recipes.CREEPSRecipeHandler;
 import fr.elias.morecreeps.common.world.WorldGenStructures;
 import fr.elias.morecreeps.proxy.CommonProxy;
@@ -133,11 +136,14 @@ public class MoreCreepsAndWeirdos {
     public static CommonProxy proxy;
 
     @Mod.Instance("morecreeps")
-    public static MoreCreepsAndWeirdos instance;
+    public static MoreCreepsAndWeirdos INSTANCE;
 
     public static Random rand = new Random();
 
     private int count;
+
+
+    public static SimpleNetworkWrapper packetHandler;
 
     public int spittime = 500;
 
@@ -243,6 +249,9 @@ public class MoreCreepsAndWeirdos {
 
         // Loads config
         CREEPSConfig.preInit(event);
+
+        packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel("morecreepsandweirdosPacketHandler");
+        packetHandler.registerMessage(SyncPlayerDataPacket.Handler.class, SyncPlayerDataPacket.class, 1, Side.CLIENT);
 
         partBubble = new Item().setUnlocalizedName("partBubble")
                 .setTextureName("morecreeps:bubble");
@@ -655,7 +664,7 @@ public class MoreCreepsAndWeirdos {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        NetworkRegistry.INSTANCE.registerGuiHandler(MoreCreepsAndWeirdos.instance, new CREEPSGuiHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(MoreCreepsAndWeirdos.INSTANCE, new CREEPSGuiHandler());
         // projectiles registry
         EntityRegistry.registerModEntity(
                 CREEPSEntityShrink.class,

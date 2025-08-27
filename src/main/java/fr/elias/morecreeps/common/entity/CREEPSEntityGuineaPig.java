@@ -659,7 +659,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
 
         if (this.tamed && entityplayer.isSneaking()) {
             entityplayer.openGui(
-                    MoreCreepsAndWeirdos.instance,
+                    MoreCreepsAndWeirdos.INSTANCE,
                     3,
                     this.world,
                     (int) entityplayer.posX,
@@ -717,7 +717,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
             if ((itemstack.getItem() == Items.book || itemstack.getItem() == Items.paper
                     || itemstack.getItem() == MoreCreepsAndWeirdos.guineapigradio) && this.tamed) {
                 entityplayer.openGui(
-                        MoreCreepsAndWeirdos.instance,
+                        MoreCreepsAndWeirdos.INSTANCE,
                         4,
                         this.world,
                         (int) entityplayer.posX,

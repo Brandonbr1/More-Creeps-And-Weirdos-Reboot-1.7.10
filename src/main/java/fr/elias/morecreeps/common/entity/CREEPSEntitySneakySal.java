@@ -160,7 +160,7 @@ public class CREEPSEntitySneakySal extends EntityMob {
 
             if (this.dissedmax > 0 && !(this.playerToAttack instanceof EntityPlayer)) {
                 entityplayer.openGui(
-                        MoreCreepsAndWeirdos.instance,
+                        MoreCreepsAndWeirdos.INSTANCE,
                         6,
                         this.worldObj,
                         (int) entityplayer.posX,
@@ -202,11 +202,11 @@ public class CREEPSEntitySneakySal extends EntityMob {
             this.motionZ = (d1 / f1) * 0.40000000000000002D * 0.14000000192092896D + this.motionZ * 0.18000000098023225D;
 
 
-            //   if (f < 2.7999999999999998D && entity.getBoundingBox().maxY > this.getBoundingBox().minY
-            //         && entity.getBoundingBox().minY < this.getBoundingBox().maxY) {
-            // attackTime = 10;
-            entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.attackStrength);
-            // }
+            if (f < 2.7999999999999998D && entity.boundingBox.maxY > this.boundingBox.minY
+                    && entity.boundingBox.minY < this.boundingBox.maxY) {
+                this.attackTime = 10;
+                entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.attackStrength);
+            }
 
 
             super.attackEntityAsMob(entity);

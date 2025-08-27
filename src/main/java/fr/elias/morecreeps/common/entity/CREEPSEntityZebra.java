@@ -312,7 +312,7 @@ public class CREEPSEntityZebra extends EntityAnimal {
         }
 
         if (tamed && entityplayer.isSneaking() && riddenByEntity == null) {
-            entityplayer.openGui(MoreCreepsAndWeirdos.instance, 7, worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
+            entityplayer.openGui(MoreCreepsAndWeirdos.INSTANCE, 7, worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
             return true;
         }
 

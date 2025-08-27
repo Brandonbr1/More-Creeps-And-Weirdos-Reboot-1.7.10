@@ -407,7 +407,7 @@ public class CREEPSEntityShrink extends EntityThrowable {
                     if (movingobjectposition.entityHit instanceof CREEPSEntityLawyerFromHell) {
                         if (((CREEPSEntityLawyerFromHell) movingobjectposition.entityHit).modelsize > 0.3F) {
                             ((CREEPSEntityLawyerFromHell) movingobjectposition.entityHit).modelsize -= 0.2F;
-                            MoreCreepsAndWeirdos.instance.currentfine += 50;
+                            MoreCreepsAndWeirdos.INSTANCE.currentfine += 50;
                         } else {
                             ((CREEPSEntityLawyerFromHell) movingobjectposition.entityHit).setDead();
                             flag = true;

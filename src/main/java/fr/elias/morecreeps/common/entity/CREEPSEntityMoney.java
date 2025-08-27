@@ -46,7 +46,7 @@ public class CREEPSEntityMoney extends EntityThrowable {
      */
     @Override
     public boolean isInRangeToRenderDist(double d) {
-        double d1 = this.getBoundingBox().getAverageEdgeLength() * 4D;
+        double d1 = this.boundingBox.getAverageEdgeLength() * 4D;
         d1 *= 64D;
         return d < d1 * d1;
     }
@@ -153,7 +153,7 @@ public class CREEPSEntityMoney extends EntityThrowable {
             Object obj = null;
             List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
                     this,
-                    this.getBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ)
+                    this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ)
                     .expand(0.5D, 0.5D, 0.5D));
             double d3 = 0.0D;
 
@@ -192,10 +192,10 @@ public class CREEPSEntityMoney extends EntityThrowable {
                 }
 
                 // Possible threading issues
-                MoreCreepsAndWeirdos.instance.currentfine -= 50;
+                MoreCreepsAndWeirdos.INSTANCE.currentfine -= 50;
 
-                if (MoreCreepsAndWeirdos.instance.currentfine < 0) {
-                    MoreCreepsAndWeirdos.instance.currentfine = 0;
+                if (MoreCreepsAndWeirdos.INSTANCE.currentfine < 0) {
+                    MoreCreepsAndWeirdos.INSTANCE.currentfine = 0;
                 }
 
                 this.setDead();

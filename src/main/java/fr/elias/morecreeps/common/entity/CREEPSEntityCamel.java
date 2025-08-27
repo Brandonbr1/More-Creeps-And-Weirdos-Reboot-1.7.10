@@ -335,7 +335,7 @@ public class CREEPSEntityCamel extends EntityMob {
 
         if (this.tamed && entityplayer.isSneaking()) {
             entityplayer
-            .openGui(MoreCreepsAndWeirdos.instance, 1, this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
+            .openGui(MoreCreepsAndWeirdos.INSTANCE, 1, this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
             return true;
         }
 

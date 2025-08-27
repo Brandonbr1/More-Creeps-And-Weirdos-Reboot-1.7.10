@@ -281,7 +281,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature {
 
         if (tamed && entityplayer.isSneaking()) {
             entityplayer
-                .openGui(MoreCreepsAndWeirdos.instance, 5, worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
+                .openGui(MoreCreepsAndWeirdos.INSTANCE, 5, worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
         }
 
         if (itemstack == null && tamed) {

@@ -792,7 +792,7 @@ public class CREEPSEntityHotdog extends EntityMob {
 
         if (tamed && entityplayer.isSneaking()) {
             entityplayer
-                .openGui(MoreCreepsAndWeirdos.instance, 2, worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
+                .openGui(MoreCreepsAndWeirdos.INSTANCE, 2, worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
             return true;
         }
 
@@ -854,7 +854,7 @@ public class CREEPSEntityHotdog extends EntityMob {
             if ((itemstack.getItem() == Items.book || itemstack.getItem() == Items.paper
                 || itemstack.getItem() == MoreCreepsAndWeirdos.guineapigradio) && tamed) {
                 entityplayer.openGui(
-                    MoreCreepsAndWeirdos.instance,
+                    MoreCreepsAndWeirdos.INSTANCE,
                     3,
                     worldObj,
                     (int) this.posX,

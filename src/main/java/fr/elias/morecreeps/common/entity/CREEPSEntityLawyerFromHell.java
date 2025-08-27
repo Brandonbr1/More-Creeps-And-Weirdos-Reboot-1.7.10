@@ -105,7 +105,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
         if (this.lawyerstate == 0 && !this.undead)
             return null;
 
-        if (MoreCreepsAndWeirdos.instance.currentfine <= 0 && !this.undead) {
+        if (MoreCreepsAndWeirdos.INSTANCE.currentfine <= 0 && !this.undead) {
             this.lawyerstate = 0;
             this.pathToEntity = null;
             return null;
@@ -147,13 +147,13 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
         System.out.println("laywerstate" + this.lawyerstate);
         System.out.println("timer" + this.lawyertimer);
         System.out.println("laywerstate" + this.lawyertimer);
-        System.out.println("fine" + MoreCreepsAndWeirdos.instance.currentfine);
-        System.out.println("jail built" + MoreCreepsAndWeirdos.instance.jailBuilt);
-        if (MoreCreepsAndWeirdos.instance.currentfine > 0 && this.lawyerstate == 0 && !this.undead) {
+        System.out.println("fine" + MoreCreepsAndWeirdos.INSTANCE.currentfine);
+        System.out.println("jail built" + MoreCreepsAndWeirdos.INSTANCE.jailBuilt);
+        if (MoreCreepsAndWeirdos.INSTANCE.currentfine > 0 && this.lawyerstate == 0 && !this.undead) {
             this.lawyerstate = 1;
         }
 
-        if (MoreCreepsAndWeirdos.instance.currentfine > 2500 && this.lawyerstate < 5 && !this.undead) {
+        if (MoreCreepsAndWeirdos.INSTANCE.currentfine > 2500 && this.lawyerstate < 5 && !this.undead) {
             this.lawyerstate = 5;
         }
 
@@ -186,7 +186,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                 || (entity instanceof CREEPSEntityGuineaPig) && ((CREEPSEntityGuineaPig) entity).tamed
                 || (entity instanceof CREEPSEntityHotdog) && ((CREEPSEntityHotdog) entity).tamed
                 || (entity instanceof CREEPSEntityArmyGuy) && ((CREEPSEntityArmyGuy) entity).loyal) {
-            MoreCreepsAndWeirdos.instance.currentfine += 50;
+            MoreCreepsAndWeirdos.INSTANCE.currentfine += 50;
         }
 
         if (!this.undead) {
@@ -208,7 +208,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
 
                 if (this.rand.nextInt(5) == 0) {
                     for (int j = 0; j < this.rand.nextInt(20) + 5; j++) {
-                        MoreCreepsAndWeirdos.instance.currentfine += 25;
+                        MoreCreepsAndWeirdos.INSTANCE.currentfine += 25;
                         this.worldObj.playSoundAtEntity(
                                 this,
                                 "morecreeps:lawyermoneyhit",
@@ -222,7 +222,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
 
                 if (this.rand.nextInt(5) == 0) {
                     for (int k = 0; k < this.rand.nextInt(3) + 1; k++) {
-                        MoreCreepsAndWeirdos.instance.currentfine += 10;
+                        MoreCreepsAndWeirdos.INSTANCE.currentfine += 10;
                         this.worldObj.playSoundAtEntity(
                                 this,
                                 "morecreeps:lawyermoneyhit",
@@ -288,7 +288,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
 
 
         if (this.getAttackTarget() instanceof EntityPlayer) {
-            if (MoreCreepsAndWeirdos.instance.currentfine <= 0 && !this.undead) {
+            if (MoreCreepsAndWeirdos.INSTANCE.currentfine <= 0 && !this.undead) {
                 this.pathToEntity = null;
                 return;
             }
@@ -322,7 +322,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                         && !this.undead
                         && this.rand.nextInt(10) == 0
                         && CREEPSConfig.jailActive
-                        && MoreCreepsAndWeirdos.instance.currentfine >= 2500) {
+                        && MoreCreepsAndWeirdos.INSTANCE.currentfine >= 2500) {
                     for (int i = 0; i < 21; i++) {
                         EntityPlayer entityplayer = (EntityPlayer) entity;
                         Object obj = entityplayer;
@@ -348,7 +348,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                     && !this.undead
                     && CREEPSConfig.jailActive
                     && this.lawyerstate == 5
-                    && MoreCreepsAndWeirdos.instance.currentfine >= 2500) {
+                    && MoreCreepsAndWeirdos.INSTANCE.currentfine >= 2500) {
                 for (int j = 0; j < 21; j++) {
                     EntityPlayer entityplayer1 = (EntityPlayer) entity;
                     Object obj1 = entityplayer1;
@@ -392,10 +392,10 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
         this.jailZ = (int) ((entityplayersp).posZ + i);
         this.maxObstruct = 0x1869f;
 
-        if (MoreCreepsAndWeirdos.instance.jailBuilt) {
-            this.jailX = MoreCreepsAndWeirdos.instance.currentJailX;
-            this.jailY = MoreCreepsAndWeirdos.instance.currentJailY;
-            this.jailZ = MoreCreepsAndWeirdos.instance.currentJailZ;
+        if (MoreCreepsAndWeirdos.INSTANCE.jailBuilt) {
+            this.jailX = MoreCreepsAndWeirdos.INSTANCE.currentJailX;
+            this.jailY = MoreCreepsAndWeirdos.INSTANCE.currentJailY;
+            this.jailZ = MoreCreepsAndWeirdos.INSTANCE.currentJailZ;
         } else {
             if (!blockExists(this.worldObj, this.jailX, this.jailY, this.jailZ - 31)
                     || !blockExists(this.worldObj, this.jailX + 14, this.jailY, this.jailZ - 31)
@@ -403,7 +403,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                     || !blockExists(this.worldObj, this.jailX + 14, this.jailY, this.jailZ + 45))
                 return false;
 
-            if (!MoreCreepsAndWeirdos.instance.jailBuilt) {
+            if (!MoreCreepsAndWeirdos.INSTANCE.jailBuilt) {
                 this.area = 0;
                 int j = -1;
                 label0:
@@ -835,17 +835,17 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
             }
         }
 
-        MoreCreepsAndWeirdos.instance.currentfine = 0;
+        MoreCreepsAndWeirdos.INSTANCE.currentfine = 0;
         boolean flag = false;
 
-        if (MoreCreepsAndWeirdos.instance.currentfine < 0) {
-            MoreCreepsAndWeirdos.instance.currentfine = 0;
+        if (MoreCreepsAndWeirdos.INSTANCE.currentfine < 0) {
+            MoreCreepsAndWeirdos.INSTANCE.currentfine = 0;
         }
 
-        MoreCreepsAndWeirdos.instance.currentJailX = this.jailX;
-        MoreCreepsAndWeirdos.instance.currentJailY = this.jailY;
-        MoreCreepsAndWeirdos.instance.currentJailZ = this.jailZ;
-        MoreCreepsAndWeirdos.instance.jailBuilt = true;
+        MoreCreepsAndWeirdos.INSTANCE.currentJailX = this.jailX;
+        MoreCreepsAndWeirdos.INSTANCE.currentJailY = this.jailY;
+        MoreCreepsAndWeirdos.INSTANCE.currentJailZ = this.jailZ;
+        MoreCreepsAndWeirdos.INSTANCE.jailBuilt = true;
         return true;
     }
 

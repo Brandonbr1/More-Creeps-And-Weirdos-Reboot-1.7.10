@@ -276,7 +276,7 @@ public class CREEPSEntitySnowDevil extends EntityMob {
 
         if (this.tamed && entityplayer.isSneaking()) {
             entityplayer
-            .openGui(MoreCreepsAndWeirdos.instance, 7, this.world, (int) this.posX, (int) this.posY, (int) this.posZ);
+            .openGui(MoreCreepsAndWeirdos.INSTANCE, 7, this.world, (int) this.posX, (int) this.posY, (int) this.posZ);
         }
 
         if (itemstack != null) {

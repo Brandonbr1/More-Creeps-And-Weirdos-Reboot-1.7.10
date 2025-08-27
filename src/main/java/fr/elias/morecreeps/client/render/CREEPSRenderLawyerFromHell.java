@@ -45,7 +45,7 @@ public class CREEPSRenderLawyerFromHell extends RenderLiving {
         float f3 = 0.01666667F * f2;
         float f4 = entityliving.getDistanceToEntity(renderManager.livingPlayer);
         String s = "";
-        int i = MoreCreepsAndWeirdos.instance.currentfine;
+        int i = MoreCreepsAndWeirdos.INSTANCE.currentfine;
 
         if (i > 0) {
             s = (new StringBuilder()).append("\247cFINE: \2472$\247f")
