@@ -18,6 +18,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
@@ -39,17 +40,17 @@ public class CREEPSEntityLolliman extends EntityAnimal {
 
     public CREEPSEntityLolliman(World world) {
         super(world);
-        texture = "morecreeps:textures/entity/lolliman.png";
-        setSize(0.9F, 3F);
-        attack = 2;
-        attackrange = 16D;
-        kidcheck = 0;
-        kidmounted = false;
-        rockettime = 0;
-        modelsize = 2.0F;
-        treats = 0;
+        this.texture = "morecreeps:textures/entity/lolliman.png";
+        this.setSize(0.9F, 3F);
+        this.attack = 2;
+        this.attackrange = 16D;
+        this.kidcheck = 0;
+        this.kidmounted = false;
+        this.rockettime = 0;
+        this.modelsize = 2.0F;
+        this.treats = 0;
         this.getNavigator()
-            .setBreakDoors(true);
+        .setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAIMoveTowardsRestriction(this, 0.5D));
         this.tasks.addTask(3, new EntityAIWander(this, 1.0D));
@@ -57,119 +58,129 @@ public class CREEPSEntityLolliman extends EntityAnimal {
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
     }
 
+    @Override
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(25D);
+        .setBaseValue(25D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(0.45D);
+        .setBaseValue(0.45D);
     }
 
     /**
      * This function is used when two same-species animals in 'love mode' breed to generate the new baby animal.
      */
+    @Override
     public EntityAnimal createChild(EntityAgeable entityanimal) {
-        return new CREEPSEntityLolliman(worldObj);
+        return new CREEPSEntityLolliman(this.worldObj);
     }
 
+    @Override
     protected void updateAITasks() {
-        if (kidcheck++ > 25 && !kidmounted) {
-            kidcheck = 0;
-            List list = null;
-            list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(2D, 2D, 2D));
+        if (this.kidcheck++ > 25 && !this.kidmounted) {
+            this.kidcheck = 0;
+            // List list = null;
+            AxisAlignedBB bb = this.getBoundingBox();
+            if (bb == null) return;
+            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, bb.expand(2D, 2D, 2D));
+
 
             for (int k = 0; k < list.size(); k++) {
                 Entity entity = (Entity) list.get(k);
 
-                if (!((entity != null) & (entity instanceof CREEPSEntityKid))
-                    || (entity.ridingEntity == null || !(entity.ridingEntity instanceof EntityPlayer))) {
+                if (!((entity != null) && (entity instanceof CREEPSEntityKid))
+                        || (entity.ridingEntity == null || !(entity.ridingEntity instanceof EntityPlayer))) {
                     continue;
                 }
 
-                worldObj.playSoundAtEntity(
-                    this,
-                    "morecreeps:lollimantakeoff",
-                    1.0F,
-                    (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-                smallconfetti();
+                this.worldObj.playSoundAtEntity(
+                        this,
+                        "morecreeps:lollimantakeoff",
+                        1.0F,
+                        (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+                this.smallconfetti();
 
                 // Actually not stable
-                EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(this, 4D);
-                if (!((EntityPlayerMP) entityplayer).func_147099_x()
-                    .hasAchievementUnlocked(MoreCreepsAndWeirdos.achievelolliman)) {
-                    worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
-                    entityplayer.addStat(MoreCreepsAndWeirdos.achievelolliman, 1);
-                    confetti();
+                EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 4D);
+                if (entityplayer instanceof EntityPlayer && entityplayer != null) {
+                    if (!((EntityPlayerMP) entityplayer).func_147099_x() .hasAchievementUnlocked(MoreCreepsAndWeirdos.achievelolliman)) {
+                        this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
+                        entityplayer.addStat(MoreCreepsAndWeirdos.achievelolliman, 1);
+                        this.confetti();
+                    }
                 }
 
                 entity.mountEntity(null);
                 entity.mountEntity(this);
                 this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-                    .setBaseValue(0.0D);
-                motionY = 0.60000002384185791D;
-                kidmounted = true;
-                kidcheck = 255;
+                .setBaseValue(0.0D);
+                this.motionY = 0.60000002384185791D;
+                this.kidmounted = true;
+                this.kidcheck = 255;
+                return;
             }
         }
 
-        if (kidcheck > 250 && kidmounted) {
-            if (worldObj.isRemote) MoreCreepsAndWeirdos.proxy.smoke3(worldObj, this, rand);
+        if (this.kidcheck > 250 && this.kidmounted) {
+            if (this.worldObj.isRemote) {
+                MoreCreepsAndWeirdos.proxy.smoke3(this.worldObj, this, this.rand);
+            }
 
-            motionY = 0.25D;
+            this.motionY = 0.25D;
 
-            if (rockettime++ > 5) {
-                rockettime = 0;
+            if (this.rockettime++ > 5) {
+                this.rockettime = 0;
 
-                for (int j = 0; j < rand.nextInt(2) + 1; j++) {
+                for (int j = 0; j < this.rand.nextInt(2) + 1; j++) {
                     Object obj = null;
-                    int l = rand.nextInt(4);
-                    treats++;
+                    int l = this.rand.nextInt(4);
+                    this.treats++;
 
-                    if (treats == 30) {
-                        worldObj.playSoundAtEntity(
-                            this,
-                            "morecreeps:lollimanexplode",
-                            1.0F,
-                            (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+                    if (this.treats == 30) {
+                        this.worldObj.playSoundAtEntity(
+                                this,
+                                "morecreeps:lollimanexplode",
+                                1.0F,
+                                (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
                     }
 
-                    if (rand.nextInt(3) == 0) {
+                    if (this.rand.nextInt(3) == 0) {
                         EntityItem entityitem;
 
                         switch (l) {
                             case 1:
-                                entityitem = entityDropItem(new ItemStack(Items.cookie, 1, 0), 1.0F);
+                                entityitem = this.entityDropItem(new ItemStack(Items.cookie, 1, 0), 1.0F);
                                 break;
 
                             case 2:
-                                entityitem = entityDropItem(new ItemStack(Items.cake, 1, 0), 1.0F);
+                                entityitem = this.entityDropItem(new ItemStack(Items.cake, 1, 0), 1.0F);
                                 break;
 
                             case 3:
-                                entityitem = entityDropItem(new ItemStack(MoreCreepsAndWeirdos.lolly, 1, 0), 1.0F);
+                                entityitem = this.entityDropItem(new ItemStack(MoreCreepsAndWeirdos.lolly, 1, 0), 1.0F);
                                 break;
 
                             default:
-                                entityitem = entityDropItem(new ItemStack(MoreCreepsAndWeirdos.lolly, 1, 0), 1.0F);
+                                entityitem = this.entityDropItem(new ItemStack(MoreCreepsAndWeirdos.lolly, 1, 0), 1.0F);
                                 break;
                         }
 
-                        entityitem.motionX += (rand.nextFloat() - rand.nextFloat()) * 0.2F;
-                        entityitem.motionZ += (rand.nextFloat() - rand.nextFloat()) * 0.2F;
+                        entityitem.motionX += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F;
+                        entityitem.motionZ += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F;
                     }
 
-                    if (posY <= 100D && treats <= 55) {
+                    if (this.posY <= 100D && this.treats <= 55) {
                         continue;
                     }
 
-                    if (riddenByEntity != null) {
-                        riddenByEntity.setDead();
+                    if (this.riddenByEntity != null) {
+                        this.riddenByEntity.setDead();
                     }
 
-                    setDead();
+                    this.setDead();
 
-                    if (treats > 50) {
-                        worldObj.createExplosion(this, posX, posY + 2D, posZ, 2.5F, true);
+                    if (this.treats > 50) {
+                        this.worldObj.createExplosion(this, this.posX, this.posY + 2D, this.posZ, 2.5F, true);
                     }
                 }
             }
@@ -181,12 +192,12 @@ public class CREEPSEntityLolliman extends EntityAnimal {
     /**
      * Checks if this entity is inside of an opaque block
      */
+    @Override
     public boolean isEntityInsideOpaqueBlock() {
-        if (ridingEntity != null && kidmounted) {
+        if (this.ridingEntity != null && this.kidmounted)
             return false;
-        } else {
+        else
             return super.isEntityInsideOpaqueBlock();
-        }
     }
 
     // this function doesn't exist anymore
@@ -204,28 +215,28 @@ public class CREEPSEntityLolliman extends EntityAnimal {
      * Takes a coordinate in and returns a weight to determine how likely this creature will try to path to the block.
      * Args: x, y, z
      */
+    @Override
     public float getBlockPathWeight(int x, int y, int z) {
-        if (worldObj.getBlock(x, y, z) == Blocks.water || worldObj.getBlock(x, y, z) == Blocks.flowing_water) {
+        if (this.worldObj.getBlock(x, y, z) == Blocks.water || this.worldObj.getBlock(x, y, z) == Blocks.flowing_water)
             return 10F;
-        } else {
+        else
             return -(float) y;
-        }
     }
 
+    @Override
     protected Entity findPlayerToAttack() {
-        if (worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
-            float f = getBrightness(1.0F);
+        if (this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
+            float f = this.getBrightness(1.0F);
 
             if (f < 0.0F) {
-                EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(this, attackrange);
+                EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, this.attackrange);
 
-                if (entityplayer != null) {
+                if (entityplayer != null)
                     return entityplayer;
-                }
             }
 
-            if (rand.nextInt(10) == 0) {
-                EntityLiving entityliving = func_21018_getClosestTarget(this, 15D);
+            if (this.rand.nextInt(10) == 0) {
+                EntityLiving entityliving = this.func_21018_getClosestTarget(this, 15D);
                 return entityliving;
             }
         }
@@ -237,22 +248,22 @@ public class CREEPSEntityLolliman extends EntityAnimal {
         double d1 = -1D;
         EntityLiving entityliving = null;
 
-        for (int i = 0; i < worldObj.loadedEntityList.size(); i++) {
-            Entity entity1 = (Entity) worldObj.loadedEntityList.get(i);
+        for (int i = 0; i < this.worldObj.loadedEntityList.size(); i++) {
+            Entity entity1 = (Entity) this.worldObj.loadedEntityList.get(i);
 
             if (!(entity1 instanceof EntityLiving) || entity1 == entity
-                || entity1 == entity.riddenByEntity
-                || entity1 == entity.ridingEntity
-                || (entity1 instanceof EntityPlayer)
-                || (entity1 instanceof EntityMob)
-                || (entity1 instanceof EntityAnimal)) {
+                    || entity1 == entity.riddenByEntity
+                    || entity1 == entity.ridingEntity
+                    || (entity1 instanceof EntityPlayer)
+                    || (entity1 instanceof EntityMob)
+                    || (entity1 instanceof EntityAnimal)) {
                 continue;
             }
 
             double d2 = entity1.getDistanceSq(entity.posX, entity.posY, entity.posZ);
 
             if ((d < 0.0D || d2 < d * d) && (d1 == -1D || d2 < d1)
-                && ((EntityLiving) entity1).canEntityBeSeen(entity)) {
+                    && ((EntityLiving) entity1).canEntityBeSeen(entity)) {
                 d1 = d2;
                 entityliving = (EntityLiving) entity1;
             }
@@ -263,101 +274,117 @@ public class CREEPSEntityLolliman extends EntityAnimal {
 
     public boolean attackEntityFrom(DamageSource damagesource, int i) {
         Entity entity = damagesource.getEntity();
-        entityToAttack = entity;
+        this.entityToAttack = entity;
         return super.attackEntityFrom(damagesource, i);
     }
 
+    @Override
     protected void attackEntity(Entity entity, float f) {
-        if (onGround) {
-            double d = entity.posX - posX;
-            double d1 = entity.posZ - posZ;
+        if (this.onGround) {
+            double d = entity.posX - this.posX;
+            double d1 = entity.posZ - this.posZ;
             float f1 = MathHelper.sqrt_double(d * d + d1 * d1);
-            motionX = (d / (double) f1) * 0.20000000000000001D * (0.850000011920929D + motionX * 0.20000000298023224D);
-            motionZ = (d1 / (double) f1) * 0.20000000000000001D
-                * (0.80000001192092896D + motionZ * 0.20000000298023224D);
-            motionY = 0.10000000596246449D;
-            fallDistance = -25F;
+            this.motionX = (d / f1) * 0.20000000000000001D * (0.850000011920929D + this.motionX * 0.20000000298023224D);
+            this.motionZ = (d1 / f1) * 0.20000000000000001D
+                    * (0.80000001192092896D + this.motionZ * 0.20000000298023224D);
+            this.motionY = 0.10000000596246449D;
+            this.fallDistance = -25F;
         }
 
-        if ((double) f < 3.1000000000000001D && entity.boundingBox.maxY > boundingBox.minY
-            && entity.boundingBox.minY < boundingBox.maxY) {
-            attackTime = 20;
-            entity.attackEntityFrom(DamageSource.causeMobDamage(this), attack);
+        if (f < 3.1000000000000001D && entity.boundingBox.maxY > this.boundingBox.minY
+                && entity.boundingBox.minY < this.boundingBox.maxY) {
+            this.attackTime = 20;
+            entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.attack);
         }
     }
 
+    @Override
     public boolean getCanSpawnHere() {
-        if (worldObj == null || getBoundingBox() == null) {
+        if (this.worldObj == null || this.getBoundingBox() == null)
             return false;
-        }
-        int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(posY);
-        int k = MathHelper.floor_double(posZ);
-        int l = worldObj.getFullBlockLightValue(i, j, k);
-        Block i1 = worldObj.getBlock(i, j - 1, k);
+        int i = MathHelper.floor_double(this.posX);
+        int j = MathHelper.floor_double(this.posY);
+        int k = MathHelper.floor_double(this.posZ);
+        int l = this.worldObj.getFullBlockLightValue(i, j, k);
+        Block i1 = this.worldObj.getBlock(i, j - 1, k);
         return (i1 == Blocks.grass || i1 == Blocks.dirt) && i1 != Blocks.cobblestone
-            && i1 != Blocks.log
-            && i1 != Blocks.double_stone_slab
-            && i1 != Blocks.stone_slab
-            && i1 != Blocks.planks
-            && i1 != Blocks.wool
-            && worldObj.getCollidingBoundingBoxes(this, getBoundingBox())
+                && i1 != Blocks.log
+                && i1 != Blocks.double_stone_slab
+                && i1 != Blocks.stone_slab
+                && i1 != Blocks.planks
+                && i1 != Blocks.wool
+                && this.worldObj.getCollidingBoundingBoxes(this, this.getBoundingBox())
                 .size() == 0
-            && worldObj.canBlockSeeTheSky(i, j, k)
-            && rand.nextInt(15) == 0
-            && l > 7;
+                && this.worldObj.canBlockSeeTheSky(i, j, k)
+                && this.rand.nextInt(15) == 0
+                && l > 7;
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setInteger("KidCheck", kidcheck);
+        nbttagcompound.setInteger("KidCheck", this.kidcheck);
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
-        kidcheck = nbttagcompound.getInteger("KidCheck");
-        kidmounted = false;
+        this.kidcheck = nbttagcompound.getInteger("KidCheck");
+        this.kidmounted = false;
 
-        if (riddenByEntity != null) {
-            riddenByEntity.setDead();
+        if (this.riddenByEntity != null) {
+            this.riddenByEntity.setDead();
         }
     }
 
     /**
      * Plays living's sound at its position
      */
+    @Override
     public void playLivingSound() {
-        String s = getLivingSound();
+        String s = this.getLivingSound();
 
         if (s != null) {
-            worldObj.playSoundAtEntity(
-                this,
-                s,
-                getSoundVolume(),
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (2.0F - modelsize) * 2.0F);
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    s,
+                    this.getSoundVolume(),
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F + (2.0F - this.modelsize) * 2.0F);
         }
     }
 
     /**
      * Returns the sound this mob makes while it's alive.
      */
+    @Override
     protected String getLivingSound() {
-        if (!kidmounted) {
+        if (!this.kidmounted)
             return "morecreeps:lolliman";
-        } else {
+        else
             return null;
-        }
+    }
+
+    @Override
+    public boolean interact(EntityPlayer p_70085_1_) {
+        if (super.interact(p_70085_1_))
+            return true;
+        else if (this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == p_70085_1_)) {
+            p_70085_1_.mountEntity(this);
+            return true;
+        } else
+            return false;
     }
 
     /**
      * Returns the sound this mob makes when it is hurt.
      */
+    @Override
     protected String getHurtSound() {
         return "morecreeps:lollimanhurt";
     }
@@ -365,6 +392,7 @@ public class CREEPSEntityLolliman extends EntityAnimal {
     /**
      * Returns the sound this mob makes on death.
      */
+    @Override
     protected String getDeathSound() {
         return "morecreeps:lollimandeath";
     }
@@ -372,14 +400,15 @@ public class CREEPSEntityLolliman extends EntityAnimal {
     /**
      * Called when the mob's health reaches 0.
      */
+    @Override
     public void onDeath(DamageSource damagesource) {
-        if (!worldObj.isRemote) {
-            if (rand.nextInt(10) == 0) {
-                dropItem(Items.porkchop, rand.nextInt(3) + 1);
+        if (!this.worldObj.isRemote) {
+            if (this.rand.nextInt(10) == 0) {
+                this.dropItem(Items.porkchop, this.rand.nextInt(3) + 1);
             }
 
-            if (rand.nextInt(10) == 0) {
-                dropItem(Items.wheat_seeds, rand.nextInt(3) + 1);
+            if (this.rand.nextInt(10) == 0) {
+                this.dropItem(Items.wheat_seeds, this.rand.nextInt(3) + 1);
             }
         }
 
@@ -387,26 +416,31 @@ public class CREEPSEntityLolliman extends EntityAnimal {
     }
 
     public void smallconfetti() {
-        for (int i = 1; i < 20; i++) {
-            for (int j = 0; j < 20; j++) {
-                CREEPSFxConfetti creepsfxconfetti = new CREEPSFxConfetti(
-                    worldObj,
-                    posX + (double) (worldObj.rand.nextFloat() * 8F - worldObj.rand.nextFloat() * 8F),
-                    posY + (double) rand.nextInt(4) + 6D,
-                    posZ + (double) (worldObj.rand.nextFloat() * 8F - worldObj.rand.nextFloat() * 8F));
-                creepsfxconfetti.renderDistanceWeight = 30D;
-                Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxconfetti);
+        if (this.worldObj.isRemote) {
+            for (int i = 1; i < 20; i++) {
+                for (int j = 0; j < 20; j++) {
+                    CREEPSFxConfetti creepsfxconfetti = new CREEPSFxConfetti(
+                            this.worldObj,
+                            this.posX + (this.worldObj.rand.nextFloat() * 8F - this.worldObj.rand.nextFloat() * 8F),
+                            this.posY + this.rand.nextInt(4) + 6D,
+                            this.posZ + (this.worldObj.rand.nextFloat() * 8F - this.worldObj.rand.nextFloat() * 8F));
+                    creepsfxconfetti.renderDistanceWeight = 30D;
+                    Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxconfetti);
+                }
             }
         }
     }
 
     public void confetti() {
-        MoreCreepsAndWeirdos.proxy.confettiA(this, worldObj);
+        if (this.worldObj.isRemote) {
+            MoreCreepsAndWeirdos.proxy.confettiA(this, this.worldObj);
+        }
     }
 
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
+    @Override
     public int getMaxSpawnedInChunk() {
         return 2;
     }

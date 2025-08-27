@@ -18,7 +18,7 @@ public class CREEPSItemGemSword extends ItemSword {
 
     public CREEPSItemGemSword() {
         super(ToolMaterial.EMERALD);
-        setMaxDamage(256);
+        this.setMaxDamage(256);
     }
 
     /**
@@ -31,6 +31,7 @@ public class CREEPSItemGemSword extends ItemSword {
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
+    @Override
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
         return itemstack;
     }
@@ -60,6 +61,7 @@ public class CREEPSItemGemSword extends ItemSword {
     /**
      * Returns True is the item is renderer in full 3D when hold.
      */
+    @Override
     public boolean isFull3D() {
         return true;
     }
@@ -75,20 +77,26 @@ public class CREEPSItemGemSword extends ItemSword {
      * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
      * update it's contents.
      */
+    @Override
     public void onUpdate(ItemStack itemstack, World world, Entity entity, int i, boolean flag) {
         EntityPlayer player = (EntityPlayer) entity;
         super.onUpdate(itemstack, world, entity, i, flag);
 
         if (flag) {
-            if (player.isSwingInProgress) {
-                world.playSoundAtEntity(
-                    player,
-                    "morecreeps:gemsword",
-                    0.6F,
-                    0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-            }
+            if (player != null) {
+                if (player.isSwingInProgress) {
+                    world.playSoundAtEntity(
+                            player,
+                            "morecreeps:gemsword",
+                            0.6F,
+                            0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+                }
 
-            MoreCreepsAndWeirdos.proxy.smoke(world, player, random);
+                if (world.isRemote) {
+                    MoreCreepsAndWeirdos.proxy.smoke(world, player, random);
+                }
+            }
         }
+
     }
 }

@@ -26,38 +26,40 @@ public class CREEPSEntityCastleGuard extends EntityMob {
     public float hammerswing;
     public float modelsize;
     static final String guardTextures[] = { "/textures/entity/castleguard1.png", "/textures/entity/castleguard2.png",
-        "/textures/entity/castleguard3.png", "/textures/entity/castleguard4.png", "/textures/entity/castleguard5.png" };
+            "/textures/entity/castleguard3.png", "/textures/entity/castleguard4.png", "/textures/entity/castleguard5.png" };
 
     public CREEPSEntityCastleGuard(World world) {
         super(world);
-        angerLevel = 0;
-        randomSoundDelay = 0;
-        basetexture = guardTextures[rand.nextInt(guardTextures.length)];
-        texture = basetexture;
-        attacked = false;
-        hammerswing = 0.0F;
-        modelsize = 1.0F;
-        attackdamage = 1;
+        this.angerLevel = 0;
+        this.randomSoundDelay = 0;
+        this.basetexture = guardTextures[this.rand.nextInt(guardTextures.length)];
+        this.texture = this.basetexture;
+        this.attacked = false;
+        this.hammerswing = 0.0F;
+        this.modelsize = 1.0F;
+        this.attackdamage = 1;
     }
 
+    @Override
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(20D);
+        .setBaseValue(20D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(0.35D);
+        .setBaseValue(0.35D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(1D);
+        .setBaseValue(1D);
     }
 
     /**
      * Called to update the entity's position/logic.
      */
+    @Override
     public void onUpdate() {
-        if (hammerswing < 0.0F) {
-            hammerswing += 0.45F;
+        if (this.hammerswing < 0.0F) {
+            this.hammerswing += 0.45F;
         } else {
-            hammerswing = 0.0F;
+            this.hammerswing = 0.0F;
         }
 
         super.onUpdate();
@@ -66,20 +68,21 @@ public class CREEPSEntityCastleGuard extends EntityMob {
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
+    @Override
     public boolean getCanSpawnHere() {
-        if (worldObj == null || getBoundingBox() == null) {
+        if (this.worldObj == null || this.getBoundingBox() == null)
             return false;
-        }
         AxisAlignedBB x = this.getBoundingBox();
 
-        return worldObj.difficultySetting.getDifficultyId() > 0 && worldObj.checkNoEntityCollision(getBoundingBox())
-            && worldObj.getCollidingBoundingBoxes(this, x)
+        return this.worldObj.difficultySetting.getDifficultyId() > 0 && this.worldObj.checkNoEntityCollision(this.getBoundingBox())
+                && this.worldObj.getCollidingBoundingBoxes(this, x)
                 .size() == 0;
     }
 
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
+    @Override
     public int getMaxSpawnedInChunk() {
         return 2;
     }
@@ -87,24 +90,26 @@ public class CREEPSEntityCastleGuard extends EntityMob {
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setShort("Anger", (short) angerLevel);
-        nbttagcompound.setBoolean("Attacked", attacked);
-        nbttagcompound.setString("BaseTexture", basetexture);
-        nbttagcompound.setFloat("ModelSize", modelsize);
+        nbttagcompound.setShort("Anger", (short) this.angerLevel);
+        nbttagcompound.setBoolean("Attacked", this.attacked);
+        nbttagcompound.setString("BaseTexture", this.basetexture);
+        nbttagcompound.setFloat("ModelSize", this.modelsize);
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
-        angerLevel = nbttagcompound.getShort("Anger");
-        nbttagcompound.setBoolean("Attacked", attacked);
-        nbttagcompound.setString("BaseTexture", basetexture);
-        modelsize = nbttagcompound.getFloat("ModelSize");
-        texture = basetexture;
+        this.angerLevel = nbttagcompound.getShort("Anger");
+        nbttagcompound.setBoolean("Attacked", this.attacked);
+        nbttagcompound.setString("BaseTexture", this.basetexture);
+        this.modelsize = nbttagcompound.getFloat("ModelSize");
+        this.texture = this.basetexture;
     }
 
     /**
@@ -114,7 +119,7 @@ public class CREEPSEntityCastleGuard extends EntityMob {
         Entity entity = damagesource.getEntity();
 
         if (entity instanceof EntityPlayer) {
-            attacked = true;
+            this.attacked = true;
         }
 
         return super.attackEntityFrom(DamageSource.causeMobDamage(this), i);
@@ -123,79 +128,81 @@ public class CREEPSEntityCastleGuard extends EntityMob {
     /**
      * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
      */
+    @Override
     protected void attackEntity(Entity entity, float f) {
-        if (onGround) {
-            double d = entity.posX - posX;
-            double d2 = entity.posZ - posZ;
+        if (this.onGround) {
+            double d = entity.posX - this.posX;
+            double d2 = entity.posZ - this.posZ;
             float f1 = MathHelper.sqrt_double(d * d + d2 * d2);
-            motionX = (d / (double) f1) * 0.20000000000000001D
-                * (0.58000001192092898D + motionX * 0.20000000298023224D);
-            motionZ = (d2 / (double) f1) * 0.20000000000000001D
-                * (0.52200000119209289D + motionZ * 0.20000000298023224D);
-            motionY = 0.19500000596246447D;
-            fallDistance = -25F;
+            this.motionX = (d / f1) * 0.20000000000000001D
+                    * (0.58000001192092898D + this.motionX * 0.20000000298023224D);
+            this.motionZ = (d2 / f1) * 0.20000000000000001D
+                    * (0.52200000119209289D + this.motionZ * 0.20000000298023224D);
+            this.motionY = 0.19500000596246447D;
+            this.fallDistance = -25F;
         }
 
-        if ((double) f > 3D && rand.nextInt(10) == 0) {
-            double d1 = -MathHelper.sin((rotationYaw * (float) Math.PI) / 180F);
-            double d3 = MathHelper.cos((rotationYaw * (float) Math.PI) / 180F);
-            motionX += d1 * 0.10999999940395355D;
-            motionZ += d3 * 0.10999999940395355D;
-            motionY += 0.023000000044703484D;
+        if (f > 3D && this.rand.nextInt(10) == 0) {
+            double d1 = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
+            double d3 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
+            this.motionX += d1 * 0.10999999940395355D;
+            this.motionZ += d3 * 0.10999999940395355D;
+            this.motionY += 0.023000000044703484D;
         }
 
-        if ((double) f < 2.2999999999999998D - (1.0D - (double) modelsize)
-            && entity.getBoundingBox().maxY > entity.getBoundingBox().minY
-            && entity.getBoundingBox().minY < entity.getBoundingBox().maxY
-            && !(entity instanceof CREEPSEntityCastleGuard)) {
-            if (hammerswing == 0.0F) {
-                hammerswing = -2.6F;
+        if (f < 2.2999999999999998D - (1.0D - this.modelsize)
+                && entity.boundingBox.maxY > entity.boundingBox.minY
+                && entity.boundingBox.minY < entity.boundingBox.maxY
+                && !(entity instanceof CREEPSEntityCastleGuard)) {
+            if (this.hammerswing == 0.0F) {
+                this.hammerswing = -2.6F;
             }
 
             // attackTime = 20;
-            entity.attackEntityFrom(DamageSource.causeMobDamage(this), attackdamage);
+            entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.attackdamage);
         }
     }
 
     private void becomeAngryAt(Entity entity) {
         this.attackEntity(entity, 1);
-        angerLevel = 400 + rand.nextInt(400);
-        randomSoundDelay = rand.nextInt(40);
+        this.angerLevel = 400 + this.rand.nextInt(400);
+        this.randomSoundDelay = this.rand.nextInt(40);
     }
 
     /**
      * Plays living's sound at its position
      */
+    @Override
     public void playLivingSound() {
-        String s = getLivingSound();
+        String s = this.getLivingSound();
 
         if (s != null) {
-            worldObj.playSoundAtEntity(
-                this,
-                s,
-                getSoundVolume(),
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (1.0F - modelsize) * 2.0F);
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    s,
+                    this.getSoundVolume(),
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F + (1.0F - this.modelsize) * 2.0F);
         }
     }
 
     /**
      * Returns the sound this mob makes while it's alive.
      */
+    @Override
     protected String getLivingSound() {
-        if (attacked && rand.nextInt(5) == 0) {
+        if (this.attacked && this.rand.nextInt(5) == 0)
             return "morecreeps:castleguardmad";
-        }
 
-        if (rand.nextInt(12) == 0) {
+        if (this.rand.nextInt(12) == 0)
             return "morecreeps:castleguard";
-        } else {
+        else
             return null;
-        }
     }
 
     /**
      * Returns the sound this mob makes when it is hurt.
      */
+    @Override
     protected String getHurtSound() {
         return "morecreeps:castleguardhurt";
     }
@@ -203,6 +210,7 @@ public class CREEPSEntityCastleGuard extends EntityMob {
     /**
      * Returns the sound this mob makes on death.
      */
+    @Override
     protected String getDeathSound() {
         return "morecreeps:castleguarddeath";
     }
@@ -210,11 +218,14 @@ public class CREEPSEntityCastleGuard extends EntityMob {
     /**
      * Called when the mob's health reaches 0.
      */
+    @Override
     public void onDeath(DamageSource damagesource) {
         super.onDeath(damagesource);
 
-        if (rand.nextInt(3) == 0) {
-            dropItem(MoreCreepsAndWeirdos.donut, rand.nextInt(2) + 1);
+        if (!this.worldObj.isRemote) {
+            if (this.rand.nextInt(3) == 0) {
+                this.dropItem(MoreCreepsAndWeirdos.donut, this.rand.nextInt(2) + 1);
+            }
         }
     }
 }

@@ -41,18 +41,18 @@ public class CREEPSEntityPreacher extends EntityMob {
 
     public CREEPSEntityPreacher(World world) {
         super(world);
-        texture = "morecreeps:textures/entity/preacher0.png";
-        angerLevel = 0;
-        attackRange = 16D;
-        ritual = false;
-        getvictim = false;
-        raise = 0;
-        victimspeed = 0.0F;
-        waittime = rand.nextInt(500) + 500;
-        raiselevel = 0;
-        revenge = 0;
+        this.texture = "morecreeps:textures/entity/preacher0.png";
+        this.angerLevel = 0;
+        this.attackRange = 16D;
+        this.ritual = false;
+        this.getvictim = false;
+        this.raise = 0;
+        this.victimspeed = 0.0F;
+        this.waittime = this.rand.nextInt(500) + 500;
+        this.raiselevel = 0;
+        this.revenge = 0;
         this.getNavigator()
-            .setBreakDoors(true);
+        .setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -61,42 +61,44 @@ public class CREEPSEntityPreacher extends EntityMob {
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPig.class, 0, true));
     }
 
+    @Override
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(75D);
+        .setBaseValue(75D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(0.35D);
+        .setBaseValue(0.35D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(5D);
+        .setBaseValue(5D);
     }
 
     /**
      * Called to update the entity's position/logic.
      */
+    @Override
     public void onUpdate() {
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(this.getAttackTarget() != null ? 0.6D : 0.4D);
+        .setBaseValue(this.getAttackTarget() != null ? 0.6D : 0.4D);
 
-        if (rand.nextInt(4) == 0) {
-            texture = (new StringBuilder()).append("morecreeps:textures/entity/preacher")
-                .append(String.valueOf(rand.nextInt(3)))
-                .append(".png")
-                .toString();
+        if (this.rand.nextInt(4) == 0) {
+            this.texture = (new StringBuilder()).append("morecreeps:textures/entity/preacher")
+                    .append(String.valueOf(this.rand.nextInt(3)))
+                    .append(".png")
+                    .toString();
         }
 
         super.onUpdate();
 
-        if (handleLavaMovement()) {
-            if (rand.nextInt(25) == 0) {
-                worldObj.playSoundAtEntity(
-                    this,
-                    "morecreeps:preacherburn",
-                    1.0F,
-                    (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+        if (this.handleLavaMovement()) {
+            if (this.rand.nextInt(25) == 0) {
+                this.worldObj.playSoundAtEntity(
+                        this,
+                        "morecreeps:preacherburn",
+                        1.0F,
+                        (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
             }
 
-            setOnFireFromLava();
+            this.setOnFireFromLava();
         }
     }
 
@@ -104,86 +106,87 @@ public class CREEPSEntityPreacher extends EntityMob {
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
+    @Override
     public void onLivingUpdate() {
-        if (inWater || isEntityInsideOpaqueBlock()) {
-            int i = MathHelper.floor_double(posX);
-            int l = MathHelper.floor_double(posY);
-            int j1 = MathHelper.floor_double(posZ);
-            Block l1 = worldObj.getBlock(i, l + 2, j1);
+        if (this.inWater || this.isEntityInsideOpaqueBlock()) {
+            int i = MathHelper.floor_double(this.posX);
+            int l = MathHelper.floor_double(this.posY);
+            int j1 = MathHelper.floor_double(this.posZ);
+            Block l1 = this.worldObj.getBlock(i, l + 2, j1);
 
             if (l1 != Blocks.air) {
-                worldObj.setBlockToAir(i, l + 2, j1);
-                motionY += 0.5D;
+                this.worldObj.setBlockToAir(i, l + 2, j1);
+                this.motionY += 0.5D;
             }
         }
 
-        if (getvictim) {
-            motionX = 0.0D;
-            motionY = 0.0D;
-            motionZ = 0.0D;
+        if (this.getvictim) {
+            this.motionX = 0.0D;
+            this.motionY = 0.0D;
+            this.motionZ = 0.0D;
 
-            if (raise++ > raiselevel) {
-                getvictim = false;
-                ritual = false;
-                victimEntity.motionY = -0.80000001192092896D;
-                raise = 0;
-                waittime = rand.nextInt(500) + 500;
+            if (this.raise++ > this.raiselevel) {
+                this.getvictim = false;
+                this.ritual = false;
+                this.victimEntity.motionY = -0.80000001192092896D;
+                this.raise = 0;
+                this.waittime = this.rand.nextInt(500) + 500;
             } else {
-                int j = MathHelper.floor_double(victimEntity.posX);
-                int i1 = MathHelper.floor_double(victimEntity.posY);
-                int k1 = MathHelper.floor_double(victimEntity.posZ);
-                Block i2 = worldObj.getBlock(j, i1 + 2, k1);
+                int j = MathHelper.floor_double(this.victimEntity.posX);
+                int i1 = MathHelper.floor_double(this.victimEntity.posY);
+                int k1 = MathHelper.floor_double(this.victimEntity.posZ);
+                Block i2 = this.worldObj.getBlock(j, i1 + 2, k1);
 
-                if (i2 != Blocks.air && (victimEntity instanceof EntityPlayer)) {
-                    worldObj.setBlockToAir(j, i1 + 2, k1);
+                if (i2 != Blocks.air && (this.victimEntity instanceof EntityPlayer)) {
+                    this.worldObj.setBlockToAir(j, i1 + 2, k1);
                 }
 
-                victimEntity.motionY = 0.20000000298023224D;
-                waittime = 1000;
-                smokevictim(victimEntity);
-                smoke();
+                this.victimEntity.motionY = 0.20000000298023224D;
+                this.waittime = 1000;
+                this.smokevictim(this.victimEntity);
+                this.smoke();
 
-                if (rand.nextInt(10) == 0) {
-                    victimEntity.motionX = rand.nextFloat() * 0.85F - 0.5F;
-                } else if (rand.nextInt(10) == 0) {
-                    victimEntity.motionZ = rand.nextFloat() * 0.8F - 0.5F;
+                if (this.rand.nextInt(10) == 0) {
+                    this.victimEntity.motionX = this.rand.nextFloat() * 0.85F - 0.5F;
+                } else if (this.rand.nextInt(10) == 0) {
+                    this.victimEntity.motionZ = this.rand.nextFloat() * 0.8F - 0.5F;
                 }
             }
         }
 
-        if (ritual && !getvictim) {
+        if (this.ritual && !this.getvictim) {
             this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-                .setBaseValue(0.0D);
-            targetedEntity = null;
+            .setBaseValue(0.0D);
+            this.targetedEntity = null;
 
-            for (int k = 0; k < worldObj.loadedEntityList.size(); k++) {
-                targetedEntity = (Entity) worldObj.loadedEntityList.get(k);
+            for (int k = 0; k < this.worldObj.loadedEntityList.size(); k++) {
+                this.targetedEntity = (Entity) this.worldObj.loadedEntityList.get(k);
 
-                if ((targetedEntity instanceof EntitySheep) || (targetedEntity instanceof EntityPig)) {
-                    getvictim = true;
-                    victimEntity = targetedEntity;
-                    victimEntity.motionX = 0.0D;
-                    victimEntity.motionY = 0.0D;
-                    victimEntity.motionZ = 0.0D;
-                    raiselevel = rand.nextInt(50) + 50;
-                    worldObj.playSoundAtEntity(
-                        this,
-                        "morecreeps:preacherraise",
-                        1.0F,
-                        (rand.nextFloat() - rand.nextFloat()) * 0.2F);
+                if ((this.targetedEntity instanceof EntitySheep) || (this.targetedEntity instanceof EntityPig)) {
+                    this.getvictim = true;
+                    this.victimEntity = this.targetedEntity;
+                    this.victimEntity.motionX = 0.0D;
+                    this.victimEntity.motionY = 0.0D;
+                    this.victimEntity.motionZ = 0.0D;
+                    this.raiselevel = this.rand.nextInt(50) + 50;
+                    this.worldObj.playSoundAtEntity(
+                            this,
+                            "morecreeps:preacherraise",
+                            1.0F,
+                            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
                 }
             }
 
-            if (targetedEntity == null) {
-                ritual = false;
-                getvictim = false;
+            if (this.targetedEntity == null) {
+                this.ritual = false;
+                this.getvictim = false;
                 this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-                    .setBaseValue(0.35D);
+                .setBaseValue(0.35D);
             }
-        } else if (rand.nextInt(2) == 0 && waittime-- < 1) {
-            ritual = true;
-            waittime = 1000;
-            getvictim = false;
+        } else if (this.rand.nextInt(2) == 0 && this.waittime-- < 1) {
+            this.ritual = true;
+            this.waittime = 1000;
+            this.getvictim = false;
         }
 
         super.onLivingUpdate();
@@ -192,45 +195,46 @@ public class CREEPSEntityPreacher extends EntityMob {
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setShort("Anger", (short) angerLevel);
+        nbttagcompound.setShort("Anger", (short) this.angerLevel);
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
-        angerLevel = nbttagcompound.getShort("Anger");
+        this.angerLevel = nbttagcompound.getShort("Anger");
     }
 
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
+    @Override
     public boolean getCanSpawnHere() {
-        if (worldObj == null || getBoundingBox() == null) {
+        if (this.worldObj == null || this.getBoundingBox() == null)
             return false;
-        }
-        if (posX == 0 && posY == 0 && posZ == 0) {
+        if (this.posX == 0 && this.posY == 0 && this.posZ == 0)
             return false;
-        }
-        int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(posY);
-        int k = MathHelper.floor_double(posZ);
-        if (worldObj.getCollidingBoundingBoxes(this, getBoundingBox())
-            .size() == 0 && worldObj.canBlockSeeTheSky(i, j, k)
-            && rand.nextInt(25) == 0) {
-            int l = worldObj.getFullBlockLightValue(i, j, k);
-            Block i1 = worldObj.getBlock(i, j - 1, k);
+        int i = MathHelper.floor_double(this.posX);
+        int j = MathHelper.floor_double(this.posY);
+        int k = MathHelper.floor_double(this.posZ);
+        if (this.worldObj.getCollidingBoundingBoxes(this, this.getBoundingBox())
+                .size() == 0 && this.worldObj.canBlockSeeTheSky(i, j, k)
+                && this.rand.nextInt(25) == 0) {
+            int l = this.worldObj.getFullBlockLightValue(i, j, k);
+            Block i1 = this.worldObj.getBlock(i, j - 1, k);
             return i1 != null && i1 != Blocks.sand
-                && i1 != Blocks.cobblestone
-                && i1 != Blocks.log
-                && i1 != Blocks.double_stone_slab
-                && i1 != Blocks.stone_slab
-                && i1 != Blocks.planks
-                && i1 != Blocks.wool
-                && l > 10;
+                    && i1 != Blocks.cobblestone
+                    && i1 != Blocks.log
+                    && i1 != Blocks.double_stone_slab
+                    && i1 != Blocks.stone_slab
+                    && i1 != Blocks.planks
+                    && i1 != Blocks.wool
+                    && l > 10;
         }
 
         return false;
@@ -239,6 +243,7 @@ public class CREEPSEntityPreacher extends EntityMob {
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
+    @Override
     public int getMaxSpawnedInChunk() {
         return 1;
     }
@@ -246,36 +251,39 @@ public class CREEPSEntityPreacher extends EntityMob {
     /**
      * Called when the entity is attacked.
      */
+    @Override
     public boolean attackEntityFrom(DamageSource damagesource, float i) {
         Entity obj = damagesource.getEntity();
 
-        if (!handleLavaMovement()) {
-            worldObj.playSoundAtEntity(this, "morecreeps:preacherhurt", 1.0F, 1.0F);
+        if (!this.handleLavaMovement()) {
+            this.worldObj.playSoundAtEntity(this, "morecreeps:preacherhurt", 1.0F, 1.0F);
         }
 
-        if (getvictim && obj != null && !(obj instanceof CREEPSEntityRocket)) {
-            obj.motionX += rand.nextFloat() * 1.98F;
-            obj.motionY += rand.nextFloat() * 1.98F;
-            obj.motionZ += rand.nextFloat() * 1.98F;
+        if (this.getvictim && obj != null && !(obj instanceof CREEPSEntityRocket)) {
+            obj.motionX += this.rand.nextFloat() * 1.98F;
+            obj.motionY += this.rand.nextFloat() * 1.98F;
+            obj.motionZ += this.rand.nextFloat() * 1.98F;
             return true;
         }
 
         if (obj != null && (obj instanceof CREEPSEntityRocket)) {
-            obj = worldObj.getClosestPlayerToEntity(this, 30D);
+            obj = this.worldObj.getClosestPlayerToEntity(this, 30D);
 
-            if ((obj != null) & (obj instanceof EntityPlayer)) {
-                ((Entity) (obj)).mountEntity(null);
-                getvictim = true;
-                victimEntity = ((Entity) (obj));
-                victimEntity.motionX = 0.0D;
-                victimEntity.motionY = 0.0D;
-                victimEntity.motionZ = 0.0D;
-                raiselevel = rand.nextInt(50) + 50;
-                worldObj.playSoundAtEntity(
-                    this,
-                    "morecreeps:preacherraise",
-                    1.0F,
-                    (rand.nextFloat() - rand.nextFloat()) * 0.2F);
+            if (obj != null) {
+                if ((obj instanceof EntityPlayer)) {
+                    (obj).mountEntity(null);
+                    this.getvictim = true;
+                    this.victimEntity = ((obj));
+                    this.victimEntity.motionX = 0.0D;
+                    this.victimEntity.motionY = 0.0D;
+                    this.victimEntity.motionZ = 0.0D;
+                    this.raiselevel = this.rand.nextInt(50) + 50;
+                    this.worldObj.playSoundAtEntity(
+                            this,
+                            "morecreeps:preacherraise",
+                            1.0F,
+                            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+                }
             }
         }
 
@@ -285,27 +293,27 @@ public class CREEPSEntityPreacher extends EntityMob {
             }
 
             if ((obj instanceof CREEPSEntityGooDonut) || (obj instanceof CREEPSEntityRocket)
-                || (obj instanceof CREEPSEntityBullet)
-                || (obj instanceof CREEPSEntityRay)) {
+                    || (obj instanceof CREEPSEntityBullet)
+                    || (obj instanceof CREEPSEntityRay)) {
                 i = 2;
             }
 
             // wtf is that ?
             // health = (health - rand.nextInt(i)) + 1;
-            raise = 1;
-            waittime = 0;
-            smoke();
-            getvictim = true;
-            victimEntity = ((Entity) (obj));
-            victimEntity.motionX = 0.0D;
-            victimEntity.motionY = 0.0D;
-            victimEntity.motionZ = 0.0D;
-            raiselevel = rand.nextInt(50) + 50;
-            worldObj.playSoundAtEntity(
-                this,
-                "morecreeps:preacherraise",
-                1.0F,
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F);
+            this.raise = 1;
+            this.waittime = 0;
+            this.smoke();
+            this.getvictim = true;
+            this.victimEntity = ((obj));
+            this.victimEntity.motionX = 0.0D;
+            this.victimEntity.motionY = 0.0D;
+            this.victimEntity.motionZ = 0.0D;
+            this.raiselevel = this.rand.nextInt(50) + 50;
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    "morecreeps:preacherraise",
+                    1.0F,
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
 
         return true;
@@ -314,16 +322,18 @@ public class CREEPSEntityPreacher extends EntityMob {
     /**
      * knocks back this entity
      */
+    @Override
     public void knockBack(Entity entity, float i, double d, double d1) {
-        motionX *= 1.5D;
-        motionZ *= 1.5D;
-        motionY += 0.5D;
+        this.motionX *= 1.5D;
+        this.motionZ *= 1.5D;
+        this.motionY += 0.5D;
     }
 
     /**
      * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in attacking
      * (Animals, Spiders at day, peaceful PigZombies).
      */
+    @Override
     protected Entity findPlayerToAttack() {
         return null;
     }
@@ -331,73 +341,73 @@ public class CREEPSEntityPreacher extends EntityMob {
     private void smoke() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 2; j++) {
-                double d = rand.nextGaussian() * 0.02D;
-                double d1 = rand.nextGaussian() * 0.02D;
-                double d2 = rand.nextGaussian() * 0.02D;
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
-                    d,
-                    d1,
-                    d2);
+                double d = this.rand.nextGaussian() * 0.02D;
+                double d1 = this.rand.nextGaussian() * 0.02D;
+                double d2 = this.rand.nextGaussian() * 0.02D;
+                this.worldObj.spawnParticle(
+                        EnumParticleTypes.EXPLOSION_NORMAL,
+                        ((this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width) + i,
+                        this.posY + this.rand.nextFloat() * this.height,
+                        (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                        d,
+                        d1,
+                        d2);
+                this.worldObj.spawnParticle(
+                        EnumParticleTypes.EXPLOSION_NORMAL,
+                        (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width - i,
+                        this.posY + this.rand.nextFloat() * this.height,
+                        (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                        d,
+                        d1,
+                        d2);
+                this.worldObj.spawnParticle(
+                        EnumParticleTypes.EXPLOSION_NORMAL,
+                        (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                        this.posY + this.rand.nextFloat() * this.height,
+                        (this.posZ + this.rand.nextFloat() * this.width * 2.0F + i) - this.width,
+                        d,
+                        d1,
+                        d2);
+                this.worldObj.spawnParticle(
+                        EnumParticleTypes.EXPLOSION_NORMAL,
+                        (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                        this.posY + this.rand.nextFloat() * this.height,
+                        (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - i - this.width,
+                        d,
+                        d1,
+                        d2);
+                this.worldObj.spawnParticle(
+                        EnumParticleTypes.EXPLOSION_NORMAL,
+                        ((this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width) + i,
+                        this.posY + this.rand.nextFloat() * this.height,
+                        (this.posZ + this.rand.nextFloat() * this.width * 2.0F + i) - this.width,
+                        d,
+                        d1,
+                        d2);
+                this.worldObj.spawnParticle(
+                        EnumParticleTypes.EXPLOSION_NORMAL,
+                        (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width - i,
+                        this.posY + this.rand.nextFloat() * this.height,
+                        (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - i - this.width,
+                        d,
+                        d1,
+                        d2);
+                this.worldObj.spawnParticle(
+                        EnumParticleTypes.EXPLOSION_NORMAL,
+                        ((this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width) + i,
+                        this.posY + this.rand.nextFloat() * this.height,
+                        (this.posZ + this.rand.nextFloat() * this.width * 2.0F + i) - this.width,
+                        d,
+                        d1,
+                        d2);
+                this.worldObj.spawnParticle(
+                        EnumParticleTypes.EXPLOSION_NORMAL,
+                        (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width - i,
+                        this.posY + this.rand.nextFloat() * this.height,
+                        (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - i - this.width,
+                        d,
+                        d1,
+                        d2);
             }
         }
     }
@@ -405,17 +415,17 @@ public class CREEPSEntityPreacher extends EntityMob {
     private void smokevictim(Entity entity) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
-                double d = rand.nextGaussian() * 0.02D;
-                double d1 = rand.nextGaussian() * 0.02D;
-                double d2 = rand.nextGaussian() * 0.02D;
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    (entity.posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    (entity.posY + (double) (rand.nextFloat() * height) + (double) i) - 2D,
-                    (entity.posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    d,
-                    d1,
-                    d2);
+                double d = this.rand.nextGaussian() * 0.02D;
+                double d1 = this.rand.nextGaussian() * 0.02D;
+                double d2 = this.rand.nextGaussian() * 0.02D;
+                this.worldObj.spawnParticle(
+                        EnumParticleTypes.EXPLOSION_NORMAL,
+                        (entity.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                        (entity.posY + this.rand.nextFloat() * this.height + i) - 2D,
+                        (entity.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                        d,
+                        d1,
+                        d2);
             }
         }
     }
@@ -423,6 +433,7 @@ public class CREEPSEntityPreacher extends EntityMob {
     /**
      * Returns the sound this mob makes while it's alive.
      */
+    @Override
     protected String getLivingSound() {
         return "morecreeps:preacher";
     }
@@ -430,6 +441,7 @@ public class CREEPSEntityPreacher extends EntityMob {
     /**
      * Returns the sound this mob makes when it is hurt.
      */
+    @Override
     protected String getHurtSound() {
         return "morecreeps:preacherhurt";
     }
@@ -437,6 +449,7 @@ public class CREEPSEntityPreacher extends EntityMob {
     /**
      * Returns the sound this mob makes on death.
      */
+    @Override
     protected String getDeathSound() {
         return "morecreeps:preacherdeath";
     }
@@ -444,55 +457,58 @@ public class CREEPSEntityPreacher extends EntityMob {
     public void confetti(EntityPlayer player) {
         double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
         double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
-        CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(worldObj);
+        CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.worldObj);
         creepsentitytrophy.setLocationAndAngles(
-            player.posX + d * 3D,
-            player.posY - 2D,
-            player.posZ + d1 * 3D,
-            player.rotationYaw,
-            0.0F);
-        if (!worldObj.isRemote) worldObj.spawnEntityInWorld(creepsentitytrophy);
+                player.posX + d * 3D,
+                player.posY - 2D,
+                player.posZ + d1 * 3D,
+                player.rotationYaw,
+                0.0F);
+        if (!this.worldObj.isRemote) {
+            this.worldObj.spawnEntityInWorld(creepsentitytrophy);
+        }
     }
 
     /**
      * Will get destroyed next tick.
      */
 
+    @Override
     public void onDeath(DamageSource damagesource) {
         super.onDeath(damagesource);
         EntityPlayerMP player = (EntityPlayerMP) damagesource.getEntity();
         if (player != null) {
             if (!player.func_147099_x()
-                .hasAchievementUnlocked(MoreCreepsAndWeirdos.achievegotohell)) {
+                    .hasAchievementUnlocked(MoreCreepsAndWeirdos.achievegotohell)) {
 
-                worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
+                this.worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
                 player.addStat(MoreCreepsAndWeirdos.achievegotohell, 1);
-                confetti(player);
+                this.confetti(player);
             }
         }
 
-        if (!worldObj.isRemote) {
-            if (rand.nextInt(50) == 0) {
-                dropItem(Items.diamond, rand.nextInt(2) + 1);
+        if (!this.worldObj.isRemote) {
+            if (this.rand.nextInt(50) == 0) {
+                this.dropItem(Items.diamond, this.rand.nextInt(2) + 1);
             }
 
-            if (rand.nextInt(50) == 0) {
-                entityDropItem(new ItemStack(Items.dye, 1, 4), 1.0F);
+            if (this.rand.nextInt(50) == 0) {
+                this.entityDropItem(new ItemStack(Items.dye, 1, 4), 1.0F);
             }
 
-            if (rand.nextInt(50) == 0) {
-                entityDropItem(new ItemStack(Items.dye, 1, 3), 1.0F);
+            if (this.rand.nextInt(50) == 0) {
+                this.entityDropItem(new ItemStack(Items.dye, 1, 3), 1.0F);
             }
 
-            if (rand.nextInt(50) == 0) {
-                entityDropItem(new ItemStack(Items.dye, 1, 1), 1.0F);
+            if (this.rand.nextInt(50) == 0) {
+                this.entityDropItem(new ItemStack(Items.dye, 1, 1), 1.0F);
             }
 
-            if (rand.nextInt(2) == 0) {
-                dropItem(Items.gold_ingot, rand.nextInt(5) + 2);
+            if (this.rand.nextInt(2) == 0) {
+                this.dropItem(Items.gold_ingot, this.rand.nextInt(5) + 2);
             } else {
-                dropItem(Items.book, 1);
-                dropItem(Items.apple, 1);
+                this.dropItem(Items.book, 1);
+                this.dropItem(Items.apple, 1);
             }
         }
     }

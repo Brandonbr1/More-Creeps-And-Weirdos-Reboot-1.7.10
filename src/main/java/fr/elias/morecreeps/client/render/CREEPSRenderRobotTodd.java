@@ -21,13 +21,13 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
     private ModelBase scaleAmount;
     protected CREEPSModelRobotTodd modelBipedMain;
     private static final ResourceLocation armoredCreeperTextures = new ResourceLocation(
-        "textures/entity/creeper/creeper_armor.png");
+            "textures/entity/creeper/creeper_armor.png");
     public float sparkle;
 
     public CREEPSRenderRobotTodd(CREEPSModelRobotTodd creepsmodelrobottodd, float f) {
         super(creepsmodelrobottodd, f);
-        modelBipedMain = creepsmodelrobottodd;
-        scaleAmount = creepsmodelrobottodd;
+        this.modelBipedMain = creepsmodelrobottodd;
+        this.scaleAmount = creepsmodelrobottodd;
     }
 
     protected boolean func_179_aaaaaaaa(CREEPSEntityRobotTodd creepsentityrobottodd, int i, float f) {
@@ -50,7 +50,7 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
         if (creepsentityrobottodd.hurtTime > 0) {
             if (i == 1) {
                 float f1 = rand.nextInt(30);
-                bindTexture(armoredCreeperTextures);
+                this.bindTexture(armoredCreeperTextures);
                 GL11.glMatrixMode(GL11.GL_TEXTURE);
                 GL11.glLoadIdentity();
                 float f2 = f1 * 0.01F;
@@ -78,32 +78,33 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
     }
 
     public void doRenderTodd(CREEPSEntityRobotTodd creepsentityrobottodd, double d, double d1, double d2, float f,
-        float f1) {
+            float f1) {
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_CULL_FACE);
         // mainModel.swingProgress = getSwingProgress(creepsentityrobottodd, f1);
-        mainModel.isRiding = creepsentityrobottodd.isRiding();
+        this.mainModel.isRiding = creepsentityrobottodd.isRiding();
 
         try {
             float f2 = creepsentityrobottodd.prevRenderYawOffset
-                + (creepsentityrobottodd.renderYawOffset - creepsentityrobottodd.prevRenderYawOffset) * f1;
+                    + (creepsentityrobottodd.renderYawOffset - creepsentityrobottodd.prevRenderYawOffset) * f1;
             float f3 = creepsentityrobottodd.prevRotationYaw
-                + (creepsentityrobottodd.rotationYaw - creepsentityrobottodd.prevRotationYaw) * f1;
+                    + (creepsentityrobottodd.rotationYaw - creepsentityrobottodd.prevRotationYaw) * f1;
             float f4 = creepsentityrobottodd.prevRotationPitch
-                + (creepsentityrobottodd.rotationPitch - creepsentityrobottodd.prevRotationPitch) * f1;
-            renderLivingAt(creepsentityrobottodd, d, d1, d2);
-            float f5 = handleRotationFloat(creepsentityrobottodd, f1);
-            rotateCorpse(creepsentityrobottodd, f5, f2, f1);
+                    + (creepsentityrobottodd.rotationPitch - creepsentityrobottodd.prevRotationPitch) * f1;
+            this.renderLivingAt(creepsentityrobottodd, d, d1, d2);
+            float f5 = this.handleRotationFloat(creepsentityrobottodd, f1);
+            this.rotateCorpse(creepsentityrobottodd, f5, f2, f1);
             float f6 = 0.0625F;
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glScalef(-1F, -1F, 1.0F);
-            preRenderCallback(creepsentityrobottodd, f1);
+            this.preRenderCallback(creepsentityrobottodd, f1);
             GL11.glTranslatef(0.0F, -24F * f6 - 0.0078125F, 0.0F);
 
-            GL11.glEnable(GL11.GL_ALPHA_TEST);/*
-                                               * mainModel.setLivingAnimations(creepsentityrobottodd, f8, f7, f1);
-                                               * mainModel.render(creepsentityrobottodd, f8, f7, f5, f3 - f2, f4, f6);
-                                               */
+            GL11.glEnable(GL11.GL_ALPHA_TEST);
+
+            this.mainModel.setLivingAnimations(creepsentityrobottodd, f3, f3, f1);
+            this.mainModel.render(creepsentityrobottodd, f2, f3, f5, f3 - f2, f4, f6);
+
 
             for (int i = 0; i < 4; i++) {
                 GL11.glDisable(GL11.GL_BLEND);
@@ -111,7 +112,7 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
             }
 
             float f9 = creepsentityrobottodd.getBrightness(f1);
-            int j = getColorMultiplier(creepsentityrobottodd, f9, f1);
+            int j = this.getColorMultiplier(creepsentityrobottodd, f9, f1);
 
             if ((j >> 24 & 0xff) > 0 || creepsentityrobottodd.hurtTime > 0 || creepsentityrobottodd.deathTime > 0) {
                 GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -121,15 +122,15 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
                 GL11.glDepthFunc(GL11.GL_EQUAL);
 
                 if ((j >> 24 & 0xff) > 0) {
-                    float f10 = (float) (j >> 16 & 0xff) / 255F;
-                    float f11 = (float) (j >> 8 & 0xff) / 255F;
-                    float f12 = (float) (j & 0xff) / 255F;
-                    float f13 = (float) (j >> 24 & 0xff) / 255F;
+                    float f10 = (j >> 16 & 0xff) / 255F;
+                    float f11 = (j >> 8 & 0xff) / 255F;
+                    float f12 = (j & 0xff) / 255F;
+                    float f13 = (j >> 24 & 0xff) / 255F;
                     GL11.glColor4f(f10, f11, f12, f13);
                     // mainModel.render(creepsentityrobottodd, f8, f7, f5, f3 - f2, f4, f6);
 
                     for (int k = 0; k < 4; k++) {
-                        if (inheritRenderPass(creepsentityrobottodd, k, f1) > 0) {
+                        if (this.inheritRenderPass(creepsentityrobottodd, k, f1) > 0) {
                             GL11.glColor4f(f10, f11, f12, f13);
                             // renderPassModel.render(creepsentityrobottodd, f8, f7, f5, f3 - f2, f4, f6);
                         }
@@ -149,7 +150,7 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
 
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glPopMatrix();
-        passSpecialRender(creepsentityrobottodd, d, d1, d2);
+        this.passSpecialRender(creepsentityrobottodd, d, d1, d2);
     }
 
     /**
@@ -157,33 +158,37 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
      */
     protected void scaleSlime(CREEPSEntityRobotTodd creepsentityrobottodd, float f) {
         GL11.glScalef(
-            creepsentityrobottodd.robotsize,
-            creepsentityrobottodd.robotsize,
-            creepsentityrobottodd.robotsize);
+                creepsentityrobottodd.robotsize,
+                creepsentityrobottodd.robotsize,
+                creepsentityrobottodd.robotsize);
     }
 
     /**
      * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
      * entityLiving, partialTickTime
      */
+    @Override
     protected void preRenderCallback(EntityLivingBase entityliving, float f) {
-        scaleSlime((CREEPSEntityRobotTodd) entityliving, f);
+        this.scaleSlime((CREEPSEntityRobotTodd) entityliving, f);
     }
 
     protected int shouldRenderPass(EntityLiving entityliving, int i, float f) {
-        return func_179_a((CREEPSEntityRobotTodd) entityliving, i, f);
+        return this.func_179_a((CREEPSEntityRobotTodd) entityliving, i, f);
     }
 
+    @Override
     public void doRender(EntityLiving entityliving, double d, double d1, double d2, float f, float f1) {
-        doRenderTodd((CREEPSEntityRobotTodd) entityliving, d, d1, d2, f, f1);
+        super.doRender(entityliving, d, d1, d2, f, f1);
+        // this.doRenderTodd((CREEPSEntityRobotTodd) entityliving, d, d1, d2, f, f1);
     }
 
     protected ResourceLocation getEntityTexture(CREEPSEntityRobotTodd entity) {
         return new ResourceLocation(entity.texture);
     }
 
+    @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
 
-        return getEntityTexture((CREEPSEntityRobotTodd) entity);
+        return this.getEntityTexture((CREEPSEntityRobotTodd) entity);
     }
 }

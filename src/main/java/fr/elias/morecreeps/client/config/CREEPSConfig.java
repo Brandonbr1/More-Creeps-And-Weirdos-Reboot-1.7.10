@@ -17,6 +17,7 @@ public class CREEPSConfig {
     public static boolean publicUrination;
     public static boolean jailActive;
     public static boolean Blood = true;
+    public static boolean registerGlobally;
 
     public static int pyramids;
 
@@ -66,14 +67,14 @@ public class CREEPSConfig {
     private static boolean unlimitedSpawn;
 
     public static int shrink_projectile_ID, ray_projectile_ID, money_projectile_ID, bullet_projectile_ID,
-        grow_projectile_ID, gdonut_projectile_ID, frisbee_projectile_ID, foam_projectile_ID;
+    grow_projectile_ID, gdonut_projectile_ID, frisbee_projectile_ID, foam_projectile_ID;
 
     public static int armyguy_ID, armyguyArm_ID, babymummy_ID, bigbaby_ID, blacksoul_ID, blorp_ID, bum_ID,
-        bubblescum_ID, camel_ID, cameljockey_ID, caveman_ID, desertlizard_ID, digbug_ID, evilchicken_ID,
-        evilcreature_ID, evilpig_ID, evilscientist_ID, evilsnowman_ID, floob_ID, floobship_ID, g_ID, googoat_ID,
-        guineapig_ID, hippo_ID, horsehead_ID, hotdog_ID, hunchback_ID, invisibleman_ID, kid_ID, lawyer_ID, lolliman_ID,
-        mandog_ID, mummy_ID, nonswimmer_ID, preacher_ID, robotted_ID, robottodd_ID, rocketgiraffe_ID, rockmonster_ID,
-        sneakysal_ID, snowdevil_ID, thief_ID, zebra_ID;
+    bubblescum_ID, camel_ID, cameljockey_ID, caveman_ID, desertlizard_ID, digbug_ID, evilchicken_ID,
+    evilcreature_ID, evilpig_ID, evilscientist_ID, evilsnowman_ID, floob_ID, floobship_ID, g_ID, googoat_ID,
+    guineapig_ID, hippo_ID, horsehead_ID, hotdog_ID, hunchback_ID, invisibleman_ID, kid_ID, lawyer_ID, lolliman_ID,
+    mandog_ID, mummy_ID, nonswimmer_ID, preacher_ID, robotted_ID, robottodd_ID, rocketgiraffe_ID, rockmonster_ID,
+    sneakysal_ID, snowdevil_ID, thief_ID, zebra_ID, rat_man_ID;
 
     public static void preInit(FMLPreInitializationEvent event) {
 
@@ -87,206 +88,208 @@ public class CREEPSConfig {
         try {
             config.load();
             unlimitedSpawn = config
-                .get(
-                    "Spawn",
-                    "Unlimited spawn length",
-                    false,
-                    "Once activated, you can set what value you want for mob spawning.")
-                .getBoolean();
+                    .get(
+                            "Spawn",
+                            "Unlimited spawn length",
+                            false,
+                            "Once activated, you can set what value you want for mob spawning.")
+                    .getBoolean();
             sarmyguy = config.get(spawnNbr, "Army Guy", 5)
-                .getInt();
+                    .getInt();
             sbabymummy = config.get(spawnNbr, "Baby Mummy", 8)
-                .getInt();
+                    .getInt();
             sbigbaby = config.get(spawnNbr, "Big Baby", 6)
-                .getInt();
+                    .getInt();
             sblacksoul = config.get(spawnNbr, "Black Soul", 5)
-                .getInt();
+                    .getInt();
             sblorp = config.get(spawnNbr, "Blorp", 8)
-                .getInt();
+                    .getInt();
             sbubblescum = config.get(spawnNbr, "Bubble Scum", 8)
-                .getInt();
+                    .getInt();
             sbum = config.get(spawnNbr, "Bum", 8)
-                .getInt();
+                    .getInt();
             scamel = config.get(spawnNbr, "Camel", 8)
-                .getInt();
+                    .getInt();
             scameljockey = config.get(spawnNbr, "Camel Jockey", 6)
-                .getInt();
+                    .getInt();
             scaveman = config.get(spawnNbr, "Caveman", 5)
-                .getInt();
+                    .getInt();
             sdesertlizard = config.get(spawnNbr, "Desert Lizard", 8)
-                .getInt();
+                    .getInt();
             sdigbug = config.get(spawnNbr, "Dig Bug", 7)
-                .getInt();
+                    .getInt();
             sevilscientist = config.get(spawnNbr, "Evil Scientist", 8)
-                .getInt();
+                    .getInt();
             sfloob = config.get(spawnNbr, "Floob", 7)
-                .getInt();
+                    .getInt();
             sfloobship = config.get(spawnNbr, "Floob Ship", 2)
-                .getInt();
+                    .getInt();
             sg = config.get(spawnNbr, "G", 8)
-                .getInt();
+                    .getInt();
             sgoogoat = config.get(spawnNbr, "Goo Goat", 8)
-                .getInt();
+                    .getInt();
             sguineapig = config.get(spawnNbr, "Guinea Pig", 8)
-                .getInt();
+                    .getInt();
             shippo = config.get(spawnNbr, "Hippo", 8)
-                .getInt();
+                    .getInt();
             shorsehead = config.get(spawnNbr, "Horse Head", 8)
-                .getInt();
+                    .getInt();
             shotdog = config.get(spawnNbr, "Hot Dog", 8)
-                .getInt();
+                    .getInt();
             shunchback = config.get(spawnNbr, "Hunchback", 8)
-                .getInt();
+                    .getInt();
             sinvisibleman = config.get(spawnNbr, "Invisibleman", 8)
-                .getInt();
+                    .getInt();
             skid = config.get(spawnNbr, "Kid", 5)
-                .getInt();
+                    .getInt();
             slawyerfromhell = config.get(spawnNbr, "Lawyer from hell", 8)
-                .getInt();
+                    .getInt();
             slolliman = config.get(spawnNbr, "Lolliman", 3)
-                .getInt();
+                    .getInt();
             smandog = config.get(spawnNbr, "Man Dog", 8)
-                .getInt();
+                    .getInt();
             smummy = config.get(spawnNbr, "Mummy", 5)
-                .getInt();
+                    .getInt();
             snonswimmer = config.get(spawnNbr, "Non Swimmer", 6)
-                .getInt();
+                    .getInt();
             spreacher = config.get(spawnNbr, "Preacher", 8)
-                .getInt();
+                    .getInt();
             srobotted = config.get(spawnNbr, "Robot Ted", 8)
-                .getInt();
+                    .getInt();
             srobottodd = config.get(spawnNbr, "Robot Todd", 8)
-                .getInt();
+                    .getInt();
             srockmonster = config.get(spawnNbr, "Rock Monster", 8)
-                .getInt();
+                    .getInt();
             srocketgiraffe = config.get(spawnNbr, "Rocket Giraffe", 7)
-                .getInt();
+                    .getInt();
             ssneakysal = config.get(spawnNbr, "Sneaky Sal", 8)
-                .getInt();
+                    .getInt();
             ssnowdevil = config.get(spawnNbr, "Snow Devil", 8)
-                .getInt();
+                    .getInt();
             sthief = config.get(spawnNbr, "Thief", 8)
-                .getInt();
+                    .getInt();
             szebra = config.get(spawnNbr, "Zebra", 8)
-                .getInt();
+                    .getInt();
             pyramidGen = config.get(worldGen, "Enable Pyramid Gen", true)
-                .getBoolean();
+                    .getBoolean();
             pyramidRarity = config.get(worldGenRarity, "Pyramid rarity", 500, "By default : 500")
-                .getInt();
+                    .getInt();
             castleGen = config.get(worldGen, "Enable Castle", true)
-                .getBoolean();
+                    .getBoolean();
             castleRarity = config.get(worldGenRarity, "Castle Rarity", 500, "By default : 500")
-                .getInt();
+                    .getInt();
             rayGunFire = config.get(itemProperty, "Raygun fire", false)
-                .getBoolean();
+                    .getBoolean();
             rayGunMelt = config.get(itemProperty, "Raygun melt", false)
-                .getBoolean();
+                    .getBoolean();
             floobshipExplode = config.get(mobProperty, "Allow Floobship Explosion", false)
-                .getBoolean();
+                    .getBoolean();
             publicUrination = config.get(mobProperty, "Allow Bum Public Urination", true)
-                .getBoolean();
+                    .getBoolean();
             jailActive = config.get(worldGen, "Enable Jail", true)
-                .getBoolean();
+                    .getBoolean();
             Blood = config.get(mobProperty, "Enable blood", true)
-                .getBoolean();
+                    .getBoolean();
             sblorpmaxsize = config.get(mobProperty, "Blorp Max Size", 6)
-                .getInt();
+                    .getInt();
             ///////////////// PROJECTILE START/////////////////////////
             shrink_projectile_ID = config.get(entityID, "Shrink Projectile ID", 925)
-                .getInt();
+                    .getInt();
             ray_projectile_ID = config.get(entityID, "Ray Projectile ID", 926)
-                .getInt();
+                    .getInt();
             money_projectile_ID = config.get(entityID, "Money Projectile ID", 927)
-                .getInt();
+                    .getInt();
             bullet_projectile_ID = config.get(entityID, "Bullet Projectile ID", 928)
-                .getInt();
+                    .getInt();
             grow_projectile_ID = config.get(entityID, "Grow Projectile ID", 929)
-                .getInt();
+                    .getInt();
             gdonut_projectile_ID = config.get(entityID, "Goo Donut Projectile ID", 930)
-                .getInt();
+                    .getInt();
             frisbee_projectile_ID = config.get(entityID, "Frisbee Projectile ID", 931)
-                .getInt();
+                    .getInt();
             foam_projectile_ID = config.get(entityID, "Foam Projectile ID", 932)
-                .getInt();
+                    .getInt();
             ///////////////// PROJECTILE END///////////////////////////
             armyguy_ID = config.get(entityID, "Army Guy ID", 934)
-                .getInt();
+                    .getInt();
             armyguyArm_ID = config.get(entityID, "Army Guy Arm ID", 935)
-                .getInt();
+                    .getInt();
             babymummy_ID = config.get(entityID, "Baby Mummy Entity ID", 936)
-                .getInt();
+                    .getInt();
             bigbaby_ID = config.get(entityID, "Big Baby Entity ID", 937)
-                .getInt();
+                    .getInt();
             blacksoul_ID = config.get(entityID, "Black Soul Entity ID", 938)
-                .getInt();
+                    .getInt();
             blorp_ID = config.get(entityID, "Blorp Entity ID", 939)
-                .getInt();
+                    .getInt();
             bum_ID = config.get(entityID, "Bum Entity ID", 940)
-                .getInt();
+                    .getInt();
             bubblescum_ID = config.get(entityID, "Bubble Scum Entity ID", 941)
-                .getInt();
+                    .getInt();
             camel_ID = config.get(entityID, "Camel Entity ID", 942)
-                .getInt();
+                    .getInt();
             cameljockey_ID = config.get(entityID, "Camel Jockey Entity ID", 943)
-                .getInt();
+                    .getInt();
             caveman_ID = config.get(entityID, "Caveman Entity ID", 944)
-                .getInt();
+                    .getInt();
             desertlizard_ID = config.get(entityID, "Desert Lizard Entity ID", 945)
-                .getInt();
+                    .getInt();
             digbug_ID = config.get(entityID, "Dig Bug Entity ID", 946)
-                .getInt();
+                    .getInt();
             evilscientist_ID = config.get(entityID, "Evil Scientist Entity ID", 950)
-                .getInt();
+                    .getInt();
             floob_ID = config.get(entityID, "Floob Entity ID", 952)
-                .getInt();
+                    .getInt();
+            rat_man_ID = config.get(entityID, "Rat Man Entity ID", 6532).getInt();
             floobship_ID = config.get(entityID, "Floob Ship Entity ID", 953)
-                .getInt();
+                    .getInt();
             g_ID = config.get(entityID, "G Entity ID", 954)
-                .getInt();
+                    .getInt();
             googoat_ID = config.get(entityID, "GooGoat Entity ID", 955)
-                .getInt();
+                    .getInt();
             guineapig_ID = config.get(entityID, "Guinea Pig Entity ID", 956)
-                .getInt();
+                    .getInt();
             hippo_ID = config.get(entityID, "Hippo Entity ID", 957)
-                .getInt();
+                    .getInt();
             horsehead_ID = config.get(entityID, "Horsehead Entity ID", 958)
-                .getInt();
+                    .getInt();
             hotdog_ID = config.get(entityID, "Hot Dog Entity ID", 959)
-                .getInt();
+                    .getInt();
             hunchback_ID = config.get(entityID, "Hunchback Entity ID", 960)
-                .getInt();
+                    .getInt();
             invisibleman_ID = config.get(entityID, "Invisible Man Entity ID", 961)
-                .getInt();
+                    .getInt();
             kid_ID = config.get(entityID, "Kid Entity ID", 962)
-                .getInt();
+                    .getInt();
             lawyer_ID = config.get(entityID, "Lawyer Entity ID", 963)
-                .getInt();
+                    .getInt();
             lolliman_ID = config.get(entityID, "Lolliman Entity ID", 964)
-                .getInt();
+                    .getInt();
             mandog_ID = config.get(entityID, "Man Dog Entity ID", 965)
-                .getInt();
+                    .getInt();
             mummy_ID = config.get(entityID, "Mummy Entity ID", 966)
-                .getInt();
+                    .getInt();
             nonswimmer_ID = config.get(entityID, "Nonswimmer Entity ID", 967)
-                .getInt();
+                    .getInt();
             preacher_ID = config.get(entityID, "Preacher Entity ID", 968)
-                .getInt();
+                    .getInt();
             robotted_ID = config.get(entityID, "Robot Ted Entity ID", 969)
-                .getInt();
+                    .getInt();
             robottodd_ID = config.get(entityID, "Robot Todd Entity ID", 970)
-                .getInt();
+                    .getInt();
             rocketgiraffe_ID = config.get(entityID, "Rocket Giraffe Entity ID", 971)
-                .getInt();
+                    .getInt();
             rockmonster_ID = config.get(entityID, "Rock Monester Entity ID", 972)
-                .getInt();
+                    .getInt();
             sneakysal_ID = config.get(entityID, "Sneaky Sal Entity ID", 973)
-                .getInt();
+                    .getInt();
             snowdevil_ID = config.get(entityID, "Snow Devil Entity ID", 974)
-                .getInt();
+                    .getInt();
             thief_ID = config.get(entityID, "Thief Entity ID", 975)
-                .getInt();
+                    .getInt();
             zebra_ID = config.get(entityID, "Zebra Entity ID", 976)
-                .getInt();
+                    .getInt();
+            registerGlobally = config.get(entityID, "Register Entities Globally.", false, "Should it register the mobs globally. This is limited to 256 total mob by defualt. It is reccomended to use endless IDS if you intend to use this option.").getBoolean();
 
             config.save();
         } finally {

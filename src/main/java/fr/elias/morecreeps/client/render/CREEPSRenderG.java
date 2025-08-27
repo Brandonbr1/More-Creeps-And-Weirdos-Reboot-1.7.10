@@ -2,6 +2,7 @@ package fr.elias.morecreeps.client.render;
 
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
@@ -16,23 +17,30 @@ public class CREEPSRenderG extends RenderLiving {
 
     public CREEPSRenderG(CREEPSModelG creepsmodelg, float f) {
         super(creepsmodelg, f);
-        modelBipedMain = creepsmodelg;
+        this.modelBipedMain = creepsmodelg;
     }
 
     protected void fattenup(CREEPSEntityG creepsentityg, float f) {
         GL11.glScalef(creepsentityg.modelsize, creepsentityg.modelsize, creepsentityg.modelsize);
     }
 
+    @Override
     protected void preRenderCallback(EntityLivingBase entityliving, float f) {
-        fattenup((CREEPSEntityG) entityliving, f);
+        this.fattenup((CREEPSEntityG) entityliving, f);
     }
 
     protected ResourceLocation getEntityTexture(CREEPSEntityG entity) {
         return new ResourceLocation(entity.texture);
     }
 
+    @Override
+    public void doRender(EntityLiving entityliving, double d, double d1, double d2, float f, float f1) {
+        super.doRender(entityliving, d, d1, d2, f, f1);
+    }
+
+    @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
 
-        return getEntityTexture((CREEPSEntityG) entity);
+        return this.getEntityTexture((CREEPSEntityG) entity);
     }
 }

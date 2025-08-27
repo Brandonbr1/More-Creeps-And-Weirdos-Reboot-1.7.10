@@ -52,275 +52,277 @@ public class CREEPSEntityCaveman extends EntityMob {
 
     public CREEPSEntityCaveman(World world) {
         super(world);
-        scoreValue = 4;
-        attack = 1;
-        attackrange = 16D;
-        hammerswing = 0.0F;
-        hungry = false;
-        hungrytime = rand.nextInt(100) + 10;
+        this.scoreValue = 4;
+        this.attack = 1;
+        this.attackrange = 16D;
+        this.hammerswing = 0.0F;
+        this.hungry = false;
+        this.hungrytime = this.rand.nextInt(100) + 10;
 
-        if (rand.nextInt(100) > 50) {
-            cavegirl = true;
+        if (this.rand.nextInt(100) > 50) {
+            this.cavegirl = true;
         }
 
-        evil = false;
-        wanderstate = 0;
-        frozen = 5;
-        fat = rand.nextFloat() * 1.0F - rand.nextFloat() * 0.55F;
-        modelsize = (1.25F + rand.nextFloat() * 1.0F) - rand.nextFloat() * 0.75F;
-        modelsizebase = modelsize;
-        setSize(width * 0.8F + fat, height * 1.3F + fat);
-        setCaveTexture();
+        this.evil = false;
+        this.wanderstate = 0;
+        this.frozen = 5;
+        this.fat = this.rand.nextFloat() * 1.0F - this.rand.nextFloat() * 0.55F;
+        this.modelsize = (1.25F + this.rand.nextFloat() * 1.0F) - this.rand.nextFloat() * 0.75F;
+        this.modelsizebase = this.modelsize;
+        this.setSize(this.width * 0.8F + this.fat, this.height * 1.3F + this.fat);
+        this.setCaveTexture();
         this.targetTasks.addTask(0, new CREEPSEntityCaveman.AIFindPlayerToAttack());
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
     }
 
+    @Override
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(25D);
+        .setBaseValue(25D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(0.45D);
+        .setBaseValue(0.45D);
 
     }
 
     /**
      * Called to update the entity's position/logic.
      */
+    @Override
     public void onUpdate() {
         super.onUpdate();
 
-        if (frozen > 0 && worldObj
-            .getBlock(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ))
-            == Blocks.air) {
-            posY--;
+        if (this.frozen > 0 && this.worldObj
+                .getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))
+                == Blocks.air) {
+            this.posY--;
         }
 
-        if (isWet()) {
-            frozen = 0;
+        if (this.isWet()) {
+            this.frozen = 0;
         }
         double moveSpeed = this.getAttributeMap()
-            .getAttributeInstance(SharedMonsterAttributes.movementSpeed)
-            .getAttributeValue();
-        moveSpeed = frozen >= 1 ? 0.0F : 0.45F;
+                .getAttributeInstance(SharedMonsterAttributes.movementSpeed)
+                .getAttributeValue();
+        moveSpeed = this.frozen >= 1 ? 0.0F : 0.45F;
 
-        if (wanderstate == 0 && frozen < 1
-            && !evil
-            && !MoreCreepsAndWeirdos.cavemanbuilding
-            && rand.nextInt(100) == 0) {
-            wanderstate = 1;
+        if (this.wanderstate == 0 && this.frozen < 1
+                && !this.evil
+                && !MoreCreepsAndWeirdos.cavemanbuilding
+                && this.rand.nextInt(100) == 0) {
+            this.wanderstate = 1;
         }
 
-        if (wanderstate == 1 && rand.nextInt(201) == 200
-            && !MoreCreepsAndWeirdos.cavemanbuilding
-            && !evil
-            && checkArea()) {
-            wanderstate = 2;
-            housechunk = 0;
+        if (this.wanderstate == 1 && this.rand.nextInt(201) == 200
+                && !MoreCreepsAndWeirdos.cavemanbuilding
+                && !this.evil
+                && this.checkArea()) {
+            this.wanderstate = 2;
+            this.housechunk = 0;
 
             for (int i = 0; i < 4; i++) {
-                if (worldObj.getBlock(houseX, houseY, houseZ) == Blocks.air
-                    || worldObj.getBlock(houseX + 1, houseY, houseZ) == Blocks.air
-                    || worldObj.getBlock(houseX + 2, houseY, houseZ + 4) == Blocks.air
-                    || worldObj.getBlock(houseX, houseY, houseZ + 2) == Blocks.air) {
-                    houseY--;
+                if (this.worldObj.getBlock(this.houseX, this.houseY, this.houseZ) == Blocks.air
+                        || this.worldObj.getBlock(this.houseX + 1, this.houseY, this.houseZ) == Blocks.air
+                        || this.worldObj.getBlock(this.houseX + 2, this.houseY, this.houseZ + 4) == Blocks.air
+                        || this.worldObj.getBlock(this.houseX, this.houseY, this.houseZ + 2) == Blocks.air) {
+                    this.houseY--;
                 }
             }
 
             MoreCreepsAndWeirdos.cavemanbuilding = true;
         }
 
-        if (wanderstate == 2) {
-            posX = houseX - 1;
+        if (this.wanderstate == 2) {
+            this.posX = this.houseX - 1;
             // moveSpeed = 0.0F; TODO
-            setRotation(45F, rotationPitch);
+            this.setRotation(45F, this.rotationPitch);
         }
 
-        if (wanderstate == 2 && rand.nextInt(50) == 0) {
-            if (housechunk == 0) {
-                hammerswing = -2.8F;
-                worldObj.setBlock(houseX + 1, houseY, houseZ, Blocks.snow);
-                housechunk++;
-                snowFX(houseX + 1, houseY, houseZ);
-            } else if (housechunk == 1) {
-                hammerswing = -2.8F;
-                worldObj.setBlock(houseX + 1, houseY + 1, houseZ, Blocks.snow);
-                housechunk++;
-                snowFX(houseX + 1, houseY + 1, houseZ);
-            } else if (housechunk == 2) {
-                hammerswing = -2.8F;
-                worldObj.setBlock(houseX + 3, houseY, houseZ, Blocks.snow);
-                snowFX(houseX + 3, houseY, houseZ);
-                housechunk++;
-            } else if (housechunk == 3) {
-                hammerswing = -2.8F;
-                worldObj.setBlock(houseX + 3, houseY + 1, houseZ, Blocks.snow);
-                snowFX(houseX + 3, houseY + 1, houseZ);
-                housechunk++;
-            } else if (housechunk == 4) {
-                hammerswing = -2.8F;
+        if (this.wanderstate == 2 && this.rand.nextInt(50) == 0) {
+            if (this.housechunk == 0) {
+                this.hammerswing = -2.8F;
+                this.worldObj.setBlock(this.houseX + 1, this.houseY, this.houseZ, Blocks.snow);
+                this.housechunk++;
+                this.snowFX(this.houseX + 1, this.houseY, this.houseZ);
+            } else if (this.housechunk == 1) {
+                this.hammerswing = -2.8F;
+                this.worldObj.setBlock(this.houseX + 1, this.houseY + 1, this.houseZ, Blocks.snow);
+                this.housechunk++;
+                this.snowFX(this.houseX + 1, this.houseY + 1, this.houseZ);
+            } else if (this.housechunk == 2) {
+                this.hammerswing = -2.8F;
+                this.worldObj.setBlock(this.houseX + 3, this.houseY, this.houseZ, Blocks.snow);
+                this.snowFX(this.houseX + 3, this.houseY, this.houseZ);
+                this.housechunk++;
+            } else if (this.housechunk == 3) {
+                this.hammerswing = -2.8F;
+                this.worldObj.setBlock(this.houseX + 3, this.houseY + 1, this.houseZ, Blocks.snow);
+                this.snowFX(this.houseX + 3, this.houseY + 1, this.houseZ);
+                this.housechunk++;
+            } else if (this.housechunk == 4) {
+                this.hammerswing = -2.8F;
 
                 for (int j = 1; j < 4; j++) {
-                    worldObj.setBlock(houseX, houseY, houseZ + j, Blocks.snow);
-                    snowFX(houseX, houseY, houseZ + j);
+                    this.worldObj.setBlock(this.houseX, this.houseY, this.houseZ + j, Blocks.snow);
+                    this.snowFX(this.houseX, this.houseY, this.houseZ + j);
                 }
 
-                housechunk++;
-            } else if (housechunk == 5) {
-                hammerswing = -2.8F;
+                this.housechunk++;
+            } else if (this.housechunk == 5) {
+                this.hammerswing = -2.8F;
 
                 for (int k = 1; k < 4; k++) {
-                    worldObj.setBlock(houseX, houseY + 1, houseZ + k, Blocks.snow);
-                    snowFX(houseX, houseY + 1, houseZ + k);
+                    this.worldObj.setBlock(this.houseX, this.houseY + 1, this.houseZ + k, Blocks.snow);
+                    this.snowFX(this.houseX, this.houseY + 1, this.houseZ + k);
                 }
 
-                housechunk++;
-            } else if (housechunk == 6) {
-                hammerswing = -2.8F;
+                this.housechunk++;
+            } else if (this.housechunk == 6) {
+                this.hammerswing = -2.8F;
 
                 for (int l = 1; l < 4; l++) {
-                    worldObj.setBlock(houseX + 4, houseY, houseZ + l, Blocks.snow);
-                    snowFX(houseX + 4, houseY, houseZ + l);
+                    this.worldObj.setBlock(this.houseX + 4, this.houseY, this.houseZ + l, Blocks.snow);
+                    this.snowFX(this.houseX + 4, this.houseY, this.houseZ + l);
                 }
 
-                housechunk++;
-            } else if (housechunk == 7) {
-                hammerswing = -2.8F;
+                this.housechunk++;
+            } else if (this.housechunk == 7) {
+                this.hammerswing = -2.8F;
 
                 for (int i1 = 1; i1 < 4; i1++) {
-                    worldObj.setBlock(houseX + 4, houseY + 1, houseZ + i1, Blocks.snow);
-                    snowFX(houseX + 4, houseY + 1, houseZ + i1);
+                    this.worldObj.setBlock(this.houseX + 4, this.houseY + 1, this.houseZ + i1, Blocks.snow);
+                    this.snowFX(this.houseX + 4, this.houseY + 1, this.houseZ + i1);
                 }
 
-                housechunk++;
-            } else if (housechunk == 8) {
-                hammerswing = -2.8F;
+                this.housechunk++;
+            } else if (this.housechunk == 8) {
+                this.hammerswing = -2.8F;
 
                 for (int j1 = 1; j1 < 4; j1++) {
-                    worldObj.setBlock(houseX + j1, houseY, houseZ + 4, Blocks.snow);
-                    snowFX(houseX + j1, houseY, houseZ + 4);
+                    this.worldObj.setBlock(this.houseX + j1, this.houseY, this.houseZ + 4, Blocks.snow);
+                    this.snowFX(this.houseX + j1, this.houseY, this.houseZ + 4);
                 }
 
-                housechunk++;
-            } else if (housechunk == 9) {
-                hammerswing = -2.8F;
+                this.housechunk++;
+            } else if (this.housechunk == 9) {
+                this.hammerswing = -2.8F;
 
                 for (int k1 = 1; k1 < 4; k1++) {
-                    worldObj.setBlock(houseX + k1, houseY + 1, houseZ + 4, Blocks.snow);
-                    snowFX(houseX + k1, houseY + 1, houseZ + 4);
+                    this.worldObj.setBlock(this.houseX + k1, this.houseY + 1, this.houseZ + 4, Blocks.snow);
+                    this.snowFX(this.houseX + k1, this.houseY + 1, this.houseZ + 4);
                 }
 
-                housechunk++;
-            } else if (housechunk == 10) {
-                hammerswing = -2.8F;
+                this.housechunk++;
+            } else if (this.housechunk == 10) {
+                this.hammerswing = -2.8F;
 
                 for (int l1 = 1; l1 < 4; l1++) {
                     for (int j2 = 1; j2 < 4; j2++) {
-                        worldObj.setBlock(houseX + j2, houseY + 2, houseZ + l1, Blocks.snow);
-                        snowFX(houseX + j2, houseY + 2, houseZ + l1);
+                        this.worldObj.setBlock(this.houseX + j2, this.houseY + 2, this.houseZ + l1, Blocks.snow);
+                        this.snowFX(this.houseX + j2, this.houseY + 2, this.houseZ + l1);
                     }
                 }
 
-                housechunk++;
-            } else if (housechunk == 11) {
-                hammerswing = -2.8F;
-                worldObj.setBlock(houseX + 2, houseY + 3, houseZ + 2, Blocks.snow);
-                snowFX(houseX + 2, houseY + 3, houseZ + 2);
-                housechunk++;
-            } else if (housechunk == 12) {
+                this.housechunk++;
+            } else if (this.housechunk == 11) {
+                this.hammerswing = -2.8F;
+                this.worldObj.setBlock(this.houseX + 2, this.houseY + 3, this.houseZ + 2, Blocks.snow);
+                this.snowFX(this.houseX + 2, this.houseY + 3, this.houseZ + 2);
+                this.housechunk++;
+            } else if (this.housechunk == 12) {
                 Item i2;
 
-                if (rand.nextInt(5) == 0) {
+                if (this.rand.nextInt(5) == 0) {
                     i2 = Items.fish;
                 } else {
                     i2 = MoreCreepsAndWeirdos.popsicle;
                 }
 
-                if (!worldObj.isRemote) {
+                if (!this.worldObj.isRemote) {
                     EntityItem entityitem = new EntityItem(
-                        worldObj,
-                        houseX + 3,
-                        houseY,
-                        houseZ + 3,
-                        new ItemStack(i2, rand.nextInt(4) + 1, 0));
-                    worldObj.spawnEntityInWorld(entityitem);
+                            this.worldObj,
+                            this.houseX + 3,
+                            this.houseY,
+                            this.houseZ + 3,
+                            new ItemStack(i2, this.rand.nextInt(4) + 1, 0));
+                    this.worldObj.spawnEntityInWorld(entityitem);
                 }
                 // moveSpeed = maxspeed;
                 MoreCreepsAndWeirdos.cavemanbuilding = false;
-                wanderstate = 3;
+                this.wanderstate = 3;
             }
         }
 
-        if (hammerswing < 0.0F) {
-            hammerswing += 0.4F;
+        if (this.hammerswing < 0.0F) {
+            this.hammerswing += 0.4F;
         } else {
-            hammerswing = 0.0F;
+            this.hammerswing = 0.0F;
         }
 
         EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
         if (entityplayersp != null) {
-            float f = getDistanceToEntity(entityplayersp);
-            ignoreFrustumCheck = f < 8F;
+            float f = this.getDistanceToEntity(entityplayersp);
+            this.ignoreFrustumCheck = f < 8F;
         }
     }
 
+    @Override
     public boolean isMovementBlocked() {
-        return frozen >= 1 || this.wanderstate == 2 ? true : false;
+        return this.frozen >= 1 || this.wanderstate == 2 ? true : false;
     }
 
     public boolean checkArea() {
-        houseX = MathHelper.floor_double(posX);
-        houseY = MathHelper.floor_double(posY);
-        houseZ = MathHelper.floor_double(posZ);
+        this.houseX = MathHelper.floor_double(this.posX);
+        this.houseY = MathHelper.floor_double(this.posY);
+        this.houseZ = MathHelper.floor_double(this.posZ);
 
-        if (worldObj.getBlock(houseX, houseY - 1, houseZ) == Blocks.air) {
-            houseY--;
+        if (this.worldObj.getBlock(this.houseX, this.houseY - 1, this.houseZ) == Blocks.air) {
+            this.houseY--;
         }
 
-        area = 0;
+        this.area = 0;
 
         for (int i = -3; i < 7; i++) {
             for (int k = -3; k < 7; k++) {
                 for (int i1 = 0; i1 < 3; i1++) {
-                    if (worldObj.getBlock(houseX + k, houseY + i1, houseZ + i) == Blocks.air) {
-                        area++;
+                    if (this.worldObj.getBlock(this.houseX + k, this.houseY + i1, this.houseZ + i) == Blocks.air) {
+                        this.area++;
                     }
                 }
             }
         }
 
-        if (area < 220) {
+        if (this.area < 220)
             return false;
-        }
 
         for (int j = -2; j < 7; j++) {
             for (int l = -2; l < 7; l++) {
-                Block j1 = worldObj.getBlock(houseX + l, houseY, houseZ + j);
-                Block k1 = worldObj.getBlock(houseX + l, houseY - 1, houseZ + j);
+                Block j1 = this.worldObj.getBlock(this.houseX + l, this.houseY, this.houseZ + j);
+                Block k1 = this.worldObj.getBlock(this.houseX + l, this.houseY - 1, this.houseZ + j);
 
                 if (j1 == Blocks.snow || j1 == Blocks.ice) {
-                    area++;
+                    this.area++;
                 }
 
                 if (k1 == Blocks.snow || k1 == Blocks.ice) {
-                    area++;
+                    this.area++;
                 }
             }
         }
 
-        return area > 75;
+        return this.area > 75;
     }
 
     /**
      * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in attacking
      * (Animals, Spiders at day, peaceful PigZombies).
      */
+    @Override
     protected Entity findPlayerToAttack() {
-        if (!evil || frozen > 0) {
+        if (!this.evil || this.frozen > 0)
             return null;
-        } else {
+        else
             return super.findPlayerToAttack();
-        }
     }
 
     class AIFindPlayerToAttack extends EntityAINearestAttackableTarget {
@@ -329,11 +331,12 @@ public class CREEPSEntityCaveman extends EntityMob {
             super(CREEPSEntityCaveman.this, EntityPlayer.class, 0, true);
         }
 
+        @Override
         public void updateTask() {
             try {
                 EntityLivingBase target = CREEPSEntityCaveman.this.getAttackTarget();
-                float f = getDistanceToEntity(target);
-                attackEntity(target, f);
+                float f = CREEPSEntityCaveman.this.getDistanceToEntity(target);
+                CREEPSEntityCaveman.this.attackEntity(target, f);
             }
 
             catch (NullPointerException ex) {
@@ -341,8 +344,9 @@ public class CREEPSEntityCaveman extends EntityMob {
             }
         }
 
+        @Override
         public boolean shouldExecute() {
-            return !evil || frozen > 0 && super.shouldExecute();
+            return !CREEPSEntityCaveman.this.evil || CREEPSEntityCaveman.this.frozen > 0 && super.shouldExecute();
         }
     }
 
@@ -350,18 +354,20 @@ public class CREEPSEntityCaveman extends EntityMob {
      * knocks back this entity
      */
     public void knockBack(Entity entity, int i, double d, double d1) {
-        if (frozen < 1) {
+        if (this.frozen < 1) {
             super.knockBack(entity, i, d, d1);
         }
     }
 
+    @Override
     public void updateRiderPosition() {
-        riddenByEntity.setPosition(posX, posY + getMountedYOffset() + riddenByEntity.getYOffset(), posZ);
+        this.riddenByEntity.setPosition(this.posX, this.posY + this.getMountedYOffset() + this.riddenByEntity.getYOffset(), this.posZ);
     }
 
     /**
      * Returns the Y offset from the entity's position for any entity riding this one.
      */
+    @Override
     public double getMountedYOffset() {
         return 0.5D;
     }
@@ -370,17 +376,18 @@ public class CREEPSEntityCaveman extends EntityMob {
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
+    @Override
     public void onLivingUpdate() {
-        if (frozen < 1) {
+        if (this.frozen < 1) {
             super.onLivingUpdate();
         }
 
-        if (handleWaterMovement()) {
-            frozen = 0;
+        if (this.handleWaterMovement()) {
+            this.frozen = 0;
         }
 
-        if (isWet()) {
-            frozen = 0;
+        if (this.isWet()) {
+            this.frozen = 0;
         }
     }
 
@@ -388,58 +395,57 @@ public class CREEPSEntityCaveman extends EntityMob {
      * Takes a coordinate in and returns a weight to determine how likely this creature will try to path to the block.
      * Args: x, y, z
      */
+    @Override
     public float getBlockPathWeight(int x, int y, int z) {
-        if (worldObj.getBlock(x, y, z) == Blocks.gravel || worldObj.getBlock(x, y, z) == Blocks.stone) {
+        if (this.worldObj.getBlock(x, y, z) == Blocks.gravel || this.worldObj.getBlock(x, y, z) == Blocks.stone)
             return 10F;
-        } else {
+        else
             return -(float) y;
-        }
     }
 
     /**
      * Called when the entity is attacked.
      */
+    @Override
     public boolean attackEntityFrom(DamageSource damagesource, float i) {
         Entity entity = damagesource.getEntity();
-        hungry = false;
+        this.hungry = false;
 
-        if (frozen < 1) {
-            evil = true;
-            setCaveTexture();
+        if (this.frozen < 1) {
+            this.evil = true;
+            this.setCaveTexture();
 
             if (super.attackEntityFrom(DamageSource.causeMobDamage(this), i)) {
-                if (riddenByEntity == entity || ridingEntity == entity) {
+                if (this.riddenByEntity == entity || this.ridingEntity == entity)
                     return true;
-                }
 
-                if (entity != this && worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
-                    setRevengeTarget((EntityLivingBase) entity);
+                if (entity != this && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
+                    this.setRevengeTarget((EntityLivingBase) entity);
                 }
 
                 return true;
-            } else {
+            } else
                 return false;
-            }
         }
 
         if (entity instanceof EntityPlayer) {
-            worldObj.playSoundAtEntity(
-                this,
-                "morecreeps:cavemanice",
-                0.5F,
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    "morecreeps:cavemanice",
+                    0.5F,
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
 
-            if (rand.nextInt(100) > 65) {
-                frozen--;
+            if (this.rand.nextInt(100) > 65) {
+                this.frozen--;
             }
 
             for (int j = 0; j < 35; j++) {
-                worldObj.spawnParticle("SNOWBALL".toLowerCase(), posX, posY + 1.0D, posZ, 0.0D, 0.0D, 0.0D);
+                this.worldObj.spawnParticle("SNOWBALL".toLowerCase(), this.posX, this.posY + 1.0D, this.posZ, 0.0D, 0.0D, 0.0D);
             }
         }
 
-        if (frozen > 0) {
-            hurtTime = 0;
+        if (this.frozen > 0) {
+            this.hurtTime = 0;
         }
 
         return false;
@@ -447,48 +453,49 @@ public class CREEPSEntityCaveman extends EntityMob {
 
     public void snowFX(int i, int j, int k) {
         for (int l = 0; l < 40; l++) {
-            worldObj.spawnParticle("SNOWBALLPOOF".toLowerCase(), i, j + 0.5D, k, 1.0D, 1.0D, 1.0D);
+            this.worldObj.spawnParticle("SNOWBALLPOOF".toLowerCase(), i, j + 0.5D, k, 1.0D, 1.0D, 1.0D);
         }
-        if (worldObj.isRemote) {
-            MoreCreepsAndWeirdos.proxy.foam3(worldObj, this, i, j, k);
+        if (this.worldObj.isRemote) {
+            MoreCreepsAndWeirdos.proxy.foam3(this.worldObj, this, i, j, k);
         }
     }
 
     /**
      * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
      */
+    @Override
     protected void attackEntity(Entity entity, float f) {
-        if (frozen < 1) {
-            if (onGround) {
-                double d = entity.posX - posX;
-                double d1 = entity.posZ - posZ;
+        if (this.frozen < 1) {
+            if (this.onGround) {
+                double d = entity.posX - this.posX;
+                double d1 = entity.posZ - this.posZ;
                 float f1 = MathHelper.sqrt_double(d * d + d1 * d1);
-                motionX = (d / f1) * 0.20000000000000001D * (0.45000001192092898D + motionX * 0.20000000298023224D);
-                motionZ = (d1 / f1) * 0.20000000000000001D * (0.40000001192092893D + motionZ * 0.20000000298023224D);
-                motionY = 0.46000000596246449D;
-                fallDistance = -25F;
+                this.motionX = (d / f1) * 0.20000000000000001D * (0.45000001192092898D + this.motionX * 0.20000000298023224D);
+                this.motionZ = (d1 / f1) * 0.20000000000000001D * (0.40000001192092893D + this.motionZ * 0.20000000298023224D);
+                this.motionY = 0.46000000596246449D;
+                this.fallDistance = -25F;
             }
 
-            if (f < 2.8999999999999999D && entity.getBoundingBox().maxY > getBoundingBox().minY
-                && entity.getBoundingBox().minY < getBoundingBox().maxY) {
-                if (hammerswing == 0.0F) {
-                    hammerswing = -2.8F;
+            if (f < 2.8999999999999999D && entity.getBoundingBox().maxY > this.getBoundingBox().minY
+                    && entity.getBoundingBox().minY < this.getBoundingBox().maxY) {
+                if (this.hammerswing == 0.0F) {
+                    this.hammerswing = -2.8F;
                 }
 
-                if (talkdelay-- < 0) {
-                    worldObj.playSoundAtEntity(
-                        this,
-                        "morecreeps:cavemanevil",
-                        0.5F,
-                        (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-                    talkdelay = 2;
+                if (this.talkdelay-- < 0) {
+                    this.worldObj.playSoundAtEntity(
+                            this,
+                            "morecreeps:cavemanevil",
+                            0.5F,
+                            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+                    this.talkdelay = 2;
                 }
             }
 
-            if (f < 2.3500000000000001D && entity.getBoundingBox().maxY > getBoundingBox().minY
-                && entity.getBoundingBox().minY < getBoundingBox().maxY) {
-                attackTime = 20;
-                entity.attackEntityFrom(DamageSource.causeMobDamage(this), attack);
+            if (f < 2.3500000000000001D && entity.getBoundingBox().maxY > this.getBoundingBox().minY
+                    && entity.getBoundingBox().minY < this.getBoundingBox().maxY) {
+                this.attackTime = 20;
+                entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.attack);
             }
         }
     }
@@ -496,158 +503,156 @@ public class CREEPSEntityCaveman extends EntityMob {
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
+    @Override
     public boolean getCanSpawnHere() {
-        if (worldObj == null || getBoundingBox() == null) {
+        if (this.worldObj == null || this.getBoundingBox() == null)
             return false;
-        }
-        int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(posY);
-        int k = MathHelper.floor_double(posZ);
-        if (getBoundingBox() == null) {
+        int i = MathHelper.floor_double(this.posX);
+        int j = MathHelper.floor_double(this.posY);
+        int k = MathHelper.floor_double(this.posZ);
+        if (this.getBoundingBox() == null)
             return false;
-        }
-        int l = worldObj.getFullBlockLightValue(i, j, k);
-        if (this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL) {
+        int l = this.worldObj.getFullBlockLightValue(i, j, k);
+        if (this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL)
             return false;
-        }
         return super.getCanSpawnHere();
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setBoolean("Hungry", hungry);
-        nbttagcompound.setFloat("ModelSize", modelsize);
-        nbttagcompound.setFloat("ModelSizeBase", modelsizebase);
-        nbttagcompound.setFloat("Fat", fat);
-        nbttagcompound.setInteger("Frozen", frozen);
-        nbttagcompound.setBoolean("Cavegirl", cavegirl);
-        nbttagcompound.setBoolean("Evil", evil);
-        nbttagcompound.setInteger("WanderState", wanderstate);
-        nbttagcompound.setInteger("HouseX", houseX);
-        nbttagcompound.setInteger("HouseY", houseY);
-        nbttagcompound.setInteger("HouseZ", houseZ);
-        nbttagcompound.setInteger("HouseChunk", housechunk);
+        nbttagcompound.setBoolean("Hungry", this.hungry);
+        nbttagcompound.setFloat("ModelSize", this.modelsize);
+        nbttagcompound.setFloat("ModelSizeBase", this.modelsizebase);
+        nbttagcompound.setFloat("Fat", this.fat);
+        nbttagcompound.setInteger("Frozen", this.frozen);
+        nbttagcompound.setBoolean("Cavegirl", this.cavegirl);
+        nbttagcompound.setBoolean("Evil", this.evil);
+        nbttagcompound.setInteger("WanderState", this.wanderstate);
+        nbttagcompound.setInteger("HouseX", this.houseX);
+        nbttagcompound.setInteger("HouseY", this.houseY);
+        nbttagcompound.setInteger("HouseZ", this.houseZ);
+        nbttagcompound.setInteger("HouseChunk", this.housechunk);
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
-        hungry = nbttagcompound.getBoolean("Hungry");
-        modelsize = nbttagcompound.getFloat("ModelSize");
-        modelsizebase = nbttagcompound.getFloat("ModelSizeBase");
-        fat = nbttagcompound.getFloat("Fat");
-        frozen = nbttagcompound.getInteger("Frozen");
-        cavegirl = nbttagcompound.getBoolean("Cavegirl");
-        evil = nbttagcompound.getBoolean("Evil");
-        wanderstate = nbttagcompound.getInteger("WanderState");
-        houseX = nbttagcompound.getInteger("HouseX");
-        houseY = nbttagcompound.getInteger("HouseY");
-        houseZ = nbttagcompound.getInteger("HouseZ");
-        housechunk = nbttagcompound.getInteger("HouseChunk");
+        this.hungry = nbttagcompound.getBoolean("Hungry");
+        this.modelsize = nbttagcompound.getFloat("ModelSize");
+        this.modelsizebase = nbttagcompound.getFloat("ModelSizeBase");
+        this.fat = nbttagcompound.getFloat("Fat");
+        this.frozen = nbttagcompound.getInteger("Frozen");
+        this.cavegirl = nbttagcompound.getBoolean("Cavegirl");
+        this.evil = nbttagcompound.getBoolean("Evil");
+        this.wanderstate = nbttagcompound.getInteger("WanderState");
+        this.houseX = nbttagcompound.getInteger("HouseX");
+        this.houseY = nbttagcompound.getInteger("HouseY");
+        this.houseZ = nbttagcompound.getInteger("HouseZ");
+        this.housechunk = nbttagcompound.getInteger("HouseChunk");
 
-        if (wanderstate == 2) {
+        if (this.wanderstate == 2) {
             MoreCreepsAndWeirdos.cavemanbuilding = true;
         }
 
-        setCaveTexture();
+        this.setCaveTexture();
     }
 
     public void setCaveTexture() {
-        if (evil) {
-            if (cavegirl) {
-                texture = "morecreeps:textures/entity/cavemanladyevil.png";
+        if (this.evil) {
+            if (this.cavegirl) {
+                this.texture = "morecreeps:textures/entity/cavemanladyevil.png";
             } else {
-                texture = "morecreeps:textures/entity/cavemanevil.png";
+                this.texture = "morecreeps:textures/entity/cavemanevil.png";
             }
-        } else if (cavegirl) {
-            texture = "morecreeps:textures/entity/cavemanlady.png";
+        } else if (this.cavegirl) {
+            this.texture = "morecreeps:textures/entity/cavemanlady.png";
         } else {
-            texture = "morecreeps:textures/entity/caveman.png";
+            this.texture = "morecreeps:textures/entity/caveman.png";
         }
     }
 
     /**
      * Plays living's sound at its position
      */
+    @Override
     public void playLivingSound() {
-        String s = getLivingSound();
+        String s = this.getLivingSound();
 
         if (s != null) {
-            worldObj.playSoundAtEntity(
-                this,
-                s,
-                getSoundVolume(),
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + (1.0F - (modelsizebase - modelsize) * 2.0F));
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    s,
+                    this.getSoundVolume(),
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + (1.0F - (this.modelsizebase - this.modelsize) * 2.0F));
         }
     }
 
     /**
      * Returns the sound this mob makes while it's alive.
      */
+    @Override
     protected String getLivingSound() {
-        if (evil) {
+        if (this.evil)
             return "morecreeps:cavemanevil";
-        }
 
         EntityLivingBase entityToAttack = this.getAttackTarget();
 
         if (entityToAttack != null) {
-            if (cavegirl) {
+            if (this.cavegirl)
                 return "morecreeps:cavewomanfree";
-            } else {
+            else
                 return "morecreeps:cavemanfree";
-            }
         }
 
-        if (cavegirl) {
-            if (frozen < 1) {
+        if (this.cavegirl) {
+            if (this.frozen < 1)
                 return "morecreeps:cavewomanfree";
-            } else {
+            else
                 return "morecreeps:cavewomanfrozen";
-            }
         }
 
-        if (frozen < 1) {
+        if (this.frozen < 1)
             return "morecreeps:cavemanfree";
-        } else {
+        else
             return "morecreeps:cavemanfrozen";
-        }
     }
 
     /**
      * Returns the sound this mob makes when it is hurt.
      */
+    @Override
     protected String getHurtSound() {
-        if (frozen > 0) {
+        if (this.frozen > 0)
             return null;
-        }
 
-        if (cavegirl) {
+        if (this.cavegirl)
             return "morecreeps:cavewomanhurt";
-        } else {
+        else
             return "morecreeps:cavemanhurt";
-        }
     }
 
     /**
      * Returns the sound this mob makes on death.
      */
+    @Override
     protected String getDeathSound() {
-        if (cavegirl) {
+        if (this.cavegirl)
             return "morecreeps:cavewomandead";
-        } else {
+        else
             return "morecreeps:cavemandead";
-        }
     }
 
     /**
      * Called when the mob's health reaches 0.
      */
+    @Override
     public void onDeath(DamageSource damagesource) {
         Object obj = damagesource.getEntity();
 
@@ -659,39 +664,39 @@ public class CREEPSEntityCaveman extends EntityMob {
         if (player != null) {
             MoreCreepsAndWeirdos.cavemancount++;
             if (!((EntityPlayerMP) player).func_147099_x()
-                .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieve1caveman)) {
-                worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
+                    .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieve1caveman)) {
+                this.worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
                 player.addStat(MoreCreepsAndWeirdos.achieve1caveman, 1);
-                confetti();
+                this.confetti();
             }
 
             if (!((EntityPlayerMP) player).func_147099_x()
-                .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieve1caveman)
-                && MoreCreepsAndWeirdos.cavemancount >= 10) {
-                worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
+                    .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieve1caveman)
+                    && MoreCreepsAndWeirdos.cavemancount >= 10) {
+                this.worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
                 player.addStat(MoreCreepsAndWeirdos.achieve10caveman, 1);
-                confetti();
+                this.confetti();
             }
 
             if (!((EntityPlayerMP) player).func_147099_x()
-                .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieve10caveman)
-                && MoreCreepsAndWeirdos.cavemancount >= 50) {
-                worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
+                    .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieve10caveman)
+                    && MoreCreepsAndWeirdos.cavemancount >= 50) {
+                this.worldObj.playSoundAtEntity(player, "morecreeps:achievement", 1.0F, 1.0F);
                 player.addStat(MoreCreepsAndWeirdos.achieve50caveman, 1);
-                confetti();
+                this.confetti();
             }
         }
-        if (!worldObj.isRemote) {
-            if (rand.nextInt(10) == 0) {
-                dropItem(Items.porkchop, rand.nextInt(3) + 1);
+        if (!this.worldObj.isRemote) {
+            if (this.rand.nextInt(10) == 0) {
+                this.dropItem(Items.porkchop, this.rand.nextInt(3) + 1);
             }
 
-            if (rand.nextInt(10) == 0) {
-                dropItem(MoreCreepsAndWeirdos.popsicle, rand.nextInt(3) + 1);
+            if (this.rand.nextInt(10) == 0) {
+                this.dropItem(MoreCreepsAndWeirdos.popsicle, this.rand.nextInt(3) + 1);
             }
 
-            if (rand.nextInt(8) == 0) {
-                dropItem(MoreCreepsAndWeirdos.cavemanclub, 1);
+            if (this.rand.nextInt(8) == 0) {
+                this.dropItem(MoreCreepsAndWeirdos.cavemanclub, 1);
             }
         }
 
@@ -699,19 +704,21 @@ public class CREEPSEntityCaveman extends EntityMob {
     }
 
     public void confetti() {
-        MoreCreepsAndWeirdos.proxy.confettiA(this, worldObj);
+        MoreCreepsAndWeirdos.proxy.confettiA(this, this.worldObj);
     }
 
     /**
      * Get number of ticks, at least during which the living entity will be silent.
      */
+    @Override
     public int getTalkInterval() {
-        return !evil ? 180 : 120;
+        return !this.evil ? 180 : 120;
     }
 
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
+    @Override
     public int getMaxSpawnedInChunk() {
         return 2;
     }

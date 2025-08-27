@@ -23,13 +23,13 @@ public class CREEPSEntityG extends EntityMob {
 
     public CREEPSEntityG(World world) {
         super(world);
-        texture = "morecreeeps:textures/entity/g.png";
-        setSize(width * 2.0F, height * 2.5F);
-        modelsize = 2.0F;
+        this.texture = "morecreeeps:textures/entity/g.png";
+        this.setSize(this.width * 2.0F, this.height * 2.5F);
+        this.modelsize = 2.0F;
         this.getNavigator()
-            .setBreakDoors(true);
+        .setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(2, new CREEPSEntityG.AIAttackEntity());
+        // this.tasks.addTask(2, new CREEPSEntityG.AIAttackEntity());
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.5D));
         this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
@@ -38,68 +38,77 @@ public class CREEPSEntityG extends EntityMob {
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 1, true));
     }
 
+    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(80);
+        .setBaseValue(80);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(0.45D);
+        .setBaseValue(0.45D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(2D);
+        .setBaseValue(2D);
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setFloat("ModelSize", modelsize);
+        nbttagcompound.setFloat("ModelSize", this.modelsize);
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
-        modelsize = nbttagcompound.getFloat("ModelSize");
+        this.modelsize = nbttagcompound.getFloat("ModelSize");
     }
 
     /**
      * Called when the entity is attacked.
      */
+    @Override
     public boolean attackEntityFrom(DamageSource damagesource, float i) {
         Entity entity = damagesource.getEntity();
-
         if (entity != null) {
-            double d = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
-            double d1 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
-            motionX = d * 11D;
-            motionZ = d1 * 11D;
+            // according to wiki(https://morecreepsandweirdos.fandom.com/wiki/G), it gets flug back 40 blocks only by projectiles
+            if (damagesource.isProjectile()) {
+                double d = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
+                double d1 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
+                this.motionX = d * 11D;
+                this.motionZ = d1 * 11D;
+            }
         }
 
         return super.attackEntityFrom(DamageSource.causeMobDamage(this), i);
     }
 
+    @Override
     protected void attackEntity(Entity entity, float f) {
-        if (onGround) {
-            double d = entity.posX - posX;
-            double d2 = entity.posZ - posZ;
+        if (this.onGround) {
+            double d = entity.posX - this.posX;
+            double d2 = entity.posZ - this.posZ;
             float f1 = MathHelper.sqrt_double(d * d + d2 * d2);
-            motionX = (d / (double) f1) * 0.40000000000000002D * 0.50000000192092897D + motionX * 0.18000000098023225D;
-            motionZ = (d2 / (double) f1) * 0.40000000000000002D * 0.37000000192092897D + motionZ * 0.18000000098023225D;
-            motionY = 0.15000000019604645D;
+            this.motionX = (d / f1) * 0.40000000000000002D * 0.50000000192092897D + this.motionX * 0.18000000098023225D;
+            this.motionZ = (d2 / f1) * 0.40000000000000002D * 0.37000000192092897D + this.motionZ * 0.18000000098023225D;
+            this.motionY = 0.15000000019604645D;
+            this.attackEntityAsMob(entity);
         }
 
-        if ((double) f < 6D) {
-            double d1 = entity.posX - posX;
-            double d3 = entity.posZ - posZ;
+        if (f < 6D) {
+            double d1 = entity.posX - this.posX;
+            double d3 = entity.posZ - this.posZ;
             float f2 = MathHelper.sqrt_double(d1 * d1 + d3 * d3);
-            motionX = (d1 / (double) f2) * 0.40000000000000002D * 0.40000000192092894D + motionX * 0.18000000098023225D;
-            motionZ = (d3 / (double) f2) * 0.40000000000000002D * 0.27000000192092893D + motionZ * 0.18000000098023225D;
-            rotationPitch = 90F;
+            this.motionX = (d1 / f2) * 0.40000000000000002D * 0.40000000192092894D + this.motionX * 0.18000000098023225D;
+            this.motionZ = (d3 / f2) * 0.40000000000000002D * 0.27000000192092893D + this.motionZ * 0.18000000098023225D;
+            this.rotationPitch = 90F;
+            this.attackEntityAsMob(entity);
         }
     }
-
+    /**
     class AIAttackEntity extends EntityAIBase {
 
         @Override
@@ -107,23 +116,26 @@ public class CREEPSEntityG extends EntityMob {
             return CREEPSEntityG.this.getAttackTarget() != null;
         }
 
+        @Override
         public void updateTask() {
             try {
-                float f = CREEPSEntityG.this.getDistanceToEntity(getAttackTarget());
+                float f = CREEPSEntityG.this.getDistanceToEntity(CREEPSEntityG.this.getAttackTarget());
                 if (f < 256F) {
-                    attackEntity(CREEPSEntityG.this.getAttackTarget(), f);
+                    // lets not attack from that many block away......
+                    CREEPSEntityG.this.attackEntity(CREEPSEntityG.this.getAttackTarget(), 1);
                     CREEPSEntityG.this.getLookHelper()
-                        .setLookPositionWithEntity(CREEPSEntityG.this.getAttackTarget(), 10.0F, 10.0F);
+                    .setLookPositionWithEntity(CREEPSEntityG.this.getAttackTarget(), 10.0F, 10.0F);
                     CREEPSEntityG.this.getNavigator()
-                        .clearPathEntity();
+                    .clearPathEntity();
                     CREEPSEntityG.this.getMoveHelper()
-                        .setMoveTo(
+                    .setMoveTo(
                             CREEPSEntityG.this.getAttackTarget().posX,
                             CREEPSEntityG.this.getAttackTarget().posY,
                             CREEPSEntityG.this.getAttackTarget().posZ,
                             0.5D);
                 }
                 if (f < 2F) {
+                    CREEPSEntityG.this.attackEntity(CREEPSEntityG.this.getAttackTarget(), 1);
                     CREEPSEntityG.this.attackEntityAsMob(CREEPSEntityG.this.getAttackTarget());
                 }
             } catch (NullPointerException ex) {
@@ -131,49 +143,52 @@ public class CREEPSEntityG extends EntityMob {
             }
         }
     }
+     **/
 
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
+    @Override
     public boolean getCanSpawnHere() {
-        if (worldObj == null || getBoundingBox() == null) {
+        if (this.worldObj == null || this.getBoundingBox() == null)
             return false;
-        }
-        int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(posY);
-        int k = MathHelper.floor_double(posZ);
-        Block i1 = worldObj.getBlock(i, j - 1, k);
-        int j1 = worldObj.countEntities(CREEPSEntityMummy.class);
+        int i = MathHelper.floor_double(this.posX);
+        int j = MathHelper.floor_double(this.posY);
+        int k = MathHelper.floor_double(this.posZ);
+        Block i1 = this.worldObj.getBlock(i, j - 1, k);
+        int j1 = this.worldObj.countEntities(CREEPSEntityMummy.class);
         return i1 != Blocks.sand && i1 != Blocks.cobblestone
-            && i1 != Blocks.log
-            && i1 != Blocks.double_stone_slab
-            && i1 != Blocks.stone_slab
-            && i1 != Blocks.planks
-            && i1 != Blocks.wool
-            && worldObj.getCollidingBoundingBoxes(this, getBoundingBox())
+                && i1 != Blocks.log
+                && i1 != Blocks.double_stone_slab
+                && i1 != Blocks.stone_slab
+                && i1 != Blocks.planks
+                && i1 != Blocks.wool
+                && this.worldObj.getCollidingBoundingBoxes(this, this.getBoundingBox())
                 .size() == 0
-            && rand.nextInt(15) == 0
-            && j1 < 5;
+                && this.rand.nextInt(15) == 0
+                && j1 < 5;
     }
 
     /**
      * Plays living's sound at its position
      */
+    @Override
     public void playLivingSound() {
-        String s = getLivingSound();
+        String s = this.getLivingSound();
 
         if (s != null) {
-            worldObj.playSoundAtEntity(
-                this,
-                s,
-                getSoundVolume(),
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (2.0F - modelsize) * 2.0F);
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    s,
+                    this.getSoundVolume(),
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F + (2.0F - this.modelsize) * 2.0F);
         }
     }
 
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
+    @Override
     public int getMaxSpawnedInChunk() {
         return 1;
     }
@@ -181,6 +196,7 @@ public class CREEPSEntityG extends EntityMob {
     /**
      * Returns the sound this mob makes while it's alive.
      */
+    @Override
     protected String getLivingSound() {
         return "morecreeps:g";
     }
@@ -188,6 +204,7 @@ public class CREEPSEntityG extends EntityMob {
     /**
      * Returns the sound this mob makes when it is hurt.
      */
+    @Override
     protected String getHurtSound() {
         return "morecreeps:ghurt";
     }
@@ -195,6 +212,7 @@ public class CREEPSEntityG extends EntityMob {
     /**
      * Returns the sound this mob makes on death.
      */
+    @Override
     protected String getDeathSound() {
         return "morecreeps:gdeath";
     }
@@ -202,120 +220,121 @@ public class CREEPSEntityG extends EntityMob {
     /**
      * Called when the mob's health reaches 0.
      */
+    @Override
     public void onDeath(DamageSource damagesource) {
-        if (!worldObj.isRemote) {
+        if (!this.worldObj.isRemote) {
             int maxitems = 0;
-            if (rand.nextInt(200) == 98) {
-                dropItem(Item.getItemFromBlock(Blocks.gold_block), 1);
+            if (this.rand.nextInt(200) == 98) {
+                this.dropItem(Item.getItemFromBlock(Blocks.gold_block), 1);
                 maxitems++;
             }
-            if (rand.nextInt(5) == 0) {
-                dropItem(Items.gold_ingot, rand.nextInt(2) + 1);
+            if (this.rand.nextInt(5) == 0) {
+                this.dropItem(Items.gold_ingot, this.rand.nextInt(2) + 1);
                 maxitems++;
             }
-            if (rand.nextInt(150) > 145) {
-                dropItem(Items.golden_sword, 1);
+            if (this.rand.nextInt(150) > 145) {
+                this.dropItem(Items.golden_sword, 1);
                 maxitems++;
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Items.golden_pickaxe, 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Items.golden_pickaxe, 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Items.golden_shovel, 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Items.golden_shovel, 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Items.golden_axe, 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Items.golden_axe, 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Items.golden_helmet, 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Items.golden_helmet, 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Items.golden_chestplate, 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Items.golden_chestplate, 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Items.golden_boots, 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Items.golden_boots, 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 80) {
-                    dropItem(Items.wheat, rand.nextInt(6) + 1);
+                if (this.rand.nextInt(100) > 80) {
+                    this.dropItem(Items.wheat, this.rand.nextInt(6) + 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Item.getItemFromBlock(Blocks.glass), rand.nextInt(6) + 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Item.getItemFromBlock(Blocks.glass), this.rand.nextInt(6) + 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(MoreCreepsAndWeirdos.goodonut, rand.nextInt(3) + 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(MoreCreepsAndWeirdos.goodonut, this.rand.nextInt(3) + 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 88) {
-                    dropItem(Item.getItemFromBlock(Blocks.grass), rand.nextInt(6) + 1);
+                if (this.rand.nextInt(100) > 88) {
+                    this.dropItem(Item.getItemFromBlock(Blocks.grass), this.rand.nextInt(6) + 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Item.getItemFromBlock(Blocks.glowstone), rand.nextInt(2) + 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Item.getItemFromBlock(Blocks.glowstone), this.rand.nextInt(2) + 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Items.glowstone_dust, rand.nextInt(2) + 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Items.glowstone_dust, this.rand.nextInt(2) + 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Items.glass_bottle, rand.nextInt(2) + 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Items.glass_bottle, this.rand.nextInt(2) + 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Items.gold_nugget, rand.nextInt(2) + 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Items.gold_nugget, this.rand.nextInt(2) + 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) == 88) {
-                    dropItem(Items.golden_apple, rand.nextInt(2) + 1);
+                if (this.rand.nextInt(100) == 88) {
+                    this.dropItem(Items.golden_apple, this.rand.nextInt(2) + 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) > 98) {
-                    dropItem(Items.gunpowder, rand.nextInt(2) + 1);
+                if (this.rand.nextInt(100) > 98) {
+                    this.dropItem(Items.gunpowder, this.rand.nextInt(2) + 1);
                     maxitems++;
                 }
             }
             if (maxitems < 3) {
-                if (rand.nextInt(100) == 88) {
-                    dropItem(Items.ghast_tear, rand.nextInt(2) + 1);
+                if (this.rand.nextInt(100) == 88) {
+                    this.dropItem(Items.ghast_tear, this.rand.nextInt(2) + 1);
                 }
             }
         }

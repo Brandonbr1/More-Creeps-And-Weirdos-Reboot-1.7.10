@@ -22,81 +22,87 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
 
     public CREEPSEntityDoghouse(World world) {
         super(world);
-        texture = "morecreeps:textures/entity/doghouse.png";
-        modelsize = 2.5F;
-        setSize(width * modelsize, height * modelsize);
-        houseoccupied = false;
+        this.texture = "morecreeps:textures/entity/doghouse.png";
+        this.modelsize = 2.5F;
+        this.setSize(this.width * this.modelsize, this.height * this.modelsize);
+        this.houseoccupied = false;
     }
 
+    @Override
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(20D);
+        .setBaseValue(20D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(0.0D);
+        .setBaseValue(0.0D);
     }
 
     /**
      * Returns the Y Offset of this entity.
      */
+    @Override
     public double getYOffset() {
-        if (ridingEntity instanceof CREEPSEntityHotdog) {
+        if (this.ridingEntity instanceof CREEPSEntityHotdog)
             return -(double) 1.1F;
-        } else {
+        else
             return super.getYOffset();
-        }
     }
 
+    @Override
     public void updateRiderPosition() {
-        if (riddenByEntity == null) {
+        if (this.riddenByEntity == null)
             return;
-        }
 
-        if (riddenByEntity instanceof CREEPSEntityHotdog) {
-            riddenByEntity.setPosition(posX, posY, posZ);
+        if (this.riddenByEntity instanceof CREEPSEntityHotdog) {
+            this.riddenByEntity.setPosition(this.posX, this.posY, this.posZ);
             return;
-        } else {
+        } else
             return;
-        }
     }
 
     /**
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
+    @Override
     public void onLivingUpdate() {
-        if (rand.nextInt(10) == 0 && riddenByEntity != null) {
-            if (worldObj.isRemote) MoreCreepsAndWeirdos.proxy.bubbleDoghouse(worldObj, this);
+        if (this.rand.nextInt(10) == 0 && this.riddenByEntity != null) {
+            if (this.worldObj.isRemote) {
+                MoreCreepsAndWeirdos.proxy.bubbleDoghouse(this.worldObj, this);
+            }
         }
 
-        if (inWater) {
-            setDead();
+        if (this.inWater) {
+            this.setDead();
         }
     }
 
     /**
      * Called to update the entity's position/logic.
      */
+    @Override
     public void onUpdate() {
-        ignoreFrustumCheck = true;
+        this.ignoreFrustumCheck = true;
         super.onUpdate();
     }
 
     /**
      * Determines if an entity can be despawned, used on idle far away entities
      */
+    @Override
     protected boolean canDespawn() {
-        return getHealth() < 1;
+        return this.getHealth() < 1;
     }
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
+    @Override
     public boolean interact(EntityPlayer entityplayer) {
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
 
-        if (riddenByEntity == null) {
-            List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(16D, 16D, 16D));
+        if (this.riddenByEntity == null) {
+            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
             int i = 0;
 
             do {
@@ -111,12 +117,12 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
 
                     if (creepsentityhotdog.tamed) {
                         creepsentityhotdog.mountEntity(this);
-                        houseoccupied = true;
-                        worldObj.playSoundAtEntity(
-                            this,
-                            "morecreeps:hotdogpickup",
-                            1.0F,
-                            (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+                        this.houseoccupied = true;
+                        this.worldObj.playSoundAtEntity(
+                                this,
+                                "morecreeps:hotdogpickup",
+                                1.0F,
+                                (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
                         break;
                     }
                 }
@@ -124,14 +130,14 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
                 i++;
             } while (true);
         } else {
-            riddenByEntity.fallDistance = -10F;
-            worldObj.playSoundAtEntity(
-                this,
-                "morecreeps:hotdogputdown",
-                1.0F,
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-            houseoccupied = false;
-            riddenByEntity.mountEntity(null);
+            this.riddenByEntity.fallDistance = -10F;
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    "morecreeps:hotdogputdown",
+                    1.0F,
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+            this.houseoccupied = false;
+            this.riddenByEntity.mountEntity(null);
         }
 
         return false;
@@ -145,22 +151,22 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
             i = 1;
         }
 
-        hurtTime = maxHurtTime = 10;
-        smoke();
+        this.hurtTime = this.maxHurtTime = 10;
+        this.smoke();
 
-        if (getHealth() <= 0) {
-            worldObj.playSoundAtEntity(
-                this,
-                getDeathSound(),
-                getSoundVolume(),
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-            onDeath(damagesource);
+        if (this.getHealth() <= 0) {
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    this.getDeathSound(),
+                    this.getSoundVolume(),
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+            this.onDeath(damagesource);
         } else {
-            worldObj.playSoundAtEntity(
-                this,
-                getHurtSound(),
-                getSoundVolume(),
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    this.getHurtSound(),
+                    this.getSoundVolume(),
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
         }
 
         super.attackEntityFrom(damagesource, i);
@@ -168,124 +174,130 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
     }
 
     public void loadHouse() {
-        List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(16D, 16D, 16D));
+        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
 
         for (int i = 0; i < list.size(); i++) {
             Entity entity = (Entity) list.get(i);
 
             if (entity != null && (entity instanceof CREEPSEntityHotdog) && ((CREEPSEntityHotdog) entity).tamed) {
                 entity.mountEntity(this);
-                houseoccupied = true;
+                this.houseoccupied = true;
                 return;
             }
         }
 
-        houseoccupied = false;
+        this.houseoccupied = false;
     }
 
     /**
      * Checks if this entity is inside of an opaque block
      */
+    @Override
     public boolean isEntityInsideOpaqueBlock() {
-        return getHealth() <= 0;
+        return this.getHealth() <= 0;
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setFloat("ModelSize", modelsize);
-        nbttagcompound.setBoolean("Occupied", houseoccupied);
+        nbttagcompound.setFloat("ModelSize", this.modelsize);
+        nbttagcompound.setBoolean("Occupied", this.houseoccupied);
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
-        modelsize = nbttagcompound.getFloat("ModelSize");
-        houseoccupied = nbttagcompound.getBoolean("Occupied");
-        loadHouse();
+        this.modelsize = nbttagcompound.getFloat("ModelSize");
+        this.houseoccupied = nbttagcompound.getBoolean("Occupied");
+        this.loadHouse();
     }
 
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
+    @Override
     public int getMaxSpawnedInChunk() {
         return 1;
     }
 
     private void smoke() {
-        if (worldObj.isRemote) for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 2; j++) {
-                double d = rand.nextGaussian() * 0.02D;
-                double d1 = rand.nextGaussian() * 0.02D;
-                double d2 = rand.nextGaussian() * 0.02D;
-                worldObj.spawnParticle(
-                    "EXPLOSION".toLowerCase(),
-                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    "EXPLOSION".toLowerCase(),
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    "EXPLOSION".toLowerCase(),
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    "EXPLOSION".toLowerCase(),
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    "EXPLOSION".toLowerCase(),
-                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    "EXPLOSION".toLowerCase(),
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    "EXPLOSION".toLowerCase(),
-                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width) + (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) i) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    "EXPLOSION".toLowerCase(),
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) i,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) i - (double) width,
-                    d,
-                    d1,
-                    d2);
+        if (this.worldObj.isRemote) {
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 2; j++) {
+                    double d = this.rand.nextGaussian() * 0.02D;
+                    double d1 = this.rand.nextGaussian() * 0.02D;
+                    double d2 = this.rand.nextGaussian() * 0.02D;
+                    this.worldObj.spawnParticle(
+                            "EXPLOSION".toLowerCase(),
+                            ((this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width) + i,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            "EXPLOSION".toLowerCase(),
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width - i,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            "EXPLOSION".toLowerCase(),
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F + i) - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            "EXPLOSION".toLowerCase(),
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - i - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            "EXPLOSION".toLowerCase(),
+                            ((this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width) + i,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F + i) - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            "EXPLOSION".toLowerCase(),
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width - i,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - i - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            "EXPLOSION".toLowerCase(),
+                            ((this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width) + i,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F + i) - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            "EXPLOSION".toLowerCase(),
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width - i,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - i - this.width,
+                            d,
+                            d1,
+                            d2);
+                }
             }
         }
     }
@@ -293,6 +305,7 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
     /**
      * Returns the sound this mob makes while it's alive.
      */
+    @Override
     protected String getLivingSound() {
         return null;
     }
@@ -300,6 +313,7 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
     /**
      * Returns the sound this mob makes when it is hurt.
      */
+    @Override
     protected String getHurtSound() {
         return null;
     }
@@ -307,18 +321,19 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
     /**
      * Returns the sound this mob makes on death.
      */
+    @Override
     protected String getDeathSound() {
         return null;
     }
 
     public void confetti() {
-        List list = worldObj.getEntitiesWithinAABB(EntityPlayer.class, getBoundingBox().expand(8D, 4D, 8D));
+        List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(8D, 4D, 8D));
         for (int i = 0; i < list.size(); i++) {
             Entity entity = (Entity) list.get(i);
             float f = this.getDistanceToEntity(entity);
             if (f < 6F) {
-                if (!worldObj.isRemote) {
-                    MoreCreepsAndWeirdos.proxy.confettiA((EntityPlayer) entity, worldObj);
+                if (!this.worldObj.isRemote) {
+                    MoreCreepsAndWeirdos.proxy.confettiA((EntityPlayer) entity, this.worldObj);
                 }
             }
         }
@@ -327,18 +342,16 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
     /**
      * Will get destroyed next tick.
      */
+    @Override
     public void setDead() {
-        smoke();
-        worldObj.playSoundAtEntity(
-            this,
-            getDeathSound(),
-            getSoundVolume(),
-            (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+        if (this.worldObj.isRemote) {
+            this.smoke();
+        }
         super.setDead();
     }
 
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
-        return new CREEPSEntityDoghouse(worldObj);
+        return new CREEPSEntityDoghouse(this.worldObj);
     }
 }

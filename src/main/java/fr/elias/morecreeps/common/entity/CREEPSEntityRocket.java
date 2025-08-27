@@ -53,82 +53,86 @@ public class CREEPSEntityRocket extends Entity {
 
     public CREEPSEntityRocket(World world) {
         super(world);
-        hitX = -1;
-        hitY = -1;
-        hitZ = -1;
+        this.hitX = -1;
+        this.hitY = -1;
+        this.hitZ = -1;
         // Don't know how to fix; not in 1.7.10
         // blockHit = false;
-        aoLightValueZPos = false;
-        aoLightValueScratchXYNN = 0;
-        setSize(0.325F, 0.1425F);
-        playerFire = false;
-        explodedelay = 30;
+        this.aoLightValueZPos = false;
+        this.aoLightValueScratchXYNN = 0;
+        this.setSize(0.325F, 0.1425F);
+        this.playerFire = false;
+        this.explodedelay = 30;
     }
 
     public CREEPSEntityRocket(World world, double d, double d1, double d2) {
         this(world);
-        setPosition(d, d1, d2);
-        aoLightValueScratchXYZNNN = true;
+        this.setPosition(d, d1, d2);
+        this.aoLightValueScratchXYZNNN = true;
     }
 
     public CREEPSEntityRocket(World world, EntityLivingBase entityliving, float f) {
         this(world);
-        shootingEntity = entityliving;
-        owner = entityliving;
-        damage = 15;
-        setLocationAndAngles(
-            entityliving.posX,
-            entityliving.posY + (double) entityliving.getEyeHeight(),
-            entityliving.posZ,
-            entityliving.rotationYaw,
-            entityliving.rotationPitch);
-        posX -= MathHelper.cos((rotationYaw / 180F) * (float) Math.PI) * 0.16F;
-        posY += 0.10000000149011612D;
-        posZ -= MathHelper.sin((rotationYaw / 180F) * (float) Math.PI) * 0.66F;
+        this.shootingEntity = entityliving;
+        this.owner = entityliving;
+        this.damage = 15;
+        this.setLocationAndAngles(
+                entityliving.posX,
+                entityliving.posY + entityliving.getEyeHeight(),
+                entityliving.posZ,
+                entityliving.rotationYaw,
+                entityliving.rotationPitch);
+        this.posX -= MathHelper.cos((this.rotationYaw / 180F) * (float) Math.PI) * 0.16F;
+        this.posY += 0.10000000149011612D;
+        this.posZ -= MathHelper.sin((this.rotationYaw / 180F) * (float) Math.PI) * 0.66F;
 
         if (entityliving instanceof EntityPlayer) {
-            posY -= 1.3999999761581421D;
+            this.posY -= 1.3999999761581421D;
         }
 
-        setPosition(posX, posY, posZ);
-        motionX = -MathHelper.sin((rotationYaw / 180F) * (float) Math.PI)
-            * MathHelper.cos((rotationPitch / 180F) * (float) Math.PI);
-        motionZ = MathHelper.cos((rotationYaw / 180F) * (float) Math.PI)
-            * MathHelper.cos((rotationPitch / 180F) * (float) Math.PI);
-        motionY = -MathHelper.sin((rotationPitch / 180F) * (float) Math.PI);
+        this.setPosition(this.posX, this.posY, this.posZ);
+        this.motionX = -MathHelper.sin((this.rotationYaw / 180F) * (float) Math.PI)
+                * MathHelper.cos((this.rotationPitch / 180F) * (float) Math.PI);
+        this.motionZ = MathHelper.cos((this.rotationYaw / 180F) * (float) Math.PI)
+                * MathHelper.cos((this.rotationPitch / 180F) * (float) Math.PI);
+        this.motionY = -MathHelper.sin((this.rotationPitch / 180F) * (float) Math.PI);
         float f1 = 1.0F;
 
         if (entityliving instanceof EntityPlayer) {
-            playerFire = true;
+            this.playerFire = true;
             float f2 = 0.3333333F;
             float f3 = f2 / 0.1F;
 
             if (f3 > 0.0F) {
-                f1 = (float) ((double) f1 * (1.0D + 2D / (double) f3));
+                f1 = (float) (f1 * (1.0D + 2D / f3));
             }
         }
 
         if (Math.abs(entityliving.motionX) > 0.10000000000000001D
-            || Math.abs(entityliving.motionY) > 0.10000000000000001D
-            || Math.abs(entityliving.motionZ) > 0.10000000000000001D) {
+                || Math.abs(entityliving.motionY) > 0.10000000000000001D
+                || Math.abs(entityliving.motionZ) > 0.10000000000000001D) {
             f1 *= 2.0F;
         }
 
-        if (entityliving.onGround);
+        if (entityliving.onGround) {
+            ;
+        }
 
-        func_22374_a(
-            motionX,
-            motionY,
-            motionZ,
-            (float) (1.1499999761581421D + ((double) worldObj.rand.nextFloat() - 0.5D)),
-            f1);
+        this.func_22374_a(
+                this.motionX,
+                this.motionY,
+                this.motionZ,
+                (float) (1.1499999761581421D + (this.worldObj.rand.nextFloat() - 0.5D)),
+                f1);
     }
 
     /**
      * Called by a player entity when they collide with an entity
      */
+    @Override
     public void onCollideWithPlayer(EntityPlayer entityplayer) {}
 
+    @Override
     protected void entityInit() {}
 
     public void func_22374_a(double d, double d1, double d2, float f, float f1) {
@@ -136,25 +140,26 @@ public class CREEPSEntityRocket extends Entity {
         d /= f2;
         d1 /= f2;
         d2 /= f2;
-        d += rand.nextGaussian() * 0.0074999998323619366D * (double) f1;
-        d1 += rand.nextGaussian() * 0.0074999998323619366D * (double) f1;
-        d2 += rand.nextGaussian() * 0.0074999998323619366D * (double) f1;
+        d += this.rand.nextGaussian() * 0.0074999998323619366D * f1;
+        d1 += this.rand.nextGaussian() * 0.0074999998323619366D * f1;
+        d2 += this.rand.nextGaussian() * 0.0074999998323619366D * f1;
         d *= f;
         d1 *= f;
         d2 *= f;
-        motionX = d;
-        motionY = d1;
-        motionZ = d2;
+        this.motionX = d;
+        this.motionY = d1;
+        this.motionZ = d2;
         float f3 = MathHelper.sqrt_double(d * d + d2 * d2);
-        prevRotationYaw = rotationYaw = (float) ((Math.atan2(d, d2) * 180D) / Math.PI);
-        prevRotationPitch = rotationPitch = (float) ((Math.atan2(d1, f3) * 180D) / Math.PI);
-        aoLightValueScratchXYZNNP = 0;
+        this.prevRotationYaw = this.rotationYaw = (float) ((Math.atan2(d, d2) * 180D) / Math.PI);
+        this.prevRotationPitch = this.rotationPitch = (float) ((Math.atan2(d1, f3) * 180D) / Math.PI);
+        this.aoLightValueScratchXYZNNP = 0;
     }
 
     /**
      * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
      * length * 64 * renderDistanceWeight Args: distance
      */
+    @Override
     public boolean isInRangeToRenderDist(double d) {
         return true;
     }
@@ -162,85 +167,87 @@ public class CREEPSEntityRocket extends Entity {
     /**
      * Returns true if other Entities should be prevented from moving through this Entity.
      */
+    @Override
     public boolean canBeCollidedWith() {
-        return explodedelay <= 0;
+        return this.explodedelay <= 0;
     }
 
     /**
      * Called to update the entity's position/logic.
      */
+    @Override
     public void onUpdate() {
         super.onUpdate();
 
-        if (explodedelay > 0) {
-            explodedelay--;
+        if (this.explodedelay > 0) {
+            this.explodedelay--;
         }
-        if (worldObj.isRemote) {
-            MoreCreepsAndWeirdos.proxy.rocketSmoke(worldObj, this, MoreCreepsAndWeirdos.partWhite); // or partBlack ?
+        if (this.worldObj.isRemote) {
+            MoreCreepsAndWeirdos.proxy.rocketSmoke(this.worldObj, this, MoreCreepsAndWeirdos.partWhite); // or partBlack ?
         }
-        double d = rand.nextGaussian() * 0.02D;
-        double d1 = rand.nextGaussian() * 0.02D;
-        double d2 = rand.nextGaussian() * 0.02D;
-        worldObj.spawnParticle(
-            EnumParticleTypes.SMOKE_NORMAL,
-            (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-            posY + 0.5D + (double) (rand.nextFloat() * height),
-            (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-            d,
-            d1,
-            d2);
+        double d = this.rand.nextGaussian() * 0.02D;
+        double d1 = this.rand.nextGaussian() * 0.02D;
+        double d2 = this.rand.nextGaussian() * 0.02D;
+        this.worldObj.spawnParticle(
+                EnumParticleTypes.SMOKE_NORMAL,
+                (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                this.posY + 0.5D + this.rand.nextFloat() * this.height,
+                (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                d,
+                d1,
+                d2);
 
-        if (aoLightValueScratchXYNN == 100) {
-            setDead();
-        }
-
-        if (prevRotationPitch == 0.0F && prevRotationYaw == 0.0F) {
-            float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
-            prevRotationYaw = rotationYaw = (float) ((Math.atan2(motionX, motionZ) * 180D) / Math.PI);
-            prevRotationPitch = rotationPitch = (float) ((Math.atan2(motionY, f) * 180D) / Math.PI);
+        if (this.aoLightValueScratchXYNN == 100) {
+            this.setDead();
         }
 
-        if (aoLightValueZPos) {
+        if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
+            float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+            this.prevRotationYaw = this.rotationYaw = (float) ((Math.atan2(this.motionX, this.motionZ) * 180D) / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float) ((Math.atan2(this.motionY, f) * 180D) / Math.PI);
+        }
+
+        if (this.aoLightValueZPos) {
 
             // TODO Check if works
-            if (worldObj.checkBlockCollision(boundingBox)) {
-                aoLightValueZPos = false;
-                motionX *= rand.nextFloat() * 0.2F;
-                motionY *= rand.nextFloat() * 0.2F;
-                motionZ *= rand.nextFloat() * 0.2F;
-                aoLightValueScratchXYZNNP = 0;
-                aoLightValueScratchXYNN = 0;
+            if (this.worldObj.checkBlockCollision(this.boundingBox)) {
+                this.aoLightValueZPos = false;
+                this.motionX *= this.rand.nextFloat() * 0.2F;
+                this.motionY *= this.rand.nextFloat() * 0.2F;
+                this.motionZ *= this.rand.nextFloat() * 0.2F;
+                this.aoLightValueScratchXYZNNP = 0;
+                this.aoLightValueScratchXYNN = 0;
             }
 
-            aoLightValueScratchXYZNNP++;
+            this.aoLightValueScratchXYZNNP++;
 
-            if (aoLightValueScratchXYZNNP == 100) {
-                setDead();
+            if (this.aoLightValueScratchXYZNNP == 100) {
+                this.setDead();
             }
 
             return;
 
         } else {
-            aoLightValueScratchXYNN++;
+            this.aoLightValueScratchXYNN++;
         }
 
-        Vec3 vec3d = Vec3.createVectorHelper(posX, posY, posZ);
-        Vec3 vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
-        MovingObjectPosition movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1);
-        vec3d = Vec3.createVectorHelper(posX, posY, posZ);
-        vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
+        Vec3 vec3d = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+        Vec3 vec3d1 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+        MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3d, vec3d1);
+        vec3d = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+        vec3d1 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
         if (movingobjectposition != null) {
             vec3d1 = Vec3.createVectorHelper(
-                movingobjectposition.hitVec.xCoord,
-                movingobjectposition.hitVec.yCoord,
-                movingobjectposition.hitVec.zCoord);
+                    movingobjectposition.hitVec.xCoord,
+                    movingobjectposition.hitVec.yCoord,
+                    movingobjectposition.hitVec.zCoord);
         }
 
         Entity entity = null;
-        List list = worldObj.getEntitiesWithinAABBExcludingEntity(
-            this,
-            getBoundingBox().addCoord(motionX, motionY, motionZ)
+        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
+                this,
+                this.getBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ)
                 .expand(1.0D, 1.0D, 1.0D));
         double d3 = 0.0D;
 
@@ -248,38 +255,38 @@ public class CREEPSEntityRocket extends Entity {
             Entity entity1 = (Entity) list.get(j);
 
             if (!entity1.canBeCollidedWith()
-                || (entity1 == shootingEntity || shootingEntity != null && entity1 == shootingEntity.ridingEntity)
-                    && aoLightValueScratchXYNN < 5
-                || aoLightValueScratchXYZNNN) {
-                if (motionZ != 0.0D || !((motionX == 0.0D) & (motionY == 0.0D))) {
+                    || (entity1 == this.shootingEntity || this.shootingEntity != null && entity1 == this.shootingEntity.ridingEntity)
+                    && this.aoLightValueScratchXYNN < 5
+                    || this.aoLightValueScratchXYZNNN) {
+                if (this.motionZ != 0.0D || !((this.motionX == 0.0D) & (this.motionY == 0.0D))) {
                     continue;
                 }
 
-                setDead();
+                this.setDead();
                 break;
             }
 
             float f4 = 0.3F;
             AxisAlignedBB axisalignedbb = entity1.getBoundingBox()
-                .expand(f4, f4, f4);
+                    .expand(f4, f4, f4);
             MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3d, vec3d1);
 
             if (movingobjectposition1 == null) {
-                if (!worldObj.isRemote) {
-                    worldObj.createExplosion(null, posX, posY, posZ, 1.0F, true);
+                if (!this.worldObj.isRemote) {
+                    this.worldObj.createExplosion(null, this.posX, this.posY, this.posZ, 1.0F, true);
                 }
-                checkSplashDamage();
-                setDead();
+                this.checkSplashDamage();
+                this.setDead();
                 continue;
             }
 
             double d4 = vec3d.distanceTo(movingobjectposition1.hitVec);
 
             if (d4 < d3 || d3 == 0.0D) {
-                if (!worldObj.isRemote) {
-                    worldObj.createExplosion(null, posX, posY, posZ, 1.0F, true);
+                if (!this.worldObj.isRemote) {
+                    this.worldObj.createExplosion(null, this.posX, this.posY, this.posZ, 1.0F, true);
                 }
-                checkSplashDamage();
+                this.checkSplashDamage();
                 entity = entity1;
                 d3 = d4;
             }
@@ -292,178 +299,192 @@ public class CREEPSEntityRocket extends Entity {
         if (movingobjectposition != null) {
             if (movingobjectposition.entityHit != null) {
                 if (movingobjectposition.entityHit instanceof EntityPlayer) {
-                    int k = damage;
+                    int k = this.damage;
 
-                    if (worldObj.difficultySetting == EnumDifficulty.PEACEFUL) {
+                    if (this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL) {
                         k = 0;
                     }
 
-                    if (worldObj.difficultySetting == EnumDifficulty.EASY) {
+                    if (this.worldObj.difficultySetting == EnumDifficulty.EASY) {
                         k = k / 3 + 1;
                     }
 
-                    if (worldObj.difficultySetting == EnumDifficulty.HARD) {
+                    if (this.worldObj.difficultySetting == EnumDifficulty.HARD) {
                         k = (k * 3) / 2;
                     }
                 }
 
                 if ((movingobjectposition.entityHit instanceof EntityLiving)
-                    && !(movingobjectposition.entityHit instanceof CREEPSEntityRocketGiraffe)) {
+                        && !(movingobjectposition.entityHit instanceof CREEPSEntityRocketGiraffe)) {
                     if (movingobjectposition.entityHit
-                        .attackEntityFrom(DamageSource.causeThrownDamage(this, (EntityLiving) entity), damage));
+                            .attackEntityFrom(DamageSource.causeThrownDamage(this, entity), this.damage)) {
+                        ;
+                    }
 
-                    worldObj.playSoundAtEntity(
+                    this.worldObj.playSoundAtEntity(
+                            this,
+                            "morecreeps:rocketexplode",
+                            1.0F,
+                            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+                    if (!this.worldObj.isRemote) {
+                        this.worldObj.createExplosion(null, this.posX, this.posY, this.posZ, 1.5F, true);
+                    }
+                    this.setDead();
+                } else {
+                    this.setDead();
+                }
+            } else {
+                this.hitX = movingobjectposition.blockX;
+                this.hitY = movingobjectposition.blockY;
+                this.hitZ = movingobjectposition.blockZ;
+                // blockHit = worldObj.getBlockState(new BlockPos(hitX, hitY, hitZ));
+                this.motionX = (float) (movingobjectposition.hitVec.xCoord - this.posX);
+                this.motionY = (float) (movingobjectposition.hitVec.yCoord - this.posY);
+                this.motionZ = (float) (movingobjectposition.hitVec.zCoord - this.posZ);
+                float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+                this.posX -= (this.motionX / f1) * 0.05000000074505806D;
+                this.posY -= (this.motionY / f1) * 0.05000000074505806D;
+                this.posZ -= (this.motionZ / f1) * 0.05000000074505806D;
+                this.aoLightValueZPos = true;
+                this.worldObj.playSoundAtEntity(
                         this,
                         "morecreeps:rocketexplode",
                         1.0F,
-                        (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-                    if (!worldObj.isRemote) worldObj.createExplosion(null, posX, posY, posZ, 1.5F, true);
-                    setDead();
-                } else {
-                    setDead();
+                        (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+                if (!this.worldObj.isRemote) {
+                    this.worldObj.createExplosion(null, this.posX, this.posY, this.posZ, 1.5F, true);
                 }
-            } else {
-                hitX = movingobjectposition.blockX;
-                hitY = movingobjectposition.blockY;
-                hitZ = movingobjectposition.blockZ;
-                // blockHit = worldObj.getBlockState(new BlockPos(hitX, hitY, hitZ));
-                motionX = (float) (movingobjectposition.hitVec.xCoord - posX);
-                motionY = (float) (movingobjectposition.hitVec.yCoord - posY);
-                motionZ = (float) (movingobjectposition.hitVec.zCoord - posZ);
-                float f1 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
-                posX -= (motionX / (double) f1) * 0.05000000074505806D;
-                posY -= (motionY / (double) f1) * 0.05000000074505806D;
-                posZ -= (motionZ / (double) f1) * 0.05000000074505806D;
-                aoLightValueZPos = true;
-                worldObj.playSoundAtEntity(
-                    this,
-                    "morecreeps:rocketexplode",
-                    1.0F,
-                    (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-                if (!worldObj.isRemote) worldObj.createExplosion(null, posX, posY, posZ, 1.5F, true);
-                checkSplashDamage();
-                setDead();
+                this.checkSplashDamage();
+                this.setDead();
             }
 
-            worldObj.playSoundAtEntity(this, "morecreeps:raygun", 0.2F, 1.0F / (rand.nextFloat() * 0.1F + 0.95F));
-            setDead();
+            this.worldObj.playSoundAtEntity(this, "morecreeps:raygun", 0.2F, 1.0F / (this.rand.nextFloat() * 0.1F + 0.95F));
+            this.setDead();
         }
 
-        posX += motionX;
-        posY += motionY;
-        posZ += motionZ;
-        float f2 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
-        rotationYaw = (float) ((Math.atan2(motionX, motionZ) * 180D) / Math.PI);
+        this.posX += this.motionX;
+        this.posY += this.motionY;
+        this.posZ += this.motionZ;
+        float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        this.rotationYaw = (float) ((Math.atan2(this.motionX, this.motionZ) * 180D) / Math.PI);
 
-        for (rotationPitch = (float) ((Math.atan2(motionY, f2) * 180D) / Math.PI); rotationPitch - prevRotationPitch
-            < -180F; prevRotationPitch -= 360F) {}
+        for (this.rotationPitch = (float) ((Math.atan2(this.motionY, f2) * 180D) / Math.PI); this.rotationPitch - this.prevRotationPitch
+                < -180F; this.prevRotationPitch -= 360F) {}
 
-        for (; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) {}
+        for (; this.rotationPitch - this.prevRotationPitch >= 180F; this.prevRotationPitch += 360F) {}
 
-        for (; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) {}
+        for (; this.rotationYaw - this.prevRotationYaw < -180F; this.prevRotationYaw -= 360F) {}
 
-        for (; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) {}
+        for (; this.rotationYaw - this.prevRotationYaw >= 180F; this.prevRotationYaw += 360F) {}
 
-        rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
-        rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
+        this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
+        this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
         float f3 = 0.99F;
         float f5 = 0.0F;
 
-        if (handleWaterMovement()) {
+        if (this.handleWaterMovement()) {
             for (int l = 0; l < 4; l++) {
                 float f7 = 0.25F;
-                worldObj.spawnParticle(
-                    EnumParticleTypes.WATER_BUBBLE,
-                    posX - motionX * (double) f7,
-                    posY - motionY * (double) f7,
-                    posZ - motionZ * (double) f7,
-                    motionX,
-                    motionY,
-                    motionZ);
+                this.worldObj.spawnParticle(
+                        EnumParticleTypes.WATER_BUBBLE,
+                        this.posX - this.motionX * f7,
+                        this.posY - this.motionY * f7,
+                        this.posZ - this.motionZ * f7,
+                        this.motionX,
+                        this.motionY,
+                        this.motionZ);
             }
 
             f3 = 0.8F;
             float f6 = 0.03F;
-            setDead();
+            this.setDead();
         }
 
-        motionX *= f3;
-        motionZ *= f3;
-        setPosition(posX, posY, posZ);
+        this.motionX *= f3;
+        this.motionZ *= f3;
+        this.setPosition(this.posX, this.posY, this.posZ);
     }
 
     public void checkSplashDamage() {
-        EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(this, 50D);
+        EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 50D);
         List list = null;
-        list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(5D, 5D, 5D));
+        list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().expand(5D, 5D, 5D));
 
         for (int i = 0; i < list.size(); i++) {
             Entity entity = (Entity) list.get(i);
 
             if (!((entity != null) & (entity instanceof EntityCreature))
-                || (entity instanceof CREEPSEntityRocketGiraffe)) {
+                    || (entity instanceof CREEPSEntityRocketGiraffe)) {
                 continue;
             }
 
-            if (entityplayer != null) {
+            if (entityplayer != null && entity != null) {
                 ((EntityCreature) entity).setRevengeTarget(entityplayer);
             }
 
-            playerAttack = true;
-            entity.velocityChanged = true;
-            entity.motionY += 0.20000000298023224D;
-            entity.attackEntityFrom(DamageSource.generic, 10);
+            if (entity != null) {
+                this.playerAttack = true;
+                entity.velocityChanged = true;
+                entity.motionY += 0.20000000298023224D;
+                entity.attackEntityFrom(DamageSource.generic, 10);
 
-            if (((EntityLivingBase) entity).getHealth() <= 0 && !entity.isDead
-                && !((EntityPlayerMP) entityplayer).func_147099_x()
-                    .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieverocketrampage)
-                && MoreCreepsAndWeirdos.rocketcount >= 50) {
-                worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
-                entityplayer.addStat(MoreCreepsAndWeirdos.achieverocketrampage, 1);
-                confetti(entityplayer);
+                if (entityplayer != null) {
+                    if (((EntityLivingBase) entity).getHealth() <= 0 && !entity.isDead
+                            && !((EntityPlayerMP) entityplayer).func_147099_x()
+                            .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieverocketrampage)
+                            && MoreCreepsAndWeirdos.rocketcount >= 50) {
+                        this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
+                        entityplayer.addStat(MoreCreepsAndWeirdos.achieverocketrampage, 1);
+                        this.confetti(entityplayer);
+                    }
+                }
+
             }
         }
     }
 
     public void goBoom() {
-        if (worldObj.isRemote) {
-            MoreCreepsAndWeirdos.proxy.rocketGoBoom(worldObj, this, rand);
+        if (this.worldObj.isRemote) {
+            MoreCreepsAndWeirdos.proxy.rocketGoBoom(this.worldObj, this, this.rand);
         }
     }
 
     public void confetti(EntityPlayer player) {
         double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
         double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
-        CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(worldObj);
+        CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.worldObj);
         creepsentitytrophy.setLocationAndAngles(
-            player.posX + d * 3D,
-            player.posY - 2D,
-            player.posZ + d1 * 3D,
-            player.rotationYaw,
-            0.0F);
-        worldObj.spawnEntityInWorld(creepsentitytrophy);
+                player.posX + d * 3D,
+                player.posY - 2D,
+                player.posZ + d1 * 3D,
+                player.rotationYaw,
+                0.0F);
+        this.worldObj.spawnEntityInWorld(creepsentitytrophy);
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setShort("xTile", (short) hitX);
-        nbttagcompound.setShort("yTile", (short) hitY);
-        nbttagcompound.setShort("zTile", (short) hitZ);
-        nbttagcompound.setByte("inGround", (byte) (aoLightValueZPos ? 1 : 0));
+        nbttagcompound.setShort("xTile", (short) this.hitX);
+        nbttagcompound.setShort("yTile", (short) this.hitY);
+        nbttagcompound.setShort("zTile", (short) this.hitZ);
+        nbttagcompound.setByte("inGround", (byte) (this.aoLightValueZPos ? 1 : 0));
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        hitX = nbttagcompound.getShort("xTile");
-        hitY = nbttagcompound.getShort("yTile");
-        hitZ = nbttagcompound.getShort("zTile");
-        aoLightValueZPos = nbttagcompound.getByte("inGround") == 1;
+        this.hitX = nbttagcompound.getShort("xTile");
+        this.hitY = nbttagcompound.getShort("yTile");
+        this.hitZ = nbttagcompound.getShort("zTile");
+        this.aoLightValueZPos = nbttagcompound.getByte("inGround") == 1;
     }
 
+    @Override
     public float getShadowSize() {
         return 0.0F;
     }
@@ -471,9 +492,10 @@ public class CREEPSEntityRocket extends Entity {
     /**
      * Will get destroyed next tick.
      */
+    @Override
     public void setDead() {
         super.setDead();
-        goBoom();
-        shootingEntity = null;
+        this.goBoom();
+        this.shootingEntity = null;
     }
 }

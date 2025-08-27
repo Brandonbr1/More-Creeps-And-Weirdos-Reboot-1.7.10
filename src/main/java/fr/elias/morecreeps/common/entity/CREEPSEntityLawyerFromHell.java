@@ -2,11 +2,19 @@ package fr.elias.morecreeps.common.entity;
 
 import java.util.List;
 
+import fr.elias.morecreeps.client.config.CREEPSConfig;
+import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
+import fr.elias.morecreeps.common.port.EnumParticleTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,10 +28,6 @@ import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-
-import fr.elias.morecreeps.client.config.CREEPSConfig;
-import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.port.EnumParticleTypes;
 
 public class CREEPSEntityLawyerFromHell extends EntityMob {
 
@@ -55,84 +59,80 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
 
     public CREEPSEntityLawyerFromHell(World world) {
         super(world);
-        texture = "morecreeps:textures/entity/lawyerfromhell.png";
+        this.texture = "morecreeps:textures/entity/lawyerfromhell.png";
 
-        if (undead) {
-            texture = "morecreeps:textures/entity/lawyerfromhellundead.png";
+        if (this.undead) {
+            this.texture = "morecreeps:textures/entity/lawyerfromhellundead.png";
         }
-        stolen = false;
-        hasAttacked = false;
-        foundplayer = false;
-        lawyerstate = 0;
-        lawyertimer = 0;
 
-        if (!undead) {
+        this.stolen = false;
+        this.hasAttacked = false;
+        this.foundplayer = false;
+        this.lawyerstate = 0;
+        this.lawyertimer = 0;
+
+        if (!this.undead) {
             defaultHeldItem = null;
         }
 
-        modelsize = 1.0F;
-        maxObstruct = 20;
+        this.modelsize = 1.0F;
+        this.maxObstruct = 20;
 
         this.getNavigator()
-            .setBreakDoors(true);
+        .setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new CREEPSEntityLawyerFromHell.AIAttackEntity());
         this.tasks.addTask(2, new EntityAIMoveTowardsRestriction(this, 0.5D));
         this.tasks.addTask(3, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(4, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new CREEPSEntityLawyerFromHell.AIAttackEntity());
     }
 
+    @Override
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(40D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(0.44D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(1D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.44D);
+        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1D);
     }
 
     /**
      * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in attacking
      * (Animals, Spiders at day, peaceful PigZombies).
      */
+    @Override
     protected Entity findPlayerToAttack() {
-        if (lawyerstate == 0 && !undead) {
+        if (this.lawyerstate == 0 && !this.undead)
+            return null;
+
+        if (MoreCreepsAndWeirdos.instance.currentfine <= 0 && !this.undead) {
+            this.lawyerstate = 0;
+            this.pathToEntity = null;
             return null;
         }
 
-        if (MoreCreepsAndWeirdos.instance.currentfine <= 0 && !undead) {
-            lawyerstate = 0;
-            pathToEntity = null;
-            return null;
-        }
+        if (this.lawyerstate > 0) {
+            EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 16D);
 
-        if (lawyerstate > 0) {
-            EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(this, 16D);
-
-            if (entityplayer != null && canEntityBeSeen(entityplayer)) {
+            if (entityplayer != null && this.canEntityBeSeen(entityplayer))
                 return entityplayer;
-            } else {
+            else
                 return null;
-            }
-        } else {
+        } else
             return null;
-        }
     }
 
     /**
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
+    @Override
     public void onLivingUpdate() {
-        texture = undead ? "morecreeps:textures/entity/lawyerfromhellundead.png"
-            : "morecreeps:textures/entity/lawyerfromhell.png";
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(undead ? 0.24D : 0.44D);
+        this.texture = this.undead ? "morecreeps:textures/entity/lawyerfromhellundead.png"
+                : "morecreeps:textures/entity/lawyerfromhell.png";
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(this.undead ? 0.24D : 0.44D);
 
-        if (undead && defaultHeldItem == null) {
+        if (this.undead && defaultHeldItem == null) {
             defaultHeldItem = new ItemStack(Items.bone, 1);
         }
 
@@ -142,17 +142,23 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
     /**
      * Called to update the entity's position/logic.
      */
+    @Override
     public void onUpdate() {
-        if (MoreCreepsAndWeirdos.instance.currentfine > 0 && lawyerstate == 0 && !undead) {
-            lawyerstate = 1;
+        System.out.println("laywerstate" + this.lawyerstate);
+        System.out.println("timer" + this.lawyertimer);
+        System.out.println("laywerstate" + this.lawyertimer);
+        System.out.println("fine" + MoreCreepsAndWeirdos.instance.currentfine);
+        System.out.println("jail built" + MoreCreepsAndWeirdos.instance.jailBuilt);
+        if (MoreCreepsAndWeirdos.instance.currentfine > 0 && this.lawyerstate == 0 && !this.undead) {
+            this.lawyerstate = 1;
         }
 
-        if (MoreCreepsAndWeirdos.instance.currentfine > 2500 && lawyerstate < 5 && !undead) {
-            lawyerstate = 5;
+        if (MoreCreepsAndWeirdos.instance.currentfine > 2500 && this.lawyerstate < 5 && !this.undead) {
+            this.lawyerstate = 5;
         }
 
-        if (undead) {
-            lawyerstate = 1;
+        if (this.undead) {
+            this.lawyerstate = 1;
         }
 
         super.onUpdate();
@@ -161,65 +167,70 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
     /**
      * Checks if this entity is inside of an opaque block
      */
+    @Override
     public boolean isEntityInsideOpaqueBlock() {
-        if (undead && isCollided) {
+        if (this.undead && this.isCollided)
             return false;
-        } else {
+        else
             return super.isEntityInsideOpaqueBlock();
-        }
     }
 
     /**
      * Called when the entity is attacked.
      */
+    @Override
     public boolean attackEntityFrom(DamageSource damagesource, float i) {
         Entity entity = damagesource.getEntity();
 
-        if (!undead && (entity instanceof EntityPlayer)
-            || (entity instanceof CREEPSEntityGuineaPig) && ((CREEPSEntityGuineaPig) entity).tamed
-            || (entity instanceof CREEPSEntityHotdog) && ((CREEPSEntityHotdog) entity).tamed
-            || (entity instanceof CREEPSEntityArmyGuy) && ((CREEPSEntityArmyGuy) entity).loyal) {
+        if (!this.undead && (entity instanceof EntityPlayer)
+                || (entity instanceof CREEPSEntityGuineaPig) && ((CREEPSEntityGuineaPig) entity).tamed
+                || (entity instanceof CREEPSEntityHotdog) && ((CREEPSEntityHotdog) entity).tamed
+                || (entity instanceof CREEPSEntityArmyGuy) && ((CREEPSEntityArmyGuy) entity).loyal) {
             MoreCreepsAndWeirdos.instance.currentfine += 50;
         }
 
-        if (!undead) {
+        if (!this.undead) {
             if ((entity instanceof EntityPlayer)
-                || (entity instanceof CREEPSEntityHotdog) && ((CREEPSEntityHotdog) entity).tamed
-                || (entity instanceof CREEPSEntityGuineaPig) && ((CREEPSEntityGuineaPig) entity).tamed
-                || (entity instanceof CREEPSEntityArmyGuy) && ((CREEPSEntityArmyGuy) entity).loyal) {
-                if (lawyerstate == 0) {
-                    lawyerstate = 1;
+                    || (entity instanceof CREEPSEntityHotdog) && ((CREEPSEntityHotdog) entity).tamed
+                    || (entity instanceof CREEPSEntityGuineaPig) && ((CREEPSEntityGuineaPig) entity).tamed
+                    || (entity instanceof CREEPSEntityArmyGuy) && ((CREEPSEntityArmyGuy) entity).loyal) {
+                if (this.lawyerstate == 0) {
+                    this.lawyerstate = 1;
                 }
 
-                setRevengeTarget((EntityLivingBase) entity);
+                this.setRevengeTarget((EntityLivingBase) entity);
             }
 
             if (entity instanceof EntityPlayer) {
-                if (lawyerstate == 0) {
-                    lawyerstate = 1;
+                if (this.lawyerstate == 0) {
+                    this.lawyerstate = 1;
                 }
 
-                if (rand.nextInt(5) == 0) {
-                    for (int j = 0; j < rand.nextInt(20) + 5; j++) {
+                if (this.rand.nextInt(5) == 0) {
+                    for (int j = 0; j < this.rand.nextInt(20) + 5; j++) {
                         MoreCreepsAndWeirdos.instance.currentfine += 25;
-                        worldObj.playSoundAtEntity(
-                            this,
-                            "morecreeps:lawyermoneyhit",
-                            1.0F,
-                            (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-                        if (!worldObj.isRemote) dropItem(MoreCreepsAndWeirdos.money, 1);
+                        this.worldObj.playSoundAtEntity(
+                                this,
+                                "morecreeps:lawyermoneyhit",
+                                1.0F,
+                                (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+                        if (!this.worldObj.isRemote) {
+                            this.dropItem(MoreCreepsAndWeirdos.money, 1);
+                        }
                     }
                 }
 
-                if (rand.nextInt(5) == 0) {
-                    for (int k = 0; k < rand.nextInt(3) + 1; k++) {
+                if (this.rand.nextInt(5) == 0) {
+                    for (int k = 0; k < this.rand.nextInt(3) + 1; k++) {
                         MoreCreepsAndWeirdos.instance.currentfine += 10;
-                        worldObj.playSoundAtEntity(
-                            this,
-                            "morecreeps:lawyermoneyhit",
-                            1.0F,
-                            (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-                        if (!worldObj.isRemote) dropItem(Items.paper, 1);
+                        this.worldObj.playSoundAtEntity(
+                                this,
+                                "morecreeps:lawyermoneyhit",
+                                1.0F,
+                                (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+                        if (!this.worldObj.isRemote) {
+                            this.dropItem(Items.paper, 1);
+                        }
                     }
                 }
             }
@@ -237,27 +248,33 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
 
         @Override
         public boolean shouldExecute() {
-            return (entityplayer == CREEPSEntityLawyerFromHell.this.findPlayerToAttack());
+            return (this.entityplayer == CREEPSEntityLawyerFromHell.this.findPlayerToAttack());
         }
 
+        @Override
         public void updateTask() {
             try {
-                float f = CREEPSEntityLawyerFromHell.this.getDistanceToEntity(getAttackTarget());
+
+                if (!CREEPSEntityLawyerFromHell.this.undead && CREEPSEntityLawyerFromHell.this.lawyerstate == 0) {
+                    CREEPSEntityLawyerFromHell.this.entityToAttack = null;
+                    return;
+                }
+
+                float f = CREEPSEntityLawyerFromHell.this.getDistanceToEntity(CREEPSEntityLawyerFromHell.this.getAttackTarget());
                 if (f < 256F) {
-                    attackEntity(CREEPSEntityLawyerFromHell.this.getAttackTarget(), f);
-                    CREEPSEntityLawyerFromHell.this.getLookHelper()
-                        .setLookPositionWithEntity(CREEPSEntityLawyerFromHell.this.getAttackTarget(), 10.0F, 10.0F);
+                    CREEPSEntityLawyerFromHell.this.attackEntity(CREEPSEntityLawyerFromHell.this.getAttackTarget(), f);
+                    CREEPSEntityLawyerFromHell.this.getLookHelper().setLookPositionWithEntity(CREEPSEntityLawyerFromHell.this.getAttackTarget(), 10.0F, 10.0F);
                     CREEPSEntityLawyerFromHell.this.getNavigator()
-                        .clearPathEntity();
+                    .clearPathEntity();
                     CREEPSEntityLawyerFromHell.this.getMoveHelper()
-                        .setMoveTo(
+                    .setMoveTo(
                             CREEPSEntityLawyerFromHell.this.getAttackTarget().posX,
                             CREEPSEntityLawyerFromHell.this.getAttackTarget().posY,
                             CREEPSEntityLawyerFromHell.this.getAttackTarget().posZ,
                             0.5D);
                 }
                 if (f < 1F) {
-                    // CREEPSEntityLawyerFromHell.this.attackEntityAsMob(CREEPSEntityKid.this.getAttackTarget());
+                    CREEPSEntityLawyerFromHell.this.attackEntityAsMob(CREEPSEntityLawyerFromHell.this.getAttackTarget());
                 }
             } catch (NullPointerException ex) {
                 ex.printStackTrace();
@@ -265,52 +282,47 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
         }
     }
 
+    @Override
     protected void attackEntity(Entity entity, float f) {
-        // TODO put this on "shouldExecute"
-        /*
-         * if (!undead && lawyerstate == 0)
-         * {
-         * entityToAttack = null;
-         * return;
-         * }
-         */
+        super.attackEntity(entity, f);
+
 
         if (this.getAttackTarget() instanceof EntityPlayer) {
-            if (MoreCreepsAndWeirdos.instance.currentfine <= 0 && !undead) {
-                pathToEntity = null;
+            if (MoreCreepsAndWeirdos.instance.currentfine <= 0 && !this.undead) {
+                this.pathToEntity = null;
                 return;
             }
 
-            if (onGround) {
+            if (this.onGround) {
                 float f1 = 1.0F;
 
-                if (undead) {
+                if (this.undead) {
                     f1 = 0.5F;
                 }
 
-                double d = entity.posX - posX;
-                double d1 = entity.posZ - posZ;
+                double d = entity.posX - this.posX;
+                double d1 = entity.posZ - this.posZ;
                 float f2 = MathHelper.sqrt_double(d * d + d1 * d1);
-                motionX = ((d / (double) f2) * 0.5D * 0.40000001192092893D + motionX * 0.20000000298023224D)
-                    * (double) f1;
-                motionZ = ((d1 / (double) f2) * 0.5D * 0.30000001192092896D + motionZ * 0.20000000298023224D)
-                    * (double) f1;
-                motionY = 0.40000000596046448D;
-            } else if ((double) f < 2.6000000000000001D) {
-                if (rand.nextInt(50) == 0 && (entity instanceof EntityPlayer)) {
-                    suckMoney((EntityPlayer) entity);
+                this.motionX = ((d / f2) * 0.5D * 0.40000001192092893D + this.motionX * 0.20000000298023224D)
+                        * f1;
+                this.motionZ = ((d1 / f2) * 0.5D * 0.30000001192092896D + this.motionZ * 0.20000000298023224D)
+                        * f1;
+                this.motionY = 0.40000000596046448D;
+            } else if (f < 2.6000000000000001D) {
+                if (this.rand.nextInt(50) == 0 && (entity instanceof EntityPlayer)) {
+                    this.suckMoney((EntityPlayer) entity);
                 }
 
-                if (undead) {
+                if (this.undead) {
                     this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-                        .setBaseValue(2D);
+                    .setBaseValue(2D);
                 }
 
-                if ((entity instanceof EntityPlayer) && lawyerstate == 5
-                    && !undead
-                    && rand.nextInt(10) == 0
-                    && CREEPSConfig.jailActive
-                    && MoreCreepsAndWeirdos.instance.currentfine >= 2500) {
+                if ((entity instanceof EntityPlayer) && this.lawyerstate == 5
+                        && !this.undead
+                        && this.rand.nextInt(10) == 0
+                        && CREEPSConfig.jailActive
+                        && MoreCreepsAndWeirdos.instance.currentfine >= 2500) {
                     for (int i = 0; i < 21; i++) {
                         EntityPlayer entityplayer = (EntityPlayer) entity;
                         Object obj = entityplayer;
@@ -326,112 +338,117 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                         }
                     }
 
-                    buildJail((EntityPlayer) entity);
+                    this.buildJail((EntityPlayer) entity);
+
                 }
 
-                // super.attackEntity(entity, f);
-            } else if ((double) f < 5D && (entity instanceof EntityPlayer)
-                && rand.nextInt(25) == 0
-                && !undead
-                && CREEPSConfig.jailActive
-                && lawyerstate == 5
-                && MoreCreepsAndWeirdos.instance.currentfine >= 2500) {
-                    for (int j = 0; j < 21; j++) {
-                        EntityPlayer entityplayer1 = (EntityPlayer) entity;
-                        Object obj1 = entityplayer1;
-                        int l;
+                super.attackEntity(entity, f);
+            } else if (f < 5D && (entity instanceof EntityPlayer)
+                    && this.rand.nextInt(25) == 0
+                    && !this.undead
+                    && CREEPSConfig.jailActive
+                    && this.lawyerstate == 5
+                    && MoreCreepsAndWeirdos.instance.currentfine >= 2500) {
+                for (int j = 0; j < 21; j++) {
+                    EntityPlayer entityplayer1 = (EntityPlayer) entity;
+                    Object obj1 = entityplayer1;
+                    int l;
 
-                        for (l = 0; ((Entity) obj1).riddenByEntity != null && l < 20; l++) {
-                            obj1 = ((Entity) obj1).riddenByEntity;
-                        }
-
-                        if (l < 20) {
-                            ((Entity) obj1).fallDistance = -25F;
-                            ((Entity) obj1).mountEntity(null);
-                        }
+                    for (l = 0; ((Entity) obj1).riddenByEntity != null && l < 20; l++) {
+                        obj1 = ((Entity) obj1).riddenByEntity;
                     }
 
-                    MoreCreepsAndWeirdos.proxy.addChatMessage(" ");
-                    MoreCreepsAndWeirdos.proxy.addChatMessage("\2474  BUSTED! \2476Sending guilty player to Jail");
-                    MoreCreepsAndWeirdos.proxy
-                        .addChatMessage(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
-                    buildJail((EntityPlayer) entity);
+                    if (l < 20) {
+                        ((Entity) obj1).fallDistance = -25F;
+                        ((Entity) obj1).mountEntity(null);
+                    }
                 }
+                // test
+                super.attackEntity(entity, f);
 
-            // super.attackEntity(entity, f);
+                MoreCreepsAndWeirdos.proxy.addChatMessage(" ");
+                MoreCreepsAndWeirdos.proxy.addChatMessage("\2474  BUSTED! \2476Sending guilty player to Jail");
+                MoreCreepsAndWeirdos.proxy
+                .addChatMessage(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
+                this.buildJail((EntityPlayer) entity);
+            }
+
+            super.attackEntity(entity, f);
         }
+
     }
 
-    public boolean buildJail(EntityPlayer entityplayersp) {
-        int i = rand.nextInt(200) - 100;
+    public boolean buildJail(EntityPlayer entityplayersp)
+    {
 
-        if (rand.nextInt(2) == 0) {
+        int i = this.rand.nextInt(200) - 100;
+
+        if (this.rand.nextInt(2) == 0) {
             i *= -1;
         }
 
-        jailX = (int) (((EntityPlayer) (entityplayersp)).posX + (double) i);
-        jailY = rand.nextInt(20) + 25;
-        jailZ = (int) (((EntityPlayer) (entityplayersp)).posZ + (double) i);
-        maxObstruct = 0x1869f;
+        this.jailX = (int) ((entityplayersp).posX + i);
+        this.jailY = this.rand.nextInt(20) + 25;
+        this.jailZ = (int) ((entityplayersp).posZ + i);
+        this.maxObstruct = 0x1869f;
 
         if (MoreCreepsAndWeirdos.instance.jailBuilt) {
-            jailX = MoreCreepsAndWeirdos.instance.currentJailX;
-            jailY = MoreCreepsAndWeirdos.instance.currentJailY;
-            jailZ = MoreCreepsAndWeirdos.instance.currentJailZ;
+            this.jailX = MoreCreepsAndWeirdos.instance.currentJailX;
+            this.jailY = MoreCreepsAndWeirdos.instance.currentJailY;
+            this.jailZ = MoreCreepsAndWeirdos.instance.currentJailZ;
         } else {
-            if (!blockExists(worldObj, jailX, jailY, jailZ - 31)
-                || !blockExists(worldObj, jailX + 14, jailY, jailZ - 31)
-                || !blockExists(worldObj, jailX, jailY, jailZ + 45)
-                || !blockExists(worldObj, jailX + 14, jailY, jailZ + 45)) {
+            if (!blockExists(this.worldObj, this.jailX, this.jailY, this.jailZ - 31)
+                    || !blockExists(this.worldObj, this.jailX + 14, this.jailY, this.jailZ - 31)
+                    || !blockExists(this.worldObj, this.jailX, this.jailY, this.jailZ + 45)
+                    || !blockExists(this.worldObj, this.jailX + 14, this.jailY, this.jailZ + 45))
                 return false;
-            }
 
             if (!MoreCreepsAndWeirdos.instance.jailBuilt) {
-                area = 0;
+                this.area = 0;
                 int j = -1;
                 label0:
 
-                do {
-                    if (j >= 6) {
-                        break;
-                    }
+                    do {
+                        if (j >= 6) {
+                            break;
+                        }
 
-                    for (int k1 = -1; k1 < 14; k1++) {
-                        for (int l2 = -1; l2 < 14; l2++) {
-                            if (worldObj.getBlock(jailX + k1, jailY + j, jailZ + l2) == Blocks.air) {
-                                area++;
-                            }
+                        for (int k1 = -1; k1 < 14; k1++) {
+                            for (int l2 = -1; l2 < 14; l2++) {
+                                if (this.worldObj.getBlock(this.jailX + k1, this.jailY + j, this.jailZ + l2) == Blocks.air) {
+                                    this.area++;
+                                }
 
-                            if (area > maxObstruct) {
-                                break label0;
+                                if (this.area > this.maxObstruct) {
+                                    break label0;
+                                }
                             }
                         }
-                    }
 
-                    j++;
-                } while (true);
+                        j++;
+                    } while (true);
             }
 
-            if (worldObj.getBlock(jailX + 15 + 1, jailY + 20, jailZ + 7) == Blocks.flowing_water
-                || worldObj.getBlock(jailX + 15 + 1, jailY + 20, jailZ + 7) == Blocks.water) {
-                area++;
+            if (this.worldObj.getBlock(this.jailX + 15 + 1, this.jailY + 20, this.jailZ + 7) == Blocks.flowing_water
+                    || this.worldObj.getBlock(this.jailX + 15 + 1, this.jailY + 20, this.jailZ + 7) == Blocks.water) {
+                this.area++;
             }
 
-            if (area <= maxObstruct) {
+            if (this.area <= this.maxObstruct) {
                 for (int k = -1; k < 6; k++) {
                     for (int l1 = -41; l1 < 55; l1++) {
                         for (int i3 = -1; i3 < 16; i3++) {
-                            int j4 = rand.nextInt(100);
+                            int j4 = this.rand.nextInt(100);
 
                             if (j4 < 1) {
-                                worldObj.setBlock(jailX + i3, jailY + k, jailZ + l1, Blocks.gravel);
+                                this.worldObj.setBlock(this.jailX + i3, this.jailY + k, this.jailZ + l1, Blocks.gravel);
                                 continue;
                             }
 
                             if (j4 < 15) {
-                                worldObj.setBlock(jailX + i3, jailY + k, jailZ + l1, Blocks.mossy_cobblestone);
+                                this.worldObj.setBlock(this.jailX + i3, this.jailY + k, this.jailZ + l1, Blocks.mossy_cobblestone);
                             } else {
-                                worldObj.setBlock(jailX + i3, jailY + k, jailZ + l1, Blocks.stone);
+                                this.worldObj.setBlock(this.jailX + i3, this.jailY + k, this.jailZ + l1, Blocks.stone);
                             }
                         }
                     }
@@ -440,8 +457,8 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                 for (int l = 0; l < 5; l++) {
                     for (int i2 = 0; i2 < 13; i2++) {
                         for (int j3 = 0; j3 < 13; j3++) {
-                            worldObj.setBlock(jailX + j3, jailY + l, jailZ + i2 + 1, Blocks.air);
-                            worldObj.setBlock(jailX + j3, jailY + l, jailZ + i2 + 1, Blocks.air);
+                            this.worldObj.setBlock(this.jailX + j3, this.jailY + l, this.jailZ + i2 + 1, Blocks.air);
+                            this.worldObj.setBlock(this.jailX + j3, this.jailY + l, this.jailZ + i2 + 1, Blocks.air);
                         }
                     }
                 }
@@ -449,8 +466,8 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                 for (int i1 = 0; i1 < 5; i1++) {
                     for (int j2 = 3; j2 < 11; j2++) {
                         for (int k3 = 3; k3 < 11; k3++) {
-                            worldObj.setBlock(jailX + k3, jailY + i1, jailZ + j2 + 1, Blocks.stone);
-                            worldObj.setBlock(jailX + k3, jailY + i1, jailZ + j2 + 1, Blocks.stone);
+                            this.worldObj.setBlock(this.jailX + k3, this.jailY + i1, this.jailZ + j2 + 1, Blocks.stone);
+                            this.worldObj.setBlock(this.jailX + k3, this.jailY + i1, this.jailZ + j2 + 1, Blocks.stone);
                         }
                     }
                 }
@@ -458,65 +475,65 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                 for (int j1 = 0; j1 < 5; j1++) {
                     for (int k2 = 5; k2 < 9; k2++) {
                         for (int l3 = 5; l3 < 9; l3++) {
-                            worldObj.setBlock(jailX + l3, jailY + j1, jailZ + k2 + 1, Blocks.air);
-                            worldObj.setBlock(jailX + l3, jailY + j1, jailZ + k2 + 1, Blocks.air);
+                            this.worldObj.setBlock(this.jailX + l3, this.jailY + j1, this.jailZ + k2 + 1, Blocks.air);
+                            this.worldObj.setBlock(this.jailX + l3, this.jailY + j1, this.jailZ + k2 + 1, Blocks.air);
                         }
                     }
                 }
 
-                worldObj.setBlock(jailX + 7, jailY + 1, jailZ + 4, Blocks.air);
-                worldObj.setBlock(jailX + 7, jailY + 1, jailZ + 5, Blocks.iron_bars);
-                worldObj.setBlock(jailX + 3, jailY + 1, jailZ + 7, Blocks.glass);
-                worldObj.setBlock(jailX + 4, jailY + 1, jailZ + 7, Blocks.glass);
-                worldObj.setBlock(jailX + 10, jailY + 1, jailZ + 7, Blocks.air);
-                worldObj.setBlock(jailX + 9, jailY + 1, jailZ + 7, Blocks.iron_bars);
-                worldObj.setBlock(jailX + 7, jailY + 1, jailZ + 11, Blocks.air);
-                worldObj.setBlock(jailX + 7, jailY + 1, jailZ + 10, Blocks.iron_bars);
-                worldObj.setBlock(jailX + 4, jailY, jailZ + 8, Blocks.air);
-                worldObj.setBlock(jailX + 3, jailY, jailZ + 8, Blocks.air);
-                worldObj.setBlock(jailX + 4, jailY + 1, jailZ + 8, Blocks.air);
-                worldObj.setBlock(jailX + 3, jailY + 1, jailZ + 8, Blocks.air);
-                worldObj.setBlock(jailX + 3, jailY, jailZ + 8, Blocks.wooden_door);
-                worldObj.setBlock(jailX + 3, jailY, jailZ + 8, Blocks.wooden_door);
-                worldObj.setBlock(jailX + 3, jailY + 1, jailZ + 8, Blocks.wooden_door);
-                worldObj.setBlock(jailX + 3, jailY + 1, jailZ + 8, Blocks.wooden_door);
+                this.worldObj.setBlock(this.jailX + 7, this.jailY + 1, this.jailZ + 4, Blocks.air);
+                this.worldObj.setBlock(this.jailX + 7, this.jailY + 1, this.jailZ + 5, Blocks.iron_bars);
+                this.worldObj.setBlock(this.jailX + 3, this.jailY + 1, this.jailZ + 7, Blocks.glass);
+                this.worldObj.setBlock(this.jailX + 4, this.jailY + 1, this.jailZ + 7, Blocks.glass);
+                this.worldObj.setBlock(this.jailX + 10, this.jailY + 1, this.jailZ + 7, Blocks.air);
+                this.worldObj.setBlock(this.jailX + 9, this.jailY + 1, this.jailZ + 7, Blocks.iron_bars);
+                this.worldObj.setBlock(this.jailX + 7, this.jailY + 1, this.jailZ + 11, Blocks.air);
+                this.worldObj.setBlock(this.jailX + 7, this.jailY + 1, this.jailZ + 10, Blocks.iron_bars);
+                this.worldObj.setBlock(this.jailX + 4, this.jailY, this.jailZ + 8, Blocks.air);
+                this.worldObj.setBlock(this.jailX + 3, this.jailY, this.jailZ + 8, Blocks.air);
+                this.worldObj.setBlock(this.jailX + 4, this.jailY + 1, this.jailZ + 8, Blocks.air);
+                this.worldObj.setBlock(this.jailX + 3, this.jailY + 1, this.jailZ + 8, Blocks.air);
+                this.worldObj.setBlock(this.jailX + 3, this.jailY, this.jailZ + 8, Blocks.wooden_door);
+                this.worldObj.setBlock(this.jailX + 3, this.jailY, this.jailZ + 8, Blocks.wooden_door);
+                this.worldObj.setBlock(this.jailX + 3, this.jailY + 1, this.jailZ + 8, Blocks.wooden_door);
+                this.worldObj.setBlock(this.jailX + 3, this.jailY + 1, this.jailZ + 8, Blocks.wooden_door);
                 byte byte0 = 15;
                 byte byte1 = 7;
                 int i4;
 
-                for (i4 = 80; worldObj.getBlock(jailX + byte0, i4, jailZ + byte1) == Blocks.air
-                    || worldObj.getBlock(jailX + byte0, i4, jailZ + byte1) == Blocks.leaves
-                    || worldObj.getBlock(jailX + byte0, i4, jailZ + byte1) == Blocks.log; i4--) {}
+                for (i4 = 80; this.worldObj.getBlock(this.jailX + byte0, i4, this.jailZ + byte1) == Blocks.air
+                        || this.worldObj.getBlock(this.jailX + byte0, i4, this.jailZ + byte1) == Blocks.leaves
+                        || this.worldObj.getBlock(this.jailX + byte0, i4, this.jailZ + byte1) == Blocks.log; i4--) {}
 
-                for (int k4 = 0; k4 < i4 - jailY; k4++) {
+                for (int k4 = 0; k4 < i4 - this.jailY; k4++) {
                     for (int i5 = 0; i5 < 2; i5++) {
                         for (int i7 = 0; i7 < 2; i7++) {
-                            worldObj.setBlock(jailX + i5 + byte0, jailY + k4, jailZ + byte1 + i7, Blocks.air);
+                            this.worldObj.setBlock(this.jailX + i5 + byte0, this.jailY + k4, this.jailZ + byte1 + i7, Blocks.air);
                         }
                     }
                 }
 
                 int l4 = 0;
 
-                for (int j5 = 0; j5 < i4 - jailY; j5++) {
+                for (int j5 = 0; j5 < i4 - this.jailY; j5++) {
                     if (l4 == 0) {
-                        worldObj.setBlock(jailX + byte0, jailY + j5, jailZ + byte1, Blocks.stone_stairs);
-                        worldObj.setBlock(jailX + byte0, jailY + j5, jailZ + byte1, Blocks.stone_stairs);
+                        this.worldObj.setBlock(this.jailX + byte0, this.jailY + j5, this.jailZ + byte1, Blocks.stone_stairs);
+                        this.worldObj.setBlock(this.jailX + byte0, this.jailY + j5, this.jailZ + byte1, Blocks.stone_stairs);
                     }
 
                     if (l4 == 1) {
-                        worldObj.setBlock(jailX + byte0 + 1, jailY + j5, jailZ + byte1, Blocks.stone_stairs);
-                        worldObj.setBlock(jailX + byte0 + 1, jailY + j5, jailZ + byte1, Blocks.stone_stairs);
+                        this.worldObj.setBlock(this.jailX + byte0 + 1, this.jailY + j5, this.jailZ + byte1, Blocks.stone_stairs);
+                        this.worldObj.setBlock(this.jailX + byte0 + 1, this.jailY + j5, this.jailZ + byte1, Blocks.stone_stairs);
                     }
 
                     if (l4 == 2) {
-                        worldObj.setBlock(jailX + byte0 + 1, jailY + j5, jailZ + byte1 + 1, Blocks.stone_stairs);
-                        worldObj.setBlock(jailX + byte0 + 1, jailY + j5, jailZ + byte1 + 1, Blocks.stone_stairs);
+                        this.worldObj.setBlock(this.jailX + byte0 + 1, this.jailY + j5, this.jailZ + byte1 + 1, Blocks.stone_stairs);
+                        this.worldObj.setBlock(this.jailX + byte0 + 1, this.jailY + j5, this.jailZ + byte1 + 1, Blocks.stone_stairs);
                     }
 
                     if (l4 == 3) {
-                        worldObj.setBlock(jailX + byte0, jailY + j5, jailZ + byte1 + 1, Blocks.stone_stairs);
-                        worldObj.setBlock(jailX + byte0, jailY + j5, jailZ + byte1 + 1, Blocks.stone_stairs);
+                        this.worldObj.setBlock(this.jailX + byte0, this.jailY + j5, this.jailZ + byte1 + 1, Blocks.stone_stairs);
+                        this.worldObj.setBlock(this.jailX + byte0, this.jailY + j5, this.jailZ + byte1 + 1, Blocks.stone_stairs);
                     }
 
                     if (l4++ == 3) {
@@ -525,23 +542,23 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                 }
 
                 for (int k5 = 0; k5 < 3; k5++) {
-                    worldObj.setBlock(jailX + 13 + k5, jailY, jailZ + 7, Blocks.air);
-                    worldObj.setBlock(jailX + 13 + k5, jailY + 1, jailZ + 7, Blocks.air);
+                    this.worldObj.setBlock(this.jailX + 13 + k5, this.jailY, this.jailZ + 7, Blocks.air);
+                    this.worldObj.setBlock(this.jailX + 13 + k5, this.jailY + 1, this.jailZ + 7, Blocks.air);
                 }
 
-                worldObj.setBlock(jailX + 13, jailY, jailZ + byte1, Blocks.iron_door);
-                worldObj.setBlock(jailX + 13, jailY, jailZ + byte1, Blocks.iron_door);
-                worldObj.setBlock(jailX + 13, jailY + 1, jailZ + byte1, Blocks.iron_door);
-                worldObj.setBlock(jailX + 13, jailY + 1, jailZ + byte1, Blocks.iron_door);
-                worldObj.setBlock(jailX + 15, jailY, jailZ + byte1, Blocks.stone_stairs);
-                worldObj.setBlock(jailX + 15, jailY, jailZ + byte1, Blocks.stone_stairs);
-                worldObj.setBlock(jailX + 14, jailY + 2, jailZ + byte1, Blocks.air);
+                this.worldObj.setBlock(this.jailX + 13, this.jailY, this.jailZ + byte1, Blocks.iron_door);
+                this.worldObj.setBlock(this.jailX + 13, this.jailY, this.jailZ + byte1, Blocks.iron_door);
+                this.worldObj.setBlock(this.jailX + 13, this.jailY + 1, this.jailZ + byte1, Blocks.iron_door);
+                this.worldObj.setBlock(this.jailX + 13, this.jailY + 1, this.jailZ + byte1, Blocks.iron_door);
+                this.worldObj.setBlock(this.jailX + 15, this.jailY, this.jailZ + byte1, Blocks.stone_stairs);
+                this.worldObj.setBlock(this.jailX + 15, this.jailY, this.jailZ + byte1, Blocks.stone_stairs);
+                this.worldObj.setBlock(this.jailX + 14, this.jailY + 2, this.jailZ + byte1, Blocks.air);
 
                 for (int l5 = 0; l5 < 32; l5++) {
                     for (int j7 = 6; j7 < 9; j7++) {
                         for (int l7 = 0; l7 < 4; l7++) {
-                            worldObj.setBlockToAir(jailX + j7, jailY + l7, jailZ - l5 - 1);
-                            worldObj.setBlockToAir(jailX + j7, jailY + l7, jailZ + l5 + 15);
+                            this.worldObj.setBlockToAir(this.jailX + j7, this.jailY + l7, this.jailZ - l5 - 1);
+                            this.worldObj.setBlockToAir(this.jailX + j7, this.jailY + l7, this.jailZ + l5 + 15);
                         }
                     }
                 }
@@ -550,97 +567,96 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                     for (int k7 = 0; k7 < 3; k7++) {
                         for (int i8 = 0; i8 < 3; i8++) {
                             for (int l8 = 0; l8 < 4; l8++) {
-                                worldObj.setBlockToAir(jailX + 10 + i8, jailY + l8, (jailZ - i6 * 7) + k7);
-                                worldObj.setBlockToAir(jailX + 2 + i8, jailY + l8, (jailZ - i6 * 7) + k7);
-                                worldObj.setBlockToAir(jailX + 10 + i8, jailY + l8, jailZ + i6 * 7 + 12 + k7);
-                                worldObj.setBlockToAir(jailX + 2 + i8, jailY + l8, jailZ + i6 * 7 + 12 + k7);
+                                this.worldObj.setBlockToAir(this.jailX + 10 + i8, this.jailY + l8, (this.jailZ - i6 * 7) + k7);
+                                this.worldObj.setBlockToAir(this.jailX + 2 + i8, this.jailY + l8, (this.jailZ - i6 * 7) + k7);
+                                this.worldObj.setBlockToAir(this.jailX + 10 + i8, this.jailY + l8, this.jailZ + i6 * 7 + 12 + k7);
+                                this.worldObj.setBlockToAir(this.jailX + 2 + i8, this.jailY + l8, this.jailZ + i6 * 7 + 12 + k7);
                             }
                         }
                     }
                 }
 
-                worldObj.setBlockToAir(jailX + 7, jailY, jailZ);
-                worldObj.setBlockToAir(jailX + 7, jailY + 1, jailZ);
-                worldObj.setBlockToAir(jailX + 7, jailY, jailZ + 14);
-                worldObj.setBlockToAir(jailX + 7, jailY + 1, jailZ + 14);
+                this.worldObj.setBlockToAir(this.jailX + 7, this.jailY, this.jailZ);
+                this.worldObj.setBlockToAir(this.jailX + 7, this.jailY + 1, this.jailZ);
+                this.worldObj.setBlockToAir(this.jailX + 7, this.jailY, this.jailZ + 14);
+                this.worldObj.setBlockToAir(this.jailX + 7, this.jailY + 1, this.jailZ + 14);
 
                 for (int j6 = 0; j6 < 4; j6++) {
-                    worldObj.setBlock(jailX + 5, jailY + 1, jailZ - j6 * 7 - 5 - 2, Blocks.iron_bars);
-                    worldObj.setBlock(jailX + 5, jailY, jailZ - j6 * 7 - 5, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 5, jailY, jailZ - j6 * 7 - 5, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 5, jailY + 1, jailZ - j6 * 7 - 5, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 5, jailY + 1, jailZ - j6 * 7 - 5, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 9, jailY + 1, jailZ - j6 * 7 - 5 - 2, Blocks.iron_bars);
-                    worldObj.setBlockToAir(jailX + 9, jailY, jailZ - j6 * 7 - 5);
-                    worldObj.setBlockToAir(jailX + 9, jailY + 1, jailZ - j6 * 7 - 5);
-                    worldObj.setBlock(jailX + 9, jailY, jailZ - j6 * 7 - 5, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 9, jailY, jailZ - j6 * 7 - 5, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 9, jailY + 1, jailZ - j6 * 7 - 5, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 9, jailY + 1, jailZ - j6 * 7 - 5, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 5, jailY + 1, jailZ + j6 * 7 + 19 + 2, Blocks.iron_bars);
-                    worldObj.setBlock(jailX + 5, jailY, jailZ + j6 * 7 + 19, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 5, jailY, jailZ + j6 * 7 + 19, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 5, jailY + 1, jailZ + j6 * 7 + 19, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 5, jailY + 1, jailZ + j6 * 7 + 19, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 9, jailY + 1, jailZ + j6 * 7 + 19 + 2, Blocks.iron_bars);
-                    worldObj.setBlockToAir(jailX + 9, jailY, jailZ + j6 * 7 + 19);
-                    worldObj.setBlockToAir(jailX + 9, jailY + 1, jailZ + j6 * 7 + 19);
-                    worldObj.setBlock(jailX + 9, jailY, jailZ + j6 * 7 + 19, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 9, jailY, jailZ + j6 * 7 + 19, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 9, jailY + 1, jailZ + j6 * 7 + 19, Blocks.wooden_door);
-                    worldObj.setBlock(jailX + 9, jailY + 1, jailZ + j6 * 7 + 19, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 5, this.jailY + 1, this.jailZ - j6 * 7 - 5 - 2, Blocks.iron_bars);
+                    this.worldObj.setBlock(this.jailX + 5, this.jailY, this.jailZ - j6 * 7 - 5, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 5, this.jailY, this.jailZ - j6 * 7 - 5, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 5, this.jailY + 1, this.jailZ - j6 * 7 - 5, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 5, this.jailY + 1, this.jailZ - j6 * 7 - 5, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 9, this.jailY + 1, this.jailZ - j6 * 7 - 5 - 2, Blocks.iron_bars);
+                    this.worldObj.setBlockToAir(this.jailX + 9, this.jailY, this.jailZ - j6 * 7 - 5);
+                    this.worldObj.setBlockToAir(this.jailX + 9, this.jailY + 1, this.jailZ - j6 * 7 - 5);
+                    this.worldObj.setBlock(this.jailX + 9, this.jailY, this.jailZ - j6 * 7 - 5, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 9, this.jailY, this.jailZ - j6 * 7 - 5, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 9, this.jailY + 1, this.jailZ - j6 * 7 - 5, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 9, this.jailY + 1, this.jailZ - j6 * 7 - 5, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 5, this.jailY + 1, this.jailZ + j6 * 7 + 19 + 2, Blocks.iron_bars);
+                    this.worldObj.setBlock(this.jailX + 5, this.jailY, this.jailZ + j6 * 7 + 19, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 5, this.jailY, this.jailZ + j6 * 7 + 19, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 5, this.jailY + 1, this.jailZ + j6 * 7 + 19, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 5, this.jailY + 1, this.jailZ + j6 * 7 + 19, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 9, this.jailY + 1, this.jailZ + j6 * 7 + 19 + 2, Blocks.iron_bars);
+                    this.worldObj.setBlockToAir(this.jailX + 9, this.jailY, this.jailZ + j6 * 7 + 19);
+                    this.worldObj.setBlockToAir(this.jailX + 9, this.jailY + 1, this.jailZ + j6 * 7 + 19);
+                    this.worldObj.setBlock(this.jailX + 9, this.jailY, this.jailZ + j6 * 7 + 19, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 9, this.jailY, this.jailZ + j6 * 7 + 19, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 9, this.jailY + 1, this.jailZ + j6 * 7 + 19, Blocks.wooden_door);
+                    this.worldObj.setBlock(this.jailX + 9, this.jailY + 1, this.jailZ + j6 * 7 + 19, Blocks.wooden_door);
 
-                    if (rand.nextInt(1) == 0) {
-                        worldObj.setBlock(jailX + 12, jailY + 2, jailZ - j6 * 7 - 5, Blocks.torch);
+                    if (this.rand.nextInt(1) == 0) {
+                        this.worldObj.setBlock(this.jailX + 12, this.jailY + 2, this.jailZ - j6 * 7 - 5, Blocks.torch);
                     }
 
-                    if (rand.nextInt(1) == 0) {
-                        worldObj.setBlock(jailX + 2, jailY + 2, jailZ - j6 * 7 - 5, Blocks.torch);
+                    if (this.rand.nextInt(1) == 0) {
+                        this.worldObj.setBlock(this.jailX + 2, this.jailY + 2, this.jailZ - j6 * 7 - 5, Blocks.torch);
                     }
 
-                    if (rand.nextInt(1) == 0) {
-                        worldObj.setBlock(jailX + 12, jailY + 2, jailZ + j6 * 7 + 19, Blocks.torch);
+                    if (this.rand.nextInt(1) == 0) {
+                        this.worldObj.setBlock(this.jailX + 12, this.jailY + 2, this.jailZ + j6 * 7 + 19, Blocks.torch);
                     }
 
-                    if (rand.nextInt(1) == 0) {
-                        worldObj.setBlock(jailX + 2, jailY + 2, jailZ + j6 * 7 + 19, Blocks.torch);
+                    if (this.rand.nextInt(1) == 0) {
+                        this.worldObj.setBlock(this.jailX + 2, this.jailY + 2, this.jailZ + j6 * 7 + 19, Blocks.torch);
                     }
                 }
 
                 for (int k6 = 0; k6 < 9; k6++) {
-                    if (rand.nextInt(2) == 0) {
-                        worldObj.setBlock(jailX + 6, jailY + 2, jailZ - k6 * 4 - 2, Blocks.torch);
+                    if (this.rand.nextInt(2) == 0) {
+                        this.worldObj.setBlock(this.jailX + 6, this.jailY + 2, this.jailZ - k6 * 4 - 2, Blocks.torch);
                     }
 
-                    if (rand.nextInt(2) == 0) {
-                        worldObj.setBlock(jailX + 8, jailY + 2, jailZ - k6 * 4 - 2, Blocks.torch);
+                    if (this.rand.nextInt(2) == 0) {
+                        this.worldObj.setBlock(this.jailX + 8, this.jailY + 2, this.jailZ - k6 * 4 - 2, Blocks.torch);
                     }
 
-                    if (rand.nextInt(2) == 0) {
-                        worldObj.setBlock(jailX + 6, jailY + 2, jailZ + k6 * 4 + 18, Blocks.torch);
+                    if (this.rand.nextInt(2) == 0) {
+                        this.worldObj.setBlock(this.jailX + 6, this.jailY + 2, this.jailZ + k6 * 4 + 18, Blocks.torch);
                     }
 
-                    if (rand.nextInt(2) == 0) {
-                        worldObj.setBlock(jailX + 8, jailY + 2, jailZ + k6 * 4 + 18, Blocks.torch);
+                    if (this.rand.nextInt(2) == 0) {
+                        this.worldObj.setBlock(this.jailX + 8, this.jailY + 2, this.jailZ + k6 * 4 + 18, Blocks.torch);
                     }
                 }
-            } else {
+            } else
                 return false;
-            }
         }
 
-        worldObj.setBlock(jailX + 12, jailY, jailZ + 13, Blocks.chest);
+        this.worldObj.setBlock(this.jailX + 12, this.jailY, this.jailZ + 13, Blocks.chest);
         TileEntityChest tileentitychest = new TileEntityChest();
-        worldObj.setTileEntity(jailX + 12, jailY, jailZ + 13, tileentitychest);
-        worldObj.setBlock(jailX + 12, jailY, jailZ + 1, Blocks.chest);
+        this.worldObj.setTileEntity(this.jailX + 12, this.jailY, this.jailZ + 13, tileentitychest);
+        this.worldObj.setBlock(this.jailX + 12, this.jailY, this.jailZ + 1, Blocks.chest);
         TileEntityChest tileentitychest1 = new TileEntityChest();
-        worldObj.setTileEntity(jailX + 12, jailY, jailZ + 1, tileentitychest1);
-        worldObj.setBlock(jailX, jailY, jailZ + 13, Blocks.chest);
+        this.worldObj.setTileEntity(this.jailX + 12, this.jailY, this.jailZ + 1, tileentitychest1);
+        this.worldObj.setBlock(this.jailX, this.jailY, this.jailZ + 13, Blocks.chest);
         TileEntityChest tileentitychest2 = new TileEntityChest();
-        worldObj.setTileEntity(jailX, jailY, jailZ + 13, tileentitychest2);
-        worldObj.setBlock(jailX, jailY, jailZ + 1, Blocks.chest);
+        this.worldObj.setTileEntity(this.jailX, this.jailY, this.jailZ + 13, tileentitychest2);
+        this.worldObj.setBlock(this.jailX, this.jailY, this.jailZ + 1, Blocks.chest);
         TileEntityChest tileentitychest3 = new TileEntityChest();
-        worldObj.setTileEntity(jailX, jailY, jailZ + 1, tileentitychest3);
+        this.worldObj.setTileEntity(this.jailX, this.jailY, this.jailZ + 1, tileentitychest3);
 
         for (int l6 = 1; l6 < tileentitychest.getSizeInventory(); l6++) {
             tileentitychest.setInventorySlotContents(l6, null);
@@ -649,44 +665,45 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
         }
 
         Object obj = null;
-        ItemStack aitemstack[] = ((EntityPlayer) (entityplayersp)).inventory.mainInventory;
+        ItemStack aitemstack[] = (entityplayersp).inventory.mainInventory;
 
         for (int j8 = 0; j8 < aitemstack.length; j8++) {
             ItemStack itemstack = aitemstack[j8];
 
             if (itemstack != null) {
                 tileentitychest.setInventorySlotContents(j8, itemstack);
-                ((EntityPlayer) (entityplayersp)).inventory.mainInventory[j8] = null;
+                (entityplayersp).inventory.mainInventory[j8] = null;
+                (entityplayersp).inventoryContainer.detectAndSendChanges();
             }
         }
 
         for (int k8 = 1; k8 < tileentitychest3.getSizeInventory(); k8++) {
-            int i9 = rand.nextInt(10);
+            int i9 = this.rand.nextInt(10);
 
             if (i9 == 1) {
                 tileentitychest3
-                    .setInventorySlotContents(k8, new ItemStack(MoreCreepsAndWeirdos.bandaid, rand.nextInt(2) + 1, 0));
+                .setInventorySlotContents(k8, new ItemStack(MoreCreepsAndWeirdos.bandaid, this.rand.nextInt(2) + 1, 0));
             }
 
             if (i9 == 2) {
                 tileentitychest3
-                    .setInventorySlotContents(k8, new ItemStack(MoreCreepsAndWeirdos.money, rand.nextInt(24) + 1, 0));
+                .setInventorySlotContents(k8, new ItemStack(MoreCreepsAndWeirdos.money, this.rand.nextInt(24) + 1, 0));
             }
         }
 
-        worldObj.setBlock(jailX + 11, jailY, jailZ + 13, Blocks.mob_spawner);
+        this.worldObj.setBlock(this.jailX + 11, this.jailY, this.jailZ + 13, Blocks.mob_spawner);
         TileEntityMobSpawner tileentitymobspawner = new TileEntityMobSpawner();
-        worldObj.setTileEntity(jailX + 11, jailY, jailZ + 13, tileentitymobspawner);
+        this.worldObj.setTileEntity(this.jailX + 11, this.jailY, this.jailZ + 13, tileentitymobspawner);
         // Thank you MCPBot for the knowledge that getSpawnerBaseLogic used to be func_145881_a()
         tileentitymobspawner.func_145881_a()
-            .setEntityName("Skeleton");
-        tileentitychest1.setInventorySlotContents(rand.nextInt(5), new ItemStack(Items.stone_pickaxe, 1, 0));
-        tileentitychest1.setInventorySlotContents(rand.nextInt(5) + 5, new ItemStack(Items.apple, 1, 0));
+        .setEntityName("Skeleton");
+        tileentitychest1.setInventorySlotContents(this.rand.nextInt(5), new ItemStack(Items.stone_pickaxe, 1, 0));
+        tileentitychest1.setInventorySlotContents(this.rand.nextInt(5) + 5, new ItemStack(Items.apple, 1, 0));
         tileentitychest2
-            .setInventorySlotContents(rand.nextInt(5) + 5, new ItemStack(Blocks.torch, rand.nextInt(16), 0));
-        tileentitychest2.setInventorySlotContents(rand.nextInt(5), new ItemStack(Items.apple, 1, 0));
-        worldObj.setBlock(jailX + 6, jailY + 2, jailZ + 9, Blocks.torch);
-        int j9 = rand.nextInt(11);
+        .setInventorySlotContents(this.rand.nextInt(5) + 5, new ItemStack(Blocks.torch, this.rand.nextInt(16), 0));
+        tileentitychest2.setInventorySlotContents(this.rand.nextInt(5), new ItemStack(Items.apple, 1, 0));
+        this.worldObj.setBlock(this.jailX + 6, this.jailY + 2, this.jailZ + 9, Blocks.torch);
+        int j9 = this.rand.nextInt(11);
 
         for (int k9 = 0; k9 < 4; k9++) {
             for (int j10 = 0; j10 < 4; j10++) {
@@ -695,115 +712,119 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
 
                 switch (j10 + 1) {
                     case 1:
-                        l10 = jailX + 12;
-                        i11 = jailZ - k9 * 7 - 5;
+                        l10 = this.jailX + 12;
+                        i11 = this.jailZ - k9 * 7 - 5;
                         break;
 
                     case 2:
-                        l10 = jailX + 2;
-                        i11 = jailZ - k9 * 7 - 5;
+                        l10 = this.jailX + 2;
+                        i11 = this.jailZ - k9 * 7 - 5;
                         break;
 
                     case 3:
-                        l10 = jailX + 12;
-                        i11 = jailZ + k9 * 7 + 19;
+                        l10 = this.jailX + 12;
+                        i11 = this.jailZ + k9 * 7 + 19;
                         break;
 
                     case 4:
-                        l10 = jailX + 2;
-                        i11 = jailZ + k9 * 7 + 19;
+                        l10 = this.jailX + 2;
+                        i11 = this.jailZ + k9 * 7 + 19;
                         break;
 
                     default:
-                        l10 = jailX + 12;
-                        i11 = jailZ - k9 * 7 - 5;
+                        l10 = this.jailX + 12;
+                        i11 = this.jailZ - k9 * 7 - 5;
                         break;
                 }
 
                 if (k9 * 4 + j10 == j9) {
-                    populateCell(l10, i11, worldObj, entityplayersp, true);
+                    this.populateCell(l10, i11, this.worldObj, entityplayersp, true);
                 } else {
-                    populateCell(l10, i11, worldObj, entityplayersp, false);
+                    this.populateCell(l10, i11, this.worldObj, entityplayersp, false);
                 }
 
-                if (rand.nextInt(3) == 0) {
-                    dropTreasure(worldObj, jailX + 12, jailY + 2, jailZ - k9 * 7 - 5 - 1);
+                if (this.rand.nextInt(3) == 0) {
+                    this.dropTreasure(this.worldObj, this.jailX + 12, this.jailY + 2, this.jailZ - k9 * 7 - 5 - 1);
                 }
 
-                if (rand.nextInt(3) == 0) {
-                    dropTreasure(worldObj, jailX + 2, jailY + 2, jailZ - k9 * 7 - 5 - 1);
+                if (this.rand.nextInt(3) == 0) {
+                    this.dropTreasure(this.worldObj, this.jailX + 2, this.jailY + 2, this.jailZ - k9 * 7 - 5 - 1);
                 }
 
-                if (rand.nextInt(3) == 0) {
-                    dropTreasure(worldObj, jailX + 12, jailY + 2, jailZ + k9 * 7 + 19 + 1);
+                if (this.rand.nextInt(3) == 0) {
+                    this.dropTreasure(this.worldObj, this.jailX + 12, this.jailY + 2, this.jailZ + k9 * 7 + 19 + 1);
                 }
 
-                if (rand.nextInt(3) == 0) {
-                    dropTreasure(worldObj, jailX + 2, jailY + 2, jailZ + k9 * 7 + 19 + 1);
+                if (this.rand.nextInt(3) == 0) {
+                    this.dropTreasure(this.worldObj, this.jailX + 2, this.jailY + 2, this.jailZ + k9 * 7 + 19 + 1);
                 }
             }
         }
 
-        for (int l9 = 1; l9 < rand.nextInt(5) + 3; l9++) {
-            CREEPSEntityLawyerFromHell creepsentitylawyerfromhell = new CREEPSEntityLawyerFromHell(worldObj);
+
+        for (int iter1 = 1; iter1 < this.rand.nextInt(5) + 3; iter1++) {
+            CREEPSEntityLawyerFromHell creepsentitylawyerfromhell = new CREEPSEntityLawyerFromHell(this.worldObj);
             creepsentitylawyerfromhell.setLocationAndAngles(
-                jailX + 8,
-                jailY + 1,
-                jailZ - 11 - 1,
-                ((EntityPlayer) (entityplayersp)).rotationYaw,
-                0.0F);
+                    this.jailX + 8,
+                    this.jailY + 1,
+                    this.jailZ - 11 - 1,
+                    (entityplayersp).rotationYaw,
+                    0.0F);
             creepsentitylawyerfromhell.undead = true;
             creepsentitylawyerfromhell.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-                .setBaseValue(10D);
-            worldObj.spawnEntityInWorld(creepsentitylawyerfromhell);
-            CREEPSEntityLawyerFromHell creepsentitylawyerfromhell2 = new CREEPSEntityLawyerFromHell(worldObj);
+            .setBaseValue(10D);
+            this.worldObj.spawnEntityInWorld(creepsentitylawyerfromhell);
+            CREEPSEntityLawyerFromHell creepsentitylawyerfromhell2 = new CREEPSEntityLawyerFromHell(this.worldObj);
             creepsentitylawyerfromhell2.setLocationAndAngles(
-                jailX + 8,
-                jailY + 1,
-                jailZ + 11 + 15,
-                ((EntityPlayer) (entityplayersp)).rotationYaw,
-                0.0F);
+                    this.jailX + 8,
+                    this.jailY + 1,
+                    this.jailZ + 11 + 15,
+                    (entityplayersp).rotationYaw,
+                    0.0F);
             creepsentitylawyerfromhell2.undead = true;
             creepsentitylawyerfromhell.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-                .setBaseValue(20D);
-            worldObj.spawnEntityInWorld(creepsentitylawyerfromhell2);
+            .setBaseValue(20D);
+            this.worldObj.spawnEntityInWorld(creepsentitylawyerfromhell2);
         }
 
-        for (int i10 = 2; i10 < rand.nextInt(3) + 3; i10++) {
-            CREEPSEntityLawyerFromHell creepsentitylawyerfromhell1 = new CREEPSEntityLawyerFromHell(worldObj);
+        for (int iter2 = 2; iter2 < this.rand.nextInt(3) + 3; iter2++) {
+            CREEPSEntityLawyerFromHell creepsentitylawyerfromhell1 = new CREEPSEntityLawyerFromHell(this.worldObj);
             creepsentitylawyerfromhell1.setLocationAndAngles(
-                jailX + i10,
-                jailY + 2,
-                jailZ + 2,
-                ((EntityPlayer) (entityplayersp)).rotationYaw,
-                0.0F);
+                    this.jailX + iter2,
+                    this.jailY + 2,
+                    this.jailZ + 2,
+                    (entityplayersp).rotationYaw,
+                    0.0F);
             creepsentitylawyerfromhell1.undead = true;
             creepsentitylawyerfromhell1.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-                .setBaseValue(10D);
-            worldObj.spawnEntityInWorld(creepsentitylawyerfromhell1);
-            CREEPSEntityLawyerFromHell creepsentitylawyerfromhell3 = new CREEPSEntityLawyerFromHell(worldObj);
+            .setBaseValue(10D);
+            this.worldObj.spawnEntityInWorld(creepsentitylawyerfromhell1);
+            CREEPSEntityLawyerFromHell creepsentitylawyerfromhell3 = new CREEPSEntityLawyerFromHell(this.worldObj);
             creepsentitylawyerfromhell3.setLocationAndAngles(
-                jailX + 2,
-                jailY + 2,
-                jailZ + i10,
-                ((EntityPlayer) (entityplayersp)).rotationYaw,
-                0.0F);
+                    this.jailX + 2,
+                    this.jailY + 2,
+                    this.jailZ + iter2,
+                    (entityplayersp).rotationYaw,
+                    0.0F);
             creepsentitylawyerfromhell3.undead = true;
             creepsentitylawyerfromhell1.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-                .setBaseValue(10D);
-            worldObj.spawnEntityInWorld(creepsentitylawyerfromhell3);
+            .setBaseValue(10D);
+            this.worldObj.spawnEntityInWorld(creepsentitylawyerfromhell3);
         }
 
-        ((EntityPlayer) entityplayersp).setPosition(jailX + 7, jailY + 2, jailZ + 7);
-        ((EntityPlayer) entityplayersp).heal(20F);
 
-        if (rand.nextInt(5) == 0) {
-            dropTreasure(worldObj, jailX + 8, jailY + 2, jailZ + 8);
+
+
+        entityplayersp.setPosition(this.jailX + 7, this.jailY + 2, this.jailZ + 7);
+        entityplayersp.heal(20F);
+
+        if (this.rand.nextInt(5) == 0) {
+            this.dropTreasure(this.worldObj, this.jailX + 8, this.jailY + 2, this.jailZ + 8);
         }
 
-        List list = worldObj.getEntitiesWithinAABBExcludingEntity(
-            entityplayersp,
-            ((EntityPlayer) (entityplayersp)).getBoundingBox()
+        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
+                entityplayersp,
+                (entityplayersp).boundingBox
                 .expand(4D, 4D, 4D));
 
         for (int k10 = 0; k10 < list.size(); k10++) {
@@ -821,24 +842,24 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
             MoreCreepsAndWeirdos.instance.currentfine = 0;
         }
 
-        MoreCreepsAndWeirdos.instance.currentJailX = jailX;
-        MoreCreepsAndWeirdos.instance.currentJailY = jailY;
-        MoreCreepsAndWeirdos.instance.currentJailZ = jailZ;
+        MoreCreepsAndWeirdos.instance.currentJailX = this.jailX;
+        MoreCreepsAndWeirdos.instance.currentJailY = this.jailY;
+        MoreCreepsAndWeirdos.instance.currentJailZ = this.jailZ;
         MoreCreepsAndWeirdos.instance.jailBuilt = true;
         return true;
     }
 
     public void dropTreasure(World world, int i, int j, int k) {
-        int l = rand.nextInt(12);
+        int l = this.rand.nextInt(12);
         ItemStack itemstack = null;
 
         switch (l) {
             case 1:
-                itemstack = new ItemStack(Items.wheat, rand.nextInt(2) + 1);
+                itemstack = new ItemStack(Items.wheat, this.rand.nextInt(2) + 1);
                 break;
 
             case 2:
-                itemstack = new ItemStack(Items.cookie, rand.nextInt(3) + 3);
+                itemstack = new ItemStack(Items.cookie, this.rand.nextInt(3) + 3);
                 break;
 
             case 3:
@@ -846,7 +867,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                 break;
 
             case 4:
-                itemstack = new ItemStack(MoreCreepsAndWeirdos.blorpcola, rand.nextInt(3) + 1);
+                itemstack = new ItemStack(MoreCreepsAndWeirdos.blorpcola, this.rand.nextInt(3) + 1);
                 break;
 
             case 5:
@@ -854,7 +875,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                 break;
 
             case 6:
-                itemstack = new ItemStack(MoreCreepsAndWeirdos.evilegg, rand.nextInt(2) + 1);
+                itemstack = new ItemStack(MoreCreepsAndWeirdos.evilegg, this.rand.nextInt(2) + 1);
                 break;
 
             case 7:
@@ -866,11 +887,11 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                 break;
 
             case 9:
-                itemstack = new ItemStack(MoreCreepsAndWeirdos.money, rand.nextInt(5) + 5);
+                itemstack = new ItemStack(MoreCreepsAndWeirdos.money, this.rand.nextInt(5) + 5);
                 break;
 
             case 10:
-                itemstack = new ItemStack(MoreCreepsAndWeirdos.lolly, rand.nextInt(2) + 1);
+                itemstack = new ItemStack(MoreCreepsAndWeirdos.lolly, this.rand.nextInt(2) + 1);
                 break;
 
             case 11:
@@ -878,24 +899,26 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                 break;
 
             case 12:
-                itemstack = new ItemStack(MoreCreepsAndWeirdos.goodonut, rand.nextInt(2) + 1);
+                itemstack = new ItemStack(MoreCreepsAndWeirdos.goodonut, this.rand.nextInt(2) + 1);
                 break;
 
             default:
-                itemstack = new ItemStack(Items.cookie, rand.nextInt(2) + 1);
+                itemstack = new ItemStack(Items.cookie, this.rand.nextInt(2) + 1);
                 break;
         }
 
         EntityItem entityitem = new EntityItem(world, i, j, k, itemstack);
         // entityitem.delayBeforeCanPickup = 10;
-        if (!worldObj.isRemote) world.spawnEntityInWorld(entityitem);
+        if (!this.worldObj.isRemote) {
+            world.spawnEntityInWorld(entityitem);
+        }
     }
 
     public void populateCell(int i, int j, World world, EntityPlayer entityplayer, boolean flag) {
         if (flag) {
             List list = world.getEntitiesWithinAABBExcludingEntity(
-                entityplayer,
-                entityplayer.getBoundingBox()
+                    entityplayer,
+                    entityplayer.boundingBox
                     .expand(26D, 26D, 26D));
 
             for (int l = 0; l < list.size(); l++) {
@@ -904,13 +927,13 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                 if ((entity instanceof CREEPSEntityHotdog) && ((CREEPSEntityHotdog) entity).tamed) {
                     ((CREEPSEntityHotdog) entity).wanderstate = 1;
                     ((CREEPSEntityHotdog) entity).getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-                        .setBaseValue(0.0D);
+                    .setBaseValue(0.0D);
 
                     if (((CREEPSEntityHotdog) entity).dogsize > 1.0F) {
                         ((CREEPSEntityHotdog) entity).dogsize = 1.0F;
                     }
 
-                    ((CREEPSEntityHotdog) entity).setLocationAndAngles(i, jailY, j, entityplayer.rotationYaw, 0.0F);
+                    ((CREEPSEntityHotdog) entity).setLocationAndAngles(i, this.jailY, j, entityplayer.rotationYaw, 0.0F);
                     continue;
                 }
 
@@ -920,54 +943,54 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
 
                 ((CREEPSEntityGuineaPig) entity).wanderstate = 1;
                 ((CREEPSEntityGuineaPig) entity).getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-                    .setBaseValue(0.0D);
+                .setBaseValue(0.0D);
 
                 if (((CREEPSEntityGuineaPig) entity).modelsize > 1.0F) {
                     ((CREEPSEntityGuineaPig) entity).modelsize = 1.0F;
                 }
 
-                ((CREEPSEntityGuineaPig) entity).setLocationAndAngles(i, jailY, j, entityplayer.rotationYaw, 0.0F);
+                ((CREEPSEntityGuineaPig) entity).setLocationAndAngles(i, this.jailY, j, entityplayer.rotationYaw, 0.0F);
             }
 
             return;
         }
 
-        int k = rand.nextInt(5);
+        int k = this.rand.nextInt(5);
 
         switch (k + 1) {
             case 1:
                 CREEPSEntityRatMan creepsentityratman = new CREEPSEntityRatMan(world);
-                creepsentityratman.setLocationAndAngles(i, jailY, j, entityplayer.rotationYaw, 0.0F);
+                creepsentityratman.setLocationAndAngles(i, this.jailY, j, entityplayer.rotationYaw, 0.0F);
                 world.spawnEntityInWorld(creepsentityratman);
                 break;
 
             case 2:
                 CREEPSEntityPrisoner creepsentityprisoner = new CREEPSEntityPrisoner(world);
-                creepsentityprisoner.setLocationAndAngles(i, jailY, j, entityplayer.rotationYaw, 0.0F);
+                creepsentityprisoner.setLocationAndAngles(i, this.jailY, j, entityplayer.rotationYaw, 0.0F);
                 world.spawnEntityInWorld(creepsentityprisoner);
                 break;
 
             case 3:
                 CREEPSEntityCamelJockey creepsentitycameljockey = new CREEPSEntityCamelJockey(world);
-                creepsentitycameljockey.setLocationAndAngles(i, jailY, j, entityplayer.rotationYaw, 0.0F);
+                creepsentitycameljockey.setLocationAndAngles(i, this.jailY, j, entityplayer.rotationYaw, 0.0F);
                 world.spawnEntityInWorld(creepsentitycameljockey);
                 break;
 
             case 4:
                 CREEPSEntityMummy creepsentitymummy = new CREEPSEntityMummy(world);
-                creepsentitymummy.setLocationAndAngles(i, jailY, j, entityplayer.rotationYaw, 0.0F);
+                creepsentitymummy.setLocationAndAngles(i, this.jailY, j, entityplayer.rotationYaw, 0.0F);
                 world.spawnEntityInWorld(creepsentitymummy);
                 break;
 
             case 5:
                 CREEPSEntityPrisoner creepsentityprisoner1 = new CREEPSEntityPrisoner(world);
-                creepsentityprisoner1.setLocationAndAngles(i, jailY, j, entityplayer.rotationYaw, 0.0F);
+                creepsentityprisoner1.setLocationAndAngles(i, this.jailY, j, entityplayer.rotationYaw, 0.0F);
                 world.spawnEntityInWorld(creepsentityprisoner1);
                 break;
 
             default:
                 CREEPSEntityPrisoner creepsentityprisoner2 = new CREEPSEntityPrisoner(world);
-                creepsentityprisoner2.setLocationAndAngles(i, jailY, j, entityplayer.rotationYaw, 0.0F);
+                creepsentityprisoner2.setLocationAndAngles(i, this.jailY, j, entityplayer.rotationYaw, 0.0F);
                 world.spawnEntityInWorld(creepsentityprisoner2);
                 break;
         }
@@ -985,15 +1008,15 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
                 continue;
             }
 
-            if (!undead) {
-                worldObj.playSoundAtEntity(
-                    this,
-                    "morecreeps:lawyersuck",
-                    1.0F,
-                    (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+            if (!this.undead) {
+                this.worldObj.playSoundAtEntity(
+                        this,
+                        "morecreeps:lawyersuck",
+                        1.0F,
+                        (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
             }
 
-            i = rand.nextInt(itemstack.stackSize) + 1;
+            i = this.rand.nextInt(itemstack.stackSize) + 1;
 
             if (i > itemstack.stackSize) {
                 i = itemstack.stackSize;
@@ -1006,12 +1029,12 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
             }
         }
 
-        if (i > 0 && !undead) {
-            worldObj.playSoundAtEntity(
-                this,
-                "morecreeps:lawyertake",
-                1.0F,
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+        if (i > 0 && !this.undead) {
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    "morecreeps:lawyertake",
+                    1.0F,
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
         }
 
         return true;
@@ -1020,183 +1043,189 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setInteger("LawyerState", lawyerstate);
-        nbttagcompound.setInteger("LawyerTimer", lawyertimer);
-        nbttagcompound.setInteger("JailX", jailX);
-        nbttagcompound.setInteger("JailY", jailY);
-        nbttagcompound.setInteger("JailZ", jailZ);
-        nbttagcompound.setBoolean("Undead", undead);
-        nbttagcompound.setFloat("ModelSize", modelsize);
+        nbttagcompound.setInteger("LawyerState", this.lawyerstate);
+        nbttagcompound.setInteger("LawyerTimer", this.lawyertimer);
+        nbttagcompound.setInteger("JailX", this.jailX);
+        nbttagcompound.setInteger("JailY", this.jailY);
+        nbttagcompound.setInteger("JailZ", this.jailZ);
+        nbttagcompound.setBoolean("Undead", this.undead);
+        nbttagcompound.setFloat("ModelSize", this.modelsize);
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
-        lawyerstate = nbttagcompound.getInteger("LawyerState");
-        lawyertimer = nbttagcompound.getInteger("LawyerTimer");
-        jailX = nbttagcompound.getInteger("JailX");
-        jailY = nbttagcompound.getInteger("JailY");
-        jailZ = nbttagcompound.getInteger("JailZ");
-        undead = nbttagcompound.getBoolean("Undead");
-        modelsize = nbttagcompound.getFloat("ModelSize");
+        this.lawyerstate = nbttagcompound.getInteger("LawyerState");
+        this.lawyertimer = nbttagcompound.getInteger("LawyerTimer");
+        this.jailX = nbttagcompound.getInteger("JailX");
+        this.jailY = nbttagcompound.getInteger("JailY");
+        this.jailZ = nbttagcompound.getInteger("JailZ");
+        this.undead = nbttagcompound.getBoolean("Undead");
+        this.modelsize = nbttagcompound.getFloat("ModelSize");
     }
 
     /**
      * Plays living's sound at its position
      */
+    @Override
     public void playLivingSound() {
-        String s = getLivingSound();
+        String s = this.getLivingSound();
 
         if (s != null) {
-            worldObj.playSoundAtEntity(
-                this,
-                s,
-                getSoundVolume(),
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (1.0F - modelsize) * 2.0F);
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    s,
+                    this.getSoundVolume(),
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F + (1.0F - this.modelsize) * 2.0F);
         }
     }
 
     /**
      * Returns the sound this mob makes while it's alive.
      */
+    @Override
     protected String getLivingSound() {
-        if (!undead) {
+        if (!this.undead)
             return "morecreeps:lawyer";
-        } else {
+        else
             return "morecreeps:lawyerundead";
-        }
     }
 
     /**
      * Returns the sound this mob makes when it is hurt.
      */
+    @Override
     protected String getHurtSound() {
-        if (!undead) {
+        if (!this.undead)
             return "morecreeps:lawyerhurt";
-        } else {
+        else
             return "morecreeps:lawyerundeadhurt";
-        }
     }
 
     /**
      * Returns the sound this mob makes on death.
      */
+    @Override
     protected String getDeathSound() {
-        if (!undead) {
+        if (!this.undead)
             return "morecreeps:lawyerdeath";
-        } else {
+        else
             return "morecreeps:lawyerundeaddeath";
-        }
     }
 
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
+    @Override
     public boolean getCanSpawnHere() {
-        if (worldObj == null || getBoundingBox() == null) {
+        if (this.worldObj == null || this.getBoundingBox() == null)
             return false;
-        }
-        int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(posY);
-        int k = MathHelper.floor_double(posZ);
-        int l = worldObj.getFullBlockLightValue(i, j, k);
-        Block i1 = worldObj.getBlock(i, j - 1, k);
+        int i = MathHelper.floor_double(this.posX);
+        int j = MathHelper.floor_double(this.posY);
+        int k = MathHelper.floor_double(this.posZ);
+        int l = this.worldObj.getFullBlockLightValue(i, j, k);
+        Block i1 = this.worldObj.getBlock(i, j - 1, k);
         return i1 != Blocks.cobblestone && i1 != Blocks.log
-            && i1 != Blocks.double_stone_slab
-            && i1 != Blocks.stone_slab
-            && i1 != Blocks.planks
-            && i1 != Blocks.wool
-            && worldObj.getCollidingBoundingBoxes(this, getBoundingBox())
+                && i1 != Blocks.double_stone_slab
+                && i1 != Blocks.stone_slab
+                && i1 != Blocks.planks
+                && i1 != Blocks.wool
+                && this.worldObj.getCollidingBoundingBoxes(this, this.getBoundingBox())
                 .size() == 0
-            && worldObj.canBlockSeeTheSky(i, j, k)
-            && rand.nextInt(5) == 0
-            && l > 10;
+                && this.worldObj.canBlockSeeTheSky(i, j, k)
+                && this.rand.nextInt(5) == 0
+                && l > 10;
     }
 
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
+    @Override
     public int getMaxSpawnedInChunk() {
         return 8;
     }
 
     private void smoke() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 2; j++) {
-                double d = rand.nextGaussian() * 0.02D;
-                double d1 = rand.nextGaussian() * 0.02D;
-                double d2 = rand.nextGaussian() * 0.02D;
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width)
-                        + (double) ((float) i * 0.5F),
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) ((float) i * 0.5F),
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) ((float) i * 0.5F)) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width,
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) ((float) i * 0.5F) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width)
-                        + (double) ((float) i * 0.5F),
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) ((float) i * 0.5F)) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) ((float) i * 0.5F),
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) ((float) i * 0.5F) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    ((posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width)
-                        + (double) ((float) i * 0.5F),
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F) + (double) ((float) i * 0.5F)) - (double) width,
-                    d,
-                    d1,
-                    d2);
-                worldObj.spawnParticle(
-                    EnumParticleTypes.EXPLOSION_NORMAL,
-                    (posX + (double) (rand.nextFloat() * width * 2.0F)) - (double) width - (double) ((float) i * 0.5F),
-                    posY + (double) (rand.nextFloat() * height),
-                    (posZ + (double) (rand.nextFloat() * width * 2.0F)) - (double) ((float) i * 0.5F) - (double) width,
-                    d,
-                    d1,
-                    d2);
+        if (this.worldObj.isRemote) {
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 2; j++) {
+                    double d = this.rand.nextGaussian() * 0.02D;
+                    double d1 = this.rand.nextGaussian() * 0.02D;
+                    double d2 = this.rand.nextGaussian() * 0.02D;
+                    this.worldObj.spawnParticle(
+                            EnumParticleTypes.EXPLOSION_NORMAL,
+                            ((this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width)
+                            + i * 0.5F,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            EnumParticleTypes.EXPLOSION_NORMAL,
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width - i * 0.5F,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            EnumParticleTypes.EXPLOSION_NORMAL,
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F + i * 0.5F) - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            EnumParticleTypes.EXPLOSION_NORMAL,
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - i * 0.5F - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            EnumParticleTypes.EXPLOSION_NORMAL,
+                            ((this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width)
+                            + i * 0.5F,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F + i * 0.5F) - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            EnumParticleTypes.EXPLOSION_NORMAL,
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width - i * 0.5F,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - i * 0.5F - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            EnumParticleTypes.EXPLOSION_NORMAL,
+                            ((this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width)
+                            + i * 0.5F,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F + i * 0.5F) - this.width,
+                            d,
+                            d1,
+                            d2);
+                    this.worldObj.spawnParticle(
+                            EnumParticleTypes.EXPLOSION_NORMAL,
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width - i * 0.5F,
+                            this.posY + this.rand.nextFloat() * this.height,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - i * 0.5F - this.width,
+                            d,
+                            d1,
+                            d2);
+                }
             }
         }
     }
@@ -1204,41 +1233,45 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
     /**
      * Returns the item that this EntityLiving is holding, if any.
      */
+    @Override
     public ItemStack getHeldItem() {
         return defaultHeldItem;
     }
 
+    @Override
     public void onDeath(DamageSource damagesource) {
         Entity entity = damagesource.getEntity();
-        if (rand.nextInt(3) == 0 && !undead && (entity instanceof EntityPlayer)) {
+        if (this.rand.nextInt(3) == 0 && !this.undead && (entity instanceof EntityPlayer)) {
 
-            for (int i = 0; i < rand.nextInt(4) + 3; i++) {
-                CREEPSEntityLawyerFromHell creepsentitylawyerfromhell = new CREEPSEntityLawyerFromHell(worldObj);
-                smoke();
+            for (int i = 0; i < this.rand.nextInt(4) + 3; i++) {
+                CREEPSEntityLawyerFromHell creepsentitylawyerfromhell = new CREEPSEntityLawyerFromHell(this.worldObj);
+                this.smoke();
                 creepsentitylawyerfromhell.setLocationAndAngles(
-                    entity.posX + (double) (rand.nextInt(4) - rand.nextInt(4)),
-                    entity.posY - 1.5D,
-                    entity.posZ + (double) (rand.nextInt(4) - rand.nextInt(4)),
-                    rotationYaw,
-                    0.0F);
+                        entity.posX + (this.rand.nextInt(4) - this.rand.nextInt(4)),
+                        entity.posY - 1.5D,
+                        entity.posZ + (this.rand.nextInt(4) - this.rand.nextInt(4)),
+                        this.rotationYaw,
+                        0.0F);
                 creepsentitylawyerfromhell.undead = true;
                 creepsentitylawyerfromhell.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-                    .setBaseValue(20D);
-                if (!worldObj.isRemote) worldObj.spawnEntityInWorld(creepsentitylawyerfromhell);
+                .setBaseValue(20D);
+                if (!this.worldObj.isRemote) {
+                    this.worldObj.spawnEntityInWorld(creepsentitylawyerfromhell);
+                }
             }
-        } else if (rand.nextInt(5) == 0 && !undead) {
-            worldObj.playSoundAtEntity(
-                this,
-                "morecreeps:lawyerbum",
-                1.0F,
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-            CREEPSEntityBum creepsentitybum = new CREEPSEntityBum(worldObj);
-            smoke();
-            creepsentitybum.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
-            worldObj.spawnEntityInWorld(creepsentitybum);
+        } else if (this.rand.nextInt(5) == 0 && !this.undead) {
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    "morecreeps:lawyerbum",
+                    1.0F,
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+            CREEPSEntityBum creepsentitybum = new CREEPSEntityBum(this.worldObj);
+            this.smoke();
+            creepsentitybum.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+            this.worldObj.spawnEntityInWorld(creepsentitybum);
         }
 
-        smoke();
+        this.smoke();
         super.onDeath(damagesource);
     }
 

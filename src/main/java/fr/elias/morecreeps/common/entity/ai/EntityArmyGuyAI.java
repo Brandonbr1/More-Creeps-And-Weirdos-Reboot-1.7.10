@@ -18,22 +18,23 @@ public class EntityArmyGuyAI extends EntityAIBase {
     public CREEPSEntityArmyGuy armyGuy;
 
     public EntityArmyGuyAI(CREEPSEntityArmyGuy creepsarmyguy) {
-        armyGuy = creepsarmyguy;
+        this.armyGuy = creepsarmyguy;
     }
 
     @Override
     public boolean shouldExecute() {
-        EntityLivingBase entityToAttack = armyGuy.getAttackTarget();
+        EntityLivingBase entityToAttack = this.armyGuy.getAttackTarget();
         return entityToAttack != null && entityToAttack.isEntityAlive();
     }
 
+    @Override
     public void updateTask() {
-        findPlayerToAttack();
-        EntityLivingBase entityToAttack = armyGuy.getAttackTarget();
+        this.findPlayerToAttack();
+        EntityLivingBase entityToAttack = this.armyGuy.getAttackTarget();
         double d0 = this.armyGuy.getDistanceSqToEntity(entityToAttack);
-        if (armyGuy.loyal && entityToAttack != null
-            && (entityToAttack instanceof CREEPSEntityArmyGuy)
-            && ((CREEPSEntityArmyGuy) entityToAttack).loyal) {
+        if (this.armyGuy.loyal && entityToAttack != null
+                && (entityToAttack instanceof CREEPSEntityArmyGuy)
+                && ((CREEPSEntityArmyGuy) entityToAttack).loyal) {
             entityToAttack = null;
         }
         /*
@@ -58,23 +59,27 @@ public class EntityArmyGuyAI extends EntityAIBase {
          * }
          */
         if (d0 < 4.0D) {
-            if (armyGuy.attackTime <= 0) {
-                armyGuy.attackTime = 20;
+            if (this.armyGuy.attackTime <= 0) {
+                this.armyGuy.attackTime = 20;
                 this.armyGuy.attackEntityAsMob(entityToAttack);
             }
 
-            this.armyGuy.getMoveHelper()
+            if (entityToAttack != null) {
+                this.armyGuy.getMoveHelper()
                 .setMoveTo(entityToAttack.posX, entityToAttack.posY, entityToAttack.posZ, 1.0D);
+            }
         } else if (d0 < 256.0D) {
             // ATTACK ENTITY GOES HERE
             // armyGuy.attackEntity(entityToAttack, (float)d0);
             this.armyGuy.getLookHelper()
-                .setLookPositionWithEntity(entityToAttack, 10.0F, 10.0F);
+            .setLookPositionWithEntity(entityToAttack, 10.0F, 10.0F);
         } else {
-            this.armyGuy.getNavigator()
+            if (entityToAttack != null) {
+                this.armyGuy.getNavigator()
                 .clearPathEntity();
-            this.armyGuy.getMoveHelper()
+                this.armyGuy.getMoveHelper()
                 .setMoveTo(entityToAttack.posX, entityToAttack.posY, entityToAttack.posZ, 0.5D);
+            }
         }
 
     }
@@ -82,10 +87,10 @@ public class EntityArmyGuyAI extends EntityAIBase {
     protected Entity findPlayerToAttack() {
         Object obj = null;
 
-        if (armyGuy.loyal) {
-            List list = armyGuy.worldObj.getEntitiesWithinAABBExcludingEntity(
-                armyGuy,
-                armyGuy.getBoundingBox()
+        if (this.armyGuy.loyal) {
+            List list = this.armyGuy.worldObj.getEntitiesWithinAABBExcludingEntity(
+                    this.armyGuy,
+                    this.armyGuy.getBoundingBox()
                     .expand(16D, 16D, 16D));
 
             for (int i = 0; i < list.size(); i++) {
@@ -95,16 +100,16 @@ public class EntityArmyGuyAI extends EntityAIBase {
                     EntityCreature entitycreature = (EntityCreature) entity;
 
                     if ((entitycreature.getAttackTarget() instanceof EntityPlayer)
-                        && !(entitycreature instanceof CREEPSEntityHotdog)
-                        && !(entitycreature instanceof CREEPSEntityHunchback)
-                        && !(entitycreature instanceof CREEPSEntityGuineaPig)
-                        && (!(entitycreature instanceof CREEPSEntityArmyGuy)
-                            || !((CREEPSEntityArmyGuy) entitycreature).loyal)) {
+                            && !(entitycreature instanceof CREEPSEntityHotdog)
+                            && !(entitycreature instanceof CREEPSEntityHunchback)
+                            && !(entitycreature instanceof CREEPSEntityGuineaPig)
+                            && (!(entitycreature instanceof CREEPSEntityArmyGuy)
+                                    || !((CREEPSEntityArmyGuy) entitycreature).loyal)) {
                         obj = entitycreature;
                     }
                 }
 
-                if (!(entity instanceof EntityPlayer) || (armyGuy.getAttackTarget() instanceof EntityPlayer)) {
+                if (!(entity instanceof EntityPlayer) || (this.armyGuy.getAttackTarget() instanceof EntityPlayer)) {
                     continue;
                 }
 
@@ -114,9 +119,9 @@ public class EntityArmyGuyAI extends EntityAIBase {
                     continue;
                 }
 
-                armyGuy.distance = armyGuy.getDistanceToEntity(entityplayer);
+                this.armyGuy.distance = this.armyGuy.getDistanceToEntity(entityplayer);
 
-                if (armyGuy.distance < 8F) {
+                if (this.armyGuy.distance < 8F) {
                     obj = null;
                 } else {
                     obj = entityplayer;

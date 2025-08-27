@@ -1,5 +1,6 @@
 package fr.elias.morecreeps.common.entity;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -30,14 +31,14 @@ public class CREEPSEntityEvilChicken extends EntityMob {
 
     public CREEPSEntityEvilChicken(World world) {
         super(world);
-        field_753_a = false;
-        field_752_b = 0.0F;
-        destPos = 0.0F;
-        field_755_h = 1.0F;
-        texture = "morecreeps:textures/entity/evilchicken.png";
-        timeUntilNextEgg = rand.nextInt(300) + 50;
-        isImmuneToFire = true;
-        modelsize = 1.5F;
+        this.field_753_a = false;
+        this.field_752_b = 0.0F;
+        this.destPos = 0.0F;
+        this.field_755_h = 1.0F;
+        this.texture = "morecreeps:textures/entity/evilchicken.png";
+        this.timeUntilNextEgg = this.rand.nextInt(300) + 50;
+        this.isImmuneToFire = true;
+        this.modelsize = 1.5F;
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.3D, false));
         this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
@@ -46,53 +47,59 @@ public class CREEPSEntityEvilChicken extends EntityMob {
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 1, true));
     }
 
+    @Override
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(25D);
+        .setBaseValue(25D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(0.2D);
+        .setBaseValue(0.2D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(1D);
+        .setBaseValue(1D);
     }
 
     /**
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
+    @Override
     public void onLivingUpdate() {
+        if (this.isDead || this.worldObj == null)
+            return;
+
+        this.field_756_e = this.field_752_b;
+        this.field_757_d = this.destPos;
+        this.destPos += (this.onGround ? -1 : 4) * 0.29999999999999999D;
+
+        if (this.destPos < 0.0F) {
+            this.destPos = 0.0F;
+        }
+
+        if (this.destPos > 1.0F) {
+            this.destPos = 1.0F;
+        }
+
+        if (!this.onGround && this.field_755_h < 1.0F) {
+            this.field_755_h = 1.0F;
+        }
+
+        this.field_755_h *= 0.90000000000000002D;
+
+        if (!this.onGround && this.motionY < 0.0D) {
+            this.motionY *= 0.59999999999999998D;
+        }
+
+        this.field_752_b += this.field_755_h * 2.0F;
+
+        if (!this.worldObj.isRemote && --this.timeUntilNextEgg <= 0) {
+            this.worldObj.playSoundAtEntity(this, "morecreeps:evileggbirth", 1.0F, 1.0F);
+            this.worldObj
+            .playSoundAtEntity(this, "mob.chickenplop", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+            this.dropItem(MoreCreepsAndWeirdos.evilegg, 1);
+            this.timeUntilNextEgg = this.rand.nextInt(600) + 200;
+        }
+
         super.onLivingUpdate();
-        field_756_e = field_752_b;
-        field_757_d = destPos;
-        destPos += (double) (onGround ? -1 : 4) * 0.29999999999999999D;
-
-        if (destPos < 0.0F) {
-            destPos = 0.0F;
-        }
-
-        if (destPos > 1.0F) {
-            destPos = 1.0F;
-        }
-
-        if (!onGround && field_755_h < 1.0F) {
-            field_755_h = 1.0F;
-        }
-
-        field_755_h *= 0.90000000000000002D;
-
-        if (!onGround && motionY < 0.0D) {
-            motionY *= 0.59999999999999998D;
-        }
-
-        field_752_b += field_755_h * 2.0F;
-
-        if (!worldObj.isRemote && --timeUntilNextEgg <= 0) {
-            worldObj.playSoundAtEntity(this, "morecreeps:evileggbirth", 1.0F, 1.0F);
-            worldObj
-                .playSoundAtEntity(this, "mob.chickenplop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-            dropItem(MoreCreepsAndWeirdos.evilegg, 1);
-            timeUntilNextEgg = rand.nextInt(600) + 200;
-        }
     }
 
     /**
@@ -121,32 +128,39 @@ public class CREEPSEntityEvilChicken extends EntityMob {
     /**
      * Called when the entity is attacked.
      */
+    @Override
     public boolean attackEntityFrom(DamageSource damagesource, float i) {
-        EntityLivingBase entity = (EntityLivingBase) damagesource.getEntity();
-        EntityPlayer player = (EntityPlayer) entity;
-        double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
-        double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
-        motionX = d * 4D;
-        motionZ = d1 * 4D;
+        Entity attacker = damagesource.getEntity();
+
+        if (attacker instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) attacker;
+            double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
+            double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
+            this.motionX = d * 4D;
+            this.motionZ = d1 * 4D;
+        }
 
         if (super.attackEntityFrom(DamageSource.causeMobDamage(this), i)) {
-            if (riddenByEntity == entity || ridingEntity == entity) {
-                return true;
-            }
+            if (attacker != null) {
+                if (this.riddenByEntity == attacker || this.ridingEntity == attacker)
+                    return true;
 
-            if (entity != this && worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
-                setRevengeTarget(entity);
+                if (attacker != this && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && attacker instanceof EntityLivingBase) {
+                    this.setRevengeTarget((EntityLivingBase) attacker);
+                }
             }
-
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
+
+
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
     }
@@ -154,6 +168,7 @@ public class CREEPSEntityEvilChicken extends EntityMob {
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
     }
@@ -161,6 +176,7 @@ public class CREEPSEntityEvilChicken extends EntityMob {
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
+    @Override
     public boolean getCanSpawnHere() {
         return true;
     }
@@ -173,6 +189,7 @@ public class CREEPSEntityEvilChicken extends EntityMob {
     /**
      * Returns the sound this mob makes while it's alive.
      */
+    @Override
     protected String getLivingSound() {
         return "mob.chicken.say";
     }
@@ -180,6 +197,7 @@ public class CREEPSEntityEvilChicken extends EntityMob {
     /**
      * Returns the sound this mob makes when it is hurt.
      */
+    @Override
     protected String getHurtSound() {
         return "mob.chicken.hurt";
     }
@@ -187,6 +205,7 @@ public class CREEPSEntityEvilChicken extends EntityMob {
     /**
      * Returns the sound this mob makes on death.
      */
+    @Override
     protected String getDeathSound() {
         return "mob.chicken.hurt";
     }
@@ -194,6 +213,7 @@ public class CREEPSEntityEvilChicken extends EntityMob {
     /**
      * Returns the item ID for the item the mob drops on death.
      */
+    @Override
     protected Item getDropItem() {
         return Items.feather;
     }
