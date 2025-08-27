@@ -242,7 +242,8 @@ public class CREEPSEntityArmyGuy extends EntityMob implements IRangedAttackMob, 
             this.defaultHeldItem = null;
             this.worldObj.playSoundAtEntity(this, "morecreeps:armyhead", 1.0F, 0.95F);
 
-            if (this.worldObj.isRemote) {
+            if (this.worldObj.isRemote)
+            {
                 MoreCreepsAndWeirdos.proxy.blood(this.worldObj, this.posX, this.posY, this.posZ, true);
             }
         }
@@ -285,19 +286,21 @@ public class CREEPSEntityArmyGuy extends EntityMob implements IRangedAttackMob, 
     }
 
     private void smoke() {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 10; j++) {
-                double d = this.rand.nextGaussian() * 0.02D;
-                double d1 = this.rand.nextGaussian() * 0.02D;
-                double d2 = this.rand.nextGaussian() * 0.02D;
-                this.worldObj.spawnParticle(
-                        "explode",
-                        (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-                        this.posY + this.rand.nextFloat() * this.height + i,
-                        (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-                        d,
-                        d1,
-                        d2);
+        if (this.worldObj.isRemote) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 10; j++) {
+                    double d = this.rand.nextGaussian() * 0.02D;
+                    double d1 = this.rand.nextGaussian() * 0.02D;
+                    double d2 = this.rand.nextGaussian() * 0.02D;
+                    this.worldObj.spawnParticle(
+                            "explode",
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            this.posY + this.rand.nextFloat() * this.height + i,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            d,
+                            d1,
+                            d2);
+                }
             }
         }
     }

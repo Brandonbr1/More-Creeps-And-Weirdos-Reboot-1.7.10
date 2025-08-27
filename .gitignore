@@ -10,6 +10,7 @@ minecraft/*
 eclipse/*
 .apt_generated/*
 .apt_generated_tests/*
+deps/*
 
 .project
 .classpath
