@@ -269,7 +269,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void shrinkBlast(World world, Entity entity, Random rand) {
-        if (world.isRemote && world != null && entity != null) {
+        if (world.isRemote && entity != null) {
             for (int i = 0; i < 8; i++) {
                 byte byte0 = 7;
 
@@ -290,7 +290,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void shrinkSmoke(World world, Entity entity) {
-        if (world.isRemote && world != null && entity != null) {
+        if (world.isRemote && entity != null) {
             for (int k = 0; k < 8; k++) {
                 CREEPSFxSmoke creepsfxsmoke = new CREEPSFxSmoke(
                         world,
@@ -307,7 +307,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void rocketGoBoom(World world, Entity entity, Random rand) {
-        if (world.isRemote && world != null && entity != null ) {
+        if (world.isRemote && entity != null ) {
             for (int i = 0; i < 20; i++) {
                 Item j = MoreCreepsAndWeirdos.partYellow;
 
@@ -324,7 +324,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void rocketSmoke(World world, Entity entity, Item item) {
-        if (world.isRemote && world != null && entity != null && item != null ) {
+        if (world.isRemote && entity != null && item != null ) {
             CREEPSFxSmoke creepsfxsmoke = new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 13, 3F);
             creepsfxsmoke.renderDistanceWeight = 15D;
             Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
@@ -339,7 +339,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void robotTedSmoke(World world, double posX, double posY, double posZ, int floattimer, float modelspeed) {
-        if (world.isRemote && world != null ) {
+        if (world.isRemote) {
             for (int i = 0; i < 15; i++) {
                 CREEPSFxSmoke creepsfxsmoke = new CREEPSFxSmoke(
                         world,
@@ -410,7 +410,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void confettiB(World world, CREEPSEntityTrophy trophy) {
-        if (world.isRemote && world != null && trophy != null) {
+        if (world.isRemote && trophy != null) {
             for (int i = 1; i < 10; i++) {
                 for (int j = 0; j < 10; j++) {
                     CREEPSFxConfetti creepsfxconfetti = new CREEPSFxConfetti(
@@ -441,7 +441,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void dirtDigBug(World world, CREEPSEntityDigBug dbug, Random random, int k2) {
-        if (world.isRemote && world != null && dbug != null) {
+        if (world.isRemote && dbug != null) {
             CREEPSFxDirt creepsfxdirt2 = new CREEPSFxDirt(
                     world,
                     dbug.posX,
@@ -454,7 +454,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void foam(World world, EntityPlayer player) {
-        if (world.isRemote && world != null && player != null) {
+        if (world.isRemote && player != null) {
             double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
             double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
             for (int i = 0; i < 25; i++) {
@@ -473,7 +473,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void foam2(World world, CREEPSEntityAtom atom) {
-        if (world.isRemote && world != null && atom != null) {
+        if (world.isRemote && atom != null) {
             for (int i1 = 0; i1 < atom.atomsize; i1++) {
                 CREEPSFxAtoms creepsfxatoms = new CREEPSFxAtoms(
                         world,
@@ -489,7 +489,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void foam3(World world, CREEPSEntityCaveman player, int i, int j, int k) {
-        if (world.isRemote && world != null && player != null) {
+        if (world.isRemote && player != null) {
             double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
             double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
             for (int i1 = 0; i1 < 25; i1++) {
@@ -661,6 +661,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     // Rocket Giraffe mouth-dirt burst (client only)
+    @Override
     public void giraffeEatDirt(World world, fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe giraffe) {
         if (world != null && world.isRemote && giraffe != null) {
             double d2 = -MathHelper.sin((giraffe.rotationYaw * (float) Math.PI) / 180F);
@@ -677,6 +678,6 @@ public class ClientProxy extends CommonProxy {
             }
         }
     }
-    
+
 
 }

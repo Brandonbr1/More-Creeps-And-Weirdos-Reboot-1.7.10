@@ -47,7 +47,7 @@ public class CREEPSEntityHotdog extends EntityMob {
     public String basetexture;
     public boolean used;
     public boolean grab;
-    public List piglist;
+    public List<?> piglist;
     public int pigstack;
     public int level;
     public float totaldamage;
@@ -160,7 +160,7 @@ public class CREEPSEntityHotdog extends EntityMob {
 
         if (this.tamed && this.wanderstate == 0) {
             this.firenum = 0;
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
 
             for (int i = 0; i < list.size(); i++) {
                 Entity entity = (Entity) list.get(i);
@@ -334,7 +334,7 @@ public class CREEPSEntityHotdog extends EntityMob {
         Object obj = null;
 
         if (this.tamed && this.wanderstate == 0) {
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().expand(16D, 16D, 16D));
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().expand(16D, 16D, 16D));
 
             for (int i = 0; i < list.size(); i++) {
                 Entity entity = (Entity) list.get(i);

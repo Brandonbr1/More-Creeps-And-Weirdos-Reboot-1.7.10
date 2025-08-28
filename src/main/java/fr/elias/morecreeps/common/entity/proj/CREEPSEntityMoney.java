@@ -154,7 +154,7 @@ public class CREEPSEntityMoney extends EntityThrowable {
 
         if (!this.onGround) {
             Object obj = null;
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
                     this,
                     this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ)
                     .expand(0.5D, 0.5D, 0.5D));

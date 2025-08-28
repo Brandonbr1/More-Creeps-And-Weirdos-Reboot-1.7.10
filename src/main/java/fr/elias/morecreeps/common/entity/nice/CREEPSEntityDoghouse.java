@@ -102,7 +102,7 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
 
         if (this.riddenByEntity == null) {
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
             int i = 0;
 
             do {
@@ -174,7 +174,7 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
     }
 
     public void loadHouse() {
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
+        List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
 
         for (int i = 0; i < list.size(); i++) {
             Entity entity = (Entity) list.get(i);
@@ -327,7 +327,7 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
     }
 
     public void confetti() {
-        List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(8D, 4D, 8D));
+        List<?> list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(8D, 4D, 8D));
         for (int i = 0; i < list.size(); i++) {
             Entity entity = (Entity) list.get(i);
             float f = this.getDistanceToEntity(entity);

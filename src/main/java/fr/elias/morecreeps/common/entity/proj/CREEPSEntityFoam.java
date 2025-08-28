@@ -227,7 +227,7 @@ public class CREEPSEntityFoam extends Entity implements IProjectile {
         }
 
         Entity entity = null;
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
+        List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
                 this,
                 this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ)
                 .expand(1.0D, 1.0D, 1.0D));

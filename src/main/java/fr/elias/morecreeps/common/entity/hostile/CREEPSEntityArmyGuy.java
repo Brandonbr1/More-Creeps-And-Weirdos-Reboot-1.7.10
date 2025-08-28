@@ -434,7 +434,7 @@ public class CREEPSEntityArmyGuy extends EntityMob implements IRangedAttackMob, 
 
         public CREEPSEntityArmyGuy armyGuy;
 
-        public AINearestAttackableTarget(final CREEPSEntityArmyGuy p_i45858_1_, Class p_i45858_2_, int p_i45858_3_,
+        public AINearestAttackableTarget(final CREEPSEntityArmyGuy p_i45858_1_, Class<?> p_i45858_2_, int p_i45858_3_,
                 boolean p_i45858_4_, boolean p_i45858_5_, final IEntitySelector mobselector) {
             super(p_i45858_1_, p_i45858_2_, p_i45858_3_, p_i45858_4_, p_i45858_5_, mobselector);
             this.armyGuy = p_i45858_1_;

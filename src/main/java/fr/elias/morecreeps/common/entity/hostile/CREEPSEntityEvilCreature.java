@@ -92,7 +92,7 @@ public class CREEPSEntityEvilCreature extends EntityMob {
                     1.0F * (this.modelsize / 3F),
                     (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F + (3F - this.modelsize) * 2.0F);
 
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(18D, 18D, 18D));
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(18D, 18D, 18D));
             for (int i = 0; i < list.size(); i++) {
                 Entity entity1 = (Entity) list.get(i);
 

@@ -191,7 +191,7 @@ public class CREEPSEntityRockMonster extends EntityMob {
             Entity entity = p_70097_1_.getEntity();
 
             if (entity instanceof EntityPlayer) {
-                List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(32.0D, 32.0D, 32.0D));
+                List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(32.0D, 32.0D, 32.0D));
 
                 for (int i = 0; i < list.size(); ++i) {
                     Entity entity1 = (Entity)list.get(i);

@@ -19,7 +19,7 @@ import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityCastleKing;
 
 public class CREEPSWorldGenCastle extends WorldGenerator {
 
-    public static Map stringToClassMapping = EntityList.stringToClassMapping;
+    public static Map<?, ?> stringToClassMapping = EntityList.stringToClassMapping;
     public static Random rand = new Random();
     public int floor;
     private int topFloor;
@@ -29,13 +29,14 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
 
     public CREEPSWorldGenCastle() {}
 
+    @Override
     public boolean generate(World world, Random random, int i, int j, int k) {
         boolean flag = false;
         int l = 0;
         int i1 = 0;
         int j1 = 0;
-        castleHeight = 5;
-        alternate = true;
+        this.castleHeight = 5;
+        this.alternate = true;
         boolean flag1 = false;
         char c = 300;
         int k1 = (i + random.nextInt(8)) - random.nextInt(8);
@@ -45,18 +46,16 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
         i1 = l1;
         j1 = i2;
         int j2 = 0;
-        chunky = false;
+        this.chunky = false;
 
         // TODO get the closest player (hope it will not overload the server...) -elias
         EntityPlayer player = world.getClosestPlayer(i, j, k, 64D); // get player far from 64 blocks
 
-        if (player == null) {
+        if (player == null)
             return false;
-        }
 
-        if (Math.abs((double) k1 - player.posX) < 10D || Math.abs((double) i2 - player.posZ) < 10D) {
+        if (Math.abs(k1 - player.posX) < 10D || Math.abs(i2 - player.posZ) < 10D)
             return false;
-        }
 
         int k2 = 0;
         int l2 = 0;
@@ -107,60 +106,58 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
         i1 = l1 = (i1 - l2) + 2;
 
         if (world.blockExists(k1 - 4, l1, i2 - 4) && world.blockExists(k1 + 30, l1, i2 - 4)
-            && world.blockExists(k1 + 30, l1, i2 + 30)
-            && world.blockExists(k1 - 4, l1, i2 + 30)) {
-            chunky = true;
+                && world.blockExists(k1 + 30, l1, i2 + 30)
+                && world.blockExists(k1 - 4, l1, i2 + 30)) {
+            this.chunky = true;
         }
 
-        if (!chunky) {
+        if (!this.chunky)
             return false;
-        }
 
         int j3 = 0;
         label0:
 
-        do {
-            if (j3 >= castleHeight * 7 + 7) {
-                break;
-            }
+            do {
+                if (j3 >= this.castleHeight * 7 + 7) {
+                    break;
+                }
 
-            for (int l3 = -12 + j3; l3 < 38; l3 += 2) {
-                for (int j4 = -12 + j3; j4 < 38; j4 += 2) {
-                    Block l4 = world.getBlock(i + l3, i1 + j3, k + j4);
-                    // TODO check if "2" blocks is a good idea
-                    if (l4 != Blocks.air && l4 != Blocks.leaves
-                        && l4 != Blocks.leaves2
-                        && l4 != Blocks.log
-                        && l4 != Blocks.log2) {
-                        j2++;
-                    }
+                for (int l3 = -12 + j3; l3 < 38; l3 += 2) {
+                    for (int j4 = -12 + j3; j4 < 38; j4 += 2) {
+                        Block l4 = world.getBlock(i + l3, i1 + j3, k + j4);
+                        // TODO check if "2" blocks is a good idea
+                        if (l4 != Blocks.air && l4 != Blocks.leaves
+                                && l4 != Blocks.leaves2
+                                && l4 != Blocks.log
+                                && l4 != Blocks.log2) {
+                            j2++;
+                        }
 
-                    if (j2 > c) {
-                        break label0;
+                        if (j2 > c) {
+                            break label0;
+                        }
                     }
                 }
-            }
 
-            j3 += 2;
-        } while (true);
+                j3 += 2;
+            } while (true);
 
         if (j2 > c) {
             flag2 = true;
         }
 
-        if (flag2) {
+        if (flag2)
             return false;
-        }
 
         j3 = 0;
         boolean flag3 = false;
         boolean flag4 = false;
         int i5 = i1 - 6;
         int j5 = random.nextInt(3);
-        floor = 1;
-        topFloor = 0;
+        this.floor = 1;
+        this.topFloor = 0;
 
-        for (int k5 = -1; k5 < castleHeight * 7 + 7; k5++) {
+        for (int k5 = -1; k5 < this.castleHeight * 7 + 7; k5++) {
             for (int k6 = -12; k6 < 38; k6++) {
                 for (int i8 = -12; i8 < 38; i8++) {
                     world.setBlockToAir(l + k6, i1 + k5, j1 + i8);
@@ -186,97 +183,97 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
 
         label1:
 
-        for (int j6 = -7; j6 < castleHeight * 7 - 7; j6 += 7) {
-            for (int j7 = -4; j7 < 30; j7++) {
-                for (int k8 = -4; k8 < 30; k8++) {
-                    if ((world.getBlock(l + j7, i1 + 6 + j6, j1 + k8)) == Blocks.air
-                        || world.getBlock(l + j7, i1 + 6 + j6, j1 + k8) == Blocks.water && rand.nextInt(50) != 0) {
-                        world.setBlock(l + j7, i1 + 6 + j6, j1 + k8, Blocks.double_stone_slab);
-                    }
+            for (int j6 = -7; j6 < this.castleHeight * 7 - 7; j6 += 7) {
+                for (int j7 = -4; j7 < 30; j7++) {
+                    for (int k8 = -4; k8 < 30; k8++) {
+                        if ((world.getBlock(l + j7, i1 + 6 + j6, j1 + k8)) == Blocks.air
+                                || world.getBlock(l + j7, i1 + 6 + j6, j1 + k8) == Blocks.water && rand.nextInt(50) != 0) {
+                            world.setBlock(l + j7, i1 + 6 + j6, j1 + k8, Blocks.double_stone_slab);
+                        }
 
-                    if (world.getBlock(l + j7, i1 + 7 + j6, j1 + k8) != Blocks.air || random.nextInt(25) != 0
-                        || j6 >= (castleHeight - 1) * 7 - 7) {
-                        continue;
-                    }
+                        if (world.getBlock(l + j7, i1 + 7 + j6, j1 + k8) != Blocks.air || random.nextInt(25) != 0
+                                || j6 >= (this.castleHeight - 1) * 7 - 7) {
+                            continue;
+                        }
 
-                    world.setBlock(l + j7, i1 + 7 + j6, j1 + k8, Blocks.web);
+                        world.setBlock(l + j7, i1 + 7 + j6, j1 + k8, Blocks.web);
 
-                    if (rand.nextInt(10) == 0) {
-                        world.setBlock(l + j7, i1 + 8 + j6, j1 + k8, Blocks.web);
+                        if (rand.nextInt(10) == 0) {
+                            world.setBlock(l + j7, i1 + 8 + j6, j1 + k8, Blocks.web);
+                        }
                     }
                 }
-            }
 
-            int k7 = 0;
-
-            do {
-                if (k7 >= 2) {
-                    break;
-                }
-
-                int l8 = rand.nextInt(20) - 10;
-                int l12 = rand.nextInt(20) - 10;
-
-                if (world.getBlock(l + 10 + l8, i1 + 7 + j6, j1 + 5 + l12) == Blocks.air) {
-                    world.setBlock(l + 10 + l8, i1 + 7 + j6, j1 + 5 + l12, Blocks.mob_spawner);
-                    TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner) world
-                        .getTileEntity(l + 10 + l8, i1 + 7 + j6, j1 + 5 + l12);
-                    tileentitymobspawner.func_145881_a()
-                        .setEntityName(populateSpawner(random));
-                    k7++;
-                }
-            } while (true);
-
-            if (j6 != (castleHeight - 1) * 7 - 7) {
-                continue;
-            }
-
-            k7 = 0;
-
-            do {
-                int i9;
-                int i13;
+                int k7 = 0;
 
                 do {
                     if (k7 >= 2) {
-                        continue label1;
+                        break;
                     }
 
-                    i9 = rand.nextInt(20) - 10;
-                    i13 = rand.nextInt(20) - 10;
-                } while (world.getBlock(l + 10 + i9, i1 + 7 + j6, j1 + 5 + i13) != Blocks.air);
+                    int l8 = rand.nextInt(20) - 10;
+                    int l12 = rand.nextInt(20) - 10;
 
-                world.setBlock(l + 10 + i9, i1 + 7 + j6, j1 + 5 + i13, Blocks.mob_spawner);
-                TileEntityMobSpawner tileentitymobspawner1 = (TileEntityMobSpawner) world
-                    .getTileEntity(l + 10 + i9, i1 + 7 + j6, j1 + 5 + i13);
-                tileentitymobspawner1.func_145881_a()
+                    if (world.getBlock(l + 10 + l8, i1 + 7 + j6, j1 + 5 + l12) == Blocks.air) {
+                        world.setBlock(l + 10 + l8, i1 + 7 + j6, j1 + 5 + l12, Blocks.mob_spawner);
+                        TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner) world
+                                .getTileEntity(l + 10 + l8, i1 + 7 + j6, j1 + 5 + l12);
+                        tileentitymobspawner.func_145881_a()
+                        .setEntityName(this.populateSpawner(random));
+                        k7++;
+                    }
+                } while (true);
+
+                if (j6 != (this.castleHeight - 1) * 7 - 7) {
+                    continue;
+                }
+
+                k7 = 0;
+
+                do {
+                    int i9;
+                    int i13;
+
+                    do {
+                        if (k7 >= 2) {
+                            continue label1;
+                        }
+
+                        i9 = rand.nextInt(20) - 10;
+                        i13 = rand.nextInt(20) - 10;
+                    } while (world.getBlock(l + 10 + i9, i1 + 7 + j6, j1 + 5 + i13) != Blocks.air);
+
+                    world.setBlock(l + 10 + i9, i1 + 7 + j6, j1 + 5 + i13, Blocks.mob_spawner);
+                    TileEntityMobSpawner tileentitymobspawner1 = (TileEntityMobSpawner) world
+                            .getTileEntity(l + 10 + i9, i1 + 7 + j6, j1 + 5 + i13);
+                    tileentitymobspawner1.func_145881_a()
                     .setEntityName("CastleGuard");
-                k7++;
-            } while (true);
-        }
+                    k7++;
+                } while (true);
+            }
 
         ItemStack itemstack = new ItemStack(MoreCreepsAndWeirdos.earthgem, 1);
-        int l7 = random.nextInt(castleHeight) + 1;
-        buildTower(world, random, k1, l1, i2, l, i1, j1, true, itemstack, l7);
+        int l7 = random.nextInt(this.castleHeight) + 1;
+        this.buildTower(world, random, k1, l1, i2, l, i1, j1, true, itemstack, l7);
 
         for (int j9 = 5; j9 < 20; j9++) {
             for (int j13 = 0; j13 < 10; j13++) {
-                for (int i16 = -2; i16 < castleHeight * 7 - 6; i16++) {
+                for (int i16 = -2; i16 < this.castleHeight * 7 - 6; i16++) {
                     world.setBlock(l + j9, i1 + i16, j1 - 5, Blocks.cobblestone);
                 }
             }
         }
 
         for (int k9 = 4; k9 < 21; k9++) {
-            if (alternate) {
+            if (this.alternate) {
                 world.setBlock(l + k9, i1 + 29, j1 - 5, Blocks.cobblestone);
             }
 
-            alternate = !alternate;
+            this.alternate = !this.alternate;
             world.setBlock(l + k9, i1 + 20, j1 - 6, Blocks.cobblestone);
             world.setBlock(l + k9, i1 + 16, j1 - 6, Blocks.cobblestone);
 
-            if (alternate) {
+            if (this.alternate) {
                 world.setBlock(l + k9, i1 + 10, j1 - 6, Blocks.cobblestone);
             }
 
@@ -284,27 +281,27 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
         }
 
         itemstack = new ItemStack(MoreCreepsAndWeirdos.mininggem, 1);
-        l7 = random.nextInt(castleHeight) + 1;
-        buildTower(world, random, k1, l1, i2, l + 25, i1, j1, false, itemstack, l7);
+        l7 = random.nextInt(this.castleHeight) + 1;
+        this.buildTower(world, random, k1, l1, i2, l + 25, i1, j1, false, itemstack, l7);
 
         for (int l9 = 5; l9 < 20; l9++) {
             for (int k13 = 0; k13 < 10; k13++) {
-                for (int j16 = -2; j16 < castleHeight * 7 - 6; j16++) {
+                for (int j16 = -2; j16 < this.castleHeight * 7 - 6; j16++) {
                     world.setBlock(l + l9, i1 + j16, j1 + 29, Blocks.cobblestone);
                 }
             }
         }
 
         for (int i10 = 4; i10 < 21; i10++) {
-            if (alternate) {
+            if (this.alternate) {
                 world.setBlock(l + i10, i1 + 29, j1 + 29, Blocks.cobblestone);
             }
 
-            alternate = !alternate;
+            this.alternate = !this.alternate;
             world.setBlock(l + i10, i1 + 20, j1 + 30, Blocks.cobblestone);
             world.setBlock(l + i10, i1 + 16, j1 + 30, Blocks.cobblestone);
 
-            if (alternate) {
+            if (this.alternate) {
                 world.setBlock(l + i10, i1 + 10, j1 + 30, Blocks.cobblestone);
             }
 
@@ -312,27 +309,27 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
         }
 
         itemstack = new ItemStack(MoreCreepsAndWeirdos.skygem, 1);
-        l7 = random.nextInt(castleHeight) + 1;
-        buildTower(world, random, k1, l1, i2, l + 25, i1, j1 + 25, false, itemstack, l7);
+        l7 = random.nextInt(this.castleHeight) + 1;
+        this.buildTower(world, random, k1, l1, i2, l + 25, i1, j1 + 25, false, itemstack, l7);
 
         for (int j10 = 5; j10 < 20; j10++) {
             for (int l13 = 0; l13 < 10; l13++) {
-                for (int k16 = -2; k16 < castleHeight * 7 - 6; k16++) {
+                for (int k16 = -2; k16 < this.castleHeight * 7 - 6; k16++) {
                     world.setBlock(l - 5, i1 + k16, j1 + j10, Blocks.cobblestone);
                 }
             }
         }
 
         for (int k10 = 4; k10 < 21; k10++) {
-            if (alternate) {
+            if (this.alternate) {
                 world.setBlock(l - 5, i1 + 29, j1 + k10, Blocks.cobblestone);
             }
 
-            alternate = !alternate;
+            this.alternate = !this.alternate;
             world.setBlock(l - 6, i1 + 20, j1 + k10, Blocks.cobblestone);
             world.setBlock(l - 6, i1 + 16, j1 + k10, Blocks.cobblestone);
 
-            if (alternate) {
+            if (this.alternate) {
                 world.setBlock(l - 6, i1 + 10, j1 + k10, Blocks.cobblestone);
             }
 
@@ -340,34 +337,34 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
         }
 
         itemstack = new ItemStack(MoreCreepsAndWeirdos.healinggem, 1);
-        l7 = random.nextInt(castleHeight) + 1;
-        buildTower(world, random, k1, l1, i2, l, i1, j1 + 25, true, itemstack, l7);
+        l7 = random.nextInt(this.castleHeight) + 1;
+        this.buildTower(world, random, k1, l1, i2, l, i1, j1 + 25, true, itemstack, l7);
 
         for (int l10 = 5; l10 < 20; l10++) {
             for (int i14 = 0; i14 < 10; i14++) {
-                for (int l16 = -2; l16 < castleHeight * 7 - 6; l16++) {
+                for (int l16 = -2; l16 < this.castleHeight * 7 - 6; l16++) {
                     world.setBlock(l + 29, i1 + l16, j1 + l10, Blocks.cobblestone);
                 }
             }
         }
 
         for (int i11 = 4; i11 < 21; i11++) {
-            if (alternate) {
+            if (this.alternate) {
                 world.setBlock(l + 29, i1 + 29, j1 + i11, Blocks.cobblestone);
             }
 
-            alternate = !alternate;
+            this.alternate = !this.alternate;
             world.setBlock(l + 30, i1 + 20, j1 + i11, Blocks.cobblestone);
             world.setBlock(l + 30, i1 + 16, j1 + i11, Blocks.cobblestone);
 
-            if (alternate) {
+            if (this.alternate) {
                 world.setBlock(l + 30, i1 + 10, j1 + i11, Blocks.cobblestone);
             }
 
             world.setBlock(l + 30, i1 + 9, j1 + i11, Blocks.cobblestone);
         }
 
-        for (int j11 = 0; j11 < (castleHeight - 1) * 7 - 6; j11 += 7) {
+        for (int j11 = 0; j11 < (this.castleHeight - 1) * 7 - 6; j11 += 7) {
             for (int j14 = 6; j14 < 20; j14 += 3) {
                 world.setBlock(l + j14, i1 + 4 + j11, j1 - 4, Blocks.torch);
                 world.setBlock(l + j14, i1 + 4 + j11, j1 + 28, Blocks.torch);
@@ -400,7 +397,7 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
         world.setBlock(l + 9, i1 + 5, j1 - 6, Blocks.torch);
         world.setBlock(l + 16, i1 + 5, j1 - 6, Blocks.torch);
 
-        for (int i12 = 0; i12 < castleHeight * 7; i12 += 7) {
+        for (int i12 = 0; i12 < this.castleHeight * 7; i12 += 7) {
             for (int i15 = 0; i15 < 2; i15++) {
                 world.setBlock(l + 17, i1 + i12, j1 + -1 + i15, Blocks.stone_stairs);
                 world.setBlock(l + 5, i1 + i12, j1 + -1 + i15, Blocks.stone_stairs);
@@ -429,7 +426,7 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
             }
         }
 
-        for (int j12 = 0; j12 < castleHeight * 7; j12 += 7) {
+        for (int j12 = 0; j12 < this.castleHeight * 7; j12 += 7) {
             for (int j15 = 0; j15 < 7; j15++) {
                 for (int j17 = 0; j17 < 9; j17++) {
                     world.setBlock(l + 9 + j15, i1 + j12, (j1 + 16) - j17, Blocks.stone_slab);
@@ -437,7 +434,7 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
             }
         }
 
-        for (int k12 = 0; k12 < castleHeight * 7; k12 += 7) {
+        for (int k12 = 0; k12 < this.castleHeight * 7; k12 += 7) {
             for (int k15 = 0; k15 < 9; k15 += 3) {
                 world.setBlock(l + 9 + k15, i1 + k12, j1 + 16, Blocks.double_stone_slab);
                 world.setBlock(l + 9 + k15, i1 + k12 + 1, j1 + 16, Blocks.double_stone_slab);
@@ -448,29 +445,29 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
             }
         }
 
-        l7 = random.nextInt(castleHeight) + 1;
+        l7 = random.nextInt(this.castleHeight) + 1;
         itemstack = new ItemStack(MoreCreepsAndWeirdos.firegem, 1);
         boolean flag5 = false;
 
-        for (int l15 = 0; l15 < castleHeight * 7; l15 += 7) {
+        for (int l15 = 0; l15 < this.castleHeight * 7; l15 += 7) {
             world.setBlock(l + 9 + 3, i1 + l15, (j1 + 16) - 3, Blocks.double_stone_slab);
             world.setBlock(l + 9 + 3, i1 + l15, (j1 + 16) - 4, Blocks.double_stone_slab);
             world.setBlock(l + 9 + 3, i1 + l15 + 1, (j1 + 16) - 4, Blocks.chest);
             world.setBlock(l + 9 + 3, i1 + l15 + 1, (j1 + 16) - 3, Blocks.chest);
             TileEntityChest tileentitychest = (TileEntityChest) world
-                .getTileEntity(l + 9 + 3, i1 + l15 + 1, (j1 + 16) - 3);
+                    .getTileEntity(l + 9 + 3, i1 + l15 + 1, (j1 + 16) - 3);
 
             for (int k17 = 0; k17 < random.nextInt(20); k17++) {
-                ItemStack itemstack1 = populateChest(floor, random);
+                ItemStack itemstack1 = this.populateChest(this.floor, random);
 
                 if (itemstack1 != null) {
                     tileentitychest
-                        .setInventorySlotContents(random.nextInt(tileentitychest.getSizeInventory()), itemstack1);
+                    .setInventorySlotContents(random.nextInt(tileentitychest.getSizeInventory()), itemstack1);
                 }
 
                 if (!flag5 && l7 == l15 / 7) {
                     tileentitychest
-                        .setInventorySlotContents(random.nextInt(tileentitychest.getSizeInventory()), itemstack);
+                    .setInventorySlotContents(random.nextInt(tileentitychest.getSizeInventory()), itemstack);
                     flag5 = true;
                 }
             }
@@ -478,28 +475,28 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
 
         CREEPSEntityCastleKing creepsentitycastleking = new CREEPSEntityCastleKing(world);
         creepsentitycastleking
-            .setLocationAndAngles(l + 9 + 6, i1 + castleHeight * 7, (j1 + 16) - 4, world.rand.nextFloat() * 360F, 0.0F);
-        creepsentitycastleking.setPosition(l + 9 + 6, i1 + castleHeight * 7, (j1 + 16) - 4);
+        .setLocationAndAngles(l + 9 + 6, i1 + this.castleHeight * 7, (j1 + 16) - 4, world.rand.nextFloat() * 360F, 0.0F);
+        creepsentitycastleking.setPosition(l + 9 + 6, i1 + this.castleHeight * 7, (j1 + 16) - 4);
         world.spawnEntityInWorld(creepsentitycastleking);
         return true;
     }
 
     public void buildTower(World world, Random random, int i, int j, int k, int l, int i1, int j1, boolean flag,
-        ItemStack itemstack, int k1) {
+            ItemStack itemstack, int k1) {
         boolean flag1 = false;
         boolean flag2 = false;
         boolean flag3 = false;
         int l1 = i1 - 13;
         int i2 = random.nextInt(3);
         boolean flag4 = false;
-        floor = 1;
-        topFloor = 0;
+        this.floor = 1;
+        this.topFloor = 0;
 
-        for (int j2 = 0; j2 < castleHeight + 1; j2++) {
+        for (int j2 = 0; j2 < this.castleHeight + 1; j2++) {
             l1 += 7;
 
-            if (j2 == castleHeight) {
-                topFloor = 1;
+            if (j2 == this.castleHeight) {
+                this.topFloor = 1;
             }
 
             for (int k2 = 0; k2 < 7; k2++) {
@@ -535,7 +532,7 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
                                         world.setBlock(k4 - 7, i5, j5, Blocks.double_stone_slab);
                                     }
 
-                                    if (k2 == 6 && topFloor == 1) {
+                                    if (k2 == 6 && this.topFloor == 1) {
                                         world.setBlock(k4, i5, j5, Blocks.cobblestone);
                                     }
 
@@ -666,56 +663,56 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
                 }
             }
 
-            if (floor == 2) {
+            if (this.floor == 2) {
                 world.setBlock(l + 3, l1, j1 - 5, Blocks.cobblestone);
                 world.setBlock(l + 3, l1 - 1, j1 - 5, Blocks.cobblestone);
             }
 
-            if (topFloor == 1) {
+            if (this.topFloor == 1) {
                 double d = l;
                 double d1 = l1 + 6;
-                double d2 = (double) j1 + 0.5D;
+                double d2 = j1 + 0.5D;
             } else {
                 if (rand.nextInt(5) == 0) {
                     world.setBlock(l + 2, l1 + 6, j1 + 2, Blocks.mob_spawner);
                     TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner) world
-                        .getTileEntity(l + 2, l1 + 6, j1 + 2);
+                            .getTileEntity(l + 2, l1 + 6, j1 + 2);
                     tileentitymobspawner.func_145881_a()
-                        .setEntityName(populateSpawner(random));
+                    .setEntityName(this.populateSpawner(random));
                 }
 
                 world.setBlock(l - 3, l1 + 6, j1 + 2, Blocks.mob_spawner);
                 TileEntityMobSpawner tileentitymobspawner1 = (TileEntityMobSpawner) world
-                    .getTileEntity(l - 3, l1 + 6, j1 + 2);
+                        .getTileEntity(l - 3, l1 + 6, j1 + 2);
                 tileentitymobspawner1.func_145881_a()
-                    .setEntityName(populateSpawner(random));
+                .setEntityName(this.populateSpawner(random));
             }
 
-            if (topFloor != 1) {
+            if (this.topFloor != 1) {
                 world.setBlock(l, l1 + 6, j1 - 3, Blocks.double_stone_slab);
                 world.setBlock(l - 1, l1 + 6, j1 - 3, Blocks.double_stone_slab);
             }
 
-            if (l1 + 56 >= 120 && floor == 1) {
-                floor = 2;
+            if (l1 + 56 >= 120 && this.floor == 1) {
+                this.floor = 2;
             }
 
-            if (topFloor != 1) {
+            if (this.topFloor != 1) {
                 for (int l2 = 0; l2 < 2; l2++) {
                     world.setBlock(l - l2, l1 + 7, j1 - 3, Blocks.chest);
                     TileEntityChest tileentitychest = (TileEntityChest) world.getTileEntity(l - l2, l1 + 7, j1 - 3);
 
                     for (int i4 = 0; i4 < 1 + l2 + i2; i4++) {
-                        ItemStack itemstack1 = populateChest(floor, random);
+                        ItemStack itemstack1 = this.populateChest(this.floor, random);
 
                         if (itemstack1 != null) {
                             tileentitychest.setInventorySlotContents(
-                                random.nextInt(tileentitychest.getSizeInventory()),
-                                itemstack1);
+                                    random.nextInt(tileentitychest.getSizeInventory()),
+                                    itemstack1);
                         }
                     }
 
-                    if (k1 == floor && !flag4) {
+                    if (k1 == this.floor && !flag4) {
                         tileentitychest.setInventorySlotContents(0, itemstack);
                         flag4 = true;
                     }
@@ -727,7 +724,7 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
             world.setBlock(l + 1, l1, j1 - 4, Blocks.torch);
             world.setBlock(l - 2, l1, j1 - 4, Blocks.torch);
 
-            for (int i3 = 0; i3 < (floor * 4 + i2) - 8 && topFloor != 1; i3++) {
+            for (int i3 = 0; i3 < (this.floor * 4 + i2) - 8 && this.topFloor != 1; i3++) {
                 int k3 = 5 - random.nextInt(12);
                 int j4 = l1 + 5;
                 int l4 = 5 - random.nextInt(10);
@@ -740,12 +737,12 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
                 l4 += j1;
 
                 if (world.getBlock(k3, j4, l4) == Blocks.double_stone_slab
-                    && world.getBlock(k3, j4 + 1, l4) != Blocks.mob_spawner) {
+                        && world.getBlock(k3, j4 + 1, l4) != Blocks.mob_spawner) {
                     world.setBlockToAir(k3, j4, l4);
                 }
             }
 
-            floor++;
+            this.floor++;
         }
     }
 
@@ -889,86 +886,72 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
     }
 
     private String populateSpawner(Random random) {
-        int i = floor;
+        int i = this.floor;
         int j = rand.nextInt(10);
 
-        if (topFloor == 1) {
+        if (this.topFloor == 1)
             return "CastleGuard";
-        }
 
         if (i == 0) {
-            if (mobExists("PrefixSkeleton") && j > 5) {
+            if (mobExists("PrefixSkeleton") && j > 5)
                 return "PrefixSkeleton";
-            }
 
-            if (j < 5) {
+            if (j < 5)
                 return "CastleCritter";
-            } else {
+            else
                 return "Skeleton";
-            }
         }
 
         if (i == 1) {
-            if (mobExists("PrefixSkeleton") && j > 5) {
+            if (mobExists("PrefixSkeleton") && j > 5)
                 return "PrefixSkeleton";
-            }
 
-            if (j < 5) {
+            if (j < 5)
                 return "CastleCritter";
-            } else {
+            else
                 return "CastleGuard";
-            }
         }
 
         if (i == 2) {
-            if (mobExists("Mummy") && j > 5) {
+            if (mobExists("Mummy") && j > 5)
                 return "Mummy";
-            }
 
-            if (j < 5) {
+            if (j < 5)
                 return "CastleCritter";
-            } else {
+            else
                 return "CastleGuard";
-            }
         }
 
         if (i == 3) {
-            if (mobExists("PrefixSkeleton") && j > 5) {
+            if (mobExists("PrefixSkeleton") && j > 5)
                 return "PrefixSkeleton";
-            }
 
-            if (j < 5) {
+            if (j < 5)
                 return "CastleCritter";
-            } else {
+            else
                 return "Skeleton";
-            }
         }
 
         if (i == 4) {
-            if (mobExists("PrefixSkeleton") && j > 5) {
+            if (mobExists("PrefixSkeleton") && j > 5)
                 return "PrefixSkeleton";
-            }
 
-            if (j < 5) {
+            if (j < 5)
                 return "Spider";
-            } else {
+            else
                 return "Skeleton";
-            }
         }
 
         if (i == 5) {
-            if (mobExists("PrefixSkeleton") && j > 5) {
+            if (mobExists("PrefixSkeleton") && j > 5)
                 return "PrefixSkeleton";
-            }
 
-            if (j < 5) {
+            if (j < 5)
                 return "CastleCritter";
-            } else {
+            else
                 return "CastleGuard";
-            }
-        } else {
+        } else
             return "CastleGuard";
-        }
     }
 
 }

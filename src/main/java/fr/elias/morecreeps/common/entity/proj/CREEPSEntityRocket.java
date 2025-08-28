@@ -247,7 +247,7 @@ public class CREEPSEntityRocket extends Entity {
         }
 
         Entity entity = null;
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
+        List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
                 this,
                 this.getBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ)
                 .expand(1.0D, 1.0D, 1.0D));
@@ -409,7 +409,7 @@ public class CREEPSEntityRocket extends Entity {
 
     public void checkSplashDamage() {
         EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 50D);
-        List list = null;
+        List<?> list = null;
         list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().expand(5D, 5D, 5D));
 
         for (int i = 0; i < list.size(); i++) {

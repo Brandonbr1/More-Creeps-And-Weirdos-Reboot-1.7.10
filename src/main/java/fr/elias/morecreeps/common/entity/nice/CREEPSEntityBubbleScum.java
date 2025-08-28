@@ -29,7 +29,7 @@ public class CREEPSEntityBubbleScum extends EntityCreature {
     public int armor;
     public boolean used;
     public boolean grab;
-    public List piglist;
+    public List<?> piglist;
     public int pigstack;
     public int level;
     public float totaldamage;

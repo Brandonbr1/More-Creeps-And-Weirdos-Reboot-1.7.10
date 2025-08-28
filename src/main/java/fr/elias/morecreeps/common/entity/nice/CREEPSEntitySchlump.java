@@ -144,7 +144,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
 
     public boolean checkHouse() {
         boolean flag = false;
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
+        List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
         int i = 0;
 
         do {
@@ -371,7 +371,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     public boolean checkItems() {
         int i = 0;
         Object obj = null;
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(6D, 6D, 6D));
+        List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(6D, 6D, 6D));
 
         for (int j = 0; j < list.size(); j++) {
             Entity entity = (Entity) list.get(j);

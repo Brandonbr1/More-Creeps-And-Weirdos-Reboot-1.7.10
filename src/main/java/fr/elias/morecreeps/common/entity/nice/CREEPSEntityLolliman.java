@@ -82,7 +82,7 @@ public class CREEPSEntityLolliman extends EntityAnimal {
             // List list = null;
             AxisAlignedBB bb = this.boundingBox;
             if (bb == null) return;
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, bb.expand(2D, 2D, 2D));
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, bb.expand(2D, 2D, 2D));
 
 
             for (int k = 0; k < list.size(); k++) {

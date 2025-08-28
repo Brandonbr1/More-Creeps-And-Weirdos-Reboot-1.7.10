@@ -212,7 +212,7 @@ public class CREEPSEntityInvisibleMan extends EntityMob {
 
     public boolean canAttackEntity22(Entity entity, float i) {
         if (entity instanceof EntityPlayer) {
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(25D, 25D, 25D));
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(25D, 25D, 25D));
 
             for (int j = 0; j < list.size(); j++) {
                 Entity entity1 = (Entity) list.get(j);

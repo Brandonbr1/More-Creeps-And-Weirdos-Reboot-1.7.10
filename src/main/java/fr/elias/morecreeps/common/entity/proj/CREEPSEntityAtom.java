@@ -154,7 +154,7 @@ public class CREEPSEntityAtom extends EntityFlying {
         if (bb == null)
             return;
 
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
+        List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
                 this,
                 bb.expand(this.atomsize * 2.0F, this.atomsize * 2.0F, this.atomsize * 2.0F)
                 );

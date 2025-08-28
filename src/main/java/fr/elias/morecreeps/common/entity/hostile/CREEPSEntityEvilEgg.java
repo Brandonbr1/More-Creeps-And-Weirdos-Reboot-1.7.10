@@ -185,7 +185,7 @@ public class CREEPSEntityEvilEgg extends Entity  {
             this.setDead();
         }
 
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+        List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
 
         /**
         List list = worldObj.getEntitiesWithinAABBExcludingEntity(

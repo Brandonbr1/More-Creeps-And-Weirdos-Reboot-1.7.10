@@ -16,20 +16,21 @@ public class CREEPSItemBabyJarEmpty extends Item {
 
     public CREEPSItemBabyJarEmpty() {
         super();
-        healAmount = 10;
-        maxStackSize = 1;
-        messagegiven = false;
+        this.healAmount = 10;
+        this.maxStackSize = 1;
+        this.messagegiven = false;
     }
 
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
+    @Override
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
-        if (!messagegiven) {
+        if (!this.messagegiven) {
             boolean flag = false;
-            List list = world.getEntitiesWithinAABBExcludingEntity(
-                entityplayer,
-                entityplayer.getBoundingBox()
+            List<?> list = world.getEntitiesWithinAABBExcludingEntity(
+                    entityplayer,
+                    entityplayer.boundingBox
                     .expand(8D, 8D, 8D));
 
             for (int i = 0; i < list.size(); i++) {
@@ -42,7 +43,7 @@ public class CREEPSItemBabyJarEmpty extends Item {
 
             if (!flag) {
                 world.playSoundAtEntity(entityplayer, "morecreeps:babyjarempty", 1.0F, 1.0F);
-                messagegiven = true;
+                this.messagegiven = true;
             }
         }
 

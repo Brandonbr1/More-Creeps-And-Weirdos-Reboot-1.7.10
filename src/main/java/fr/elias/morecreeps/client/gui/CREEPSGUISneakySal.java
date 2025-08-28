@@ -24,7 +24,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL13;
 
-import cpw.mods.fml.common.FMLLog;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRatMan;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntitySneakySal;
@@ -41,7 +40,7 @@ public class CREEPSGUISneakySal extends GuiScreen {
     public static Random rand = new Random();
     protected int xSize;
     protected int ySize;
-    private RenderItem itemRender;
+    // private RenderItem itemRender;
 
     public CREEPSGUISneakySal(CREEPSEntitySneakySal creepsentitysneakysal) {
         this.sneakysal = creepsentitysneakysal;
@@ -53,17 +52,16 @@ public class CREEPSGUISneakySal extends GuiScreen {
      * Adds the buttons (and other controls) to the screen in question.
      */
     @Override
-    public void initGui() {
+    public void initGui()
+    {
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
         byte byte0 = -18;
         EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
         World world = Minecraft.getMinecraft().theWorld;
         world.playSoundAtEntity(entityplayersp, "morecreeps:salgreeting", 1.0F, 1.0F);
-        
+
         this.saleprice = this.sneakysal.saleprice;
-        FMLLog.getLogger().warn("Needs a packet!");
-        
         assert this.sneakysal != null;
         this.buttonList.add(
                 new GuiButton(
@@ -459,7 +457,7 @@ public class CREEPSGUISneakySal extends GuiScreen {
 
         for (int j1 = 0; j1 < 5; j1++) {
             this.zLevel = 200F;
-            this.itemRender.zLevel = 200F;
+            super.itemRender.zLevel = 200F;
             RenderHelper.enableGUIStandardItemLighting();
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);

@@ -32,225 +32,222 @@ public class CREEPSEntityHorseHead extends EntityAnimal {
 
     public CREEPSEntityHorseHead(World world) {
         super(world);
-        texture = "morecreeps:textures/entity/horsehead.png";
-        setSize(0.6F, 2.0F);
-        floatdir = 1;
-        floatcycle = 0.0D;
-        floatmaxcycle = 0.10499999672174454D;
-        blastoff = rand.nextInt(500) + 400;
+        this.texture = "morecreeps:textures/entity/horsehead.png";
+        this.setSize(0.6F, 2.0F);
+        this.floatdir = 1;
+        this.floatcycle = 0.0D;
+        this.floatmaxcycle = 0.10499999672174454D;
+        this.blastoff = this.rand.nextInt(500) + 400;
         this.getNavigator()
-            .setBreakDoors(true);
+        .setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIMoveTowardsRestriction(this, 0.5D));
         this.tasks.addTask(2, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(3, new EntityAILookIdle(this));
     }
 
+    @Override
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(25D);
+        .setBaseValue(25D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(0.0D);
+        .setBaseValue(0.0D);
     }
 
     /**
      * Called to update the entity's position/logic.
      */
+    @Override
     public void onUpdate() {
-        if (worldObj.isRemote) {
+        if (this.worldObj.isRemote) {
             for (int i = 0; i < 5; i++) {
-                MoreCreepsAndWeirdos.proxy.smokeHorseHead(worldObj, this, rand);
+                MoreCreepsAndWeirdos.proxy.smokeHorseHead(this.worldObj, this, this.rand);
             }
         }
 
-        if (isEntityInsideOpaqueBlock()) {
-            posY += 2.5D;
-            floatdir = 1;
-            floatcycle = 0.0D;
+        if (this.isEntityInsideOpaqueBlock()) {
+            this.posY += 2.5D;
+            this.floatdir = 1;
+            this.floatcycle = 0.0D;
         }
 
-        fallDistance = -100F;
+        this.fallDistance = -100F;
 
-        if (riddenByEntity == null && blastoff-- < 0) {
-            motionY += 0.15049999952316284D;
-            double d = -MathHelper.sin((rotationYaw * (float) Math.PI) / 180F);
-            double d1 = MathHelper.cos((rotationYaw * (float) Math.PI) / 180F);
-            motionX += d * 0.10999999940395355D;
-            motionZ += d1 * 0.10999999940395355D;
+        if (this.riddenByEntity == null && this.blastoff-- < 0) {
+            this.motionY += 0.15049999952316284D;
+            double d = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
+            double d1 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
+            this.motionX += d * 0.10999999940395355D;
+            this.motionZ += d1 * 0.10999999940395355D;
 
-            if (worldObj.isRemote) {
+            if (this.worldObj.isRemote) {
                 for (int j = 0; j < 25; j++) {
-                    MoreCreepsAndWeirdos.proxy.smokeHorseHead(worldObj, this, rand);
+                    MoreCreepsAndWeirdos.proxy.smokeHorseHead(this.worldObj, this, this.rand);
                 }
             }
 
-            if (posY > 100D) {
-                setDead();
+            if (this.posY > 100D) {
+                this.setDead();
             }
         }
 
-        if (riddenByEntity == null && blastoff > 0
-            && worldObj.getBlock((int) posX, (int) posY - 1, (int) posZ) == Blocks.air) {
-            posY -= 0.25D;
+        if (this.riddenByEntity == null && this.blastoff > 0
+                && this.worldObj.getBlock((int) this.posX, (int) this.posY - 1, (int) this.posZ) == Blocks.air) {
+            this.posY -= 0.25D;
         }
 
-        ignoreFrustumCheck = true;
+        this.ignoreFrustumCheck = true;
 
-        if (floatdir > 0) {
-            floatcycle += 0.017999999225139618D;
+        if (this.floatdir > 0) {
+            this.floatcycle += 0.017999999225139618D;
 
-            if (floatcycle > floatmaxcycle) {
-                floatdir = floatdir * -1;
-                fallDistance += -1.5F;
+            if (this.floatcycle > this.floatmaxcycle) {
+                this.floatdir = this.floatdir * -1;
+                this.fallDistance += -1.5F;
             }
         } else {
-            floatcycle -= 0.0094999996945261955D;
+            this.floatcycle -= 0.0094999996945261955D;
 
-            if (floatcycle < -floatmaxcycle) {
-                floatdir = floatdir * -1;
-                fallDistance += -1.5F;
+            if (this.floatcycle < -this.floatmaxcycle) {
+                this.floatdir = this.floatdir * -1;
+                this.fallDistance += -1.5F;
             }
         }
 
-        if (riddenByEntity != null && (riddenByEntity instanceof EntityPlayer)) {
-            blastoff++;
+        if (this.riddenByEntity != null && (this.riddenByEntity instanceof EntityPlayer)) {
+            this.blastoff++;
 
-            if (blastoff > 50000) {
-                blastoff = 50000;
+            if (this.blastoff > 50000) {
+                this.blastoff = 50000;
             }
         }
 
         super.onUpdate();
     }
 
+    @Override
     protected void updateAITasks() {
-        motionY *= 0.80000001192092896D;
+        this.motionY *= 0.80000001192092896D;
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(0.95D);
+        .setBaseValue(0.95D);
 
-        if (riddenByEntity != null && (riddenByEntity instanceof EntityPlayer)) {
-            moveForward = 0.0F;
-            moveStrafing = 0.0F;
+        if (this.riddenByEntity != null && (this.riddenByEntity instanceof EntityPlayer)) {
+            this.moveForward = 0.0F;
+            this.moveStrafing = 0.0F;
             this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-                .setBaseValue(1.95D);
-            riddenByEntity.lastTickPosY = 0.0D;
-            prevRotationYaw = rotationYaw = riddenByEntity.rotationYaw;
-            prevRotationPitch = rotationPitch = 0.0F;
-            EntityPlayer entityplayer = (EntityPlayer) riddenByEntity;
+            .setBaseValue(1.95D);
+            this.riddenByEntity.lastTickPosY = 0.0D;
+            this.prevRotationYaw = this.rotationYaw = this.riddenByEntity.rotationYaw;
+            this.prevRotationPitch = this.rotationPitch = 0.0F;
+            EntityPlayer entityplayer = (EntityPlayer) this.riddenByEntity;
             float f = 1.0F;
 
             if (entityplayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-                .getBaseValue() > 0.01D
-                && entityplayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+                    .getBaseValue() > 0.01D
+                    && entityplayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
                     .getBaseValue() < 10D) {
-                f = (float) getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue();
+                f = (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue();
             }
 
-            moveStrafing = (entityplayer.moveStrafing / f)
-                * (float) getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue()
-                * 4.95F;
-            moveForward = (entityplayer.moveForward / f)
-                * (float) getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue()
-                * 4.95F;
+            this.moveStrafing = (entityplayer.moveStrafing / f)
+                    * (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue()
+                    * 4.95F;
+            this.moveForward = (entityplayer.moveForward / f)
+                    * (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue()
+                    * 4.95F;
 
-            if (onGround && (moveStrafing != 0.0F || moveForward != 0.0F)) {
-                motionY += 0.16100040078163147D;
+            if (this.onGround && (this.moveStrafing != 0.0F || this.moveForward != 0.0F)) {
+                this.motionY += 0.16100040078163147D;
             }
 
-            if (moveStrafing == 0.0F && moveForward == 0.0F) {
-                isJumping = false;
-                galloptime = 0;
+            if (this.moveStrafing == 0.0F && this.moveForward == 0.0F) {
+                this.isJumping = false;
+                this.galloptime = 0;
             }
 
-            if (moveForward != 0.0F && galloptime++ > 10) {
-                galloptime = 0;
+            if (this.moveForward != 0.0F && this.galloptime++ > 10) {
+                this.galloptime = 0;
 
-                if (handleWaterMovement()) {
-                    worldObj.playSoundAtEntity(this, "morecreeps:giraffesplash", getSoundVolume(), 1.2F);
+                if (this.handleWaterMovement()) {
+                    this.worldObj.playSoundAtEntity(this, "morecreeps:giraffesplash", this.getSoundVolume(), 1.2F);
                 } else {
-                    worldObj.playSoundAtEntity(this, "morecreeps:giraffegallop", getSoundVolume(), 1.2F);
+                    this.worldObj.playSoundAtEntity(this, "morecreeps:giraffegallop", this.getSoundVolume(), 1.2F);
                 }
             }
 
-            if (onGround && !isJumping) {
-                isJumping = ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, entityplayer, 40);
-                if (isJumping) {
-                    motionY += 0.37000000476837158D;
+            if (this.onGround && !this.isJumping) {
+                this.isJumping = ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, entityplayer, 40);
+                if (this.isJumping) {
+                    this.motionY += 0.37000000476837158D;
                 }
             }
 
-            if (onGround && isJumping) {
-                double d = Math.abs(Math.sqrt(motionX * motionX + motionZ * motionZ));
+            if (this.onGround && this.isJumping) {
+                double d = Math.abs(Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ));
 
                 if (d > 0.13D) {
                     double d2 = 0.13D / d;
-                    motionX = motionX * d2;
-                    motionZ = motionZ * d2;
+                    this.motionX = this.motionX * d2;
+                    this.motionZ = this.motionZ * d2;
                 }
 
-                motionX *= 6.9500000000000002D;
-                motionZ *= 6.9500000000000002D;
+                this.motionX *= 6.9500000000000002D;
+                this.motionZ *= 6.9500000000000002D;
             }
 
-            if (MoreCreepsAndWeirdos.proxy.isJumpKeyDown() && posY < 120D) {
-                motionY += 0.15049999952316284D;
+            if (MoreCreepsAndWeirdos.proxy.isJumpKeyDown() && this.posY < 120D) {
+                this.motionY += 0.15049999952316284D;
                 double d1 = -MathHelper.sin((entityplayer.rotationYaw * (float) Math.PI) / 180F);
                 double d3 = MathHelper.cos((entityplayer.rotationYaw * (float) Math.PI) / 180F);
-                motionX += d1 * 0.15999999642372131D;
-                motionZ += d3 * 0.15999999642372131D;
+                this.motionX += d1 * 0.15999999642372131D;
+                this.motionZ += d3 * 0.15999999642372131D;
 
-                if (blastofftimer-- < 0) {
-                    worldObj.playSoundAtEntity(this, "morecreeps:horseheadblastoff", 1.0F, 1.0F);
-                    blastofftimer = 10;
+                if (this.blastofftimer-- < 0) {
+                    this.worldObj.playSoundAtEntity(this, "morecreeps:horseheadblastoff", 1.0F, 1.0F);
+                    this.blastofftimer = 10;
                 }
 
-                if (worldObj.isRemote) {
+                if (this.worldObj.isRemote) {
                     for (int i = 0; i < 25; i++) {
-                        MoreCreepsAndWeirdos.proxy.smokeHorseHead(worldObj, this, rand);
+                        MoreCreepsAndWeirdos.proxy.smokeHorseHead(this.worldObj, this, this.rand);
                     }
                 }
             }
 
             return;
-        } else {
+        } else
             // super.updateEntityActionState();
             return;
-        }
     }
 
+    @Override
     public void updateRiderPosition() {
-        if (riddenByEntity == null) {
+        if (this.riddenByEntity == null)
             return;
-        }
 
-        if (riddenByEntity instanceof EntityPlayer) {
-            riddenByEntity.setPosition(posX, (posY + 2.5D) - floatcycle, posZ);
+        if (this.riddenByEntity instanceof EntityPlayer) {
+            this.riddenByEntity.setPosition(this.posX, (this.posY + 2.5D) - this.floatcycle, this.posZ);
             return;
-        } else {
+        } else
             return;
-        }
     }
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
+    @Override
     public boolean interact(EntityPlayer entityplayer) {
         if (entityplayer.riddenByEntity == null) {
-            rotationYaw = entityplayer.rotationYaw;
-            rotationPitch = entityplayer.rotationPitch;
+            this.rotationYaw = entityplayer.rotationYaw;
+            this.rotationPitch = entityplayer.rotationPitch;
             entityplayer.fallDistance = -15F;
             entityplayer.mountEntity(this);
-            blastoff += rand.nextInt(500) + 200;
-            motionX = 0.0D;
-            motionY = 0.0D;
-            motionZ = 0.0D;
+            this.blastoff += this.rand.nextInt(500) + 200;
+            this.motionX = 0.0D;
+            this.motionY = 0.0D;
+            this.motionZ = 0.0D;
 
-            if (this == null) {
-                double d = -MathHelper.sin((rotationYaw * (float) Math.PI) / 180F);
-                entityplayer.motionX += 1.5D * d;
-                entityplayer.motionZ -= 0.5D;
-            }
         } else {
             MoreCreepsAndWeirdos.proxy.addChatMessage("Unmount all creatures before riding your Horse Head");
         }
@@ -261,47 +258,50 @@ public class CREEPSEntityHorseHead extends EntityAnimal {
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
+    @Override
     public boolean getCanSpawnHere() {
-        if (worldObj == null || getBoundingBox() == null) {
+        if (this.worldObj == null || this.getBoundingBox() == null)
             return false;
-        }
-        int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(posY);
-        int k = MathHelper.floor_double(posZ);
-        int l = worldObj.getBlockLightOpacity(i, j, k);
-        Block i1 = worldObj.getBlock(i, j - 1, k);
+        int i = MathHelper.floor_double(this.posX);
+        int j = MathHelper.floor_double(this.posY);
+        int k = MathHelper.floor_double(this.posZ);
+        int l = this.worldObj.getBlockLightOpacity(i, j, k);
+        Block i1 = this.worldObj.getBlock(i, j - 1, k);
         return (i1 == Blocks.sand || i1 == Blocks.grass || i1 == Blocks.dirt) && i1 != Blocks.cobblestone
-            && i1 != Blocks.log
-            && i1 != Blocks.stone_slab
-            && i1 != Blocks.double_stone_slab
-            && i1 != Blocks.planks
-            && i1 != Blocks.wool
-            && worldObj.getCollidingBoundingBoxes(this, getBoundingBox())
+                && i1 != Blocks.log
+                && i1 != Blocks.stone_slab
+                && i1 != Blocks.double_stone_slab
+                && i1 != Blocks.planks
+                && i1 != Blocks.wool
+                && this.worldObj.getCollidingBoundingBoxes(this, this.getBoundingBox())
                 .size() == 0
-            && worldObj.canBlockSeeTheSky(i, j, k)
-            && rand.nextInt(25) == 0
-            && l > 7;
+                && this.worldObj.canBlockSeeTheSky(i, j, k)
+                && this.rand.nextInt(25) == 0
+                && l > 7;
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setInteger("Blastoff", blastoff);
+        nbttagcompound.setInteger("Blastoff", this.blastoff);
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
-        blastoff = nbttagcompound.getInteger("Blastoff");
+        this.blastoff = nbttagcompound.getInteger("Blastoff");
     }
 
     /**
      * Returns the sound this mob makes while it's alive.
      */
+    @Override
     protected String getLivingSound() {
         return "morecreeps:horsehead";
     }
@@ -309,6 +309,7 @@ public class CREEPSEntityHorseHead extends EntityAnimal {
     /**
      * Returns the sound this mob makes when it is hurt.
      */
+    @Override
     protected String getHurtSound() {
         return "morecreeps:hippohurt";
     }
@@ -316,6 +317,7 @@ public class CREEPSEntityHorseHead extends EntityAnimal {
     /**
      * Returns the sound this mob makes on death.
      */
+    @Override
     protected String getDeathSound() {
         return "morecreeps:hippodeath";
     }
@@ -323,14 +325,15 @@ public class CREEPSEntityHorseHead extends EntityAnimal {
     /**
      * Called when the mob's health reaches 0.
      */
+    @Override
     public void onDeath(DamageSource damagesource) {
-        if (!worldObj.isRemote) {
-            if (rand.nextInt(10) == 0) {
-                dropItem(Items.porkchop, rand.nextInt(3) + 1);
+        if (!this.worldObj.isRemote) {
+            if (this.rand.nextInt(10) == 0) {
+                this.dropItem(Items.porkchop, this.rand.nextInt(3) + 1);
             }
 
-            if (rand.nextInt(10) == 0) {
-                dropItem(Items.wheat_seeds, rand.nextInt(3) + 1);
+            if (this.rand.nextInt(10) == 0) {
+                this.dropItem(Items.wheat_seeds, this.rand.nextInt(3) + 1);
             }
         }
         super.onDeath(damagesource);
@@ -339,12 +342,13 @@ public class CREEPSEntityHorseHead extends EntityAnimal {
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
+    @Override
     public int getMaxSpawnedInChunk() {
         return 1;
     }
 
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
-        return new CREEPSEntityHorseHead(worldObj);
+        return new CREEPSEntityHorseHead(this.worldObj);
     }
 }

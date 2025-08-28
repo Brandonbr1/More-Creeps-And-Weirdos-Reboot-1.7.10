@@ -825,7 +825,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
             this.dropTreasure(this.worldObj, this.jailX + 8, this.jailY + 2, this.jailZ + 8);
         }
 
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
+        List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
                 entityplayersp,
                 (entityplayersp).boundingBox
                 .expand(4D, 4D, 4D));
@@ -919,7 +919,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
 
     public void populateCell(int i, int j, World world, EntityPlayer entityplayer, boolean flag) {
         if (flag) {
-            List list = world.getEntitiesWithinAABBExcludingEntity(
+            List<?> list = world.getEntitiesWithinAABBExcludingEntity(
                     entityplayer,
                     entityplayer.boundingBox
                     .expand(26D, 26D, 26D));
@@ -1271,7 +1271,10 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
             CREEPSEntityBum creepsentitybum = new CREEPSEntityBum(this.worldObj);
             this.smoke();
             creepsentitybum.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-            this.worldObj.spawnEntityInWorld(creepsentitybum);
+            if (!this.worldObj.isRemote)
+            {
+                this.worldObj.spawnEntityInWorld(creepsentitybum);
+            }
         }
 
         this.smoke();

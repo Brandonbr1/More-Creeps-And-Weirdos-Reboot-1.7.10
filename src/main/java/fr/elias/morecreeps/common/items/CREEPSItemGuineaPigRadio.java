@@ -20,21 +20,21 @@ public class CREEPSItemGuineaPigRadio extends Item {
 
     public CREEPSItemGuineaPigRadio() {
         super();
-        maxStackSize = 1;
-        pickup = false;
+        this.maxStackSize = 1;
+        this.pickup = false;
     }
 
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
+    @Override
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
-        if (entityplayer.isSneaking()) {
+        if (entityplayer.isSneaking())
             return itemstack;
-        }
 
         if (entityplayer.ridingEntity == null) {
-            if (pickup) {
-                pickup = false;
+            if (this.pickup) {
+                this.pickup = false;
                 world.playSoundAtEntity(entityplayer, "morecreeps:ggpigunmount", 1.0F, 1.0F);
 
                 for (int i = 0; i < 21; i++) {
@@ -51,25 +51,25 @@ public class CREEPSItemGuineaPigRadio extends Item {
                     }
                 }
             } else {
-                pickup = true;
+                this.pickup = true;
                 world.playSoundAtEntity(entityplayer, "morecreeps:ggpigradio", 1.0F, 1.0F);
-                List list = world.getEntitiesWithinAABB(
-                    fr.elias.morecreeps.common.entity.nice.CREEPSEntityGuineaPig.class,
-                    AxisAlignedBB
+                List<?> list = world.getEntitiesWithinAABB(
+                        fr.elias.morecreeps.common.entity.nice.CREEPSEntityGuineaPig.class,
+                        AxisAlignedBB
                         .getBoundingBox(
-                            entityplayer.posX,
-                            entityplayer.posY,
-                            entityplayer.posZ,
-                            entityplayer.posX + 1.0D,
-                            entityplayer.posY + 1.0D,
-                            entityplayer.posZ + 1.0D)
+                                entityplayer.posX,
+                                entityplayer.posY,
+                                entityplayer.posZ,
+                                entityplayer.posX + 1.0D,
+                                entityplayer.posY + 1.0D,
+                                entityplayer.posZ + 1.0D)
                         .expand(150D, 150D, 150D));
 
                 for (int j = 0; j < list.size(); j++) {
                     Entity entity = (Entity) list.get(j);
 
                     if ((entity instanceof CREEPSEntityGuineaPig) && ((CREEPSEntityGuineaPig) entity).wanderstate == 0
-                        && ((CREEPSEntityGuineaPig) entity).tamed) {
+                            && ((CREEPSEntityGuineaPig) entity).tamed) {
                         Object obj1 = entityplayer;
 
                         if (entity.ridingEntity != obj1 && entity.ridingEntity == null) {

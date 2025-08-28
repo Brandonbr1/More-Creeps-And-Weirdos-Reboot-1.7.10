@@ -252,7 +252,7 @@ public class CREEPSEntityDigBug extends EntityMob {
             this.digtimer = 50;
             //  List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(5D, 1.0D, 5D));
 
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(5.0D, 1.0D, 5.0D));
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(5.0D, 1.0D, 5.0D));
             for (Object o : list) {
                 Entity entity = (Entity) o;
 
@@ -474,7 +474,7 @@ public class CREEPSEntityDigBug extends EntityMob {
 
     public boolean attackEntityFrom(Entity entity, float i) {
         if (entity instanceof EntityPlayer) {
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().expand(32D, 32D, 32D));
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().expand(32D, 32D, 32D));
 
             for (Object o : list) {
                 Entity entity1 = (Entity) o;

@@ -177,7 +177,7 @@ public class CREEPSEntityManDog extends EntityMob {
 
             if (this.frisbeetime >= 20 && !this.isDead && !this.chase && !this.fetch) {
                 this.frisbeeent = null;
-                List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(25D, 25D, 25D));
+                List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(25D, 25D, 25D));
 
                 for (int i = 0; i < list.size(); i++) {
                     Entity entity = (Entity) list.get(i);

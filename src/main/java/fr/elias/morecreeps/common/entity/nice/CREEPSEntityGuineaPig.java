@@ -44,7 +44,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
     public String basetexture;
     public boolean used;
     public boolean grab;
-    public List piglist;
+    public List<?> piglist;
     public int pigstack;
     public int level;
     public float totaldamage;
@@ -181,7 +181,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
         Entity obj = null;
 
         if (this.tamed && this.wanderstate == 0) {
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(16D, 16D, 16D));
 
             for (Object o : list) {
                 Entity entity = (Entity) o;

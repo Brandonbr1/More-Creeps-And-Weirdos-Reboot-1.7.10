@@ -86,7 +86,7 @@ public class EntityArmyGuyAI extends EntityAIBase {
         Object obj = null;
 
         if (this.armyGuy.loyal) {
-            List list = this.armyGuy.worldObj.getEntitiesWithinAABBExcludingEntity(
+            List<?> list = this.armyGuy.worldObj.getEntitiesWithinAABBExcludingEntity(
                     this.armyGuy,
                     this.armyGuy.getBoundingBox()
                     .expand(16D, 16D, 16D));
