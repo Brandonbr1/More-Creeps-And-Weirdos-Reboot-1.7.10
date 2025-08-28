@@ -31,15 +31,15 @@ public class CREEPSEntityBigBaby extends EntityMob {
 
     public CREEPSEntityBigBaby(World world) {
         super(world);
-        texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITES + Reference.TEXTURE_BIGBABY0);
-        setSize(width * 5.25F, height * 5.55F);
-        skinDirection = 1;
-        skinTimer = 0;
-        skin = 0;
-        modelsize = 6.5F;
-        hammerswing = 0.0F;
+        this.texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITES + Reference.TEXTURE_BIGBABY0);
+        this.setSize(this.width * 5.25F, this.height * 5.55F);
+        this.skinDirection = 1;
+        this.skinTimer = 0;
+        this.skin = 0;
+        this.modelsize = 6.5F;
+        this.hammerswing = 0.0F;
         this.getNavigator()
-            .setBreakDoors(true);
+        .setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityBigBabyAI(this));
         this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
@@ -49,26 +49,28 @@ public class CREEPSEntityBigBaby extends EntityMob {
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
     }
 
+    @Override
     public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-            .setBaseValue(80D);
+        .setBaseValue(80D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-            .setBaseValue(0.4D);
+        .setBaseValue(0.4D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-            .setBaseValue(3D);
+        .setBaseValue(3D);
     }
 
     /**
      * Called to update the entity's position/logic.
      */
+    @Override
     public void onUpdate() {
         super.onUpdate();
 
-        if (hammerswing < 0.0F) {
-            hammerswing += 0.1000055F;
+        if (this.hammerswing < 0.0F) {
+            this.hammerswing += 0.1000055F;
         } else {
-            hammerswing = 0.0F;
+            this.hammerswing = 0.0F;
         }
     }
 
@@ -76,27 +78,28 @@ public class CREEPSEntityBigBaby extends EntityMob {
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
+    @Override
     public void onLivingUpdate() {
-        if (skinTimer++ > 60) {
-            skinTimer = 0;
-            skin += skinDirection;
+        if (this.skinTimer++ > 60) {
+            this.skinTimer = 0;
+            this.skin += this.skinDirection;
 
-            if (skin == 4 || skin == 0) {
-                skinDirection *= -1;
+            if (this.skin == 4 || this.skin == 0) {
+                this.skinDirection *= -1;
             }
 
             if (this.getAttackTarget() != null) {
-                skin = 0;
+                this.skin = 0;
             }
 
-            if (skin < 0 || skin > 4) {
-                skin = 0;
+            if (this.skin < 0 || this.skin > 4) {
+                this.skin = 0;
             }
 
-            texture = new ResourceLocation(
-                Reference.MOD_ID,
-                Reference.TEXTURE_PATH_ENTITES + (new StringBuilder()).append(Reference.TEXTURE_BIGBABY)
-                    .append(String.valueOf(skin))
+            this.texture = new ResourceLocation(
+                    Reference.MOD_ID,
+                    Reference.TEXTURE_PATH_ENTITES + (new StringBuilder()).append(Reference.TEXTURE_BIGBABY)
+                    .append(String.valueOf(this.skin))
                     .append(".png")
                     .toString());
         }
@@ -107,35 +110,36 @@ public class CREEPSEntityBigBaby extends EntityMob {
     /**
      * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
      */
+    @Override
     public void attackEntity(Entity entity, float f) {
-        if (onGround) {
-            double d = entity.posX - posX;
-            double d1 = entity.posZ - posZ;
+        if (this.onGround) {
+            double d = entity.posX - this.posX;
+            double d1 = entity.posZ - this.posZ;
             float f1 = MathHelper.sqrt_double(d * d + d1 * d1);
-            motionX = (d / (double) f1) * 0.20000000000000001D * (0.850000011920929D + motionX * 0.20000000298023224D);
-            motionZ = (d1 / (double) f1) * 0.20000000000000001D
-                * (0.80000001192092896D + motionZ * 0.20000000298023224D);
-            motionY = 0.14400000596246448D;
-            fallDistance = -25F;
+            this.motionX = (d / f1) * 0.20000000000000001D * (0.850000011920929D + this.motionX * 0.20000000298023224D);
+            this.motionZ = (d1 / f1) * 0.20000000000000001D
+                    * (0.80000001192092896D + this.motionZ * 0.20000000298023224D);
+            this.motionY = 0.14400000596246448D;
+            this.fallDistance = -25F;
 
-            if ((double) f < 6D && (double) f > 3D && rand.nextInt(5) == 0) {
-                double d2 = -MathHelper.sin((rotationYaw * (float) Math.PI) / 180F);
-                double d3 = MathHelper.cos((rotationYaw * (float) Math.PI) / 180F);
-                motionX += d2 * 0.25D;
-                motionZ += d3 * 0.25D;
-                motionY += 0.15000000596046448D;
+            if (f < 6D && f > 3D && this.rand.nextInt(5) == 0) {
+                double d2 = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
+                double d3 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
+                this.motionX += d2 * 0.25D;
+                this.motionZ += d3 * 0.25D;
+                this.motionY += 0.15000000596046448D;
             }
         }
 
-        if ((double) f < (double) modelsize * 0.69999999999999996D + 1.5D
-            && entity.getBoundingBox().maxY > getBoundingBox().minY
-            && entity.getBoundingBox().minY < getBoundingBox().maxY
-            && rand.nextInt(10) == 0) {
-            if (hammerswing == 0.0F) {
-                hammerswing = -1.1F;
+        if (f < this.modelsize * 0.69999999999999996D + 1.5D
+                && entity.boundingBox.maxY > this.boundingBox.minY
+                && entity.boundingBox.minY < this.boundingBox.maxY
+                && this.rand.nextInt(10) == 0) {
+            if (this.hammerswing == 0.0F) {
+                this.hammerswing = -1.1F;
             }
 
-            attackTime = 20;
+            this.attackTime = 20;
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), 3);
         }
     }
@@ -143,62 +147,63 @@ public class CREEPSEntityBigBaby extends EntityMob {
     /**
      * Called when the entity is attacked.
      */
+    @Override
     public boolean attackEntityFrom(DamageSource damagesource, float i) {
         Entity entity = damagesource.getEntity();
-        texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITES + Reference.TEXTURE_BIGBABYBOP);
-        skinTimer = 45;
+        this.texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITES + Reference.TEXTURE_BIGBABYBOP);
+        this.skinTimer = 45;
 
         if (super.attackEntityFrom(DamageSource.causeMobDamage(this), i)) {
-            if (riddenByEntity == entity || ridingEntity == entity) {
+            if (this.riddenByEntity == entity || this.ridingEntity == entity)
                 return true;
-            }
 
-            if (entity != this && worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
+            if (entity != this && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
                 this.setRevengeTarget((EntityLivingBase) entity);
             }
 
             return true;
-        } else {
+        } else
             return false;
-        }
     }
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
+    @Override
     public boolean interact(EntityPlayer entityplayer) {
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
 
         if (itemstack != null && itemstack.getItem() == MoreCreepsAndWeirdos.babyjarempty) {
-            if (modelsize < 1.0F) {
-                setDead();
+            if (this.modelsize < 1.0F) {
+                this.setDead();
                 entityplayer.inventory.setInventorySlotContents(
-                    entityplayer.inventory.currentItem,
-                    new ItemStack(MoreCreepsAndWeirdos.babyjarfull));
+                        entityplayer.inventory.currentItem,
+                        new ItemStack(MoreCreepsAndWeirdos.babyjarfull));
                 MoreCreepsAndWeirdos.proxy.addChatMessage("Now turn that Baby into a Schlump on the floor");
-                worldObj.playSoundAtEntity(this, "morecreeps:babytakehome", 1.0F, 1.0F);
+                this.worldObj.playSoundAtEntity(this, "morecreeps:babytakehome", 1.0F, 1.0F);
             } else {
                 MoreCreepsAndWeirdos.proxy.addChatMessage("That baby is too large");
-                worldObj.playSoundAtEntity(this, "morecreeps:babyshrink", 1.0F, 1.0F);
+                this.worldObj.playSoundAtEntity(this, "morecreeps:babyshrink", 1.0F, 1.0F);
             }
         }
 
         return true;
     }
 
+    @Override
     public float getEyeHeight() {
-        return height * 0.15F;
+        return this.height * 0.15F;
     }
 
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
+    @Override
     public boolean getCanSpawnHere() {
-        if (worldObj == null || getBoundingBox() == null) {
+        if (this.worldObj == null || this.getBoundingBox() == null)
             return false;
-        }
         return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.isValidLightLevel()
-            && super.getCanSpawnHere();
+                && super.getCanSpawnHere();
         // Method used by Minecraft above, probably better to use it instead?
         /*
          * int i = MathHelper.floor_double(posX);
@@ -215,6 +220,7 @@ public class CREEPSEntityBigBaby extends EntityMob {
     /**
      * Will return how many at most can spawn in a chunk at once.
      */
+    @Override
     public int getMaxSpawnedInChunk() {
         return 1;
     }
@@ -222,21 +228,23 @@ public class CREEPSEntityBigBaby extends EntityMob {
     /**
      * Plays living's sound at its position
      */
+    @Override
     public void playLivingSound() {
-        String s = getLivingSound();
+        String s = this.getLivingSound();
 
         if (s != null) {
-            worldObj.playSoundAtEntity(
-                this,
-                s,
-                getSoundVolume(),
-                (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F + (6.5F - modelsize) * 2.0F);
+            this.worldObj.playSoundAtEntity(
+                    this,
+                    s,
+                    this.getSoundVolume(),
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F + (6.5F - this.modelsize) * 2.0F);
         }
     }
 
     /**
      * Returns the sound this mob makes while it's alive.
      */
+    @Override
     protected String getLivingSound() {
         return "morecreeps:bigbaby";
     }
@@ -244,6 +252,7 @@ public class CREEPSEntityBigBaby extends EntityMob {
     /**
      * Returns the sound this mob makes when it is hurt.
      */
+    @Override
     protected String getHurtSound() {
         return "morecreeps:bigbabyhurt";
     }
@@ -251,6 +260,7 @@ public class CREEPSEntityBigBaby extends EntityMob {
     /**
      * Returns the sound this mob makes on death.
      */
+    @Override
     protected String getDeathSound() {
         return "morecreeps:bigbabyhurt";
     }
@@ -258,25 +268,28 @@ public class CREEPSEntityBigBaby extends EntityMob {
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setFloat("ModelSize", modelsize);
+        nbttagcompound.setFloat("ModelSize", this.modelsize);
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
-        modelsize = nbttagcompound.getFloat("ModelSize");
+        this.modelsize = nbttagcompound.getFloat("ModelSize");
     }
 
     /**
      * Called when the mob's health reaches 0.
      */
+    @Override
     public void onDeath(DamageSource damagesource) {
-        if (!worldObj.isRemote) {
-            dropItem(Items.porkchop, rand.nextInt(6) + 5);
+        if (!this.worldObj.isRemote) {
+            this.dropItem(Items.porkchop, this.rand.nextInt(6) + 5);
         }
         super.onDeath(damagesource);
     }

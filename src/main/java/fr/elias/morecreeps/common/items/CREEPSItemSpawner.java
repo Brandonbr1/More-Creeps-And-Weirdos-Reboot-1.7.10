@@ -16,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Facing;
 import net.minecraft.util.IIcon;
@@ -24,12 +25,12 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-public class CREEPSItemSpawner extends Item{
+public class CREEPSItemSpawner extends ItemMonsterPlacer
+{
 
-    @SideOnly(Side.CLIENT)
-    private IIcon theIcon;
 
-    public CREEPSItemSpawner() {
+    public CREEPSItemSpawner()
+    {
         this.setHasSubtypes(true);
         this.setCreativeTab(MoreCreepsAndWeirdos.creepsTab);
     }
@@ -164,20 +165,6 @@ public class CREEPSItemSpawner extends Item{
         }
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses() {
-        return true;
-    }
-
-    /**
-     * Gets an icon index based on an item's damage value and the given render pass
-     */
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int p_77618_1_, int p_77618_2_) {
-        return p_77618_2_ > 0 ? this.theIcon : super.getIconFromDamageForRenderPass(p_77618_1_, p_77618_2_);
-    }
 
     /**
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
@@ -191,13 +178,6 @@ public class CREEPSItemSpawner extends Item{
             CREEPSList.EntityEggInfo entityegginfo = (CREEPSList.EntityEggInfo)iterator.next();
             p_150895_3_.add(new ItemStack(p_150895_1_, 1, entityegginfo.spawnedID));
         }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister p_94581_1_) {
-        super.registerIcons(p_94581_1_);
-        this.theIcon = p_94581_1_.registerIcon(this.getIconString() + "_overlay");
     }
 
 }

@@ -109,8 +109,11 @@ public class CREEPSEntityBubbleScum extends EntityCreature {
     public boolean attackEntityFrom(DamageSource damagesource, float i) {
         Entity entity = damagesource.getEntity();
         this.knockBack(this, i, 3D, 5D);
-        EntityLivingBase entityToAttack = this.getAttackTarget();
-        entityToAttack = (EntityLivingBase) entity;
+
+        if (entity instanceof EntityLivingBase) {
+            EntityLivingBase entityToAttack = this.getAttackTarget();
+            entityToAttack = (EntityLivingBase) entity;
+        }
         return super.attackEntityFrom(damagesource, i);
     }
 

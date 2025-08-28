@@ -6,6 +6,7 @@ import cpw.mods.fml.common.FMLLog;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -28,11 +29,11 @@ public class CREEPSEntityMoney extends EntityThrowable {
     private int field_20053_e;
     private boolean field_20052_f;
     public int field_20057_a;
-    private EntityLiving field_20051_g;
+    private EntityLivingBase field_20051_g;
     private int field_20050_h;
     private int field_20049_i;
     protected double initialVelocity;
-    public Entity owner;
+    public EntityLivingBase owner;
     double bounceFactor;
 
     public CREEPSEntityMoney(World world) {
@@ -53,7 +54,7 @@ public class CREEPSEntityMoney extends EntityThrowable {
         return d < d1 * d1;
     }
 
-    public CREEPSEntityMoney(World world, Entity entity) {
+    public CREEPSEntityMoney(World world, EntityLivingBase entity) {
         this(world);
         this.owner = entity;
         this.setRotation(entity.rotationYaw, 0.0F);
@@ -162,7 +163,8 @@ public class CREEPSEntityMoney extends EntityThrowable {
             for (int i = 0; i < list.size(); i++) {
                 Entity entity = (Entity) list.get(i);
 
-                if (entity.canBeCollidedWith() && (entity instanceof CREEPSEntityPreacher)) {
+                if (entity.canBeCollidedWith() && (entity instanceof CREEPSEntityPreacher))
+                {
                     EntityPlayer player = this.worldObj.getClosestPlayerToEntity(entity, 2D);
 
                     if (player != null)
@@ -307,7 +309,8 @@ public class CREEPSEntityMoney extends EntityThrowable {
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
     @Override
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+    public void readEntityFromNBT(NBTTagCompound nbttagcompound)
+    {
         this.field_20056_b = nbttagcompound.getShort("xTile");
         this.field_20055_c = nbttagcompound.getShort("yTile");
         this.field_20054_d = nbttagcompound.getShort("zTile");
