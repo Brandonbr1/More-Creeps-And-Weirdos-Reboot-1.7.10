@@ -5,6 +5,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -14,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import fr.elias.morecreeps.client.config.CREEPSConfig;
 import net.minecraft.world.World;
 
 import fr.elias.morecreeps.client.particles.CREEPSFxDirt;
@@ -22,7 +25,11 @@ import fr.elias.morecreeps.common.entity.proj.CREEPSEntityRocket;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
 import fr.elias.morecreeps.common.port.EnumParticleTypes;
 
-public class CREEPSEntityRocketGiraffe extends EntityCreature {
+public class CREEPSEntityRocketGiraffe extends EntityCreature implements cpw.mods.fml.common.registry.IEntityAdditionalSpawnData {
+    // Client-only key edge tracking (not saved)
+    private transient boolean __clientLastJump = false;
+    private int jumpCooldown = 0;
+
 
     EntityPlayer entityplayer;
     World world;
@@ -125,97 +132,62 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature {
         this.basetexture = nbttagcompound.getString("BaseTexture");
         this.name = nbttagcompound.getString("Name");
         this.texture = this.basetexture;
+        if (this.basetexture != null && this.basetexture.contains("rocketgiraffetamed")) { this.tamed = true; }
         this.modelsize = nbttagcompound.getFloat("ModelSize");
     }
 
     @Override
+    
+    public void onLivingUpdate() {
+        if (this.riddenByEntity != null && this.onGround) { this.fallDistance = 0.0F; }
+
+        if (this.riddenByEntity != null && this.tamed) { this.stepHeight = CREEPSConfig.rocketGiraffeStepHeight; this.isJumping = false; }
+
+        if (this.riddenByEntity != null && this.tamed) { this.stepHeight = CREEPSConfig.rocketGiraffeStepHeight; this.isJumping = false; }
+
+        if (!this.worldObj.isRemote && this.jumpCooldown>0) this.jumpCooldown--;
+        super.onLivingUpdate();
+        if (this.riddenByEntity != null) {
+            if (!this.worldObj.isRemote) { this.setAttackTarget(null); }
+            if (!this.worldObj.isRemote && this.getNavigator() != null) this.getNavigator().clearPathEntity();
+            this.rotationYawHead = this.rotationYaw;
+            this.renderYawOffset = this.rotationYaw;
+        }
+        if (this.worldObj != null && this.worldObj.isRemote) {
+            if (this.riddenByEntity instanceof net.minecraft.entity.player.EntityPlayer) {
+                net.minecraft.entity.player.EntityPlayer rider = (net.minecraft.entity.player.EntityPlayer) this.riddenByEntity;
+                net.minecraft.entity.player.EntityPlayer local = net.minecraft.client.Minecraft.getMinecraft().thePlayer;
+                if (rider == local) {
+                    // Pass raw inputs; server will scale using this entity's movement attributes
+                    float fwd   = local.moveForward;
+                    float strafe= local.moveStrafing;
+                    boolean __jump_now = fr.elias.morecreeps.common.MoreCreepsAndWeirdos.proxy.isJumpKeyDown();
+                    boolean jump = __jump_now && !this.__clientLastJump;
+                    this.__clientLastJump = __jump_now;
+                    this.moveForward = fwd;
+                    this.moveStrafing = strafe;
+                    fr.elias.morecreeps.common.MoreCreepsAndWeirdos.packetHandler.sendToServer(
+                        new fr.elias.morecreeps.common.packets.MountInputPacket(this.getEntityId(), fwd, strafe, jump)
+                    );
+                }
+            }
+        }
+    }
+
+
+    @Override
     protected void updateAITick() {
+        // Keep big models rendered even when out of frustum a bit (old mod behavior)
         if (this.modelsize > 1.0F) {
             this.ignoreFrustumCheck = true;
         }
-
+        // Base ground speed when not ridden; moved speed when ridden is applied in moveEntityWithHeading
         this.moveSpeed = 0.35F;
-
-        if (this.riddenByEntity != null && (this.riddenByEntity instanceof EntityPlayer)) {
-            this.moveForward = 0.0F;
-            this.moveStrafing = 0.0F;
-            this.moveSpeed = 1.95F;
-            this.riddenByEntity.lastTickPosY = 0.0D;
-            this.prevRotationYaw = this.rotationYaw = this.riddenByEntity.rotationYaw;
-            this.prevRotationPitch = this.rotationPitch = 0.0F;
-            EntityPlayer entityplayer = (EntityPlayer) this.riddenByEntity;
-            float f = 1.0F;
-
-            if (entityplayer.getAIMoveSpeed() > 0.01F && entityplayer.getAIMoveSpeed() < 10F) {
-                f = entityplayer.getAIMoveSpeed();
-            }
-
-            this.moveStrafing = (float) ((entityplayer.moveStrafing / f) * this.moveSpeed * 1.95F);
-            this.moveForward = (float) ((entityplayer.moveForward / f) * this.moveSpeed * 1.95F);
-
-            if (this.onGround && (this.moveStrafing != 0.0F || this.moveForward != 0.0F)) {
-                this.motionY += 0.16100040078163147D;
-            }
-
-            if (this.moveStrafing != 0.0F || this.moveForward != 0.0F) {
-                if (this.floatdir > 0) {
-                    this.floatcycle += 0.035999998450279236D;
-
-                    if (this.floatcycle > this.floatmaxcycle) {
-                        this.floatdir = this.floatdir * -1;
-                        this.fallDistance += -1.5F;
-                    }
-                } else {
-                    this.floatcycle -= 0.017999999225139618D;
-
-                    if (this.floatcycle < -this.floatmaxcycle) {
-                        this.floatdir = this.floatdir * -1;
-                        this.fallDistance += -1.5F;
-                    }
-                }
-            }
-
-            if (this.moveStrafing == 0.0F && this.moveForward == 0.0F) {
-                this.isJumping = false;
-                this.galloptime = 0;
-            }
-
-            if (this.moveForward != 0.0F && this.galloptime++ > 10) {
-                this.galloptime = 0;
-
-                if (this.handleWaterMovement()) {
-                    this.worldObj.playSoundAtEntity(this, "morecreeps:giraffesplash", this.getSoundVolume(), 1.0F);
-                } else {
-                    this.worldObj.playSoundAtEntity(this, "morecreeps:giraffegallop", this.getSoundVolume(), 1.0F);
-                }
-            }
-
-            if (this.onGround && !this.isJumping) {
-                this.isJumping = Minecraft.getMinecraft().gameSettings.keyBindJump.isPressed();
-
-                if (this.isJumping) {
-                    this.motionY += 0.38999998569488525D;
-                }
-            }
-
-            if (this.onGround && this.isJumping) {
-                double d = Math.abs(Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ));
-
-                if (d > 0.13D) {
-                    double d1 = 0.13D / d;
-                    this.motionX = this.motionX * d1;
-                    this.motionZ = this.motionZ * d1;
-                }
-
-                this.motionX *= 5.9500000000000002D;
-                this.motionZ *= 5.9500000000000002D;
-            }
-
-            return;
-        } else {
-            super.updateEntityActionState();
+        // If ridden, don't run AI tick logic or send any packets; steering comes from MountInputPacket
+        if (this.riddenByEntity != null) {
             return;
         }
+        super.updateAITick();
     }
 
     /**
@@ -262,20 +234,76 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature {
     }
 
     @Override
-    public void updateRiderPosition() {
-        if (this.riddenByEntity == null)
-            return;
-
-        double d = Math.cos((this.rotationYaw * Math.PI) / 180D) * 0.20000000000000001D;
-        double d1 = Math.sin((this.rotationYaw * Math.PI) / 180D) * 0.20000000000000001D;
+public void updateRiderPosition()
+    {
+        if (this.riddenByEntity == null) return;
         float f = 3.35F - (1.0F - this.modelsize) * 2.0F;
-
-        if (this.modelsize > 1.0F) {
-            f *= 1.1F;
-        }
-
-        this.riddenByEntity.setPosition(this.posX + d, (this.posY + f) - this.floatcycle, this.posZ + d1);
+        if (this.modelsize > 1.0F) { f += (this.modelsize - 1.0F) * 1.75F; }
+        this.riddenByEntity.setPosition(this.posX, (this.posY + f) - this.floatcycle, this.posZ);
     }
+
+    @Override
+    public float getAIMoveSpeed() {
+        if (this.riddenByEntity instanceof net.minecraft.entity.player.EntityPlayer && this.tamed) {
+            return (float) fr.elias.morecreeps.client.config.CREEPSConfig.rocketGiraffeRiddenSpeed;
+        }
+        return super.getAIMoveSpeed();
+    }
+    public void moveEntityWithHeading(float strafe, float forward) {
+        if (this.riddenByEntity instanceof net.minecraft.entity.player.EntityPlayer && this.tamed) {
+            net.minecraft.entity.player.EntityPlayer rider = (net.minecraft.entity.player.EntityPlayer) this.riddenByEntity;
+            // Align body to rider
+            this.prevRotationYaw = this.rotationYaw;
+            this.rotationYaw = rider.rotationYaw;
+            this.rotationPitch = rider.rotationPitch * 0.5F;
+            this.renderYawOffset = this.rotationYaw;
+            this.rotationYawHead = this.rotationYaw;
+            // Step up smoothly
+            this.stepHeight = CREEPSConfig.rocketGiraffeStepHeight;
+            // Prevent any auto-jump
+            this.isJumping = false;
+            if (!this.worldObj.isRemote) {
+
+                // Read inputs straight from the server-side rider
+                float srvForward = rider.moveForward;
+                float srvStrafe  = rider.moveStrafing;
+                // Deadzone to kill tiny drift
+                if (srvForward > -0.02F && srvForward < 0.02F) srvForward = 0F;
+                if (srvStrafe  > -0.02F && srvStrafe  < 0.02F) srvStrafe  = 0F;
+                // Apply configurable speed via movement attribute (this is what EntityLivingBase uses)
+                this.setAIMoveSpeed((float)fr.elias.morecreeps.client.config.CREEPSConfig.rocketGiraffeRiddenSpeed);
+                IAttributeInstance att = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+                if (att != null) {
+                    double base = CREEPSConfig.rocketGiraffeRiddenSpeed;
+                    // clamp a bit for safety
+                    if (base < 0.05D) base = 0.05D;
+                    if (base > 1.50D) base = 1.50D;
+                    att.setBaseValue(base);
+                }
+                super.moveEntityWithHeading(srvStrafe, srvForward);
+            
+            } else {
+                // Mirror server side locally so we don't "phase" into blocks while stepping up
+                float clForward = rider.moveForward;
+                float clStrafe  = rider.moveStrafing;
+                if (clForward > -0.02F && clForward < 0.02F) clForward = 0F;
+                if (clStrafe  > -0.02F && clStrafe  < 0.02F) clStrafe  = 0F;
+                this.setAIMoveSpeed((float)fr.elias.morecreeps.client.config.CREEPSConfig.rocketGiraffeRiddenSpeed);
+                super.moveEntityWithHeading(clStrafe, clForward);
+            }
+            return;
+        }
+        super.moveEntityWithHeading(strafe, forward);
+    }
+
+    public void doMountJump() {
+        if (!this.worldObj.isRemote && this.onGround && this.jumpCooldown==0) {
+            this.motionY = 0.6D;
+            this.isAirBorne = true;
+            this.jumpCooldown = 8;
+        }
+    }
+
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
@@ -286,9 +314,15 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature {
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
         this.used = false;
 
-        if (this.tamed && entityplayer.isSneaking())
-        {
-            entityplayer.openGui(MoreCreepsAndWeirdos.INSTANCE, 5, this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
+        if (this.tamed && entityplayer.isSneaking()) {
+            // Only open the rename GUI when the player's hand is empty, and only on the server
+            if (itemstack == null) {
+                if (!this.worldObj.isRemote) {
+                    // GUI id 5 = Giraffe name (see CREEPSGuiHandler)
+                    entityplayer.openGui(fr.elias.morecreeps.common.MoreCreepsAndWeirdos.INSTANCE, 5, this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ);
+                }
+                return true; // consume interaction to avoid double-open
+            }
         }
 
         if (itemstack == null && this.tamed) {
@@ -296,7 +330,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature {
                 this.rotationYaw = entityplayer.rotationYaw;
                 this.rotationPitch = entityplayer.rotationPitch;
                 entityplayer.fallDistance = -5F;
-                entityplayer.mountEntity(this);
+                if (!this.worldObj.isRemote) { entityplayer.mountEntity(this); }
 
             } else if (this.modelsize < 0.5F && this.tamed) {
                 MoreCreepsAndWeirdos.proxy.addChatMessage("Your Rocket Giraffe is too small to ride!");
@@ -392,8 +426,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature {
                     this.name = Names[this.rand.nextInt(Names.length)];
                 }
 
-                MoreCreepsAndWeirdos.proxy.addChatMessage("");
-                MoreCreepsAndWeirdos.proxy.addChatMessage(
+                if (this.worldObj.isRemote) MoreCreepsAndWeirdos.proxy.addChatMessage(
                         (new StringBuilder()).append("\2476")
                         .append(String.valueOf(this.name))
                         .append(" \247fhas been tamed!")
@@ -568,6 +601,10 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature {
      * Determines if an entity can be despawned, used on idle far away entities
      */
     @Override
+    public boolean isNoDespawnRequired() {
+        return this.tamed || super.isNoDespawnRequired();
+    }
+
     protected boolean canDespawn() {
         return !this.tamed;
     }
@@ -601,4 +638,39 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature {
         }
 
     }
+
+    // Sync important fields to client on initial spawn (1.7.10)
+    @Override
+    public void writeSpawnData(io.netty.buffer.ByteBuf buf) {
+        buf.writeBoolean(this.tamed);
+        cpw.mods.fml.common.network.ByteBufUtils.writeUTF8String(buf, this.name != null ? this.name : "");
+        cpw.mods.fml.common.network.ByteBufUtils.writeUTF8String(buf, this.basetexture != null ? this.basetexture : "");
+        buf.writeFloat(this.modelsize);
+        buf.writeInt(this.tamedfood);
+    }
+
+    @Override
+    public void readSpawnData(io.netty.buffer.ByteBuf buf) {
+        this.tamed = buf.readBoolean();
+        this.name = cpw.mods.fml.common.network.ByteBufUtils.readUTF8String(buf);
+        this.basetexture = cpw.mods.fml.common.network.ByteBufUtils.readUTF8String(buf);
+        this.texture = this.basetexture;
+        this.modelsize = buf.readFloat();
+        this.tamedfood = buf.readInt();
+    }
+
+
+    @Override
+    protected void fall(float distance) {
+        // Ignore tiny steps and reduce small fall damage; giraffes are tall, 1-block drops shouldn't hurt.
+        if (distance <= 2.5F) {
+            return;
+        }
+        // If ridden, give a little more forgiveness
+        if (this.riddenByEntity != null && this.tamed && distance <= 3.5F) {
+            return;
+        }
+        super.fall(distance);
+    }
+    
 }

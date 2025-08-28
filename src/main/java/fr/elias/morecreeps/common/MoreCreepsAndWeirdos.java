@@ -8,6 +8,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import fr.elias.morecreeps.common.packets.SetGiraffeNamePacket;
+import fr.elias.morecreeps.common.packets.MountInputPacket;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -252,6 +254,8 @@ public class MoreCreepsAndWeirdos {
 
         packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel("morecreepsandweirdosPacketHandler");
         packetHandler.registerMessage(SyncPlayerDataPacket.Handler.class, SyncPlayerDataPacket.class, 1, Side.CLIENT);
+        packetHandler.registerMessage(SetGiraffeNamePacket.Handler.class, SetGiraffeNamePacket.class, 2, Side.SERVER);
+        packetHandler.registerMessage(MountInputPacket.Handler.class, MountInputPacket.class, 3, Side.SERVER);
 
         partBubble = new Item().setUnlocalizedName("partBubble")
                 .setTextureName("morecreeps:bubble");

@@ -140,6 +140,7 @@ public class CREEPSEntityCamel extends EntityMob {
 
     @Override
     public void onLivingUpdate() {
+        // keep loaded via canDespawn override when tamed
         super.onLivingUpdate();
         //  System.out.println(this.tamed);
         // System.out.println(this.tamedcookies);

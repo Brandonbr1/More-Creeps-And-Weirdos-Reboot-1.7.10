@@ -659,4 +659,24 @@ public class ClientProxy extends CommonProxy {
     public boolean isJumpKeyDown() {
         return Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump.getKeyCode());
     }
+
+    // Rocket Giraffe mouth-dirt burst (client only)
+    public void giraffeEatDirt(World world, fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe giraffe) {
+        if (world != null && world.isRemote && giraffe != null) {
+            double d2 = -MathHelper.sin((giraffe.rotationYaw * (float) Math.PI) / 180F);
+            double d4 =  MathHelper.cos((giraffe.rotationYaw * (float) Math.PI) / 180F);
+            for (int i = 0; i < 35; i++) {
+                CREEPSFxDirt creepsfxdirt = new CREEPSFxDirt(
+                        world,
+                        giraffe.posX + d2 * 0.40000000596046448D,
+                        giraffe.posY + 4.5D,
+                        giraffe.posZ + d4 * 0.40000000596046448D,
+                        Item.getItemFromBlock(Blocks.dirt));
+                creepsfxdirt.renderDistanceWeight = 6D;
+                Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxdirt);
+            }
+        }
+    }
+    
+
 }
