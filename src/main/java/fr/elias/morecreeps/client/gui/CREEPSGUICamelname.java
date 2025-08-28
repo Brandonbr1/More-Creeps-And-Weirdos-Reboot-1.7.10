@@ -21,38 +21,41 @@ public class CREEPSGUICamelname extends GuiScreen {
     protected int xSize;
     protected int ySize;
 
-    public static ResourceLocation guiTexture = new ResourceLocation("morecreeps:textures/gui/gui-screen");
+    public static ResourceLocation guiTexture = new ResourceLocation("morecreeps:textures/gui/gui-screen.png");
 
     public CREEPSGUICamelname() {
-        xSize = 256;
-        ySize = 180;
+        this.xSize = 256;
+        this.ySize = 180;
     }
 
     /**
      * Called from the main game loop to update the screen.
      */
+    @Override
     public void updateScreen() {
-        namescreen.updateCursorCounter();
+        this.namescreen.updateCursorCounter();
     }
 
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
+    @Override
     public void initGui() {
         Keyboard.enableRepeatEvents(true);
-        buttonList.clear();
-        buttonList
-            .add(new GuiButton(1, width / 2 - 100, height / 4 + 62 + 12, I18n.format("gui.cancel", new Object[0])));
-        buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 42, "Save"));
-        namescreen = new GuiTextField(fontRendererObj, width / 2 - 100, height / 4 + 10, 200, 20);
-        namescreen.setMaxStringLength(31);
-        namescreen.setCanLoseFocus(true);
-        namescreen.setText(camel.name);
+        this.buttonList.clear();
+        this.buttonList
+        .add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 62 + 12, I18n.format("gui.cancel", new Object[0])));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 42, "Save"));
+        this.namescreen = new GuiTextField(this.fontRendererObj, this.width / 2 - 100, this.height / 4 + 10, 200, 20);
+        this.namescreen.setMaxStringLength(31);
+        this.namescreen.setCanLoseFocus(true);
+        //this.namescreen.setText(this.camel.name);
     }
 
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
+    @Override
     public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
     }
@@ -60,63 +63,68 @@ public class CREEPSGUICamelname extends GuiScreen {
     /**
      * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
      */
+    @Override
     protected void actionPerformed(GuiButton guibutton) {
-        if (!guibutton.enabled) {
+
+        if (!guibutton.enabled)
             return;
-        }
 
         if (guibutton.id == 1) {
-            mc.displayGuiScreen(null);
+            this.mc.displayGuiScreen(null);
             return;
         }
 
         if (guibutton.id == 0) {
-            if (field_28217_m) {
+            if (this.field_28217_m)
                 return;
-            }
 
-            field_28217_m = true;
+            this.field_28217_m = true;
             long l = (new Random()).nextLong();
-            String s = namescreen.getText();
-            camel.name = s;
-            mc.displayGuiScreen(null);
+            String s = this.namescreen.getText();
+            if (this.camel == null || this.camel.name == null)
+                return;
+            this.camel.name = s;
+            this.mc.displayGuiScreen(null);
         }
     }
 
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
+    @Override
     protected void keyTyped(char c, int i) {
-        namescreen.textboxKeyTyped(c, i);
+        this.namescreen.textboxKeyTyped(c, i);
 
         if (c == '\r') {
-            actionPerformed((GuiButton) buttonList.get(0));
+            this.actionPerformed((GuiButton) this.buttonList.get(0));
         }
 
         if (i == 1) {
-            mc.displayGuiScreen(null);
+            this.mc.displayGuiScreen(null);
             return;
-        } else {
+        } else
             return;
-        }
     }
 
+    @Override
     protected void mouseClicked(int i, int j, int k) {
         super.mouseClicked(i, j, k);
-        namescreen.mouseClicked(i, j, k);
+        this.namescreen.mouseClicked(i, j, k);
     }
 
     /**
      * Draws the screen and all the components in it.
      */
-    public void drawScreen(int i, int j, float f) {
-        drawDefaultBackground();
+    @Override
+    public void drawScreen(int i, int j, float f)
+    {
+        this.drawDefaultBackground();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture(guiTexture);
-        int l = (width - xSize) / 2;
-        int i1 = (height - (ySize + 16)) / 2;
-        drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
-        namescreen.drawTextBox();
+        this.mc.renderEngine.bindTexture(guiTexture);
+        int l = (this.width - this.xSize) / 2;
+        int i1 = (this.height - (this.ySize + 16)) / 2;
+        this.drawTexturedModalRect(l, i1, 0, 0, this.xSize, this.ySize);
+        this.namescreen.drawTextBox();
         super.drawScreen(i, j, f);
     }
 }

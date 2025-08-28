@@ -13,7 +13,8 @@ import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe;
 
-public class CREEPSGUIGiraffename extends GuiScreen {
+public class CREEPSGUIGiraffename extends GuiScreen
+{
 
     private CREEPSEntityRocketGiraffe giraffe;
     private GuiTextField namescreen;
@@ -23,36 +24,39 @@ public class CREEPSGUIGiraffename extends GuiScreen {
     public static ResourceLocation guiTexture = new ResourceLocation("morecreeps:textures/gui/gui-screen");
 
     public CREEPSGUIGiraffename(CREEPSEntityRocketGiraffe creepsentityrocketgiraffe) {
-        giraffe = creepsentityrocketgiraffe;
-        xSize = 256;
-        ySize = 180;
+        this.giraffe = creepsentityrocketgiraffe;
+        this.xSize = 256;
+        this.ySize = 180;
     }
 
     /**
      * Called from the main game loop to update the screen.
      */
+    @Override
     public void updateScreen() {
-        namescreen.updateCursorCounter();
+        this.namescreen.updateCursorCounter();
     }
 
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
+    @Override
     public void initGui() {
         Keyboard.enableRepeatEvents(true);
-        buttonList.clear();
-        buttonList
-            .add(new GuiButton(1, width / 2 - 100, height / 4 + 52 + 12, I18n.format("gui.cancel", new Object[0])));
-        buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 32, "Save"));
-        namescreen = new GuiTextField(fontRendererObj, width / 2 - 100, height / 4, 200, 20);
-        namescreen.setMaxStringLength(31);
-        namescreen.setCanLoseFocus(true);
-        namescreen.setText(giraffe.name);
+        this.buttonList.clear();
+        this.buttonList
+        .add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 52 + 12, I18n.format("gui.cancel", new Object[0])));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 32, "Save"));
+        this.namescreen = new GuiTextField(this.fontRendererObj, this.width / 2 - 100, this.height / 4, 200, 20);
+        this.namescreen.setMaxStringLength(31);
+        this.namescreen.setCanLoseFocus(true);
+        this.namescreen.setText(this.giraffe.name);
     }
 
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
+    @Override
     public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
     }
@@ -60,67 +64,68 @@ public class CREEPSGUIGiraffename extends GuiScreen {
     /**
      * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
      */
+    @Override
     protected void actionPerformed(GuiButton guibutton) {
-        if (!guibutton.enabled) {
+        if (!guibutton.enabled)
             return;
-        }
 
         if (guibutton.id == 1) {
-            mc.displayGuiScreen(null);
+            this.mc.displayGuiScreen(null);
             return;
         }
 
         if (guibutton.id == 0) {
-            if (field_28217_m) {
+            if (this.field_28217_m)
                 return;
-            }
 
-            field_28217_m = true;
+            this.field_28217_m = true;
             long l = (new Random()).nextLong();
-            String s = namescreen.getText();
-            giraffe.name = s;
-            mc.displayGuiScreen(null);
+            String s = this.namescreen.getText();
+            this.giraffe.name = s;
+            this.mc.displayGuiScreen(null);
         }
     }
 
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
+    @Override
     protected void keyTyped(char c, int i) {
-        namescreen.textboxKeyTyped(c, i);
+        this.namescreen.textboxKeyTyped(c, i);
 
         if (c == '\r') {
-            actionPerformed((GuiButton) buttonList.get(0));
+            this.actionPerformed((GuiButton) this.buttonList.get(0));
         }
 
         if (i == 1) {
-            mc.displayGuiScreen(null);
+            this.mc.displayGuiScreen(null);
             return;
-        } else {
+        } else
             return;
-        }
     }
 
     /**
      * Called when the mouse is clicked.
      */
+    @Override
     protected void mouseClicked(int i, int j, int k) {
         super.mouseClicked(i, j, k);
-        namescreen.mouseClicked(i, j, k);
+        this.namescreen.mouseClicked(i, j, k);
     }
 
     /**
      * Draws the screen and all the components in it.
      */
+    @Override
     public void drawScreen(int i, int j, float f) {
-        drawDefaultBackground();
+        this.drawDefaultBackground();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture(guiTexture);
-        int l = (width - xSize) / 2;
-        int i1 = (height - (ySize + 16)) / 2;
-        drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
-        drawCenteredString(fontRendererObj, "NAME YOUR ROCKET GIRAFFE", width / 2, (height / 4 - 40) + 20, 0xffffff);
-        namescreen.drawTextBox();
+        this.mc.renderEngine.bindTexture(guiTexture);
+        int l = (this.width - this.xSize) / 2;
+        int i1 = (this.height - (this.ySize + 16)) / 2;
+        this.drawTexturedModalRect(l, i1, 0, 0, this.xSize, this.ySize);
+        this.drawCenteredString(this.fontRendererObj, "NAME YOUR ROCKET GIRAFFE", this.width / 2, (this.height / 4 - 40) + 20, 0xffffff);
+        this.namescreen.drawTextBox();
         super.drawScreen(i, j, f);
     }
 }

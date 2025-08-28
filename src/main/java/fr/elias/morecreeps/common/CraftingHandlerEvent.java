@@ -29,7 +29,8 @@ public class CraftingHandlerEvent {
     }
 
     @SubscribeEvent
-    public void onItemPickup(PlayerEvent.ItemPickupEvent event) {
+    public void onItemPickup(PlayerEvent.ItemPickupEvent event)
+    {
         ItemStack itemstack = event.pickedUp.getEntityItem();
         EntityPlayer player = event.player;
         boolean flag = false;
@@ -37,9 +38,7 @@ public class CraftingHandlerEvent {
             ItemStack aitemstack[] = player.inventory.mainInventory;
             int i = 0;
 
-            for (int k = 0; k < aitemstack.length; k++) {
-                ItemStack itemstack1 = aitemstack[k];
-
+            for (ItemStack itemstack1 : aitemstack) {
                 if (itemstack1 != null && itemstack1.getItem() == MoreCreepsAndWeirdos.money) {
                     i += itemstack1.stackSize;
                 }
@@ -64,9 +63,7 @@ public class CraftingHandlerEvent {
             ItemStack aitemstack1[] = player.inventory.mainInventory;
             int j = 0;
 
-            for (int l = 0; l < aitemstack1.length; l++) {
-                ItemStack itemstack2 = aitemstack1[l];
-
+            for (ItemStack itemstack2 : aitemstack1) {
                 if (itemstack2 != null && itemstack2.getItem() == MoreCreepsAndWeirdos.ram16k) {
                     j += itemstack2.stackSize;
                 }

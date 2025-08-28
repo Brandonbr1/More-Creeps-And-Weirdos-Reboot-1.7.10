@@ -139,9 +139,18 @@ public class CREEPSEntityCamel extends EntityMob {
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
+        System.out.println(this.tamed);
+        System.out.println(this.tamedcookies);
+
         if (this.modelsize > 1.75F) {
             this.ignoreFrustumCheck = true;
         }
+    }
+
+    @Override
+    protected void entityInit() {
+        super.entityInit();
+        this.dataWatcher.addObject(20, this.tamedcookies); // pick an unused index, <31
     }
 
     @Override
@@ -336,8 +345,7 @@ public class CREEPSEntityCamel extends EntityMob {
         this.used = false;
 
         if (this.tamed && entityplayer.isSneaking()) {
-            entityplayer
-            .openGui(MoreCreepsAndWeirdos.INSTANCE, 1, this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
+            entityplayer.openGui(MoreCreepsAndWeirdos.INSTANCE, 1, this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ);
             return true;
         }
 
@@ -363,6 +371,7 @@ public class CREEPSEntityCamel extends EntityMob {
             }
 
             this.tamedcookies--;
+            this.dataWatcher.updateObject(20, this.tamedcookies);
             String s = "";
 
             if (this.tamedcookies > 1) {
@@ -559,6 +568,7 @@ public class CREEPSEntityCamel extends EntityMob {
         }
 
         this.texture = this.basetexture;
+
         this.basehealth = nbttagcompound.getInteger("BaseHealth");
         this.tamedcookies = nbttagcompound.getInteger("TamedCookies");
         this.modelsize = nbttagcompound.getFloat("ModelSize");
