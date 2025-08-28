@@ -15,14 +15,15 @@ import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.FMLLog;
+
 import fr.elias.morecreeps.client.particles.CREEPSFxSmoke;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityBullet;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
 import fr.elias.morecreeps.common.port.EnumParticleTypes;
 
-public class CREEPSEntitySneakySal extends EntityMob {
+public class CREEPSEntitySneakySal extends EntityMob
+{
 
     World world;
     EntityPlayer entityplayer;
@@ -100,14 +101,14 @@ public class CREEPSEntitySneakySal extends EntityMob {
     }
 
     @Override
-    protected void applyEntityAttributes() {
+    public void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-        .setBaseValue(80D);
+        .setBaseValue(80);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-        .setBaseValue(0.65D);
+        .setBaseValue(0.65f);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-        .setBaseValue(3D);
+        .setBaseValue(3);
     }
 
     /**
@@ -151,9 +152,8 @@ public class CREEPSEntitySneakySal extends EntityMob {
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
     @Override
-    protected boolean interact(EntityPlayer entityplayer) {
+    public boolean interact(EntityPlayer entityplayer) {
         ItemStack itemstack1 = entityplayer.inventory.getCurrentItem();
-
 
         if (this.dissedmax > 0) {
             if (this.saleprice == 0.0F || this.sale < 1) {
@@ -164,10 +164,10 @@ public class CREEPSEntitySneakySal extends EntityMob {
                 entityplayer.openGui(
                         MoreCreepsAndWeirdos.INSTANCE,
                         6,
-                        this.worldObj,
-                        (int) entityplayer.posX,
-                        (int) entityplayer.posY,
-                        (int) entityplayer.posZ);
+                        this.world,
+                        (int) this.posX,
+                        (int) this.posY,
+                        (int) this.posZ);
             }
         }
 
@@ -203,13 +203,11 @@ public class CREEPSEntitySneakySal extends EntityMob {
             this.motionX = (d / f1) * 0.40000000000000002D * 0.20000000192092895D + this.motionX * 0.18000000098023225D;
             this.motionZ = (d1 / f1) * 0.40000000000000002D * 0.14000000192092896D + this.motionZ * 0.18000000098023225D;
 
-
             if (f < 2.7999999999999998D && entity.boundingBox.maxY > this.boundingBox.minY
                     && entity.boundingBox.minY < this.boundingBox.maxY) {
                 this.attackTime = 10;
                 entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.attackStrength);
             }
-
 
             super.attackEntityAsMob(entity);
         }
@@ -218,34 +216,15 @@ public class CREEPSEntitySneakySal extends EntityMob {
     /**
      * Called when the entity is attacked.
      */
-    @Override
-    public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_) {
-        if (this.isEntityInvulnerable())
-            return false;
-        else if (super.attackEntityFrom(p_70097_1_, p_70097_2_)) {
-            Entity entity = p_70097_1_.getEntity();
-
-            if (entity != null && entity instanceof EntityPlayer) {
-                this.dissedmax = 0;
-            }
-
-
-        } else
-            return false;
-        return true;
-    }
-
-    /**
-    public boolean attackEntityFrom(DamageSource damagesource, float i) {
+    public boolean attackEntityFrom(DamageSource damagesource, int i) {
         Entity entity = damagesource.getEntity();
 
-        if (entity != null && entity instanceof EntityPlayer) {
+        if (entity instanceof EntityPlayer) {
             this.dissedmax = 0;
         }
 
         return super.attackEntityFrom(DamageSource.causeMobDamage(this), i);
     }
-     **/
 
     /**
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
@@ -253,9 +232,6 @@ public class CREEPSEntitySneakySal extends EntityMob {
      */
     @Override
     public void onLivingUpdate() {
-        if (this.boundingBox == null)
-            return;
-
         if (this.shootingdelay-- < 1) {
             this.shooting = false;
         }
@@ -307,20 +283,18 @@ public class CREEPSEntitySneakySal extends EntityMob {
 
         this.sale--;
 
-        if (this.worldObj.isRemote) {
-            if (this.rand.nextInt(10) == 0) {
-                double d1 = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
-                double d3 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
-                CREEPSFxSmoke creepsfxsmoke = new CREEPSFxSmoke(
-                        this.worldObj,
-                        this.posX + d1 * 0.5D,
-                        this.posY + 2D,
-                        this.posZ + d3 * 0.5D,
-                        0.5F,
-                        0.5F);
-                creepsfxsmoke.renderDistanceWeight = 15D;
-                Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
-            }
+        if (this.rand.nextInt(10) == 0) {
+            double d1 = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
+            double d3 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
+            CREEPSFxSmoke creepsfxsmoke = new CREEPSFxSmoke(
+                    this.worldObj,
+                    this.posX + d1 * 0.5D,
+                    this.posY + 2D,
+                    this.posZ + d3 * 0.5D,
+                    0.5F,
+                    0.5F);
+            creepsfxsmoke.renderDistanceWeight = 15D;
+            Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
         }
 
         if (this.dissedmax < 1 && this.playerToAttack == null) {
@@ -357,21 +331,19 @@ public class CREEPSEntitySneakySal extends EntityMob {
     }
 
     private void smoke() {
-        if (this.worldObj.isRemote) {
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 10; j++) {
-                    double d = this.rand.nextGaussian() * 0.059999999999999998D;
-                    double d1 = this.rand.nextGaussian() * 0.059999999999999998D;
-                    double d2 = this.rand.nextGaussian() * 0.059999999999999998D;
-                    this.worldObj.spawnParticle(
-                            EnumParticleTypes.SMOKE_LARGE,
-                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-                            this.posY + this.rand.nextFloat() * this.height + i,
-                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-                            d,
-                            d1,
-                            d2);
-                }
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 10; j++) {
+                double d = this.rand.nextGaussian() * 0.059999999999999998D;
+                double d1 = this.rand.nextGaussian() * 0.059999999999999998D;
+                double d2 = this.rand.nextGaussian() * 0.059999999999999998D;
+                this.worldObj.spawnParticle(
+                        EnumParticleTypes.SMOKE_LARGE,
+                        (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                        this.posY + this.rand.nextFloat() * this.height + i,
+                        (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                        d,
+                        d1,
+                        d2);
             }
         }
     }
@@ -408,20 +380,17 @@ public class CREEPSEntitySneakySal extends EntityMob {
      */
     @Override
     public boolean getCanSpawnHere() {
-        //TODO VALIDATE.
-        if (this.worldObj == null)
+        if (this.worldObj == null || this.getBoundingBox() == null)
             return false;
         int i = MathHelper.floor_double(this.posX);
-        int j = MathHelper.floor_double(this.boundingBox.minY);
-        //  int j = MathHelper.floor_double(this.getBoundingBox().minY);
+        int j = MathHelper.floor_double(this.getBoundingBox().minY);
         int k = MathHelper.floor_double(this.posZ);
         int l = this.worldObj.getBlockLightOpacity(i, j, k);
         Block i1 = this.worldObj.getBlock(i, j - 1, k);
         return i1 != Blocks.snow && i1 != Blocks.cobblestone
                 && i1 != Blocks.planks
                 && i1 != Blocks.wool
-                && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox)
-                //  && this.worldObj.getCollidingBoundingBoxes(this, this.getBoundingBox())
+                && this.worldObj.getCollidingBoundingBoxes(this, this.getBoundingBox())
                 .size() == 0
                 && this.worldObj.checkBlockCollision(this.getBoundingBox())
                 && this.worldObj.canBlockSeeTheSky(i, j, k)
