@@ -331,19 +331,21 @@ public class CREEPSEntitySneakySal extends EntityMob
     }
 
     private void smoke() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 10; j++) {
-                double d = this.rand.nextGaussian() * 0.059999999999999998D;
-                double d1 = this.rand.nextGaussian() * 0.059999999999999998D;
-                double d2 = this.rand.nextGaussian() * 0.059999999999999998D;
-                this.worldObj.spawnParticle(
-                        EnumParticleTypes.SMOKE_LARGE,
-                        (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-                        this.posY + this.rand.nextFloat() * this.height + i,
-                        (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-                        d,
-                        d1,
-                        d2);
+        if (this.worldObj.isRemote) {
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 10; j++) {
+                    double d = this.rand.nextGaussian() * 0.059999999999999998D;
+                    double d1 = this.rand.nextGaussian() * 0.059999999999999998D;
+                    double d2 = this.rand.nextGaussian() * 0.059999999999999998D;
+                    this.worldObj.spawnParticle(
+                            EnumParticleTypes.SMOKE_LARGE,
+                            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            this.posY + this.rand.nextFloat() * this.height + i,
+                            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+                            d,
+                            d1,
+                            d2);
+                }
             }
         }
     }
