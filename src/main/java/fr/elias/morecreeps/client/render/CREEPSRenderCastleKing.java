@@ -16,25 +16,27 @@ public class CREEPSRenderCastleKing extends RenderLiving {
 
     public CREEPSRenderCastleKing(CREEPSModelCastleKing creepsmodelcastleking, float f) {
         super(creepsmodelcastleking, f);
-        modelcastlekingmain = creepsmodelcastleking;
+        this.modelcastlekingmain = creepsmodelcastleking;
     }
 
     protected void fattenup(CREEPSEntityCastleKing creepsentitycastleking, float f) {
         GL11.glScalef(2.0F, 1.5F, 2.0F);
     }
 
+    @Override
     protected void preRenderCallback(EntityLivingBase entityliving, float f) {
         CREEPSEntityCastleKing creepsentitycastleking = (CREEPSEntityCastleKing) entityliving;
-        modelcastlekingmain.hammerswing = creepsentitycastleking.hammerswing;
-        fattenup((CREEPSEntityCastleKing) entityliving, f);
+        this.modelcastlekingmain.hammerswing = creepsentitycastleking.hammerswing;
+        this.fattenup((CREEPSEntityCastleKing) entityliving, f);
     }
 
     protected ResourceLocation getEntityTexture(CREEPSEntityCastleKing entity) {
         return new ResourceLocation(entity.texture);
     }
 
+    @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
 
-        return getEntityTexture((CREEPSEntityCastleKing) entity);
+        return this.getEntityTexture((CREEPSEntityCastleKing) entity);
     }
 }

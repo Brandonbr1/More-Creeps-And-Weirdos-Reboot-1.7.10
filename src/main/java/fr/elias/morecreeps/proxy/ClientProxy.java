@@ -51,6 +51,7 @@ import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRobotTed;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRobotTodd;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntitySneakySal;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityThief;
+import fr.elias.morecreeps.common.entity.netural.CREEPSEntityInvisibleMan;
 import fr.elias.morecreeps.common.entity.netural.CREEPSEntityPreacher;
 import fr.elias.morecreeps.common.entity.netural.CREEPSEntityRockMonster;
 import fr.elias.morecreeps.common.entity.netural.CREEPSEntitySnowDevil;
@@ -263,6 +264,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(
                 CREEPSEntityZebra.class,
                 new CREEPSRenderZebra(new CREEPSModelZebra(), 0.5F));
+        RenderingRegistry.registerEntityRenderingHandler(CREEPSEntityInvisibleMan.class, new CREEPSRenderInvisibleMan(new ModelBiped(), 0.5F));
     }
 
     @Override
@@ -367,7 +369,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void barf(World world, EntityPlayer player) {
-        if (world.isRemote && world != null && player != null) {
+        if (world.isRemote && player != null) {
             double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
             double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
             for (int i = 0; i < 5; i++) {

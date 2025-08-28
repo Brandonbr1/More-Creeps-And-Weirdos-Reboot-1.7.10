@@ -267,7 +267,9 @@ public class MoreCreepsAndWeirdos {
                 .setTextureName("morecreeps:Blue");
         partShrink = new Item().setUnlocalizedName("partShrink")
                 .setTextureName("morecreeps:Shrink");
-        partBarf = new Item().setUnlocalizedName("partBarf");
+        partBarf = new Item().setUnlocalizedName("partBarf")
+                .setTextureName("morecreeps:partBarf");
+
         GameRegistry.registerItem(partBubble, "partBubble");
         GameRegistry.registerItem(partWhite, "partWhite");
         GameRegistry.registerItem(partRed, "partRed");

@@ -17,7 +17,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-
+import fr.elias.morecreeps.client.config.CREEPSConfig;
 import fr.elias.morecreeps.client.particles.CREEPSFxSpit;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.ai.CREEPSEntityCamelJockey;
@@ -93,6 +93,7 @@ public class CREEPSEntityCamel extends EntityMob {
      */
     // getBlockPathHeight in 1.8
     public float getBlockPathHeight(int x, int y, int z) {
+        // TODO: SEEMS LIKE THIS IS INCORRECT??? super.getBlockPathWeight(p_70783_1_, p_70783_2_, p_70783_3_)
         if (this.worldObj.getBlock(x, y, z) == Blocks.sand || this.worldObj.getBlock(x, y, z) == Blocks.gravel)
             return 10F;
         else
@@ -132,17 +133,19 @@ public class CREEPSEntityCamel extends EntityMob {
      * Determines if an entity can be despawned, used on idle far away entities
      */
     @Override
-    protected boolean canDespawn() {
+    protected boolean canDespawn()
+    {
         return !this.tamed;
     }
 
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        System.out.println(this.tamed);
-        System.out.println(this.tamedcookies);
+        //  System.out.println(this.tamed);
+        // System.out.println(this.tamedcookies);
 
-        if (this.modelsize > 1.75F) {
+        if (this.modelsize > 1.75F)
+        {
             this.ignoreFrustumCheck = true;
         }
     }
@@ -150,7 +153,7 @@ public class CREEPSEntityCamel extends EntityMob {
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(20, this.tamedcookies); // pick an unused index, <31
+        this.dataWatcher.addObject(CREEPSConfig.camelDWID, this.tamedcookies);
     }
 
     @Override
@@ -371,7 +374,8 @@ public class CREEPSEntityCamel extends EntityMob {
             }
 
             this.tamedcookies--;
-            this.dataWatcher.updateObject(20, this.tamedcookies);
+            this.dataWatcher.updateObject(CREEPSConfig.camelDWID, this.tamedcookies);
+
             String s = "";
 
             if (this.tamedcookies > 1) {

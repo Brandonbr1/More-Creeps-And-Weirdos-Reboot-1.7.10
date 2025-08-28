@@ -18,6 +18,7 @@ public class CREEPSConfig {
     public static boolean jailActive;
     public static boolean Blood = true;
     public static boolean registerGlobally;
+    public static int camelDWID;
 
     public static int pyramids;
 
@@ -290,6 +291,9 @@ public class CREEPSConfig {
             zebra_ID = config.get(entityID, "Zebra Entity ID", 976)
                     .getInt();
             registerGlobally = config.get(entityID, "Register Entities Globally.", false, "Should it register the mobs globally. This is limited to 256 total mob by defualt. It is reccomended to use endless IDS if you intend to use this option.").getBoolean();
+
+            camelDWID = config.get("DataWatcher", "Camel DataWatcher ID", 20).getInt();
+
 
             config.save();
         } finally {

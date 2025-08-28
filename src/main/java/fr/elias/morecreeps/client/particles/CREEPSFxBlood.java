@@ -10,15 +10,16 @@ public class CREEPSFxBlood extends EntityFX {
 
     public CREEPSFxBlood(World world, double d, double d1, double d2, Item item, float f) {
         super(world, d, d1, d2, 0.0D, 0.0D, 0.0D);
-        setSize(0.7F, 0.7F);
-        particleRed = 1.0F;
-        particleBlue = 1.0F;
-        particleGreen = 1.0F;
-        particleGravity = 2.0F;
-        particleScale *= f;
-        particleMaxAge = 90;
+        this.setSize(0.7F, 0.7F);
+        this.particleRed = 1.0F;
+        this.particleBlue = 1.0F;
+        this.particleGreen = 1.0F;
+        this.particleGravity = 2.0F;
+        this.particleScale *= f;
+        this.particleMaxAge = 90;
     }
 
+    @Override
     public int getFXLayer() {
         return 1;
     }
@@ -26,15 +27,16 @@ public class CREEPSFxBlood extends EntityFX {
     /**
      * Returns true if other Entities should be prevented from moving through this Entity.
      */
+    @Override
     public boolean canBeCollidedWith() {
         return false;
     }
 
     public void func_180434_a(Tessellator p_180434_1_, Entity p_180434_2_, float p_180434_3_, float p_180434_4_,
-        float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_, World p_180434_9_) {
-        float f6 = (float) this.particleTextureIndexX / 16.0F;
+            float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_, World p_180434_9_) {
+        float f6 = this.particleTextureIndexX / 16.0F;
         float f7 = f6 + 0.01560938F;
-        float f8 = (float) this.particleTextureIndexY / 16.0F;
+        float f8 = this.particleTextureIndexY / 16.0F;
         float f9 = f8 + 0.01560938F;
         float f10 = 0.1F * this.particleScale;
         // TODO Don't know what the below is supposed to do, need to be fixed
@@ -48,33 +50,33 @@ public class CREEPSFxBlood extends EntityFX {
             f9 = this.particleIcon.getMaxV();
         }
 
-        float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) p_180434_3_ - interpPosX);
-        float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) p_180434_3_ - interpPosY);
-        float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) p_180434_3_ - interpPosZ);
+        float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * p_180434_3_ - interpPosX);
+        float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * p_180434_3_ - interpPosY);
+        float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * p_180434_3_ - interpPosZ);
         p_180434_1_.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
         p_180434_1_.addVertexWithUV(
-            (double) (f11 - p_180434_4_ * f10 - p_180434_7_ * f10),
-            (double) (f12 - p_180434_5_ * f10),
-            (double) (f13 - p_180434_6_ * f10 - p_180434_8_ * f10),
-            (double) f7,
-            (double) f9);
+                f11 - p_180434_4_ * f10 - p_180434_7_ * f10,
+                f12 - p_180434_5_ * f10,
+                f13 - p_180434_6_ * f10 - p_180434_8_ * f10,
+                f7,
+                f9);
         p_180434_1_.addVertexWithUV(
-            (double) (f11 - p_180434_4_ * f10 + p_180434_7_ * f10),
-            (double) (f12 + p_180434_5_ * f10),
-            (double) (f13 - p_180434_6_ * f10 + p_180434_8_ * f10),
-            (double) f7,
-            (double) f8);
+                f11 - p_180434_4_ * f10 + p_180434_7_ * f10,
+                f12 + p_180434_5_ * f10,
+                f13 - p_180434_6_ * f10 + p_180434_8_ * f10,
+                f7,
+                f8);
         p_180434_1_.addVertexWithUV(
-            (double) (f11 + p_180434_4_ * f10 + p_180434_7_ * f10),
-            (double) (f12 + p_180434_5_ * f10),
-            (double) (f13 + p_180434_6_ * f10 + p_180434_8_ * f10),
-            (double) f6,
-            (double) f8);
+                f11 + p_180434_4_ * f10 + p_180434_7_ * f10,
+                f12 + p_180434_5_ * f10,
+                f13 + p_180434_6_ * f10 + p_180434_8_ * f10,
+                f6,
+                f8);
         p_180434_1_.addVertexWithUV(
-            (double) (f11 + p_180434_4_ * f10 - p_180434_7_ * f10),
-            (double) (f12 - p_180434_5_ * f10),
-            (double) (f13 + p_180434_6_ * f10 - p_180434_8_ * f10),
-            (double) f6,
-            (double) f9);
+                f11 + p_180434_4_ * f10 - p_180434_7_ * f10,
+                f12 - p_180434_5_ * f10,
+                f13 + p_180434_6_ * f10 - p_180434_8_ * f10,
+                f6,
+                f9);
     }
 }

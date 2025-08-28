@@ -2,6 +2,7 @@ package fr.elias.morecreeps.common.entity.hostile;
 
 import java.util.Random;
 
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -13,6 +14,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
@@ -46,8 +48,9 @@ public class CREEPSEntityCastleKing extends EntityMob {
         this.texture = "morecreeps:textures/entity/castleking.png";
         this.moveSpeed = 0.0;
         this.attackStrength = 4;
-        this.health = 90;
-        // health = rand.nextInt(60) + 60;
+        // this.health = 90;
+        this.health = 1;
+        this.health = this.rand.nextInt(60) + 60;
         this.setSize(2.0F, 1.6F);
         this.foundplayer = false;
         this.intrudercheck = 25;
@@ -115,38 +118,14 @@ public class CREEPSEntityCastleKing extends EntityMob {
      */
     @Override
     protected void attackEntity(Entity entity, float f) {
-        super.attackEntity(entity, f);
-        /**
-        if (this.onGround) {
-            double d = entity.posX - this.posX;
-            double d2 = entity.posZ - this.posZ;
-            float f1 = MathHelper.sqrt_double(d * d + d2 * d2);
-            this.motionX = (d / f1) * 0.40000000000000002D * 0.20000000192092895D + this.motionX * 0.18000000098023225D;
-            this.motionZ = (d2 / f1) * 0.40000000000000002D * 0.17000000192092896D + this.motionZ * 0.18000000098023225D;
-        }
+        //TODO: ADD BACK HAMMER SWING
+        if (f < 3.1F && entity.boundingBox.maxY > this.boundingBox.minY && entity.boundingBox.minY < this.boundingBox.maxY) {
 
-        if (f < 6D) {
-            double d1 = entity.posX - this.posX;
-            double d3 = entity.posZ - this.posZ;
-            float f2 = MathHelper.sqrt_double(d1 * d1 + d3 * d3);
-            this.motionX = (d1 / f2) * 0.40000000000000002D * 0.20000000192092895D + this.motionX * 0.18000000098023225D;
-            this.motionZ = (d3 / f2) * 0.40000000000000002D * 0.070000001920928964D
-                    + this.motionZ * 0.18000000098023225D;
-            this.rotationPitch = 90F;
-        }
-
-        if (f < 3.2000000000000002D && entity.getBoundingBox().maxY > this.getBoundingBox().minY
-                && entity.getBoundingBox().minY < this.getBoundingBox().maxY) {
-            if (this.hammerswing == 0.0F) {
-                this.hammerswing = -2.6F;
-            }
-
-            // attackTime = 10;
+            this.attackTime = 10;
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.attackStrength);
         }
 
-        super.attackEntityAsMob(entity);
-         **/
+
     }
 
     /**
@@ -311,7 +290,8 @@ public class CREEPSEntityCastleKing extends EntityMob {
      * Returns the item that this EntityLiving is holding, if any.
      */
     @Override
-    public ItemStack getHeldItem() {
+    public ItemStack getHeldItem()
+    {
         return new ItemStack(MoreCreepsAndWeirdos.gemsword, 1);
     }
 
