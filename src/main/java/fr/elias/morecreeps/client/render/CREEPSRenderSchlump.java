@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelSchlump;
-import fr.elias.morecreeps.common.entity.CREEPSEntitySchlump;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntitySchlump;
 
 public class CREEPSRenderSchlump extends RenderLiving {
 

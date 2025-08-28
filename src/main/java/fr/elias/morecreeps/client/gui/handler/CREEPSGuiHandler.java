@@ -6,6 +6,11 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import fr.elias.morecreeps.client.gui.*;
 import fr.elias.morecreeps.common.entity.*;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntitySneakySal;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityGuineaPig;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityHotdog;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityZebra;
 
 public class CREEPSGuiHandler implements IGuiHandler {
 

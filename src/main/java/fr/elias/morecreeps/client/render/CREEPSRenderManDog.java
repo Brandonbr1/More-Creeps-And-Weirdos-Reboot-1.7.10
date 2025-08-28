@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelManDog;
-import fr.elias.morecreeps.common.entity.CREEPSEntityManDog;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityManDog;
 
 public class CREEPSRenderManDog extends RenderLiving {
 

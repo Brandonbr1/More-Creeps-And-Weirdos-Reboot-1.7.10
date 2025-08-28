@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import fr.elias.morecreeps.common.entity.CREEPSEntitySnowDevil;
+import fr.elias.morecreeps.common.entity.netural.CREEPSEntitySnowDevil;
 
 public class CREEPSGUISnowdevilname extends GuiScreen {
 

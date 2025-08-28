@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelArmyGuyArm;
-import fr.elias.morecreeps.common.entity.CREEPSEntityArmyGuyArm;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityArmyGuyArm;
 
 public class CREEPSRenderArmyGuyArm extends RenderLiving {
 

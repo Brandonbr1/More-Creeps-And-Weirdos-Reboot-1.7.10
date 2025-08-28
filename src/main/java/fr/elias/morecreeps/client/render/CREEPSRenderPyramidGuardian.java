@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelPyramidGuardian;
-import fr.elias.morecreeps.common.entity.CREEPSEntityPyramidGuardian;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityPyramidGuardian;
 
 public class CREEPSRenderPyramidGuardian extends RenderLiving {
 

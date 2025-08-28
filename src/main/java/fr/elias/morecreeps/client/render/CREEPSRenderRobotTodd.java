@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import fr.elias.morecreeps.client.models.CREEPSModelRobotTodd;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRobotTodd;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRobotTodd;
 
 public class CREEPSRenderRobotTodd extends RenderLiving {
 

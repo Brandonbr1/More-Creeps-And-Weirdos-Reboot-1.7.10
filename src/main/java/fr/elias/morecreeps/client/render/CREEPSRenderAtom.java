@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelAtom;
 import fr.elias.morecreeps.common.Reference;
-import fr.elias.morecreeps.common.entity.CREEPSEntityAtom;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityAtom;
 
 public class CREEPSRenderAtom extends RenderLiving {
 

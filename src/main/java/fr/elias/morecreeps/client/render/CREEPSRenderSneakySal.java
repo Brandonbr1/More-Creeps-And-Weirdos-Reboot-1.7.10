@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelSneakySal;
-import fr.elias.morecreeps.common.entity.CREEPSEntitySneakySal;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntitySneakySal;
 
 public class CREEPSRenderSneakySal extends RenderLiving {
 

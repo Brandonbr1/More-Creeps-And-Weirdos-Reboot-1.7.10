@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelArmyGuy;
 import fr.elias.morecreeps.common.Reference;
-import fr.elias.morecreeps.common.entity.CREEPSEntityArmyGuy;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityArmyGuy;
 
 public class CREEPSRenderArmyGuy extends RenderLiving {
 

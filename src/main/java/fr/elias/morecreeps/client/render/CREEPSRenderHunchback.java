@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelHunchback;
-import fr.elias.morecreeps.common.entity.CREEPSEntityHunchback;
+import fr.elias.morecreeps.common.entity.ai.CREEPSEntityHunchback;
 
 public class CREEPSRenderHunchback extends RenderLiving {
 

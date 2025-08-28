@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelNonSwimmer;
-import fr.elias.morecreeps.common.entity.CREEPSEntityNonSwimmer;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityNonSwimmer;
 
 public class CREEPSRenderNonSwimmer extends RenderLiving {
 

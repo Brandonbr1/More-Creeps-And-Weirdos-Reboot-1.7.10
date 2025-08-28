@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import fr.elias.morecreeps.common.entity.CREEPSEntityRocketGiraffe;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe;
 
 public class CREEPSGUIGiraffename extends GuiScreen {
 

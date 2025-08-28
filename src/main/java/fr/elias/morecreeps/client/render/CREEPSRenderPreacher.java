@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 import fr.elias.morecreeps.client.models.CREEPSModelPreacher;
-import fr.elias.morecreeps.common.entity.CREEPSEntityPreacher;
+import fr.elias.morecreeps.common.entity.netural.CREEPSEntityPreacher;
 
 public class CREEPSRenderPreacher extends RenderLiving {
 

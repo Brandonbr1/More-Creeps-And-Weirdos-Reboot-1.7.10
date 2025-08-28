@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelCastleCritter;
-import fr.elias.morecreeps.common.entity.CREEPSEntityCastleCritter;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityCastleCritter;
 
 public class CREEPSRenderCastleCritter extends RenderLiving {
 

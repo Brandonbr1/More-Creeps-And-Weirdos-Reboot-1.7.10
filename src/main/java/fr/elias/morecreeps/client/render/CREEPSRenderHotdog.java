@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelHotdog;
-import fr.elias.morecreeps.common.entity.CREEPSEntityHotdog;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityHotdog;
 
 public class CREEPSRenderHotdog extends RenderLiving {
 

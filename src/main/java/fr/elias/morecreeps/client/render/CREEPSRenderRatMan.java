@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelRatMan;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRatMan;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRatMan;
 
 public class CREEPSRenderRatMan extends RenderLiving {
 

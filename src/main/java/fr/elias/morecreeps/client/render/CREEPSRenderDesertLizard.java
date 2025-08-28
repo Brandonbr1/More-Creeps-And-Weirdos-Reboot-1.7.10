@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelDesertLizard;
-import fr.elias.morecreeps.common.entity.CREEPSEntityDesertLizard;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityDesertLizard;
 
 public class CREEPSRenderDesertLizard extends RenderLiving {
 

@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelRocketGiraffe;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRocketGiraffe;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe;
 
 public class CREEPSRenderRocketGiraffe extends RenderLiving {
 

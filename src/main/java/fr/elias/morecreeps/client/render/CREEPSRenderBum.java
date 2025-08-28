@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelBum;
-import fr.elias.morecreeps.common.entity.CREEPSEntityBum;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityBum;
 
 public class CREEPSRenderBum extends RenderLiving {
 

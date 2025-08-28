@@ -25,8 +25,8 @@ import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL13;
 
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRatMan;
-import fr.elias.morecreeps.common.entity.CREEPSEntitySneakySal;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRatMan;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntitySneakySal;
 
 public class CREEPSGUISneakySal extends GuiScreen {
 

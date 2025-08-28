@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.common.Reference;
-import fr.elias.morecreeps.common.entity.CREEPSEntityBlackSoul;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityBlackSoul;
 
 public class CREEPSRenderBlackSoul extends RenderLiving {
 

@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelCastleGuard;
-import fr.elias.morecreeps.common.entity.CREEPSEntityCastleGuard;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityCastleGuard;
 
 public class CREEPSRenderCastleGuard extends RenderLiving {
 

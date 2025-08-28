@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelEvilScientist;
-import fr.elias.morecreeps.common.entity.CREEPSEntityEvilScientist;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityEvilScientist;
 
 public class CREEPSRenderEvilScientist extends RenderLiving {
 

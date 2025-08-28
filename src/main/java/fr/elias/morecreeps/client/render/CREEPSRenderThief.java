@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import fr.elias.morecreeps.common.entity.CREEPSEntityThief;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityThief;
 
 public class CREEPSRenderThief extends RenderLiving {
 

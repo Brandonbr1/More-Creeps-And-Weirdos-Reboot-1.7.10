@@ -11,7 +11,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.entity.CREEPSEntitySchlump;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntitySchlump;
 
 public class CREEPSItemBabyJarFull extends Item {
 

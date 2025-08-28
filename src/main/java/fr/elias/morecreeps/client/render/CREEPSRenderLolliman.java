@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelLolliman;
-import fr.elias.morecreeps.common.entity.CREEPSEntityLolliman;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityLolliman;
 
 public class CREEPSRenderLolliman extends RenderLiving {
 

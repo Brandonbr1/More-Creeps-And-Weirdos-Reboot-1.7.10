@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.entity.CREEPSEntityCastleKing;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityCastleKing;
 
 public class CREEPSWorldGenCastle extends WorldGenerator {
 

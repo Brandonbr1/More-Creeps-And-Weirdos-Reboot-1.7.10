@@ -10,6 +10,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import fr.elias.morecreeps.common.entity.*;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityCaveman;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityDigBug;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityHorseHead;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityAtom;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityRay;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
 
 public class CommonProxy {
 

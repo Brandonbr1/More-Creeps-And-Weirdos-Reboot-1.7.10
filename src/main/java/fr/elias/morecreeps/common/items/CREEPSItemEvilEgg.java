@@ -2,12 +2,11 @@ package fr.elias.morecreeps.common.items;
 
 import java.util.Random;
 
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityEvilEgg;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
-import fr.elias.morecreeps.common.entity.CREEPSEntityEvilEgg;
 
 public class CREEPSItemEvilEgg extends Item {
 

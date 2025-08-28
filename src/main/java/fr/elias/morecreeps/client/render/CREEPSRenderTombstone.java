@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelTombstone;
-import fr.elias.morecreeps.common.entity.CREEPSEntityTombstone;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTombstone;
 
 public class CREEPSRenderTombstone extends RenderLiving {
 

@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.entity.CREEPSEntityMoney;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityMoney;
 
 public class CREEPSItemMoney extends Item {
 

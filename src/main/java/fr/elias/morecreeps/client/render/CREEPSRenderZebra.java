@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelZebra;
-import fr.elias.morecreeps.common.entity.CREEPSEntityZebra;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityZebra;
 
 public class CREEPSRenderZebra extends RenderLiving {
 

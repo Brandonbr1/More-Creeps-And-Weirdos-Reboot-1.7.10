@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelBlorp;
-import fr.elias.morecreeps.common.entity.CREEPSEntityBlorp;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityBlorp;
 
 public class CREEPSRenderBlorp extends RenderLiving {
 

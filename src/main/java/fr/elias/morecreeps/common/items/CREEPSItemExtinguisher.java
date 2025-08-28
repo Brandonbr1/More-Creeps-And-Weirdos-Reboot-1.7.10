@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.entity.CREEPSEntityFoam;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityFoam;
 
 public class CREEPSItemExtinguisher extends Item {
 

@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.entity.CREEPSEntityPyramidGuardian;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityPyramidGuardian;
 
 public class CREEPSWorldGenPyramid extends WorldGenerator {
 

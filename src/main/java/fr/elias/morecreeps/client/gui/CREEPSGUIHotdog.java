@@ -19,7 +19,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL13;
 
-import fr.elias.morecreeps.common.entity.CREEPSEntityHotdog;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityHotdog;
 
 public class CREEPSGUIHotdog extends GuiScreen {
 

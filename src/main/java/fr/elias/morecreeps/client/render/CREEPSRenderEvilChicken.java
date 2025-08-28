@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelEvilChicken;
-import fr.elias.morecreeps.common.entity.CREEPSEntityEvilChicken;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityEvilChicken;
 
 public class CREEPSRenderEvilChicken extends RenderLiving {
 

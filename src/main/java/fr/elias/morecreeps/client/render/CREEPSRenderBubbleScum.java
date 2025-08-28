@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelBubbleScum;
-import fr.elias.morecreeps.common.entity.CREEPSEntityBubbleScum;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityBubbleScum;
 
 public class CREEPSRenderBubbleScum extends RenderLiving {
 

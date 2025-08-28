@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelHorseHead;
-import fr.elias.morecreeps.common.entity.CREEPSEntityHorseHead;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityHorseHead;
 
 public class CREEPSRenderHorseHead extends RenderLiving {
 

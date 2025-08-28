@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelBigBaby;
-import fr.elias.morecreeps.common.entity.CREEPSEntityBigBaby;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityBigBaby;
 
 public class CREEPSRenderBigBaby extends RenderLiving {
 

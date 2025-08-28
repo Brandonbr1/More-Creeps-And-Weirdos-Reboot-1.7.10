@@ -2,13 +2,12 @@ package fr.elias.morecreeps.common.items;
 
 import java.util.List;
 
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityBigBaby;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
-import fr.elias.morecreeps.common.entity.CREEPSEntityBigBaby;
 
 public class CREEPSItemBabyJarEmpty extends Item {
 

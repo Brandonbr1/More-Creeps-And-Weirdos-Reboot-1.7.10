@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelLawyerFromHell;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.entity.CREEPSEntityLawyerFromHell;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityLawyerFromHell;
 
 public class CREEPSRenderLawyerFromHell extends RenderLiving {
 

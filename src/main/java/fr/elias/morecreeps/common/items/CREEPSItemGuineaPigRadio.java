@@ -11,7 +11,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.entity.CREEPSEntityGuineaPig;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityGuineaPig;
 
 public class CREEPSItemGuineaPigRadio extends Item {
 
@@ -54,7 +54,7 @@ public class CREEPSItemGuineaPigRadio extends Item {
                 pickup = true;
                 world.playSoundAtEntity(entityplayer, "morecreeps:ggpigradio", 1.0F, 1.0F);
                 List list = world.getEntitiesWithinAABB(
-                    fr.elias.morecreeps.common.entity.CREEPSEntityGuineaPig.class,
+                    fr.elias.morecreeps.common.entity.nice.CREEPSEntityGuineaPig.class,
                     AxisAlignedBB
                         .getBoundingBox(
                             entityplayer.posX,

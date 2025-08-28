@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelDoghouse;
-import fr.elias.morecreeps.common.entity.CREEPSEntityDoghouse;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityDoghouse;
 
 public class CREEPSRenderDoghouse extends RenderLiving {
 

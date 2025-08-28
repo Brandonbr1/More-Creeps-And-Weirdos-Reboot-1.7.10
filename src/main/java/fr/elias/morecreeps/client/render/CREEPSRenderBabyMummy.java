@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import fr.elias.morecreeps.common.entity.CREEPSEntityBabyMummy;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityBabyMummy;
 
 public class CREEPSRenderBabyMummy extends RenderLiving {
 

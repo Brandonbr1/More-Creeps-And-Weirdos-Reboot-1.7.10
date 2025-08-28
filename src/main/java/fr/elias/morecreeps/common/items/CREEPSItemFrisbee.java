@@ -1,11 +1,10 @@
 package fr.elias.morecreeps.common.items;
 
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityFrisbee;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
-import fr.elias.morecreeps.common.entity.CREEPSEntityFrisbee;
 
 public class CREEPSItemFrisbee extends Item {
 

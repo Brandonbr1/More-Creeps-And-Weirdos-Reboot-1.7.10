@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelHippo;
-import fr.elias.morecreeps.common.entity.CREEPSEntityHippo;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityHippo;
 
 public class CREEPSRenderHippo extends RenderLiving {
 

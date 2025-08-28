@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelCamel;
-import fr.elias.morecreeps.common.entity.CREEPSEntityCamel;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityCamel;
 
 public class CREEPSRenderCamel extends RenderLiving {
 

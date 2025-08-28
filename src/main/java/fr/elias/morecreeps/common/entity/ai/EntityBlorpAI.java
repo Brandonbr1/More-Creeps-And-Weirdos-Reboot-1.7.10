@@ -2,14 +2,13 @@ package fr.elias.morecreeps.common.entity.ai;
 
 import java.util.Random;
 
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityBlorp;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-
-import fr.elias.morecreeps.common.entity.CREEPSEntityBlorp;
 
 public class EntityBlorpAI extends EntityAIBase {
 

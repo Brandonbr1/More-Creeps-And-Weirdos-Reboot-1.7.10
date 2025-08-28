@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelRockMonster;
-import fr.elias.morecreeps.common.entity.CREEPSEntityRockMonster;
+import fr.elias.morecreeps.common.entity.netural.CREEPSEntityRockMonster;
 
 public class CREEPSRenderRockMonster extends RenderLiving {
 

@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 import fr.elias.morecreeps.client.models.CREEPSModelSquimp;
-import fr.elias.morecreeps.common.entity.CREEPSEntitySquimp;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntitySquimp;
 
 public class CREEPSRenderSquimp extends RenderLiving {
 

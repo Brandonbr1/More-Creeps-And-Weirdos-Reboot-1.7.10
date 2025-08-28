@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelEvilLight;
-import fr.elias.morecreeps.common.entity.CREEPSEntityEvilLight;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityEvilLight;
 
 public class CREEPSRenderEvilLight extends RenderLiving {
 

@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelCamelJockey;
-import fr.elias.morecreeps.common.entity.CREEPSEntityCamelJockey;
+import fr.elias.morecreeps.common.entity.ai.CREEPSEntityCamelJockey;
 
 public class CREEPSRenderCamelJockey extends RenderLiving {
 

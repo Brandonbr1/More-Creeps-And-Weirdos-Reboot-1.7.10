@@ -11,11 +11,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-
-import fr.elias.morecreeps.common.entity.CREEPSEntityGuineaPig;
-import fr.elias.morecreeps.common.entity.CREEPSEntityHotdog;
-import fr.elias.morecreeps.common.entity.CREEPSEntityHunchback;
-import fr.elias.morecreeps.common.entity.CREEPSEntityPreacher;
+import fr.elias.morecreeps.common.entity.ai.CREEPSEntityHunchback;
+import fr.elias.morecreeps.common.entity.netural.CREEPSEntityPreacher;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityGuineaPig;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityHotdog;
 import fr.elias.morecreeps.common.port.EnumParticleTypes;
 
 public class CREEPSItemFireGem extends Item {

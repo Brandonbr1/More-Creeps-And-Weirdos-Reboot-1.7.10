@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelFloobShip;
-import fr.elias.morecreeps.common.entity.CREEPSEntityFloobShip;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityFloobShip;
 
 public class CREEPSRenderFloobShip extends RenderLiving {
 

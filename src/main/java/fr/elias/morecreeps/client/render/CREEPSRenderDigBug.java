@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelDigBug;
-import fr.elias.morecreeps.common.entity.CREEPSEntityDigBug;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityDigBug;
 
 public class CREEPSRenderDigBug extends RenderLiving {
 

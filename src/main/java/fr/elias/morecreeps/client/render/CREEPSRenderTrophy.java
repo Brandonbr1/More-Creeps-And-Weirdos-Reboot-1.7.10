@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 import fr.elias.morecreeps.client.models.CREEPSModelTrophy;
-import fr.elias.morecreeps.common.entity.CREEPSEntityTrophy;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
 
 public class CREEPSRenderTrophy extends RenderLiving {
 

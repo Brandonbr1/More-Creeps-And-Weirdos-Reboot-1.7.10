@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 import fr.elias.morecreeps.client.models.CREEPSModelTowel;
-import fr.elias.morecreeps.common.entity.CREEPSEntityTowel;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityTowel;
 
 public class CREEPSRenderTowel extends RenderLiving {
 

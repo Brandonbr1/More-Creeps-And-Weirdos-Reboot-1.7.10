@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import fr.elias.morecreeps.common.entity.CREEPSEntityGuineaPig;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityGuineaPig;
 
 public class CREEPSRenderGuineaPig extends RenderLiving {
 

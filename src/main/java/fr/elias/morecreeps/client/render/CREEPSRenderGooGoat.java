@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fr.elias.morecreeps.client.models.CREEPSModelGooGoat;
-import fr.elias.morecreeps.common.entity.CREEPSEntityGooGoat;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityGooGoat;
 
 public class CREEPSRenderGooGoat extends RenderLiving {
 

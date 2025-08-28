@@ -1,12 +1,11 @@
 package fr.elias.morecreeps.common.items;
 
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityAtom;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-
-import fr.elias.morecreeps.common.entity.CREEPSEntityAtom;
 
 public class CREEPSItemAtom extends Item {
 

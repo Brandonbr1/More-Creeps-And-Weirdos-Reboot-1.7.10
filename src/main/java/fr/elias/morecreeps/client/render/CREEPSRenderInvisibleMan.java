@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import fr.elias.morecreeps.common.entity.CREEPSEntityInvisibleMan;
+import fr.elias.morecreeps.common.entity.netural.CREEPSEntityInvisibleMan;
 
 public class CREEPSRenderInvisibleMan extends RenderLiving {
 
