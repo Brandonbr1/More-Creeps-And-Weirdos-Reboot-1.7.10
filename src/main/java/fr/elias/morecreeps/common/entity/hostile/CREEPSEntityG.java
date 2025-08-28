@@ -12,18 +12,20 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
+import fr.elias.morecreeps.common.Reference;
 
 public class CREEPSEntityG extends EntityMob {
 
     public float modelsize;
-    public String texture;
+    public ResourceLocation texture;
 
     public CREEPSEntityG(World world) {
         super(world);
-        this.texture = "morecreeeps:textures/entity/g.png";
+        this.texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITES + Reference.TEXTURE_G);
         this.setSize(this.width * 2.0F, this.height * 2.5F);
         this.modelsize = 2.0F;
         this.getNavigator()

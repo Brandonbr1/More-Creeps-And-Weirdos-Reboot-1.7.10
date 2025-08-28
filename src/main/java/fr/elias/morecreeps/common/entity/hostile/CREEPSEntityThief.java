@@ -93,7 +93,7 @@ public class CREEPSEntityThief extends EntityMob {
         if (!this.stolen) {
             EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 16D);
 
-            if (entityplayer != null) {
+            if (entityplayer != null && !entityplayer.worldObj.isRemote) {
                 Object obj = null;
                 ItemStack aitemstack[] = entityplayer.inventory.mainInventory;
                 this.itemnumber = -1;
@@ -154,7 +154,8 @@ public class CREEPSEntityThief extends EntityMob {
 
         EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 25D);
 
-        if (entityplayer != null && !this.stolen) {
+        if (entityplayer != null && !this.stolen && !entityplayer.worldObj.isRemote)
+        {
             this.distance = this.getDistanceToEntity(entityplayer);
             this.findPlayerToAttack();
         } else {
@@ -234,10 +235,7 @@ public class CREEPSEntityThief extends EntityMob {
             }
 
             if (itemstack != null && !this.stolen) {
-                this.stolengood = itemstack;
-                //TODO: MAKE IT KEEP ENCHANTS if stolen
-                // stolengood.getEnchantmentTagList();
-                //  stolengood.addEnchantment(p_77966_1_, p_77966_2_);
+                this.stolengood = itemstack.copy();
                 this.worldObj.playSoundAtEntity(
                         this,
                         "random.pop",
@@ -380,13 +378,11 @@ public class CREEPSEntityThief extends EntityMob {
     public void onDeath(DamageSource damagesource) {
         if (!this.worldObj.isRemote) {
             if (this.getHeldItem() != null) {
-                if (this.tempDamage > 0) {
-                    ItemStack itemstack = this.getHeldItem().copy();
-                    this.entityDropItem(itemstack, 0.0F);
-                    this.stolengood = null;
-                } else {
-                    this.dropItem(this.getHeldItem().getItem(), this.stolenamount);
-                }
+                //   if (this.tempDamage > 0) {
+                // ItemStack itemstack = this.getHeldItem().copy();
+                this.entityDropItem(this.stolengood, 0.0F);
+                this.stolengood = null;
+                // }
             }
         }
 
@@ -407,27 +403,25 @@ public class CREEPSEntityThief extends EntityMob {
 
         @Override
         public void updateTask() {
-            try {
-                EntityLivingBase entitylivingbase = this.thief.getAttackTarget();
-                double d0 = this.thief.getDistanceSqToEntity(entitylivingbase);
+            EntityLivingBase entitylivingbase = this.thief.getAttackTarget();
+            if (entitylivingbase == null) return;
+            double d0 = this.thief.getDistanceSqToEntity(entitylivingbase);
 
-                if (d0 < 4.0D) {
-                    this.thief.getMoveHelper()
-                    .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
-                } else if (d0 < 256.0D) {
-                    this.thief.getLookHelper()
-                    .setLookPositionWithEntity(entitylivingbase, 10.0F, 10.0F);
-                } else {
-                    this.thief.getNavigator()
-                    .clearPathEntity();
-                    this.thief.getMoveHelper()
-                    .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 0.5D);
+            if (d0 < 4.0D) {
+                this.thief.getMoveHelper()
+                .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
+            } else if (d0 < 256.0D) {
+                this.thief.getLookHelper()
+                .setLookPositionWithEntity(entitylivingbase, 10.0F, 10.0F);
+            } else {
+                this.thief.getNavigator()
+                .clearPathEntity();
+                this.thief.getMoveHelper()
+                .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 0.5D);
 
-                    this.thief.findPlayerToAttack();
-                }
-            } catch (NullPointerException ex) {
-                ex.printStackTrace();
+                this.thief.findPlayerToAttack();
             }
         }
     }
 }
+

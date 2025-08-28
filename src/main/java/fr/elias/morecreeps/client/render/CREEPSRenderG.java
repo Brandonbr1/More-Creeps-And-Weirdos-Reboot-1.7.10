@@ -30,7 +30,7 @@ public class CREEPSRenderG extends RenderLiving {
     }
 
     protected ResourceLocation getEntityTexture(CREEPSEntityG entity) {
-        return new ResourceLocation(entity.texture);
+        return entity.texture;
     }
 
     @Override
