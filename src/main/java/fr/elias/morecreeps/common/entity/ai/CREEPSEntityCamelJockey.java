@@ -191,7 +191,8 @@ public class CREEPSEntityCamelJockey extends EntityMob {
                 && entity.boundingBox.maxY > this.boundingBox.minY
                 && entity.boundingBox.minY < this.boundingBox.maxY
                 && !(entity instanceof CREEPSEntityCamel)) {
-            entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.attack);
+            this.swingItem();
+                this.attackEntityAsMob(entity);
         }
     }
 
