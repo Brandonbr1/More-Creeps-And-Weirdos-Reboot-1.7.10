@@ -15,13 +15,14 @@ import fr.elias.morecreeps.common.entity.nice.CREEPSEntityCamel;
 
 public class CREEPSGUICamelname extends GuiScreen {
 
+    // TODO: IMPLEMENT PACKETS
     private CREEPSEntityCamel camel;
     private GuiTextField namescreen;
     private boolean field_28217_m;
     protected int xSize;
     protected int ySize;
 
-    public static ResourceLocation guiTexture = new ResourceLocation("morecreeps:textures/gui/gui-screen.png");
+    public static ResourceLocation guiTexture = new ResourceLocation("morecreeps:textures/gui/gui-camelname.png");
 
     public CREEPSGUICamelname() {
         this.xSize = 256;

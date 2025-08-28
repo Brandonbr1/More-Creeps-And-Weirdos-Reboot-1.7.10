@@ -21,7 +21,7 @@ public class CREEPSGUIGiraffename extends GuiScreen
     private boolean field_28217_m;
     protected int xSize;
     protected int ySize;
-    public static ResourceLocation guiTexture = new ResourceLocation("morecreeps:textures/gui/gui-screen");
+    public static ResourceLocation guiTexture = new ResourceLocation("morecreeps:textures/gui/gui-screen.png");
 
     public CREEPSGUIGiraffename(CREEPSEntityRocketGiraffe creepsentityrocketgiraffe) {
         this.giraffe = creepsentityrocketgiraffe;
