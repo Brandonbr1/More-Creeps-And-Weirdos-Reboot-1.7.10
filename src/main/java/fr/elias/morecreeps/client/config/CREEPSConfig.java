@@ -22,6 +22,7 @@ public class CREEPSConfig {
     public static boolean Blood = true;
     public static boolean registerGlobally;
     public static int camelDWID;
+    public static float gemSwordDam;
 
     public static int pyramids;
 
@@ -297,35 +298,29 @@ public class CREEPSConfig {
 
             camelDWID = config.get("DataWatcher", "Camel DataWatcher ID", 20).getInt();
 
+            gemSwordDam = (float) config.get("Balance", "Gem Sword Attack Damage", 25D).getDouble(25D);
 
             rocketGiraffeRiddenSpeed = config.get("Balance", "RocketGiraffeRiddenSpeed", 0.32D,
-            "Base movement speed of the Rocket Giraffe while ridden (horse is ~0.225).")
-            .getDouble(0.32D);
-rocketGiraffeStepHeight = (float) config.get("Balance", "RocketGiraffeStepHeight", 1.10D,
-            "Step height while ridden to smoothly walk up 1-block ledges (default 1.10).")
-            .getDouble(1.10D);
-rocketGiraffeRiddenSpeed = config.get("Balance", "RocketGiraffeRiddenSpeed", 0.32D,
-            "Base movement speed of the Rocket Giraffe while ridden (horse is ~0.225).")
-            .getDouble(0.32D);
-rocketGiraffeStepHeight = (float) config.get("Balance", "RocketGiraffeStepHeight", 1.25D,
-            "Step height while ridden to smoothly walk up 1-block ledges (default 1.35).")
-            .getDouble(1.25D);
-config.save();
+                    "Base movement speed of the Rocket Giraffe while ridden (horse is ~0.225).")
+                    .getDouble(0.32D);
+
+            rocketGiraffeStepHeight = (float) config.get("Balance", "RocketGiraffeStepHeight", 1.10D,
+                    "Step height while ridden to smoothly walk up 1-block ledges (default 1.10).")
+                    .getDouble(1.10D);
+
+            rocketGiraffeRiddenSpeed = config.get("Balance", "RocketGiraffeRiddenSpeed", 0.32D,
+                    "Base movement speed of the Rocket Giraffe while ridden (horse is ~0.225).")
+                    .getDouble(0.32D);
+
+            rocketGiraffeStepHeight = (float) config.get("Balance", "RocketGiraffeStepHeight", 1.25D,
+                    "Step height while ridden to smoothly walk up 1-block ledges (default 1.35).")
+                    .getDouble(1.25D);
+
+
+            config.save();
         } finally {
             if (config.hasChanged()) {
-                rocketGiraffeRiddenSpeed = config.get("Balance", "RocketGiraffeRiddenSpeed", 0.32D,
-            "Base movement speed of the Rocket Giraffe while ridden (horse is ~0.225).")
-            .getDouble(0.32D);
-rocketGiraffeStepHeight = (float) config.get("Balance", "RocketGiraffeStepHeight", 1.10D,
-            "Step height while ridden to smoothly walk up 1-block ledges (default 1.10).")
-            .getDouble(1.10D);
-rocketGiraffeRiddenSpeed = config.get("Balance", "RocketGiraffeRiddenSpeed", 0.32D,
-            "Base movement speed of the Rocket Giraffe while ridden (horse is ~0.225).")
-            .getDouble(0.32D);
-rocketGiraffeStepHeight = (float) config.get("Balance", "RocketGiraffeStepHeight", 1.25D,
-            "Step height while ridden to smoothly walk up 1-block ledges (default 1.35).")
-            .getDouble(1.25D);
-config.save();
+                config.save();
             }
         }
         CREEPSConfig.applySpawnLimit();

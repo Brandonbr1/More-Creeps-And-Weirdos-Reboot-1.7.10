@@ -123,6 +123,7 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.stats.Achievement;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -237,6 +238,7 @@ public class MoreCreepsAndWeirdos {
     public static Achievement achieve1caveman;
     public static Achievement achieve10caveman;
     public static Achievement achieve50caveman;
+    public static ToolMaterial gemSwordMaterial;
 
     public static CreativeTabs creepsTab = new CreativeTabs("creepsTab") {
 
@@ -256,6 +258,9 @@ public class MoreCreepsAndWeirdos {
         packetHandler.registerMessage(SyncPlayerDataPacket.Handler.class, SyncPlayerDataPacket.class, 1, Side.CLIENT);
         packetHandler.registerMessage(SetGiraffeNamePacket.Handler.class, SetGiraffeNamePacket.class, 2, Side.SERVER);
         packetHandler.registerMessage(MountInputPacket.Handler.class, MountInputPacket.class, 3, Side.SERVER);
+
+        MoreCreepsAndWeirdos.gemSwordMaterial = EnumHelper.addToolMaterial(Reference.MOD_ID + "GemToolMaterial", 3, 1561, 55.0F, CREEPSConfig.gemSwordDam - 4, 10);
+
 
         partBubble = new Item().setUnlocalizedName("partBubble")
                 .setTextureName("morecreeps:bubble");

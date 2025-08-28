@@ -17,7 +17,7 @@ public class CREEPSItemGemSword extends ItemSword {
     public static Random random = new Random();
 
     public CREEPSItemGemSword() {
-        super(ToolMaterial.EMERALD);
+        super(MoreCreepsAndWeirdos.gemSwordMaterial);
         this.setMaxDamage(256);
     }
 
