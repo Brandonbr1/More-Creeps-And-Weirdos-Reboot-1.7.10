@@ -86,7 +86,10 @@ public class CommonProxy {
 
     public void smokeHorseHead(World world, CREEPSEntityHorseHead horsehead, Random rand) {}
 
-    public boolean isJumpKeyDown() {
+    
+    public void giraffeEatDirt(World world, fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe giraffe) {}
+    
+public boolean isJumpKeyDown() {
         return false;
     }
 
