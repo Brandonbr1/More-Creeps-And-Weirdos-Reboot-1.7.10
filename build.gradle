@@ -17,8 +17,22 @@ repositories {
 	}
 }
 
+
 apply plugin: 'java'
 apply plugin: 'forge'
+apply plugin: 'com.diffplug.gradle.spotless'
+
+spotless {
+	java {
+		googleJavaFormat()
+		target 'src/**/*.java'
+	}
+}
+buildscript {
+	dependencies {
+		classpath 'com.diffplug.spotless:spotless-plugin-gradle:3.27.2'
+	}
+}
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
@@ -61,6 +75,7 @@ task sourcesJar(type: Jar) {
 	classifier = 'sources'
 	from sourceSets.main.allSource
 }
+
 
 artifacts {
 	archives devJar
