@@ -8,22 +8,24 @@ import net.minecraft.world.World;
 
 public class CREEPSItemFrisbee extends Item {
 
-    public CREEPSItemFrisbee() {
-        super();
-        maxStackSize = 1;
+  public CREEPSItemFrisbee() {
+    super();
+    maxStackSize = 1;
+  }
+
+  /**
+   * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
+   * world, entityPlayer
+   */
+  public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
+    itemstack.stackSize--;
+    world.playSoundAtEntity(
+        entityplayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+
+    if (!world.isRemote) {
+      world.spawnEntityInWorld(new CREEPSEntityFrisbee(world, entityplayer));
     }
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
-    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
-        itemstack.stackSize--;
-        world.playSoundAtEntity(entityplayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
-        if (!world.isRemote) {
-            world.spawnEntityInWorld(new CREEPSEntityFrisbee(world, entityplayer));
-        }
-
-        return itemstack;
-    }
+    return itemstack;
+  }
 }

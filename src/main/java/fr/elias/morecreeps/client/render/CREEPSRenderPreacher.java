@@ -1,28 +1,26 @@
 package fr.elias.morecreeps.client.render;
 
+import fr.elias.morecreeps.client.models.CREEPSModelPreacher;
+import fr.elias.morecreeps.common.entity.netural.CREEPSEntityPreacher;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-import fr.elias.morecreeps.client.models.CREEPSModelPreacher;
-import fr.elias.morecreeps.common.entity.netural.CREEPSEntityPreacher;
-
 public class CREEPSRenderPreacher extends RenderLiving {
 
-    protected CREEPSModelPreacher modelBipedMain;
+  protected CREEPSModelPreacher modelBipedMain;
 
-    public CREEPSRenderPreacher(CREEPSModelPreacher creepsmodelpreacher, float f) {
-        super(creepsmodelpreacher, f);
-        modelBipedMain = creepsmodelpreacher;
-    }
+  public CREEPSRenderPreacher(CREEPSModelPreacher creepsmodelpreacher, float f) {
+    super(creepsmodelpreacher, f);
+    modelBipedMain = creepsmodelpreacher;
+  }
 
-    protected ResourceLocation getEntityTexture(CREEPSEntityPreacher entity) {
-        return new ResourceLocation(entity.texture);
-    }
+  protected ResourceLocation getEntityTexture(CREEPSEntityPreacher entity) {
+    return new ResourceLocation(entity.texture);
+  }
 
-    protected ResourceLocation getEntityTexture(Entity entity) {
+  protected ResourceLocation getEntityTexture(Entity entity) {
 
-        return getEntityTexture((CREEPSEntityPreacher) entity);
-    }
-
+    return getEntityTexture((CREEPSEntityPreacher) entity);
+  }
 }

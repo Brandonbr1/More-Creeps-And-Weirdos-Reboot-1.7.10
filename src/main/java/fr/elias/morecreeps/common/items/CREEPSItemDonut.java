@@ -7,22 +7,23 @@ import net.minecraft.world.World;
 
 public class CREEPSItemDonut extends Item {
 
-    private int healAmount;
+  private int healAmount;
 
-    public CREEPSItemDonut() {
-        super();
-        healAmount = 2;
-        maxStackSize = 64;
-    }
+  public CREEPSItemDonut() {
+    super();
+    healAmount = 2;
+    maxStackSize = 64;
+  }
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
-    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
-        entityplayer.swingItem();
-        world.playSoundAtEntity(entityplayer, "morecreeps:chew", 1.0F, 1.0F);
-        itemstack.stackSize--;
-        entityplayer.heal(healAmount);
-        return itemstack;
-    }
+  /**
+   * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
+   * world, entityPlayer
+   */
+  public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
+    entityplayer.swingItem();
+    world.playSoundAtEntity(entityplayer, "morecreeps:chew", 1.0F, 1.0F);
+    itemstack.stackSize--;
+    entityplayer.heal(healAmount);
+    return itemstack;
+  }
 }
