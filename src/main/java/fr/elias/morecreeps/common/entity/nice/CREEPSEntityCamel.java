@@ -169,6 +169,8 @@ public class CREEPSEntityCamel extends EntityMob {
   protected void entityInit() {
     super.entityInit();
     this.dataWatcher.addObject(CREEPSConfig.camelDWID, this.tamedcookies);
+    this.dataWatcher.addObject(CREEPSConfig.camelTamedDWID, (byte) 0);
+    this.dataWatcher.addObject(CREEPSConfig.camelNameDWID, "");
   }
 
   @Override
@@ -356,106 +358,93 @@ public class CREEPSEntityCamel extends EntityMob {
     this.used = false;
 
     if (this.tamed && entityplayer.isSneaking()) {
-      entityplayer.openGui(
-          MoreCreepsAndWeirdos.INSTANCE,
-          1,
-          this.worldObj,
-          (int) this.posX,
-          (int) this.posY,
-          (int) this.posZ);
+      if (!this.worldObj.isRemote) {
+        entityplayer.openGui(
+            MoreCreepsAndWeirdos.INSTANCE,
+            1,
+            this.worldObj,
+            (int) this.posX,
+            (int) this.posY,
+            (int) this.posZ);
+      }
       return true;
     }
 
-    if (itemstack != null && this.riddenByEntity == null && itemstack.getItem() == Items.cookie) {
-      if (itemstack.stackSize - 1 == 0) {
-        entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, null);
-      } else {
-        itemstack.stackSize--;
-      }
-
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:hotdogeat",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+    if (itemstack != null
+        && this.riddenByEntity == null
+        && itemstack.getItem() == Items.cookie
+        && !this.tamed) {
       this.used = true;
-      int health = this.basehealth;
-      health += 10;
-      this.setHealth(health);
 
-      if (health > this.basehealth) {
-        health = this.basehealth;
-      }
+      if (!this.worldObj.isRemote && !this.tamed) {
+        this.tamedcookies--;
+        String plural = this.tamedcookies > 1 ? "s" : "";
 
-      this.tamedcookies--;
-      this.dataWatcher.updateObject(CREEPSConfig.camelDWID, this.tamedcookies);
-
-      String s = "";
-
-      if (this.tamedcookies > 1) {
-        s = "s";
-      }
-
-      if (this.tamedcookies > 0) {
-        MoreCreepsAndWeirdos.proxy.addChatMessage(
-            (new StringBuilder())
-                .append("You need \2476")
-                .append(String.valueOf(this.tamedcookies))
-                .append(" cookie")
-                .append(String.valueOf(s))
-                .append(" \247fto tame this lovely camel.")
-                .toString());
-      }
-
-      if (this.tamedcookies == 0) {
-        this.tamed = true;
-
-        this.confetti(entityplayer);
-        this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
-        entityplayer.addStat(MoreCreepsAndWeirdos.achievecamel, 1);
-
-        this.owner = entityplayer;
-
-        if (this.name.length() < 1) {
-          this.name = Names[this.rand.nextInt(Names.length)];
+        if (this.tamedcookies > 0) {
+          MoreCreepsAndWeirdos.proxy.addChatMessage(
+              "You need \2476"
+                  + this.tamedcookies
+                  + " cookie"
+                  + plural
+                  + " \247fto tame this lovely camel.");
         }
 
-        MoreCreepsAndWeirdos.proxy.addChatMessage("");
-        MoreCreepsAndWeirdos.proxy.addChatMessage(
-            (new StringBuilder())
-                .append("\2476")
-                .append(String.valueOf(this.name))
-                .append(" \247fhas been tamed!")
-                .toString());
+        if (itemstack.stackSize - 1 == 0) {
+          entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, null);
+        } else {
+          itemstack.stackSize--;
+        }
+
         this.worldObj.playSoundAtEntity(
             this,
-            "morecreeps:ggpiglevelup",
+            "morecreeps:hotdogeat",
             1.0F,
             (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+
+        int health = this.basehealth;
+        health += 10;
+        this.setHealth(health);
+
+        if (health > this.basehealth) {
+          health = this.basehealth;
+        }
+
+        this.dataWatcher.updateObject(CREEPSConfig.camelDWID, this.tamedcookies);
+
+        if (this.tamedcookies < 1) {
+          this.tamed = true;
+          this.owner = entityplayer;
+          if (this.name.length() < 1) {
+            this.name = Names[this.rand.nextInt(Names.length)];
+          }
+          // Update DataWatcher for client sync
+          this.dataWatcher.updateObject(CREEPSConfig.camelTamedDWID, (byte) 1);
+          this.dataWatcher.updateObject(CREEPSConfig.camelNameDWID, this.name);
+          this.confetti(entityplayer);
+          this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
+          entityplayer.addStat(MoreCreepsAndWeirdos.achievecamel, 1);
+          MoreCreepsAndWeirdos.proxy.addChatMessage("");
+          MoreCreepsAndWeirdos.proxy.addChatMessage("\2476" + this.name + " \247fhas been tamed!");
+          this.worldObj.playSoundAtEntity(
+              this,
+              "morecreeps:ggpiglevelup",
+              1.0F,
+              (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+          this.smoke();
+        }
+      } else if (this.worldObj.isRemote && !this.tamed) {
+        this.smoke();
       }
-
-      this.smoke();
-    }
-
-    if (this.used) {
-      this.smoke();
-    }
-
-    String s1 = "";
-
-    if (this.tamedcookies > 1) {
-      s1 = "s";
     }
 
     if (!this.used && !this.tamed && !this.worldObj.isRemote) {
+      String plural = this.tamedcookies > 1 ? "s" : "";
       MoreCreepsAndWeirdos.proxy.addChatMessage(
-          (new StringBuilder())
-              .append("You need \2476")
-              .append(String.valueOf(this.tamedcookies))
-              .append(" cookie")
-              .append(String.valueOf(s1))
-              .append(" \247fto tame this lovely camel.")
-              .toString());
+          "You need \2476"
+              + this.tamedcookies
+              + " cookie"
+              + plural
+              + " \247fto tame this lovely camel.");
     }
 
     if (itemstack == null && this.tamed && this.getHealth() > 0) {
@@ -560,6 +549,9 @@ public class CREEPSEntityCamel extends EntityMob {
     nbttagcompound.setInteger("TamedCookies", this.tamedcookies);
     nbttagcompound.setInteger("BaseHealth", this.basehealth);
     nbttagcompound.setFloat("ModelSize", this.modelsize);
+    if (this.tamed && this.owner != null) {
+      nbttagcompound.setString("OwnerName", this.owner.getCommandSenderName());
+    }
   }
 
   /** (abstract) Protected helper method to read subclass entity data from NBT. */
@@ -580,6 +572,14 @@ public class CREEPSEntityCamel extends EntityMob {
     this.basehealth = nbttagcompound.getInteger("BaseHealth");
     this.tamedcookies = nbttagcompound.getInteger("TamedCookies");
     this.modelsize = nbttagcompound.getFloat("ModelSize");
+    if (this.tamed && nbttagcompound.hasKey("OwnerName")) {
+      String ownerName = nbttagcompound.getString("OwnerName");
+      this.owner = this.worldObj.getPlayerEntityByName(ownerName);
+    }
+
+    // Update DataWatcher with loaded data
+    this.dataWatcher.updateObject(CREEPSConfig.camelTamedDWID, (byte) (this.tamed ? 1 : 0));
+    this.dataWatcher.updateObject(CREEPSConfig.camelNameDWID, this.name != null ? this.name : "");
   }
 
   /** Plays living's sound at its position */

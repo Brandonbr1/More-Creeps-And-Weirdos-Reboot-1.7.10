@@ -380,44 +380,40 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
       }
     }
 
-    if (itemstack != null && this.riddenByEntity == null && itemstack.getItem() == Items.cookie) {
+    if (itemstack != null
+        && this.riddenByEntity == null
+        && itemstack.getItem() == Items.cookie
+        && !this.tamed) {
       this.used = true;
-      this.tamedfood--;
-      String s = "";
 
-      if (this.tamedfood > 1) {
-        s = "s";
-      }
+      if (!this.tamed) {
+        this.tamedfood--;
+        String plural = this.tamedfood > 1 ? "s" : "";
 
-      if (this.tamedfood > 0 && !this.worldObj.isRemote) {
-        MoreCreepsAndWeirdos.proxy.addChatMessage(
-            (new StringBuilder())
-                .append("You need \2476")
-                .append(String.valueOf(this.tamedfood))
-                .append(" cookie")
-                .append(String.valueOf(s))
-                .append(" \247fto tame this Rocket Giraffe.")
-                .toString());
-      }
+        if (this.tamedfood > 0 && !this.worldObj.isRemote) {
+          MoreCreepsAndWeirdos.proxy.addChatMessage(
+              "You need \2476"
+                  + this.tamedfood
+                  + " cookie"
+                  + plural
+                  + " \247fto tame this Rocket Giraffe.");
+        }
 
-      if (itemstack.stackSize - 1 == 0) {
-        entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, null);
-      } else {
-        itemstack.stackSize--;
-      }
+        if (itemstack.stackSize - 1 == 0) {
+          entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, null);
+        } else {
+          itemstack.stackSize--;
+        }
 
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:giraffechew",
-          this.getSoundVolume(),
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:giraffechew",
+            this.getSoundVolume(),
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
 
-      if (this.worldObj.isRemote) {
-        MoreCreepsAndWeirdos.proxy.eatingParticles(this, this.worldObj, 35);
-      }
-
-      if (this.tamedfood < 1) {
-
+        if (this.worldObj.isRemote) {
+          MoreCreepsAndWeirdos.proxy.eatingParticles(this, this.worldObj, 35);
+        }
         /**
          * if (this.world.isRemote) { if (!Minecraft.getMinecraft().thePlayer.getStatFileWriter()
          * .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieverocketgiraffe)) { this.confetti();
@@ -433,48 +429,40 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
          * this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
          * this.playermp.addStat(MoreCreepsAndWeirdos.achieverocketgiraffe, 1); } }
          */
-        this.smoke();
-        this.worldObj.playSoundAtEntity(
-            this,
-            "morecreeps:giraffetamed",
-            1.0F,
-            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-        this.tamed = true;
+        if (this.tamedfood < 1 && !this.tamed) {
+          this.smoke();
+          this.worldObj.playSoundAtEntity(
+              this,
+              "morecreeps:giraffetamed",
+              1.0F,
+              (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+          this.tamed = true;
 
-        if (this.name.length() < 1) {
-          this.name = Names[this.rand.nextInt(Names.length)];
-        }
+          if (this.name.length() < 1) {
+            this.name = Names[this.rand.nextInt(Names.length)];
+          }
 
-        if (this.worldObj.isRemote) {
-          MoreCreepsAndWeirdos.proxy.addChatMessage(
-              (new StringBuilder())
-                  .append("\2476")
-                  .append(String.valueOf(this.name))
-                  .append(" \247fhas been tamed!")
-                  .toString());
+          if (!this.worldObj.isRemote) {
+            MoreCreepsAndWeirdos.proxy.addChatMessage("");
+            MoreCreepsAndWeirdos.proxy.addChatMessage(
+                "\2476" + this.name + " \247fhas been tamed!");
+          }
+          this.health = this.basehealth;
+          this.setHealth(this.health);
+          this.basetexture = "morecreeps:textures/entity/rocketgiraffetamed.png";
+          this.texture = this.basetexture;
         }
-        this.health = this.basehealth;
-        this.setHealth(this.health);
-        this.basetexture = "morecreeps:textures/entity/rocketgiraffetamed.png";
-        this.texture = this.basetexture;
       }
     }
 
-    String s1 = "";
-
-    if (this.tamedfood > 1) {
-      s1 = "s";
-    }
-
     if (!this.used && !this.tamed && !this.worldObj.isRemote) {
+      String plural = this.tamedfood > 1 ? "s" : "";
       MoreCreepsAndWeirdos.proxy.addChatMessage(
-          (new StringBuilder())
-              .append("You need \2476")
-              .append(String.valueOf(this.tamedfood))
-              .append(" cookie")
-              .append(String.valueOf(s1))
-              .append(" \247fto tame this Rocket Giraffe.")
-              .toString());
+          "You need \2476"
+              + this.tamedfood
+              + " cookie"
+              + plural
+              + " \247fto tame this Rocket Giraffe.");
     }
 
     if (itemstack != null

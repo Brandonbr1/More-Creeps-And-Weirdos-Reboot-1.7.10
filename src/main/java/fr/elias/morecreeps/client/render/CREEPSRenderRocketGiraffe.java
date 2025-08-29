@@ -36,7 +36,7 @@ public class CREEPSRenderRocketGiraffe extends RenderLiving {
     fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe e =
         (fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe) entityliving;
     String s = e.name;
-    if (s != null && s.length() > 0) {
+    if (s != null && s.length() > 0 && e.tamed) {
       this.func_147906_a(entityliving, "\2476" + s, d, d1 + 1.1D, d2, 64);
     }
   }

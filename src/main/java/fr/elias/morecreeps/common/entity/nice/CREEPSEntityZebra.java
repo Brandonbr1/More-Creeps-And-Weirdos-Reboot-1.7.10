@@ -100,6 +100,14 @@ public class CREEPSEntityZebra extends EntityAnimal {
     this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.65f);
   }
 
+  @Override
+  protected void entityInit() {
+    super.entityInit();
+    this.dataWatcher.addObject(
+        fr.elias.morecreeps.client.config.CREEPSConfig.zebraTamedDWID, (byte) 0);
+    this.dataWatcher.addObject(fr.elias.morecreeps.client.config.CREEPSConfig.zebraNameDWID, "");
+  }
+
   /**
    * This function is used when two same-species animals in 'love mode' breed to generate the new
    * baby animal.
@@ -317,95 +325,101 @@ public class CREEPSEntityZebra extends EntityAnimal {
     ItemStack itemstack = entityplayer.inventory.getCurrentItem();
     this.used = false;
 
-    if (this.tamed && entityplayer.isSneaking() && this.riddenByEntity != null) {
-      entityplayer.mountEntity(null);
-    }
-
-    if (this.tamed && entityplayer.isSneaking() && this.riddenByEntity == null) {
-      entityplayer.openGui(
-          MoreCreepsAndWeirdos.INSTANCE,
-          7,
-          this.worldObj,
-          (int) this.posX,
-          (int) this.posY,
-          (int) this.posZ);
-      return true;
-    }
-
-    if (itemstack != null && this.riddenByEntity == null && itemstack.getItem() == Items.cookie) {
-      this.handleCookieInteraction(entityplayer);
-    }
-
-    this.handleOtherInteractions(entityplayer, itemstack);
-
-    return true;
-  }
-
-  private void handleCookieInteraction(EntityPlayer entityplayer) {
-    this.worldObj.playSoundAtEntity(
-        this,
-        "morecreeps:hotdogeat",
-        1.0F,
-        (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-    this.used = true;
-    this.health += 10;
-    if (this.health > this.basehealth) {
-      this.health = this.basehealth;
-      this.setHealth(this.health);
-    }
-    this.tamedcookies--;
-    String s = (this.tamedcookies > 1) ? "s" : "";
-    if (this.tamedcookies > 0) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "You need \2476"
-              + this.tamedcookies
-              + " cookie"
-              + s
-              + " \247fto tame this speedy Zebra.");
-    }
-
-    if (this.tamedcookies == 0) {
-      this.tamed = true;
-      // unlockZebraAchievement(entityplayer);
-      this.owner = entityplayer;
-
-      if (this.name.length() < 1) {
-        this.name = Names[this.rand.nextInt(Names.length)];
+    if (this.tamed && entityplayer.isSneaking()) {
+      if (itemstack == null) {
+        if (!this.worldObj.isRemote) {
+          entityplayer.openGui(
+              MoreCreepsAndWeirdos.INSTANCE,
+              7,
+              this.worldObj,
+              (int) this.posX,
+              (int) this.posY,
+              (int) this.posZ);
+        }
+        return true;
       }
-
-      MoreCreepsAndWeirdos.proxy.addChatMessage("");
-      MoreCreepsAndWeirdos.proxy.addChatMessage("\2476" + this.name + " \247fhas been tamed!");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:ggpiglevelup",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-
-      this.smoke();
-    }
-  }
-
-  private void handleOtherInteractions(EntityPlayer entityplayer, ItemStack itemstack) {
-    String s1 = (this.tamedcookies > 1) ? "s" : "";
-
-    if (!this.used && !this.tamed) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "You need \2476"
-              + this.tamedcookies
-              + " cookie"
-              + s1
-              + " \247fto tame this speedy Zebra.");
     }
 
-    if (itemstack == null && this.tamed && this.health > 0) {
-      if (entityplayer.riddenByEntity == null && this.modelsize > 1.0F) {
+    if (itemstack == null && this.tamed) {
+      if (entityplayer.riddenByEntity == null && this.modelsize > 0.5F) {
         this.handleMounting(entityplayer);
-      } else if (this.modelsize < 1.0F) {
+      } else if (this.modelsize < 0.5F) {
         MoreCreepsAndWeirdos.proxy.addChatMessage("Your Zebra is too small to ride!");
       } else if (entityplayer.riddenByEntity != null) {
         MoreCreepsAndWeirdos.proxy.addChatMessage("Unmount all creatures before riding your Zebra");
       }
     }
+
+    if (!this.tamed
+        && itemstack != null
+        && this.riddenByEntity == null
+        && itemstack.getItem() == Items.cookie) {
+      this.used = true;
+
+      if (!this.worldObj.isRemote && !this.tamed) {
+        this.tamedcookies--;
+        String plural = this.tamedcookies > 1 ? "s" : "";
+
+        if (this.tamedcookies > 0) {
+          MoreCreepsAndWeirdos.proxy.addChatMessage(
+              "You need \2476"
+                  + this.tamedcookies
+                  + " cookie"
+                  + plural
+                  + " \247fto tame this speedy Zebra.");
+        }
+
+        if (itemstack.stackSize - 1 == 0) {
+          entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, null);
+        } else {
+          itemstack.stackSize--;
+        }
+        if (!this.tamed) {
+          this.worldObj.playSoundAtEntity(
+              this,
+              "morecreeps:hotdogeat",
+              this.getSoundVolume(),
+              (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+        }
+        if (this.tamedcookies < 1) {
+          this.tamed = true;
+          this.owner = entityplayer;
+          if (this.name.length() < 1) {
+            this.name = Names[this.rand.nextInt(Names.length)];
+          }
+          // Update DataWatcher for client sync
+          this.dataWatcher.updateObject(
+              fr.elias.morecreeps.client.config.CREEPSConfig.zebraTamedDWID, (byte) 1);
+          this.dataWatcher.updateObject(
+              fr.elias.morecreeps.client.config.CREEPSConfig.zebraNameDWID, this.name);
+          this.confetti(entityplayer);
+          this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
+          entityplayer.addStat(MoreCreepsAndWeirdos.achievezebra, 1);
+          MoreCreepsAndWeirdos.proxy.addChatMessage("");
+          MoreCreepsAndWeirdos.proxy.addChatMessage("\2476" + this.name + " \247fhas been tamed!");
+          this.worldObj.playSoundAtEntity(
+              this,
+              "morecreeps:ggpiglevelup",
+              1.0F,
+              (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+          this.smoke();
+        }
+      } else if (this.worldObj.isRemote && !this.tamed) {
+        this.smoke();
+      }
+    }
+
+    if (!this.used && !this.tamed && !this.worldObj.isRemote) {
+      String plural = this.tamedcookies > 1 ? "s" : "";
+      MoreCreepsAndWeirdos.proxy.addChatMessage(
+          "You need \2476"
+              + this.tamedcookies
+              + " cookie"
+              + plural
+              + " \247fto tame this speedy Zebra.");
+    }
+
+    return true;
   }
 
   private void unlockZebraAchievement(EntityPlayer entityplayer) {
@@ -415,7 +429,7 @@ public class CREEPSEntityZebra extends EntityAnimal {
             .thePlayer
             .getStatFileWriter()
             .hasAchievementUnlocked(MoreCreepsAndWeirdos.achievezebra))) {
-      this.confetti();
+      this.confetti(entityplayer);
       this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
       entityplayer.addStat(MoreCreepsAndWeirdos.achievezebra, 1);
     }
@@ -424,7 +438,7 @@ public class CREEPSEntityZebra extends EntityAnimal {
         && (!this.playermp
             .func_147099_x()
             .hasAchievementUnlocked(MoreCreepsAndWeirdos.achievezebra))) {
-      this.confetti();
+      this.confetti(entityplayer);
       this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
       this.playermp.addStat(MoreCreepsAndWeirdos.achievezebra, 1);
     }
@@ -491,18 +505,16 @@ public class CREEPSEntityZebra extends EntityAnimal {
         && j1 < 15;
   }
 
-  public void confetti() {
+  public void confetti(EntityPlayer player) {
 
-    double d = -MathHelper.sin(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
-    double d1 = MathHelper.cos(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
-    CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.world);
+    double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
+    double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
+    CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.worldObj);
     creepsentitytrophy.setLocationAndAngles(
-        (this.entityplayer).posX + d * 3D,
-        (this.entityplayer).posY - 2D,
-        (this.entityplayer).posZ + d1 * 3D,
-        (this.entityplayer).rotationYaw,
-        0.0F);
-    this.world.spawnEntityInWorld(creepsentitytrophy);
+        player.posX + d * 3D, player.posY - 2D, player.posZ + d1 * 3D, player.rotationYaw, 0.0F);
+    if (!this.worldObj.isRemote) {
+      this.worldObj.spawnEntityInWorld(creepsentitytrophy);
+    }
   }
 
   private void smoke() {
@@ -565,6 +577,13 @@ public class CREEPSEntityZebra extends EntityAnimal {
     this.basehealth = nbttagcompound.getInteger("BaseHealth");
     this.tamedcookies = nbttagcompound.getInteger("TamedCookies");
     this.modelsize = nbttagcompound.getFloat("ModelSize");
+
+    // Update DataWatcher with loaded data
+    this.dataWatcher.updateObject(
+        fr.elias.morecreeps.client.config.CREEPSConfig.zebraTamedDWID, (byte) (this.tamed ? 1 : 0));
+    this.dataWatcher.updateObject(
+        fr.elias.morecreeps.client.config.CREEPSConfig.zebraNameDWID,
+        this.name != null ? this.name : "");
   }
 
   /** Plays living's sound at its position */

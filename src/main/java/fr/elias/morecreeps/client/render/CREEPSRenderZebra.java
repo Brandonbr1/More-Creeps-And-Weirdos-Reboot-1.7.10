@@ -41,10 +41,24 @@ public class CREEPSRenderZebra extends RenderLiving {
     float f2 = 1.6F;
     float f3 = 0.01666667F * f2;
     float f4 = entityliving.getDistanceToEntity(renderManager.livingPlayer);
-    String s = "";
-    s = (new StringBuilder()).append(s).append(((CREEPSEntityZebra) entityliving).name).toString();
+    CREEPSEntityZebra zebra = (CREEPSEntityZebra) entityliving;
 
-    if (f4 < 25F && s.length() > 0 && ((CREEPSEntityZebra) entityliving).riddenByEntity == null) {
+    // Get tamed status and name from DataWatcher
+    boolean tamed =
+        zebra
+                .getDataWatcher()
+                .getWatchableObjectByte(
+                    fr.elias.morecreeps.client.config.CREEPSConfig.zebraTamedDWID)
+            == 1;
+    String name =
+        zebra
+            .getDataWatcher()
+            .getWatchableObjectString(fr.elias.morecreeps.client.config.CREEPSConfig.zebraNameDWID);
+
+    String s = "";
+    s = (new StringBuilder()).append(s).append(name).toString();
+
+    if (f4 < 25F && s.length() > 0 && zebra.riddenByEntity == null && tamed) {
       s = (new StringBuilder()).append("\2476").append(s).toString();
       FontRenderer fontrenderer = getFontRendererFromRenderManager();
       GL11.glPushMatrix();

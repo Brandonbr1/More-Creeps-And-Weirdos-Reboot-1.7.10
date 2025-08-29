@@ -37,8 +37,18 @@ public class CREEPSRenderCamel extends RenderLiving {
     super.doRender(entityliving, d, d1, d2, f, f1);
     fr.elias.morecreeps.common.entity.nice.CREEPSEntityCamel e =
         (fr.elias.morecreeps.common.entity.nice.CREEPSEntityCamel) entityliving;
-    String s = e.name;
-    if (s != null && s.length() > 0) {
+
+    // Get tamed status and name from DataWatcher
+    boolean tamed =
+        e.getDataWatcher()
+                .getWatchableObjectByte(
+                    fr.elias.morecreeps.client.config.CREEPSConfig.camelTamedDWID)
+            == 1;
+    String s =
+        e.getDataWatcher()
+            .getWatchableObjectString(fr.elias.morecreeps.client.config.CREEPSConfig.camelNameDWID);
+
+    if (s != null && s.length() > 0 && tamed) {
       this.func_147906_a(entityliving, "\2476" + s, d, d1 + 1.1D, d2, 64);
     }
   }
