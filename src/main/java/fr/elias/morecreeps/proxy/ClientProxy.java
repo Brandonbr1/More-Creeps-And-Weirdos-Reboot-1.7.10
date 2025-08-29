@@ -248,68 +248,78 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void spawnSpit(World world, CREEPSEntityCamel entity, int iterAmm) {
-    double d1 = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
-    double d3 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
-
-    // 40
-    for (int i = 0; i < iterAmm; i++) {
-      CREEPSFxSpit creepsfxspit =
-          new CREEPSFxSpit(
-              world,
-              entity.posX + d1 * (4.5F - (2.0F - entity.modelsize)),
-              (entity.posY + 2.4000000953674316D) - (2.0F - entity.modelsize),
-              entity.posZ + d3 * (4.5F - (2.0F - entity.modelsize)),
-              MoreCreepsAndWeirdos.partBubble);
-      creepsfxspit.renderDistanceWeight = 10D;
-      Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxspit);
+    if (world != null && world.isRemote && entity != null) {
+      double d1 = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
+      double d3 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
+      for (int i = 0; i < iterAmm; i++) {
+        CREEPSFxSpit creepsfxspit =
+            new CREEPSFxSpit(
+                world,
+                entity.posX + d1 * (4.5F - (2.0F - entity.modelsize)),
+                (entity.posY + 2.4000000953674316D) - (2.0F - entity.modelsize),
+                entity.posZ + d3 * (4.5F - (2.0F - entity.modelsize)),
+                MoreCreepsAndWeirdos.partBubble);
+        creepsfxspit.renderDistanceWeight = 10D;
+        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().effectRenderer != null) {
+          Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxspit);
+        }
+      }
     }
   }
 
   @Override
   public void shrinkSmoke(World world, Entity entity) {
-    if (world.isRemote && entity != null) {
+    if (world != null && world.isRemote && entity != null) {
       for (int k = 0; k < 8; k++) {
         CREEPSFxSmoke creepsfxsmoke =
             new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 0.25F, 0);
         creepsfxsmoke.renderDistanceWeight = 30D;
-        Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
+        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().effectRenderer != null) {
+          Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
+        }
       }
     }
   }
 
   @Override
   public void rocketGoBoom(World world, Entity entity, Random rand) {
-    if (world.isRemote && entity != null) {
+    if (world != null && world.isRemote && entity != null && rand != null) {
       for (int i = 0; i < 20; i++) {
         Item j = MoreCreepsAndWeirdos.partYellow;
-
         if (rand.nextInt(3) == 0) {
           j = MoreCreepsAndWeirdos.partRed;
         }
-
         CREEPSFxSmoke creepsfxsmoke =
             new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 1.0F, 0F);
         creepsfxsmoke.renderDistanceWeight = 30D;
-        Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
+        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().effectRenderer != null) {
+          Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
+        }
       }
     }
   }
 
   @Override
   public void rocketSmoke(World world, Entity entity, Item item) {
-    if (world.isRemote && entity != null && item != null) {
+    if (world != null && world.isRemote && entity != null && item != null) {
       CREEPSFxSmoke creepsfxsmoke =
           new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 13, 3F);
       creepsfxsmoke.renderDistanceWeight = 15D;
-      Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
+      if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().effectRenderer != null) {
+        Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
+      }
       CREEPSFxSmoke creepsfxsmoke1 =
           new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 14, 3F);
       creepsfxsmoke1.renderDistanceWeight = 15D;
-      Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke1);
+      if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().effectRenderer != null) {
+        Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke1);
+      }
       CREEPSFxSmoke creepsfxsmoke2 =
           new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 24, 3F);
       creepsfxsmoke2.renderDistanceWeight = 15D;
-      Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke2);
+      if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().effectRenderer != null) {
+        Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke2);
+      }
     }
   }
 
@@ -405,6 +415,7 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void eatingParticles(Entity entity, World world, int iterAmm) {
+    if (!world.isRemote) return;
     // 35 for giraffe
     for (int i = 0; i < iterAmm; i++) {
       double d2 = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
@@ -425,6 +436,7 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void spawnBubbles(Entity entity, World world, int iterAmm) {
+    if (!world.isRemote) return;
     // 25 for scum
     for (int i = 0; i < iterAmm; i++) {
 
@@ -522,6 +534,7 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void smoke(World world, EntityPlayer player, Random random) {
+    if (!world.isRemote) return;
     double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
     double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
     CREEPSFxSmoke creepsfxsmoke =
@@ -539,6 +552,7 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void smokeHorseHead(World world, CREEPSEntityHorseHead horsehead, Random rand) {
+    if (!world.isRemote) return;
     CREEPSFxSmoke creepsfxsmoke =
         new CREEPSFxSmoke(
             world,
@@ -552,6 +566,7 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void smoke2(World world, Entity entity, Random random) {
+    if (!world.isRemote) return;
     for (int i = 0; i < 8; i++) {
       CREEPSFxSmoke creepsfxsmoke =
           new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 0.2F, 0.5F);
@@ -561,6 +576,7 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void smoke3(World world, Entity entity, Random random) {
+    if (!world.isRemote) return;
     for (int i = 0; i < 5; i++) {
       CREEPSFxSmoke creepsfxsmoke =
           new CREEPSFxSmoke(
@@ -576,6 +592,7 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void growParticle(World world, Entity entity) {
+    if (!world.isRemote) return;
     for (int k = 0; k < 8; k++) {
       CREEPSFxSmoke creepsfxsmoke =
           new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 0.25F, 0.0F);
@@ -584,6 +601,7 @@ public class ClientProxy extends CommonProxy {
   }
 
   public void smokeRay(World world, Entity entity, byte b0) {
+    if (!world.isRemote) return;
     CREEPSFxSmoke creepsfxsmoke =
         new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, b0, 0.5F);
     Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
@@ -591,6 +609,7 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void shrinkParticle(World world, Entity entity) {
+    if (!world.isRemote) return;
     for (int i = 0; i < 8; i++) {
       byte byte0 = 7;
 
@@ -611,12 +630,14 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void playSoundEffectAtPlayer(World world, String s, float volume, float pitch) {
+    if (!world.isRemote) return;
     EntityPlayer player = Minecraft.getMinecraft().thePlayer;
     world.playSoundEffect(player.posX, player.posY, player.posZ, s, volume, pitch);
   }
 
   @Override
   public void bubble(World world, EntityLivingBase entity) {
+    if (!world.isRemote) return;
     double d = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
     double d1 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
     CREEPSFxBubbles creepsfxbubbles =
@@ -632,6 +653,7 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void bubbleDoghouse(World world, EntityLivingBase entity) {
+    if (!world.isRemote) return;
     double d = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
     double d1 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
     CREEPSFxBubbles creepsfxbubbles =
@@ -648,6 +670,7 @@ public class ClientProxy extends CommonProxy {
   @Override
   public void pee(
       World world, double posX, double posY, double posZ, float rotationYaw, float modelsize) {
+    if (!world.isRemote) return;
     double d = -MathHelper.sin((rotationYaw * (float) Math.PI) / 180F);
     double d1 = MathHelper.cos((rotationYaw * (float) Math.PI) / 180F);
 

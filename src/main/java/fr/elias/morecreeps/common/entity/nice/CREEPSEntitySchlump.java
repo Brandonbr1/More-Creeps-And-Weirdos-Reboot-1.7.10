@@ -780,6 +780,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
   }
 
   public void smallconfetti() {
+    if (!worldObj.isRemote) return;
     for (int i = 1; i < 20; i++) {
       for (int j = 0; j < 10; j++) {
         CREEPSFxConfetti creepsfxconfetti =
