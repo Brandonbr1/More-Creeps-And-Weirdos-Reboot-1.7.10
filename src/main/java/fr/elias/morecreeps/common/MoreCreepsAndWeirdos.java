@@ -174,7 +174,6 @@ public class MoreCreepsAndWeirdos {
     partBlue,
     partShrink,
     partBarf,
-    placer;
     public static Item a_hell,
     a_pig,
     a_pyramid,
@@ -224,7 +223,8 @@ public class MoreCreepsAndWeirdos {
     gemsword,
     moopsworm,
     cavemanclub,
-    popsicle;
+    popsicle,
+    placer;
 
     public static ArmorMaterial zebraARMOR =
             EnumHelper.addArmorMaterial("zebraARMOR", 25, new int[] {2, 6, 4, 2}, 5);
