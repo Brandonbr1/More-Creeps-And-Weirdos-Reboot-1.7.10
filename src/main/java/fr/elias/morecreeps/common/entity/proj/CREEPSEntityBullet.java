@@ -320,6 +320,23 @@ public class CREEPSEntityBullet extends Entity implements IProjectile
 
             if (movingobjectposition != null) {
                 if (movingobjectposition.entityHit != null) {
+                    if (movingobjectposition.entityHit instanceof EntityPlayer) {
+                        double k = this.damage;
+
+                        if (this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL) {
+                            k = 0;
+                        }
+
+                        if (this.worldObj.difficultySetting == EnumDifficulty.EASY) {
+                            k = k / 3 + 1;
+                        }
+
+                        if (this.worldObj.difficultySetting == EnumDifficulty.HARD) {
+                            k = (k * 3) / 2;
+                        }
+
+
+                    }
                     f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
                     int k = MathHelper.ceiling_double_int(f2 * this.damage);
 
@@ -366,6 +383,7 @@ public class CREEPSEntityBullet extends Entity implements IProjectile
                         //  this.rotationYaw += 180.0F;
                         // this.prevRotationYaw += 180.0F;
                         this.ticksInAir = 0;
+                        // this.setDead();
                     }
                 } else {
                     this.field_145791_d = movingobjectposition.blockX;
