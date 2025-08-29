@@ -1,5 +1,6 @@
 package fr.elias.morecreeps.common.entity.netural;
 
+import fr.elias.morecreeps.client.gui.handler.CREEPSGuiHandler;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
 import fr.elias.morecreeps.common.port.EnumParticleTypes;
@@ -307,11 +308,11 @@ public class CREEPSEntitySnowDevil extends EntityMob {
     if (this.tamed && entityplayer.isSneaking()) {
       entityplayer.openGui(
           MoreCreepsAndWeirdos.INSTANCE,
-          7,
+          CREEPSGuiHandler.GuiType.ZEBRA_NAME.id,
           this.world,
-          (int) this.posX,
-          (int) this.posY,
-          (int) this.posZ);
+          this.getEntityId(),
+          0,
+          0);
     }
 
     if (itemstack != null) {

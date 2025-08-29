@@ -1,6 +1,8 @@
 package fr.elias.morecreeps.client.gui;
 
+import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityZebra;
+import fr.elias.morecreeps.common.packets.TameableNamePacket;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -36,7 +38,7 @@ public class CREEPSGUIZebraname extends GuiScreen {
     namescreen = new GuiTextField(fontRendererObj, width / 2 - 100, height / 4 + 10, 200, 20);
     namescreen.setMaxStringLength(31);
     namescreen.setCanLoseFocus(true);
-    namescreen.setText(zebra.name != null ? zebra.name : "");
+    namescreen.setText(zebra.getTamedName() != null ? zebra.getTamedName() : "");
   }
 
   @Override
@@ -60,9 +62,14 @@ public class CREEPSGUIZebraname extends GuiScreen {
         return;
       }
 
-      field_28217_m = true;
       String s = namescreen.getText();
-      zebra.name = s;
+      if (s == null || s.trim().isEmpty()) {
+        return;
+      }
+
+      field_28217_m = true;
+      MoreCreepsAndWeirdos.packetHandler.sendToServer(
+          new TameableNamePacket(zebra.getEntityId(), s));
       mc.displayGuiScreen(null);
     }
   }

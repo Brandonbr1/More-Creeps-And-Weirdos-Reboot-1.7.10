@@ -33,11 +33,10 @@ public class CREEPSRenderRocketGiraffe extends RenderLiving {
   public void doRenderLiving(
       EntityLiving entityliving, double d, double d1, double d2, float f, float f1) {
     super.doRender(entityliving, d, d1, d2, f, f1);
-    fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe e =
-        (fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe) entityliving;
-    String s = e.name;
-    if (s != null && s.length() > 0 && e.tamed) {
-      this.func_147906_a(entityliving, "\2476" + s, d, d1 + 1.1D, d2, 64);
+    CREEPSEntityRocketGiraffe e = (CREEPSEntityRocketGiraffe) entityliving;
+    if (e.getIsTamed() && e.getTamedName() != null && e.getTamedName().length() > 0) {
+      String nameColor = "\2476";
+      this.func_147906_a(entityliving, nameColor + e.getTamedName(), d, d1 + 1.1D, d2, 64);
     }
   }
 
@@ -46,7 +45,7 @@ public class CREEPSRenderRocketGiraffe extends RenderLiving {
   }
 
   protected ResourceLocation getEntityTexture(CREEPSEntityRocketGiraffe entity) {
-    return new ResourceLocation(entity.texture);
+    return new ResourceLocation(entity.getTexture());
   }
 
   protected ResourceLocation getEntityTexture(Entity entity) {

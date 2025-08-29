@@ -1,13 +1,15 @@
 package fr.elias.morecreeps.common.entity.nice;
 
 import fr.elias.morecreeps.client.config.CREEPSConfig;
+import fr.elias.morecreeps.client.gui.handler.CREEPSGuiHandler;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityRocket;
-import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
 import fr.elias.morecreeps.common.port.EnumParticleTypes;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -24,13 +26,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class CREEPSEntityRocketGiraffe extends EntityCreature
-    implements cpw.mods.fml.common.registry.IEntityAdditionalSpawnData {
+public class CREEPSEntityRocketGiraffe extends CREEPSEntityTameable {
   // Client-only key edge tracking (not saved)
   private transient boolean __clientLastJump = false;
   private int jumpCooldown = 0;
@@ -38,23 +38,14 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
   EntityPlayer entityplayer;
   World world;
   EntityPlayerMP playermp;
-  private boolean foundplayer;
-  private PathEntity pathToEntity;
   protected Entity playerToAttack;
 
   /** returns true if a creature has attacked recently only used for creepers and skeletons */
   protected boolean hasAttacked;
 
-  private float distance;
-  public boolean used;
-  public boolean tamed;
-  public int basehealth;
-  public int tamedfood;
-  public int attempts;
   public double dist;
   public double prevdist;
   public int facetime;
-  public String basetexture;
   public int rockettime;
   public int rocketcount;
   public int galloptime;
@@ -62,29 +53,14 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
   public double floatcycle;
   public int floatdir;
   public double floatmaxcycle;
-  private Entity targetedEntity;
-  public String name;
-  public String texture;
   public double moveSpeed;
-  public float health;
-  static final String Names[] = {
-    "Rory", "Stan", "Clarence", "FirePower", "Lightning", "Rocket Jockey", "Rocket Ralph", "Tim"
-  };
 
   public CREEPSEntityRocketGiraffe(World world) {
     super(world);
-    this.basetexture = "morecreeps:textures/entity/rocketgiraffe.png";
-    this.texture = this.basetexture;
     this.moveSpeed = 0.65F;
-    this.basehealth = this.rand.nextInt(50) + 30;
-    this.health = this.basehealth;
     this.hasAttacked = false;
-    this.foundplayer = false;
     this.setSize(1.5F, 4F);
-    this.tamedfood = this.rand.nextInt(8) + 5;
     this.rockettime = this.rand.nextInt(10) + 5;
-    this.tamed = false;
-    this.name = "";
     this.modelsize = 1.0F;
     this.floatdir = 1;
     this.floatcycle = 0.0D;
@@ -104,35 +80,15 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
     this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.65f);
   }
 
-  /** (abstract) Protected helper method to write subclass entity data to NBT. */
   @Override
   public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
     super.writeEntityToNBT(nbttagcompound);
-    nbttagcompound.setInteger("BaseHealth", this.basehealth);
-    nbttagcompound.setInteger("Attempts", this.attempts);
-    nbttagcompound.setBoolean("Tamed", this.tamed);
-    nbttagcompound.setBoolean("FoundPlayer", this.foundplayer);
-    nbttagcompound.setInteger("TamedFood", this.tamedfood);
-    nbttagcompound.setString("BaseTexture", this.basetexture);
-    nbttagcompound.setString("Name", this.name);
     nbttagcompound.setFloat("ModelSize", this.modelsize);
   }
 
-  /** (abstract) Protected helper method to read subclass entity data from NBT. */
   @Override
   public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
     super.readEntityFromNBT(nbttagcompound);
-    this.basehealth = nbttagcompound.getInteger("BaseHealth");
-    this.attempts = nbttagcompound.getInteger("Attempts");
-    this.tamed = nbttagcompound.getBoolean("Tamed");
-    this.foundplayer = nbttagcompound.getBoolean("FoundPlayer");
-    this.tamedfood = nbttagcompound.getInteger("TamedFood");
-    this.basetexture = nbttagcompound.getString("BaseTexture");
-    this.name = nbttagcompound.getString("Name");
-    this.texture = this.basetexture;
-    if (this.basetexture != null && this.basetexture.contains("rocketgiraffetamed")) {
-      this.tamed = true;
-    }
     this.modelsize = nbttagcompound.getFloat("ModelSize");
   }
 
@@ -142,12 +98,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
       this.fallDistance = 0.0F;
     }
 
-    if (this.riddenByEntity != null && this.tamed) {
-      this.stepHeight = CREEPSConfig.rocketGiraffeStepHeight;
-      this.isJumping = false;
-    }
-
-    if (this.riddenByEntity != null && this.tamed) {
+    if (this.riddenByEntity != null && this.getIsTamed()) {
       this.stepHeight = CREEPSConfig.rocketGiraffeStepHeight;
       this.isJumping = false;
     }
@@ -167,22 +118,19 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
       this.renderYawOffset = this.rotationYaw;
     }
     if (this.worldObj != null && this.worldObj.isRemote) {
-      if (this.riddenByEntity instanceof net.minecraft.entity.player.EntityPlayer) {
-        net.minecraft.entity.player.EntityPlayer rider =
-            (net.minecraft.entity.player.EntityPlayer) this.riddenByEntity;
-        net.minecraft.entity.player.EntityPlayer local =
-            net.minecraft.client.Minecraft.getMinecraft().thePlayer;
+      if (this.riddenByEntity instanceof EntityPlayer) {
+        EntityPlayer rider = (EntityPlayer) this.riddenByEntity;
+        EntityPlayer local = Minecraft.getMinecraft().thePlayer;
         if (rider == local) {
           // Pass raw inputs; server will scale using this entity's movement attributes
           float fwd = local.moveForward;
           float strafe = local.moveStrafing;
-          boolean __jump_now =
-              fr.elias.morecreeps.common.MoreCreepsAndWeirdos.proxy.isJumpKeyDown();
+          boolean __jump_now = MoreCreepsAndWeirdos.proxy.isJumpKeyDown();
           boolean jump = __jump_now && !this.__clientLastJump;
           this.__clientLastJump = __jump_now;
           this.moveForward = fwd;
           this.moveStrafing = strafe;
-          fr.elias.morecreeps.common.MoreCreepsAndWeirdos.packetHandler.sendToServer(
+          MoreCreepsAndWeirdos.packetHandler.sendToServer(
               new fr.elias.morecreeps.common.packets.MountInputPacket(
                   this.getEntityId(), fwd, strafe, jump));
         }
@@ -261,16 +209,15 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
 
   @Override
   public float getAIMoveSpeed() {
-    if (this.riddenByEntity instanceof net.minecraft.entity.player.EntityPlayer && this.tamed)
-      return (float) fr.elias.morecreeps.client.config.CREEPSConfig.rocketGiraffeRiddenSpeed;
+    if (this.riddenByEntity instanceof EntityPlayer && this.getIsTamed())
+      return (float) CREEPSConfig.rocketGiraffeRiddenSpeed;
     return super.getAIMoveSpeed();
   }
 
   @Override
   public void moveEntityWithHeading(float strafe, float forward) {
-    if (this.riddenByEntity instanceof net.minecraft.entity.player.EntityPlayer && this.tamed) {
-      net.minecraft.entity.player.EntityPlayer rider =
-          (net.minecraft.entity.player.EntityPlayer) this.riddenByEntity;
+    if (this.riddenByEntity instanceof EntityPlayer && this.getIsTamed()) {
+      EntityPlayer rider = (EntityPlayer) this.riddenByEntity;
       // Align body to rider
       this.prevRotationYaw = this.rotationYaw;
       this.rotationYaw = rider.rotationYaw;
@@ -294,8 +241,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
           srvStrafe = 0F;
         }
         // Apply configurable speed via movement attribute (this is what EntityLivingBase uses)
-        this.setAIMoveSpeed(
-            (float) fr.elias.morecreeps.client.config.CREEPSConfig.rocketGiraffeRiddenSpeed);
+        this.setAIMoveSpeed((float) CREEPSConfig.rocketGiraffeRiddenSpeed);
         IAttributeInstance att = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
         if (att != null) {
           double base = CREEPSConfig.rocketGiraffeRiddenSpeed;
@@ -320,13 +266,17 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
         if (clStrafe > -0.02F && clStrafe < 0.02F) {
           clStrafe = 0F;
         }
-        this.setAIMoveSpeed(
-            (float) fr.elias.morecreeps.client.config.CREEPSConfig.rocketGiraffeRiddenSpeed);
+        this.setAIMoveSpeed((float) CREEPSConfig.rocketGiraffeRiddenSpeed);
         super.moveEntityWithHeading(clStrafe, clForward);
       }
       return;
     }
     super.moveEntityWithHeading(strafe, forward);
+  }
+
+  @Override
+  public EntityAgeable createChild(EntityAgeable entity) {
+    return new CREEPSEntityRocketGiraffe(this.worldObj);
   }
 
   public void doMountJump() {
@@ -337,164 +287,112 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
     }
   }
 
+  @Override
+  protected void onTamingComplete(EntityPlayer player) {
+    this.worldObj.playSoundAtEntity(
+        this,
+        "morecreeps:giraffetamed",
+        1.0F,
+        (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+  }
+
+  @Override
+  protected int getFoodsToTame() {
+    return this.rand.nextInt(8) + 5;
+  }
+
+  @Override
+  protected int getBaseHealth() {
+    return this.rand.nextInt(50) + 30;
+  }
+
+  @Override
+  protected ItemStack getTamedItemStack() {
+    return new ItemStack(Items.cookie);
+  }
+
+  @Override
+  protected String[] getNames() {
+    return new String[] {
+      "Rory", "Stan", "Clarence", "FirePower", "Lightning", "Rocket Jockey", "Rocket Ralph", "Tim"
+    };
+  }
+
+  @Override
+  protected String getCreatureTypeName() {
+    return "Rocket Giraffe";
+  }
+
+  @Override
+  protected CREEPSGuiHandler.GuiType getNameGuiType() {
+    return CREEPSGuiHandler.GuiType.GIRAFFE_NAME;
+  }
+
+  @Override
+  protected net.minecraft.stats.StatBase getTamingAchievement() {
+    return MoreCreepsAndWeirdos.achieverocketgiraffe;
+  }
+
+  @Override
+  protected float getModelSize() {
+    return this.modelsize;
+  }
+
+  @Override
+  protected boolean canBeRidden() {
+    return true;
+  }
+
+  @Override
+  protected String getBaseTexture() {
+    return "morecreeps:textures/entity/rocketgiraffe.png";
+  }
+
+  @Override
+  protected String getTamedTexture() {
+    return "morecreeps:textures/entity/rocketgiraffetamed.png";
+  }
+
+  @Override
+  protected boolean shouldChangeTextureWhenTamed() {
+    return true;
+  }
+
+  @Override
+  protected boolean handleSpecificInteraction(EntityPlayer player, ItemStack itemstack) {
+    if (itemstack != null
+        && this.riddenByEntity != null
+        && (this.riddenByEntity instanceof EntityLiving)
+        && itemstack.getItem() == MoreCreepsAndWeirdos.rocket) {
+
+      if (itemstack.stackSize - 1 == 0) {
+        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+      } else {
+        itemstack.stackSize--;
+      }
+
+      this.worldObj.playSoundAtEntity(
+          this,
+          "morecreeps:rocketfire",
+          1.0F,
+          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      CREEPSEntityRocket creepsentityrocket = new CREEPSEntityRocket(this.worldObj, player, 0.0F);
+
+      if (creepsentityrocket != null) {
+        this.worldObj.spawnEntityInWorld(creepsentityrocket);
+      }
+      return true;
+    }
+    return false;
+  }
+
   /**
    * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a
    * pig.
    */
   @Override
   public boolean interact(EntityPlayer entityplayer) {
-    ItemStack itemstack = entityplayer.inventory.getCurrentItem();
-    this.used = false;
-
-    if (this.tamed && entityplayer.isSneaking()) {
-      // Only open the rename GUI when the player's hand is empty, and only on the server
-      if (itemstack == null) {
-        if (!this.worldObj.isRemote) {
-          // GUI id 5 = Giraffe name (see CREEPSGuiHandler)
-          entityplayer.openGui(
-              fr.elias.morecreeps.common.MoreCreepsAndWeirdos.INSTANCE,
-              5,
-              this.worldObj,
-              (int) this.posX,
-              (int) this.posY,
-              (int) this.posZ);
-        }
-        return true; // consume interaction to avoid double-open
-      }
-    }
-
-    if (itemstack == null && this.tamed) {
-      if (entityplayer.riddenByEntity == null && this.modelsize > 0.5F) {
-        this.rotationYaw = entityplayer.rotationYaw;
-        this.rotationPitch = entityplayer.rotationPitch;
-        entityplayer.fallDistance = -5F;
-        if (!this.worldObj.isRemote) {
-          entityplayer.mountEntity(this);
-        }
-
-      } else if (this.modelsize < 0.5F && this.tamed) {
-        MoreCreepsAndWeirdos.proxy.addChatMessage("Your Rocket Giraffe is too small to ride!");
-      } else {
-        MoreCreepsAndWeirdos.proxy.addChatMessage(
-            "Unmount all creatures before riding your Rocket Giraffe.");
-      }
-    }
-
-    if (itemstack != null
-        && this.riddenByEntity == null
-        && itemstack.getItem() == Items.cookie
-        && !this.tamed) {
-      this.used = true;
-
-      if (!this.tamed) {
-        this.tamedfood--;
-        String plural = this.tamedfood > 1 ? "s" : "";
-
-        if (this.tamedfood > 0 && !this.worldObj.isRemote) {
-          MoreCreepsAndWeirdos.proxy.addChatMessage(
-              "You need \2476"
-                  + this.tamedfood
-                  + " cookie"
-                  + plural
-                  + " \247fto tame this Rocket Giraffe.");
-        }
-
-        if (itemstack.stackSize - 1 == 0) {
-          entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, null);
-        } else {
-          itemstack.stackSize--;
-        }
-
-        this.worldObj.playSoundAtEntity(
-            this,
-            "morecreeps:giraffechew",
-            this.getSoundVolume(),
-            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-
-        if (this.worldObj.isRemote) {
-          MoreCreepsAndWeirdos.proxy.eatingParticles(this, this.worldObj, 35);
-        }
-        /**
-         * if (this.world.isRemote) { if (!Minecraft.getMinecraft().thePlayer.getStatFileWriter()
-         * .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieverocketgiraffe)) { this.confetti();
-         * this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
-         * entityplayer.addStat(MoreCreepsAndWeirdos.achieverocketgiraffe, 1); }
-         *
-         * <p>}
-         */
-
-        /**
-         * if (!this.world.isRemote) { if (!this.playermp.func_147099_x()
-         * .hasAchievementUnlocked(MoreCreepsAndWeirdos.achieverocketgiraffe)) { this.confetti();
-         * this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
-         * this.playermp.addStat(MoreCreepsAndWeirdos.achieverocketgiraffe, 1); } }
-         */
-        if (this.tamedfood < 1 && !this.tamed) {
-          this.smoke();
-          this.worldObj.playSoundAtEntity(
-              this,
-              "morecreeps:giraffetamed",
-              1.0F,
-              (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-          this.tamed = true;
-
-          if (this.name.length() < 1) {
-            this.name = Names[this.rand.nextInt(Names.length)];
-          }
-
-          if (!this.worldObj.isRemote) {
-            MoreCreepsAndWeirdos.proxy.addChatMessage("");
-            MoreCreepsAndWeirdos.proxy.addChatMessage(
-                "\2476" + this.name + " \247fhas been tamed!");
-          }
-          this.health = this.basehealth;
-          this.setHealth(this.health);
-          this.basetexture = "morecreeps:textures/entity/rocketgiraffetamed.png";
-          this.texture = this.basetexture;
-        }
-      }
-    }
-
-    if (!this.used && !this.tamed && !this.worldObj.isRemote) {
-      String plural = this.tamedfood > 1 ? "s" : "";
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "You need \2476"
-              + this.tamedfood
-              + " cookie"
-              + plural
-              + " \247fto tame this Rocket Giraffe.");
-    }
-
-    if (itemstack != null
-        && this.riddenByEntity != null
-        && (this.riddenByEntity instanceof EntityLiving)
-        && itemstack.getItem() == MoreCreepsAndWeirdos.rocket) {
-      if (itemstack.stackSize - 1 == 0) {
-        entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, null);
-      } else {
-        itemstack.stackSize--;
-      }
-
-      double d1 = -MathHelper.sin((entityplayer.rotationYaw * (float) Math.PI) / 180F);
-      double d3 = MathHelper.cos((entityplayer.rotationYaw * (float) Math.PI) / 180F);
-      double d5 = 0.0D;
-      double d6 = 0.0D;
-      double d7 = 0.012999999999999999D;
-      double d8 = 4D;
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:rocketfire",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-      CREEPSEntityRocket creepsentityrocket =
-          new CREEPSEntityRocket(this.worldObj, entityplayer, 0.0F);
-
-      if (creepsentityrocket != null) {
-        this.worldObj.spawnEntityInWorld(creepsentityrocket);
-      }
-    }
-
-    return true;
+    return super.interact(entityplayer);
   }
 
   /** Returns the Y Offset of this entity. */
@@ -504,7 +402,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
     else return this.getYOffset();
   }
 
-  private void smoke() {
+  protected void smoke() {
     if (this.worldObj.isRemote) {
       for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 10; j++) {
@@ -590,17 +488,6 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
     return 1;
   }
 
-  /** Determines if an entity can be despawned, used on idle far away entities */
-  @Override
-  public boolean isNoDespawnRequired() {
-    return this.tamed || super.isNoDespawnRequired();
-  }
-
-  @Override
-  protected boolean canDespawn() {
-    return !this.tamed;
-  }
-
   /** Called when the mob's health reaches 0. */
   @Override
   public void onDeath(DamageSource damagesource) {
@@ -613,41 +500,17 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
     super.onDeath(damagesource);
   }
 
-  public void confetti() {
-    double d = -MathHelper.sin(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
-    double d1 = MathHelper.cos(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
-    CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.world);
-    if (creepsentitytrophy != null) {
-      creepsentitytrophy.setLocationAndAngles(
-          (this.entityplayer).posX + d * 3D,
-          (this.entityplayer).posY - 2D,
-          (this.entityplayer).posZ + d1 * 3D,
-          (this.entityplayer).rotationYaw,
-          0.0F);
-      this.world.spawnEntityInWorld(creepsentitytrophy);
-    }
-  }
-
   // Sync important fields to client on initial spawn (1.7.10)
   @Override
-  public void writeSpawnData(io.netty.buffer.ByteBuf buf) {
-    buf.writeBoolean(this.tamed);
-    cpw.mods.fml.common.network.ByteBufUtils.writeUTF8String(
-        buf, this.name != null ? this.name : "");
-    cpw.mods.fml.common.network.ByteBufUtils.writeUTF8String(
-        buf, this.basetexture != null ? this.basetexture : "");
+  public void writeSpawnData(ByteBuf buf) {
+    super.writeSpawnData(buf);
     buf.writeFloat(this.modelsize);
-    buf.writeInt(this.tamedfood);
   }
 
   @Override
-  public void readSpawnData(io.netty.buffer.ByteBuf buf) {
-    this.tamed = buf.readBoolean();
-    this.name = cpw.mods.fml.common.network.ByteBufUtils.readUTF8String(buf);
-    this.basetexture = cpw.mods.fml.common.network.ByteBufUtils.readUTF8String(buf);
-    this.texture = this.basetexture;
+  public void readSpawnData(ByteBuf buf) {
+    super.readSpawnData(buf);
     this.modelsize = buf.readFloat();
-    this.tamedfood = buf.readInt();
   }
 
   @Override
@@ -656,7 +519,7 @@ public class CREEPSEntityRocketGiraffe extends EntityCreature
     // hurt.
     if (distance <= 2.5F) return;
     // If ridden, give a little more forgiveness
-    if (this.riddenByEntity != null && this.tamed && distance <= 3.5F) return;
+    if (this.riddenByEntity != null && this.getIsTamed() && distance <= 3.5F) return;
     super.fall(distance);
   }
 }

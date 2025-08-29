@@ -3,70 +3,107 @@ package fr.elias.morecreeps.client.gui.handler;
 import cpw.mods.fml.common.network.IGuiHandler;
 import fr.elias.morecreeps.client.gui.*;
 import fr.elias.morecreeps.client.gui.container.GenericContainer;
-import fr.elias.morecreeps.common.entity.*;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntitySneakySal;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityCamel;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityGuineaPig;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityHotdog;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityZebra;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class CREEPSGuiHandler implements IGuiHandler {
 
-  private CREEPSEntityHotdog hotdog;
-  private CREEPSEntityGuineaPig guineapig;
-  private CREEPSEntityRocketGiraffe rocketgiraffe;
-  private CREEPSEntitySneakySal sneakysal;
-  private CREEPSEntityZebra zebra;
+  public enum GuiType {
+    CAMEL_NAME(1),
+    HOTDOG(2),
+    GUINEA_TRAIN(3),
+    GUINEA(4),
+    GIRAFFE_NAME(5),
+    SNEAKY_SAL(6),
+    ZEBRA_NAME(7);
+
+    public final int id;
+
+    GuiType(int id) {
+      this.id = id;
+    }
+
+    public static GuiType fromId(int id) {
+      for (GuiType t : values()) {
+        if (t.id == id) return t;
+      }
+      return null;
+    }
+  }
 
   @Override
   public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-    if (ID == 1) return new GenericContainer();
-    if (ID == 2) return new GenericContainer();
-    if (ID == 3) return new GenericContainer();
-    if (ID == 4) return new GenericContainer();
-    if (ID == 5) return new GenericContainer(); // name giraffe
-    if (ID == 6) return new GenericContainer();
-    if (ID == 7) return new GenericContainer();
-    return null;
+    GuiType type = GuiType.fromId(ID);
+    if (type == null) return null;
+    switch (type) {
+      case CAMEL_NAME:
+      case HOTDOG:
+      case GUINEA_TRAIN:
+      case GUINEA:
+      case GIRAFFE_NAME:
+      case SNEAKY_SAL:
+      case ZEBRA_NAME:
+        return new GenericContainer();
+      default:
+        return null;
+    }
   }
 
   @Override
   public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+    GuiType type = GuiType.fromId(ID);
+    if (type == null) return null;
 
-    if (ID == 1) return new CREEPSGUICamelname();
+    // x Containing the entity id
+    Entity entity = world.getEntityByID(x);
+    if (entity == null) return null;
 
-    if (ID == 2) return new CREEPSGUIHotdog(this.hotdog);
-
-    if (ID == 3) return new CREEPSGUIGuineaPigTraining(this.guineapig);
-
-    if (ID == 4) return new CREEPSGUIGuineaPig(this.guineapig);
-
-    if (ID == 5) {
-      // Name Rocket Giraffe: locate nearest one to the coords
-      CREEPSEntityRocketGiraffe target = null;
-      double best = 9999D;
-      for (Object o : world.loadedEntityList) {
-        if (o instanceof CREEPSEntityRocketGiraffe) {
-          CREEPSEntityRocketGiraffe g = (CREEPSEntityRocketGiraffe) o;
-          double dx = g.posX - x - 0.5D;
-          double dy = g.posY - y - 0.5D;
-          double dz = g.posZ - z - 0.5D;
-          double dist = dx * dx + dy * dy + dz * dz;
-          if (dist < best && dist < 64D) {
-            best = dist;
-            target = g;
-          }
+    switch (type) {
+      case CAMEL_NAME:
+        if (entity instanceof CREEPSEntityCamel) {
+          return new CREEPSGUICamelname((CREEPSEntityCamel) entity);
         }
-      }
-      return new CREEPSGUIGiraffename(target);
+        break;
+      case HOTDOG:
+        if (entity instanceof CREEPSEntityHotdog) {
+          return new CREEPSGUIHotdog((CREEPSEntityHotdog) entity);
+        }
+        break;
+      case GUINEA_TRAIN:
+        if (entity instanceof CREEPSEntityGuineaPig) {
+          return new CREEPSGUIGuineaPigTraining((CREEPSEntityGuineaPig) entity);
+        }
+        break;
+      case GUINEA:
+        if (entity instanceof CREEPSEntityGuineaPig) {
+          return new CREEPSGUIGuineaPig((CREEPSEntityGuineaPig) entity);
+        }
+        break;
+      case GIRAFFE_NAME:
+        if (entity instanceof CREEPSEntityRocketGiraffe) {
+          return new CREEPSGUIGiraffename((CREEPSEntityRocketGiraffe) entity);
+        }
+        break;
+      case SNEAKY_SAL:
+        if (entity instanceof CREEPSEntitySneakySal) {
+          return new CREEPSGUISneakySal((CREEPSEntitySneakySal) entity);
+        }
+        break;
+      case ZEBRA_NAME:
+        if (entity instanceof CREEPSEntityZebra) {
+          return new CREEPSGUIZebraname((CREEPSEntityZebra) entity);
+        }
+        break;
+      default:
+        return null;
     }
-
-    if (ID == 6) return new CREEPSGUISneakySal(this.sneakysal);
-
-    if (ID == 7) return new CREEPSGUIZebraname(this.zebra);
-
     return null;
   }
 }

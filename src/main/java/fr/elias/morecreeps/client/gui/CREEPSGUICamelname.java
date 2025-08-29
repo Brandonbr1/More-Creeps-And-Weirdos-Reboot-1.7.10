@@ -1,7 +1,8 @@
 package fr.elias.morecreeps.client.gui;
 
+import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityCamel;
-import java.util.Random;
+import fr.elias.morecreeps.common.packets.TameableNamePacket;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -22,7 +23,8 @@ public class CREEPSGUICamelname extends GuiScreen {
   public static ResourceLocation guiTexture =
       new ResourceLocation("morecreeps:textures/gui/gui-camelname.png");
 
-  public CREEPSGUICamelname() {
+  public CREEPSGUICamelname(CREEPSEntityCamel creepsentitycamel) {
+    this.camel = creepsentitycamel;
     this.xSize = 256;
     this.ySize = 180;
   }
@@ -49,7 +51,7 @@ public class CREEPSGUICamelname extends GuiScreen {
         new GuiTextField(this.fontRendererObj, this.width / 2 - 100, this.height / 4 + 10, 200, 20);
     this.namescreen.setMaxStringLength(31);
     this.namescreen.setCanLoseFocus(true);
-    // this.namescreen.setText(this.camel.name);
+    this.namescreen.setText(this.camel.getTamedName() != null ? this.camel.getTamedName() : "");
   }
 
   /** Called when the screen is unloaded. Used to disable keyboard repeat events */
@@ -75,11 +77,15 @@ public class CREEPSGUICamelname extends GuiScreen {
     if (guibutton.id == 0) {
       if (this.field_28217_m) return;
 
-      this.field_28217_m = true;
-      long l = (new Random()).nextLong();
       String s = this.namescreen.getText();
-      if (this.camel == null || this.camel.name == null) return;
-      this.camel.name = s;
+      if (s == null || s.trim().isEmpty()) {
+        return;
+      }
+
+      this.field_28217_m = true;
+      if (this.camel == null) return;
+      MoreCreepsAndWeirdos.packetHandler.sendToServer(
+          new TameableNamePacket(this.camel.getEntityId(), s));
       this.mc.displayGuiScreen(null);
     }
   }
