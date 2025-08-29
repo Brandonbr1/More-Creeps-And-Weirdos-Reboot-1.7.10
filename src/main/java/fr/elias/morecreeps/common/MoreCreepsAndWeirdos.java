@@ -173,7 +173,7 @@ public class MoreCreepsAndWeirdos {
     partYellow,
     partBlue,
     partShrink,
-    partBarf,
+    partBarf;
     public static Item a_hell,
     a_pig,
     a_pyramid,
