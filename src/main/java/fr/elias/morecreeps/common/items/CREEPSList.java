@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatBase;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -30,18 +32,18 @@ public class CREEPSList {
     /**
      * adds a mapping between Entity classes and both a string representation and an ID
      */
-    public static void addMapping(Class claz, String sname, int id) {
-        System.out.println(stringToClassMapping);
-        if (stringToClassMapping.containsKey(sname))
-            throw new IllegalArgumentException("ID is already registered: " + sname);
-        else if (IDtoClassMapping.containsKey(Integer.valueOf(id)))
-            throw new IllegalArgumentException("ID is already registered: " + id);
+    public static void addMapping(Class p_75618_0_, String p_75618_1_, int p_75618_2_) {
+        if (p_75618_2_ < 0 || p_75618_2_ > Integer.MAX_VALUE) throw new IllegalArgumentException("Attempted to register a entity with invalid ID: " + p_75618_2_ + " Name: " + p_75618_1_ + " Class: " + p_75618_0_);
+        if (stringToClassMapping.containsKey(p_75618_1_))
+            throw new IllegalArgumentException("ID is already registered: " + p_75618_1_);
+        else if (IDtoClassMapping.containsKey(Integer.valueOf(p_75618_2_)))
+            throw new IllegalArgumentException("ID is already registered: " + p_75618_2_);
         else {
-            stringToClassMapping.put(sname, claz);
-            classToStringMapping.put(claz, sname);
-            IDtoClassMapping.put(Integer.valueOf(id), claz);
-            classToIDMapping.put(claz, Integer.valueOf(id));
-            stringToIDMapping.put(sname, Integer.valueOf(id));
+            stringToClassMapping.put(p_75618_1_, p_75618_0_);
+            classToStringMapping.put(p_75618_0_, p_75618_1_);
+            IDtoClassMapping.put(Integer.valueOf(p_75618_2_), p_75618_0_);
+            classToIDMapping.put(p_75618_0_, Integer.valueOf(p_75618_2_));
+            stringToIDMapping.put(p_75618_1_, Integer.valueOf(p_75618_2_));
         }
     }
 
@@ -51,6 +53,11 @@ public class CREEPSList {
     public static void addMapping(Class p_75614_0_, String p_75614_1_, int p_75614_2_, int p_75614_3_, int p_75614_4_) {
         addMapping(p_75614_0_, p_75614_1_, p_75614_2_);
         entityEggs.put(Integer.valueOf(p_75614_2_), new CREEPSList.EntityEggInfo(p_75614_2_, p_75614_3_, p_75614_4_));
+    }
+
+    public static void addCreepEntity(Class clazz, String name) {
+        int id = id2++;
+        addMapping(clazz, name, id, 0x000000, 0xFFFFFF );
     }
 
     /**
@@ -72,8 +79,53 @@ public class CREEPSList {
         return entity;
     }
 
+    /**
+     * create a new instance of an entity from NBT store
+     */
+    public static Entity createEntityFromNBT(NBTTagCompound p_75615_0_, World p_75615_1_) {
+        Entity entity = null;
 
+        if ("Minecart".equals(p_75615_0_.getString("id"))) {
+            switch (p_75615_0_.getInteger("Type")) {
+                case 0:
+                    p_75615_0_.setString("id", "MinecartRideable");
+                    break;
+                case 1:
+                    p_75615_0_.setString("id", "MinecartChest");
+                    break;
+                case 2:
+                    p_75615_0_.setString("id", "MinecartFurnace");
+            }
 
+            p_75615_0_.removeTag("Type");
+        }
+
+        Class oclass = null;
+        try {
+            oclass = stringToClassMapping.get(p_75615_0_.getString("id"));
+
+            if (oclass != null) {
+                entity = (Entity)oclass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {p_75615_1_});
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        if (entity != null) {
+            try {
+                entity.readFromNBT(p_75615_0_);
+            } catch (Exception e) {
+                FMLLog.log(Level.ERROR, e,
+                        "An Entity %s(%s) has thrown an exception during loading, its state cannot be restored. Report this to the mod author",
+                        p_75615_0_.getString("id"), oclass.getName());
+                entity = null;
+            }
+        } else {
+            logger.warn("Skipping Entity with id " + p_75615_0_.getString("id"));
+        }
+
+        return entity;
+    }
 
     /**
      * Create a new instance of an entity in the world by using an entity ID.
@@ -128,17 +180,20 @@ public class CREEPSList {
         return oclass != null ? (String)classToStringMapping.get(oclass) : null;
     }
 
-
-
     public static void func_151514_a() {}
 
     public static Set func_151515_b() {
         return Collections.unmodifiableSet(stringToIDMapping.keySet());
     }
 
-    public static void addCreepEntity(Class clazz, String name) {
-        int id = id2++;
-        addMapping(clazz, name, id, 0x000000, 0xFFFFFF );
+    public static StatBase func_151182_a(CREEPSList.EntityEggInfo p_151182_0_) {
+        String s = CREEPSList.getStringFromID(p_151182_0_.spawnedID);
+        return s == null ? null : (new StatBase("stat.killEntity." + s, new ChatComponentTranslation("stat.entityKill", new Object[] {new ChatComponentTranslation("entity." + s + ".name", new Object[0])}))).registerStat();
+    }
+
+    public static StatBase func_151176_b(CREEPSList.EntityEggInfo p_151176_0_) {
+        String s = CREEPSList.getStringFromID(p_151176_0_.spawnedID);
+        return s == null ? null : (new StatBase("stat.entityKilledBy." + s, new ChatComponentTranslation("stat.entityKilledBy", new Object[] {new ChatComponentTranslation("entity." + s + ".name", new Object[0])}))).registerStat();
     }
 
     public static class EntityEggInfo {
@@ -148,11 +203,15 @@ public class CREEPSList {
         public final int primaryColor;
         /** Color of the egg spots */
         public final int secondaryColor;
+        public final StatBase field_151512_d;
+        public final StatBase field_151513_e;
 
         public EntityEggInfo(int p_i1583_1_, int p_i1583_2_, int p_i1583_3_) {
             this.spawnedID = p_i1583_1_;
             this.primaryColor = p_i1583_2_;
             this.secondaryColor = p_i1583_3_;
+            this.field_151512_d = CREEPSList.func_151182_a(this);
+            this.field_151513_e = CREEPSList.func_151176_b(this);
         }
     }
 

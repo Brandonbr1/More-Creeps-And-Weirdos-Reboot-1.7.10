@@ -288,6 +288,28 @@ public class ClientProxy extends CommonProxy {
         }
     }
 
+
+    @Override
+    public void spawnSpit(World world, CREEPSEntityCamel entity, int iterAmm)
+    {
+        double d1 = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
+        double d3 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
+
+        // 40
+        for (int i = 0; i < iterAmm; i++) {
+            CREEPSFxSpit creepsfxspit = new CREEPSFxSpit(
+                    world,
+                    entity.posX + d1 * (4.5F - (2.0F - entity.modelsize)),
+                    (entity.posY + 2.4000000953674316D) - (2.0F - entity.modelsize),
+                    entity.posZ + d3 * (4.5F - (2.0F - entity.modelsize)),
+                    MoreCreepsAndWeirdos.partBubble);
+            creepsfxspit.renderDistanceWeight = 10D;
+            Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxspit);
+        }
+
+    }
+
+
     @Override
     public void shrinkSmoke(World world, Entity entity) {
         if (world.isRemote && entity != null) {
@@ -421,6 +443,48 @@ public class ClientProxy extends CommonProxy {
                     Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxconfetti);
                 }
             }
+        }
+    }
+
+    @Override
+    public void eatingParticles(Entity entity, World world, int iterAmm)
+    {
+        // 35 for giraffe
+        for (int i = 0; i < iterAmm; i++) {
+            double d2 = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
+            double d4 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
+            CREEPSFxDirt creepsfxdirt = new CREEPSFxDirt(
+                    world,
+                    entity.posX + d2 * 0.40000000596046448D,
+                    entity.posY + 4.5D,
+                    entity.posZ + d4 * 0.40000000596046448D,
+                    Item.getItemById(12));
+            creepsfxdirt.renderDistanceWeight = 6D;
+            // TODO: FIX PARTICLES CRASH
+            //  creepsfxdirt.setParticleTextureIndex(12);
+            Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxdirt);
+        }
+    }
+
+    @Override
+    public void spawnBubbles(Entity entity, World world, int iterAmm)
+    {
+        // 25 for scum
+        for (int i = 0; i < iterAmm; i++) {
+
+            // fixed error and decommeted (Is there a better word?) it
+            double d = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
+            double d1 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
+            CREEPSFxBubbles creepsfxbubbles = new CREEPSFxBubbles(
+                    world,
+                    entity.posX + d * 0.5D,
+                    entity.posY,
+                    entity.posZ + d1 * 0.5D,
+                    MoreCreepsAndWeirdos.partRed,
+                    0.5F);
+            creepsfxbubbles.renderDistanceWeight = 10D;
+            Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxbubbles);
+
         }
     }
 

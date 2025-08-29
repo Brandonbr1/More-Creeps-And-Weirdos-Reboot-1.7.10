@@ -314,28 +314,17 @@ public class CREEPSEntityCamel extends EntityMob {
                     (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
             this.spittimer = 30;
             this.faceEntity(entity, 360F, 0.0F);
-            double d1 = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
-            double d3 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
+            MoreCreepsAndWeirdos.proxy.spawnSpit(this.worldObj, this, 40);
 
-            for (int i = 0; i < 40; i++) {
-                CREEPSFxSpit creepsfxspit = new CREEPSFxSpit(
-                        this.worldObj,
-                        this.posX + d1 * (4.5F - (2.0F - this.modelsize)),
-                        (this.posY + 2.4000000953674316D) - (2.0F - this.modelsize),
-                        this.posZ + d3 * (4.5F - (2.0F - this.modelsize)),
-                        MoreCreepsAndWeirdos.partBubble);
-                creepsfxspit.renderDistanceWeight = 10D;
-                Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxspit);
-            }
-
-            entity.attackEntityFrom(DamageSource.causeMobDamage(this), 1);
+            super.attackEntityAsMob(entity);
         }
 
         if (f < 3.2999999999999998D - (2D - this.modelsize)
                 && entity.boundingBox != null
                 && entity.boundingBox.maxY > entity.boundingBox.minY
                 && entity.boundingBox.minY < entity.boundingBox.maxY) {
-            entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.attack);
+            super.attackEntityAsMob(entity);
+            // entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.attack);
         }
     }
 

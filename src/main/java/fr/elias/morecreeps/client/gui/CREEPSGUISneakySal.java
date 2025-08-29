@@ -24,10 +24,13 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL13;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRatMan;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntitySneakySal;
 
+@SideOnly(Side.CLIENT)
 public class CREEPSGUISneakySal extends GuiScreen {
 
     private CREEPSEntitySneakySal sneakysal;

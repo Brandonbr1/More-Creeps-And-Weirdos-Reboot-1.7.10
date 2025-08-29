@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 
 import fr.elias.morecreeps.common.entity.*;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityCaveman;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityCamel;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityDigBug;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityHorseHead;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityAtom;
@@ -43,11 +44,11 @@ public class CommonProxy {
             double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
             CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(world);
             creepsentitytrophy.setLocationAndAngles(
-                player.posX + d * 3D,
-                player.posY - 2D,
-                player.posZ + d1 * 3D,
-                player.rotationYaw,
-                0.0F);
+                    player.posX + d * 3D,
+                    player.posY - 2D,
+                    player.posZ + d1 * 3D,
+                    player.rotationYaw,
+                    0.0F);
             world.spawnEntityInWorld(creepsentitytrophy);
         }
     }
@@ -86,12 +87,19 @@ public class CommonProxy {
 
     public void smokeHorseHead(World world, CREEPSEntityHorseHead horsehead, Random rand) {}
 
-    
+    public void eatingParticles(Entity entity, World world, int iterAmm) {}
+
+    public void spawnSpit(World world, CREEPSEntityCamel entity, int iterAmm) {}
+
     public void giraffeEatDirt(World world, fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe giraffe) {}
-    
-public boolean isJumpKeyDown() {
+
+    public boolean isJumpKeyDown() {
         return false;
     }
 
     public void smokeRay(World worldObj, CREEPSEntityRay creepsEntityRay, byte byte0) {}
+
+    public void spawnBubbles(Entity entity, World world, int iterAmm) {
+
+    }
 }

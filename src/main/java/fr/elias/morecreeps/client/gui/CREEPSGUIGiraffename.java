@@ -1,15 +1,16 @@
 package fr.elias.morecreeps.client.gui;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
+import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe;
+import fr.elias.morecreeps.common.packets.SetGiraffeNamePacket;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-import fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe;
-import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.packets.SetGiraffeNamePacket;
 
 public class CREEPSGUIGiraffename extends GuiScreen {
 
@@ -28,7 +29,9 @@ public class CREEPSGUIGiraffename extends GuiScreen {
 
     @Override
     public void updateScreen() {
-        if (this.namescreen != null) this.namescreen.updateCursorCounter();
+        if (this.namescreen != null) {
+            this.namescreen.updateCursorCounter();
+        }
     }
 
     @Override
@@ -62,8 +65,12 @@ public class CREEPSGUIGiraffename extends GuiScreen {
             this.field_28217_m = true;
 
             String s = this.namescreen != null ? this.namescreen.getText() : "";
-            if (s == null) s = "";
-            if (s.length() > 31) s = s.substring(0, 31);
+            if (s == null) {
+                s = "";
+            }
+            if (s.length() > 31) {
+                s = s.substring(0, 31);
+            }
 
             if (this.giraffe != null) {
                 this.giraffe.name = s;
@@ -77,22 +84,25 @@ public class CREEPSGUIGiraffename extends GuiScreen {
 
     @Override
     protected void keyTyped(char c, int i) {
-        if (this.namescreen != null) this.namescreen.textboxKeyTyped(c, i);
+        if (this.namescreen != null) {
+            this.namescreen.textboxKeyTyped(c, i);
+        }
         if (c == '\r') {
             this.actionPerformed((GuiButton) this.buttonList.get(0));
         }
         if (i == 1) {
             this.mc.displayGuiScreen(null);
             return;
-        } else {
+        } else
             return;
-        }
     }
 
     @Override
     protected void mouseClicked(int i, int j, int k) {
         super.mouseClicked(i, j, k);
-        if (this.namescreen != null) this.namescreen.mouseClicked(i, j, k);
+        if (this.namescreen != null) {
+            this.namescreen.mouseClicked(i, j, k);
+        }
     }
 
     @Override
@@ -104,7 +114,9 @@ public class CREEPSGUIGiraffename extends GuiScreen {
         int i1 = (this.height - (this.ySize + 16)) / 2;
         this.drawTexturedModalRect(l, i1, 0, 0, this.xSize, this.ySize);
         this.drawCenteredString(this.fontRendererObj, "NAME YOUR ROCKET GIRAFFE", this.width / 2, (this.height / 4 - 40) + 20, 0xffffff);
-        if (this.namescreen != null) this.namescreen.drawTextBox();
+        if (this.namescreen != null) {
+            this.namescreen.drawTextBox();
+        }
         super.drawScreen(i, j, f);
     }
 }

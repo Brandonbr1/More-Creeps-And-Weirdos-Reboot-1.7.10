@@ -2,12 +2,16 @@ package fr.elias.morecreeps.common.entity.nice;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
+import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -15,9 +19,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-
-import fr.elias.morecreeps.client.particles.CREEPSFxBubbles;
-import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 
 public class CREEPSEntityBubbleScum extends EntityCreature {
 
@@ -398,20 +399,7 @@ public class CREEPSEntityBubbleScum extends EntityCreature {
         this.smokePlain();
         super.setDead();
 
-        for (int i = 0; i < 25; i++) {
-            // fixed error and decommeted (Is there a better word?) it
-            double d = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
-            double d1 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
-            CREEPSFxBubbles creepsfxbubbles = new CREEPSFxBubbles(
-                    this.worldObj,
-                    this.posX + d * 0.5D,
-                    this.posY,
-                    this.posZ + d1 * 0.5D,
-                    MoreCreepsAndWeirdos.partRed,
-                    0.5F);
-            creepsfxbubbles.renderDistanceWeight = 10D;
-            Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxbubbles);
-        }
+        MoreCreepsAndWeirdos.proxy.spawnBubbles(this, this.worldObj, 25);
 
         if (!this.worldObj.isRemote) {
             if (this.rand.nextInt(25) == 0) {
