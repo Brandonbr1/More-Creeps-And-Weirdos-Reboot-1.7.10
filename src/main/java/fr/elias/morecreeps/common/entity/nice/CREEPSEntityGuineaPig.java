@@ -383,7 +383,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
         super.attackEntityAsMob(entity);
 
         if (this.rand.nextInt(100) > 100D - d1) {
-          if (CREEPSConfig.Blood) {
+          if (CREEPSConfig.Blood && this.worldObj.isRemote) {
             for (int i = 0; i < 10; i++) {
               CREEPSFxBlood creepsfxblood =
                   new CREEPSFxBlood(

@@ -318,14 +318,16 @@ public class CREEPSEntityHotdog extends EntityMob {
         double d1 = this.rand.nextGaussian() * 0.02D;
         double d3 = this.rand.nextGaussian() * 0.02D;
         double d5 = this.rand.nextGaussian() * 0.02D;
-        this.worldObj.spawnParticle(
-            "heart",
-            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-            this.posY + 0.5D + this.rand.nextFloat() * this.height,
-            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-            d1,
-            d3,
-            d5);
+        if (this.worldObj.isRemote) {
+          this.worldObj.spawnParticle(
+              "heart",
+              (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+              this.posY + 0.5D + this.rand.nextFloat() * this.height,
+              (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
+              d1,
+              d3,
+              d5);
+        }
       }
     }
 
@@ -350,11 +352,15 @@ public class CREEPSEntityHotdog extends EntityMob {
       double d8 = 0.27000001072883606D;
 
       if (j == 1) {
-        this.worldObj.spawnParticle("smoke", d2 - d8, d4 + d7, d6, 0.0D, 0.0D, 0.0D);
-        this.worldObj.spawnParticle("flame", d2 - d8, d4 + d7, d6, 0.0D, 0.0D, 0.0D);
+        if (this.worldObj.isRemote) {
+          this.worldObj.spawnParticle("smoke", d2 - d8, d4 + d7, d6, 0.0D, 0.0D, 0.0D);
+          this.worldObj.spawnParticle("flame", d2 - d8, d4 + d7, d6, 0.0D, 0.0D, 0.0D);
+        }
       } else if (j != 2 && j == 3) {
-        this.worldObj.spawnParticle("smoke", d2, d4 + d7, d6 - d8, 0.0D, 0.0D, 0.0D);
-        this.worldObj.spawnParticle("flame", d2, d4 + d7, d6 - d8, 0.0D, 0.0D, 0.0D);
+        if (this.worldObj.isRemote) {
+          this.worldObj.spawnParticle("smoke", d2, d4 + d7, d6 - d8, 0.0D, 0.0D, 0.0D);
+          this.worldObj.spawnParticle("flame", d2, d4 + d7, d6 - d8, 0.0D, 0.0D, 0.0D);
+        }
       }
     }
 
@@ -464,7 +470,7 @@ public class CREEPSEntityHotdog extends EntityMob {
         super.attackEntityAsMob(entity);
 
         if (this.rand.nextInt(100) < d1) {
-          if (CREEPSConfig.Blood) {
+          if (CREEPSConfig.Blood && this.worldObj.isRemote) {
             for (int i = 0; i < 10; i++) {
               CREEPSFxBlood creepsfxblood =
                   new CREEPSFxBlood(

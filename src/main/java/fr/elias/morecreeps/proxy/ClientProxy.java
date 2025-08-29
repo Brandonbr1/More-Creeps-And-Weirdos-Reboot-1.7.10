@@ -346,7 +346,7 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void barf(World world, EntityPlayer player) {
-    if (world.isRemote && player != null) {
+    if (world != null && world.isRemote && player != null) {
       double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
       double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
       for (int i = 0; i < 5; i++) {
