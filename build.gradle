@@ -33,11 +33,6 @@ minecraft {
 	replace "@VERSION@", project.version
 }
 
-
-dependencies {
-	compile name: 'Baubles-1.7.10-1.0.1.10-dev'
-}
-
 processResources {
 
     from(sourceSets.main.resources.srcDirs) {
