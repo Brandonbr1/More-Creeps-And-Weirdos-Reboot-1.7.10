@@ -1,16 +1,14 @@
-[
-{
-  "modid": "morecreeps",
-  "name": "More Creeps And Weirdos Unofficial",
-  "description": "This is the unofficial update of More Creeps And Weirdos",
-  "version": "1.0.0",
-  "mcversion": "1.7.10",
+[{
+  "modid": "${mod_id}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "version": "${mod_version}",
+  "mcversion": "${mc_version}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["freakstritch (original author)"],
-  "credits": "freakstritch for making this awesome mod !",
-  "logoFile": "",
+  "authorList": ["${mod_author}"],
+  "credits": "",
+  "logoFile": "${mod_icon}",
   "screenshots": [],
   "dependencies": []
-}
-]
+}]
