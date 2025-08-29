@@ -22,3 +22,4 @@ deps/*
 .factorypath
 
 forge*changelog.txt
+/.vscode
