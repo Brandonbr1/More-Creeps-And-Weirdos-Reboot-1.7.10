@@ -253,6 +253,27 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
+    public void spawnSchlumpParticles(World world, Entity entity, Random rand, int iterAmm1, int iterAmm2) {
+        for (int i = 1; i < iterAmm1; i++) {
+            for (int j = 0; j < iterAmm2; j++) {
+                CREEPSFxConfetti creepsfxconfetti =
+                        new CREEPSFxConfetti(
+                                world,
+                                entity.posX
+                                + (world.rand.nextFloat() * 4F - world.rand.nextFloat() * 4F),
+                                entity.posY + rand.nextInt(4) + 6D,
+                                entity.posZ
+                                + (world.rand.nextFloat() * 4F - world.rand.nextFloat() * 4F));
+                creepsfxconfetti.renderDistanceWeight = 20D;
+                // Alternative not available?
+                // Just call it in the actual class
+                // creepsfxconfetti.particleMaxAge = rand.nextInt(40) + 30;
+                Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxconfetti);
+            }
+        }
+    }
+
+    @Override
     public void spawnSalparticles(World world, Entity entity, Random random) {
         if (random.nextInt(10) == 0) {
             double d1 = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);

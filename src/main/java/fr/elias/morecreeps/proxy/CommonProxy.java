@@ -103,4 +103,9 @@ public class CommonProxy {
     public void kingSmoke(World world, Entity entity, Random random) {}
 
     public void spawnSalparticles(World world, Entity entity, Random random) {}
+
+    public void spawnSchlumpParticles(World world, Entity entity, Random rand, int iterAmm1, int iterAmm2) {
+        // TODO Auto-generated method stub
+
+    }
 }
