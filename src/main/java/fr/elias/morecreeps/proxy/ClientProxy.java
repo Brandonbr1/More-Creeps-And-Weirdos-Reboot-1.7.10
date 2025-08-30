@@ -231,6 +231,24 @@ public class ClientProxy extends CommonProxy {
   }
 
   @Override
+  public void guineaPigParticles(World world, Entity entity) {
+    if (CREEPSConfig.Blood && world.isRemote) {
+      for (int i = 0; i < 10; i++) {
+        CREEPSFxBlood creepsfxblood =
+            new CREEPSFxBlood(
+                world,
+                entity.posX,
+                entity.posY + 1.0D,
+                entity.posZ,
+                MoreCreepsAndWeirdos.partRed,
+                0.255F);
+        creepsfxblood.renderDistanceWeight = 20D;
+        Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxblood);
+      }
+    }
+  }
+
+  @Override
   public void spawnLollimanConfetti(
       World world, Entity entity, Random rand, int iterAmm1, int iterAmm2) {
     // 20 for lolli man

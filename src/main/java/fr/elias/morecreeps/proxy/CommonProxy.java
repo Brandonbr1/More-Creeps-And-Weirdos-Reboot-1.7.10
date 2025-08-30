@@ -110,4 +110,9 @@ public class CommonProxy {
     // TODO Auto-generated method stub
 
   }
+
+  public void guineaPigParticles(World world, Entity entity) {
+    // TODO Auto-generated method stub
+
+  }
 }

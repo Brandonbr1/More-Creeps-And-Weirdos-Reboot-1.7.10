@@ -1,7 +1,6 @@
 package fr.elias.morecreeps.common.entity.nice;
 
 import fr.elias.morecreeps.client.config.CREEPSConfig;
-import fr.elias.morecreeps.client.particles.CREEPSFxBlood;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.ai.CREEPSEntityHunchback;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityArmyGuy;
@@ -9,8 +8,11 @@ import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTombstone;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -384,18 +386,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
 
         if (this.rand.nextInt(100) > 100D - d1) {
           if (CREEPSConfig.Blood && this.worldObj.isRemote) {
-            for (int i = 0; i < 10; i++) {
-              CREEPSFxBlood creepsfxblood =
-                  new CREEPSFxBlood(
-                      this.worldObj,
-                      entity.posX,
-                      entity.posY + 1.0D,
-                      entity.posZ,
-                      MoreCreepsAndWeirdos.partRed,
-                      0.255F);
-              creepsfxblood.renderDistanceWeight = 20D;
-              Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxblood);
-            }
+            MoreCreepsAndWeirdos.proxy.guineaPigParticles(this.worldObj, this);
           }
 
           float f1 = (float) this.attackStrength * 0.25F;
