@@ -714,7 +714,9 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void addChatMessage(String s) {
-    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(s));
+    if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().thePlayer != null) {
+      Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(s));
+    }
   }
 
   @Override
