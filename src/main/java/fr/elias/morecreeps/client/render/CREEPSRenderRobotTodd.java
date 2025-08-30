@@ -17,8 +17,6 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
   public static Random rand = new Random();
   private ModelBase scaleAmount;
   protected CREEPSModelRobotTodd modelBipedMain;
-  private static final ResourceLocation armoredCreeperTextures =
-      new ResourceLocation("textures/entity/creeper/creeper_armor.png");
   public float sparkle;
 
   public CREEPSRenderRobotTodd(CREEPSModelRobotTodd creepsmodelrobottodd, float f) {
@@ -46,28 +44,15 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
   protected int func_179_a(CREEPSEntityRobotTodd creepsentityrobottodd, int i, float f) {
     if (creepsentityrobottodd.hurtTime > 0) {
       if (i == 1) {
-        float f1 = rand.nextInt(30);
-        this.bindTexture(armoredCreeperTextures);
-        GL11.glMatrixMode(GL11.GL_TEXTURE);
-        GL11.glLoadIdentity();
-        float f2 = f1 * 0.01F;
-        float f3 = f1 * 0.01F;
-        GL11.glTranslatef(f2, f3, 0.0F);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glEnable(GL11.GL_BLEND);
-        float f4 = 0.5F;
-        GL11.glColor4f(f4, f4, f4, 1.0F);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glColor4f(1.0F, 0.5F, 0.5F, 0.5F);
         return 1;
       }
 
       if (i == 2) {
-        GL11.glMatrixMode(GL11.GL_TEXTURE);
-        GL11.glLoadIdentity();
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_BLEND);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       }
     }
 
@@ -123,6 +108,10 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
       if ((j >> 24 & 0xff) > 0
           || creepsentityrobottodd.hurtTime > 0
           || creepsentityrobottodd.deathTime > 0) {
+        boolean textureEnabled = GL11.glIsEnabled(GL11.GL_TEXTURE_2D);
+        boolean alphaTestEnabled = GL11.glIsEnabled(GL11.GL_ALPHA_TEST);
+        boolean blendEnabled = GL11.glIsEnabled(GL11.GL_BLEND);
+
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GL11.glEnable(GL11.GL_BLEND);
@@ -135,20 +124,20 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
           float f12 = (j & 0xff) / 255F;
           float f13 = (j >> 24 & 0xff) / 255F;
           GL11.glColor4f(f10, f11, f12, f13);
-          // mainModel.render(creepsentityrobottodd, f8, f7, f5, f3 - f2, f4, f6);
 
           for (int k = 0; k < 4; k++) {
             if (this.inheritRenderPass(creepsentityrobottodd, k, f1) > 0) {
               GL11.glColor4f(f10, f11, f12, f13);
-              // renderPassModel.render(creepsentityrobottodd, f8, f7, f5, f3 - f2, f4, f6);
             }
           }
         }
 
         GL11.glDepthFunc(GL11.GL_LEQUAL);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+        if (!blendEnabled) GL11.glDisable(GL11.GL_BLEND);
+        if (alphaTestEnabled) GL11.glEnable(GL11.GL_ALPHA_TEST);
+        if (textureEnabled) GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       }
 
       GL11.glDisable(GL12.GL_RESCALE_NORMAL);
