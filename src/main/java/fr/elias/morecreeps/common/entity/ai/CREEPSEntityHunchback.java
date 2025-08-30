@@ -90,7 +90,7 @@ public class CREEPSEntityHunchback extends EntityMob {
 
       if (this.caketimer == 0) {
         this.tamed = false;
-        this.texture = "/textures/entity/hunchback.png";
+        this.texture = "morecreeps:textures/entity/hunchback.png";
         this.basetexture = this.texture;
         this.caketimer = this.rand.nextInt(700) + 300;
       }
@@ -256,9 +256,9 @@ public class CREEPSEntityHunchback extends EntityMob {
 
         this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
         entityplayer.addStat(MoreCreepsAndWeirdos.achievehunchback, 1);
-        this.confetti();
+        this.confetti(entityplayer);
 
-        this.texture = "/textures/entity/hunchbackcake.png";
+        this.texture = "morecreeps:textures/entity/hunchbackcake.png";
         this.basetexture = this.texture;
         this.worldObj.playSoundAtEntity(
             this,
@@ -339,17 +339,21 @@ public class CREEPSEntityHunchback extends EntityMob {
     return 1;
   }
 
-  public void confetti() {
-    double d = -MathHelper.sin(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
-    double d1 = MathHelper.cos(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
-    CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.world);
+  public void confetti(EntityPlayer entityplayer) {
+    if (entityplayer == null || this.worldObj == null) {
+      return;
+    }
+
+    double d = -MathHelper.sin((entityplayer.rotationYaw * (float) Math.PI) / 180F);
+    double d1 = MathHelper.cos((entityplayer.rotationYaw * (float) Math.PI) / 180F);
+    CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.worldObj);
     creepsentitytrophy.setLocationAndAngles(
-        (this.entityplayer).posX + d * 3D,
-        (this.entityplayer).posY - 2D,
-        (this.entityplayer).posZ + d1 * 3D,
-        (this.entityplayer).rotationYaw,
+        entityplayer.posX + d * 3D,
+        entityplayer.posY - 2D,
+        entityplayer.posZ + d1 * 3D,
+        entityplayer.rotationYaw,
         0.0F);
-    this.world.spawnEntityInWorld(creepsentitytrophy);
+    this.worldObj.spawnEntityInWorld(creepsentitytrophy);
   }
 
   /** Plays living's sound at its position */
