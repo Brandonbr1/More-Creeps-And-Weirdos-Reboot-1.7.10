@@ -141,11 +141,6 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
   /** Called to update the entity's position/logic. */
   @Override
   public void onUpdate() {
-    System.out.println("laywerstate" + this.lawyerstate);
-    System.out.println("timer" + this.lawyertimer);
-    System.out.println("laywerstate" + this.lawyertimer);
-    System.out.println("fine" + MoreCreepsAndWeirdos.INSTANCE.currentfine);
-    System.out.println("jail built" + MoreCreepsAndWeirdos.INSTANCE.jailBuilt);
     if (MoreCreepsAndWeirdos.INSTANCE.currentfine > 0 && this.lawyerstate == 0 && !this.undead) {
       this.lawyerstate = 1;
     }
