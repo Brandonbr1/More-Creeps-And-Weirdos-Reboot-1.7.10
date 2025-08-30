@@ -1,5 +1,9 @@
 package fr.elias.morecreeps.common.entity.hostile;
 
+<<<<<<< HEAD
+=======
+import fr.elias.morecreeps.client.gui.handler.CREEPSGuiHandler;
+>>>>>>> master
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityBullet;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
@@ -171,11 +175,11 @@ public class CREEPSEntitySneakySal extends EntityMob {
         if (this.dissedmax > 0 && !(this.playerToAttack instanceof EntityPlayer)) {
           entityplayer.openGui(
               MoreCreepsAndWeirdos.INSTANCE,
-              6,
+              CREEPSGuiHandler.GuiType.SNEAKY_SAL.id,
               this.worldObj,
-              (int) entityplayer.posX,
-              (int) entityplayer.posY,
-              (int) entityplayer.posZ);
+              this.getEntityId(),
+              0,
+              0);
         }
       } catch (Exception e) {
         e.printStackTrace();

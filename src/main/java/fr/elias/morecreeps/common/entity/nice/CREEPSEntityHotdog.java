@@ -1,6 +1,10 @@
 package fr.elias.morecreeps.common.entity.nice;
 
 import fr.elias.morecreeps.client.config.CREEPSConfig;
+<<<<<<< HEAD
+=======
+import fr.elias.morecreeps.client.gui.handler.CREEPSGuiHandler;
+>>>>>>> master
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.ai.CREEPSEntityHunchback;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityArmyGuy;
@@ -850,11 +854,11 @@ public class CREEPSEntityHotdog extends EntityMob {
     if (this.tamed && entityplayer.isSneaking()) {
       entityplayer.openGui(
           MoreCreepsAndWeirdos.INSTANCE,
-          2,
+          CREEPSGuiHandler.GuiType.HOTDOG.id,
           this.worldObj,
-          (int) this.posX,
-          (int) this.posY,
-          (int) this.posZ);
+          this.getEntityId(),
+          0,
+          0);
       return true;
     }
 
@@ -919,11 +923,11 @@ public class CREEPSEntityHotdog extends EntityMob {
           && this.tamed) {
         entityplayer.openGui(
             MoreCreepsAndWeirdos.INSTANCE,
-            3,
+            CREEPSGuiHandler.GuiType.GUINEA_TRAIN.id,
             this.worldObj,
-            (int) this.posX,
-            (int) this.posY,
-            (int) this.posZ);
+            this.getEntityId(),
+            0,
+            0);
       }
 
       if (itemstack.getItem() == Items.diamond && this.tamed) {

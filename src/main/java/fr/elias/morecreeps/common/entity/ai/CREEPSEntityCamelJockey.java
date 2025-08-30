@@ -73,8 +73,7 @@ public class CREEPSEntityCamelJockey extends EntityMob {
 
         if (((entity instanceof CREEPSEntityCamel) || entity.riddenByEntity == null)
             && (entity instanceof CREEPSEntityCamel)
-            && entity.riddenByEntity == null
-            && !((CREEPSEntityCamel) entity).tamed) {
+            && entity.riddenByEntity == null) {
           double d = entity.getDistance(this.posX, this.posY, this.posZ);
           CREEPSEntityCamel creepsentitycamel = (CREEPSEntityCamel) entity;
 
@@ -82,9 +81,11 @@ public class CREEPSEntityCamelJockey extends EntityMob {
             this.mountEntity(entity);
           }
 
-          creepsentitycamel.interest = 0;
-          creepsentitycamel.tamed = false;
-          creepsentitycamel.name = "";
+          if (!creepsentitycamel.getIsTamed()) {
+            creepsentitycamel.interest = 0;
+            creepsentitycamel.setTamedName("");
+            creepsentitycamel.setIsTamed(false);
+          }
 
           if (d < 16D && creepsentitycamel.canEntityBeSeen(this)) {
             this.attackEntity(creepsentitycamel, 0);

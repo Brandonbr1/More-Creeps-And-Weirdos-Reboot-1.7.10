@@ -1,8 +1,7 @@
 package fr.elias.morecreeps.common.entity.nice;
 
+import fr.elias.morecreeps.client.gui.handler.CREEPSGuiHandler;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
-import fr.elias.morecreeps.common.port.EnumParticleTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -29,71 +28,32 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class CREEPSEntityZebra extends EntityAnimal {
+public class CREEPSEntityZebra extends CREEPSEntityTameable {
 
   EntityPlayerMP playermp;
   EntityPlayer entityplayer;
   World world;
   public int galloptime;
-  public boolean tamed;
-  public EntityPlayer owner;
-  public boolean used;
-  public String basetexture;
   protected double attackrange;
   protected int attack;
 
   private final EntityAIControlledByPlayer aiControlledByPlayer;
 
   public int spittimer;
-  public int tamedcookies;
-  public int basehealth;
   public double floatcycle;
   public int floatdir;
   public double floatmaxcycle;
   public float modelsize;
-  public String name;
-  public String texture;
   public double moveSpeed;
-  public float health;
-  static final String[] Names = {
-    "Stanley",
-    "Cid",
-    "Hunchy",
-    "The Heat",
-    "Herman the Hump",
-    "Dr. Hump",
-    "Little Lousie",
-    "Spoony G",
-    "Mixmaster C",
-    "The Maestro",
-    "Duncan the Dude",
-    "Charlie Camel",
-    "Chip",
-    "Charles Angstrom III",
-    "Mr. Charles",
-    "Cranky Carl",
-    "Carl the Rooster",
-    "Tiny the Peach",
-    "Desert Dan",
-    "Dungby",
-    "Doofus"
-  };
-  static final String[] camelTextures = {"morecreeps:textures/entity/zebra.png"};
+  static final String[] zebraTextures = {"morecreeps:textures/entity/zebra.png"};
 
   public CREEPSEntityZebra(World world) {
     super(world);
-    this.basetexture = camelTextures[this.rand.nextInt(camelTextures.length)];
-    this.texture = this.basetexture;
-    this.health = 25;
-    this.basehealth = (int) this.health;
     this.attack = 2;
     this.moveSpeed = 0.65F;
     this.floatdir = 1;
     this.floatcycle = 0.0D;
     this.floatmaxcycle = 0.10499999672174454D;
-    this.name = "";
-    this.tamed = false;
-    this.tamedcookies = this.rand.nextInt(7) + 1;
     this.modelsize = 2.0F;
     this.tasks.addTask(2, this.aiControlledByPlayer = new EntityAIControlledByPlayer(this, 0.3F));
     this.setSize(this.width * this.modelsize, this.height * this.modelsize);
@@ -113,6 +73,7 @@ public class CREEPSEntityZebra extends EntityAnimal {
     this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.65f);
   }
 
+<<<<<<< HEAD
   @Override
   public boolean canBeSteered() {
     return true;
@@ -126,11 +87,13 @@ public class CREEPSEntityZebra extends EntityAnimal {
     this.dataWatcher.addObject(fr.elias.morecreeps.client.config.CREEPSConfig.zebraNameDWID, "");
   }
 
+=======
+>>>>>>> master
   /**
    * This function is used when two same-species animals in 'love mode' breed to generate the new
    * baby animal.
    */
-  public EntityAnimal spawnBabyAnimal(EntityAnimal entityanimal) {
+  public CREEPSEntityZebra spawnBabyAnimal(EntityAnimal entityanimal) {
     return new CREEPSEntityZebra(this.worldObj);
   }
 
@@ -189,6 +152,11 @@ public class CREEPSEntityZebra extends EntityAnimal {
     return null;
   }
 
+  @Override
+  public EntityAgeable createChild(EntityAgeable entity) {
+    return new CREEPSEntityZebra(this.worldObj);
+  }
+
   public EntityLiving func_21018_getClosestTarget(Entity entity, double d) {
     double d1 = -1D;
     EntityLiving entityliving = null;
@@ -223,7 +191,7 @@ public class CREEPSEntityZebra extends EntityAnimal {
   public boolean attackEntityFrom(DamageSource damagesource, int i) {
     Entity entity = damagesource.getEntity();
 
-    if (entity != null && (entity instanceof EntityPlayer) && this.tamed) {
+    if (entity != null && (entity instanceof EntityPlayer) && this.getIsTamed()) {
       this.setAttackTarget(null);
       return false;
     }
@@ -237,12 +205,6 @@ public class CREEPSEntityZebra extends EntityAnimal {
 
       return true;
     } else return false;
-  }
-
-  /** Determines if an entity can be despawned, used on idle far away entities */
-  @Override
-  protected boolean canDespawn() {
-    return !this.tamed;
   }
 
   @Override
@@ -335,12 +297,98 @@ public class CREEPSEntityZebra extends EntityAnimal {
     }
   }
 
+  @Override
+  protected void onTamingComplete(EntityPlayer player) {}
+
+  @Override
+  protected int getFoodsToTame() {
+    return this.rand.nextInt(7) + 1;
+  }
+
+  @Override
+  protected int getBaseHealth() {
+    return 25;
+  }
+
+  @Override
+  protected ItemStack getTamedItemStack() {
+    return new ItemStack(Items.cookie);
+  }
+
+  @Override
+  protected String[] getNames() {
+    return new String[] {
+      "Stanley",
+      "Cid",
+      "Hunchy",
+      "The Heat",
+      "Herman the Hump",
+      "Dr. Hump",
+      "Little Lousie",
+      "Spoony G",
+      "Mixmaster C",
+      "The Maestro",
+      "Duncan the Dude",
+      "Charlie Camel",
+      "Chip",
+      "Charles Angstrom III",
+      "Mr. Charles",
+      "Cranky Carl",
+      "Carl the Rooster",
+      "Tiny the Peach",
+      "Desert Dan",
+      "Dungby",
+      "Doofus"
+    };
+  }
+
+  @Override
+  protected String getCreatureTypeName() {
+    return "zebra";
+  }
+
+  @Override
+  protected CREEPSGuiHandler.GuiType getNameGuiType() {
+    return CREEPSGuiHandler.GuiType.ZEBRA_NAME;
+  }
+
+  @Override
+  protected net.minecraft.stats.StatBase getTamingAchievement() {
+    return MoreCreepsAndWeirdos.achievezebra;
+  }
+
+  @Override
+  protected float getModelSize() {
+    return this.modelsize;
+  }
+
+  @Override
+  protected boolean canBeRidden() {
+    return true;
+  }
+
+  @Override
+  protected String getBaseTexture() {
+    return "morecreeps:textures/entity/zebra.png";
+  }
+
+  @Override
+  protected String getTamedTexture() {
+    return zebraTextures[this.rand.nextInt(zebraTextures.length)];
+  }
+
+  @Override
+  protected boolean shouldChangeTextureWhenTamed() {
+    return false;
+  }
+
   /**
    * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a
    * pig.
    */
   @Override
   public boolean interact(EntityPlayer entityplayer) {
+<<<<<<< HEAD
     ItemStack itemstack = entityplayer.inventory.getCurrentItem();
     this.used = false;
 
@@ -461,6 +509,9 @@ public class CREEPSEntityZebra extends EntityAnimal {
     this.rotationPitch = entityplayer.rotationPitch;
     entityplayer.fallDistance = -5F;
     entityplayer.mountEntity(this);
+=======
+    return super.interact(entityplayer);
+>>>>>>> master
   }
 
   /**
@@ -517,59 +568,10 @@ public class CREEPSEntityZebra extends EntityAnimal {
         && j1 < 15;
   }
 
-  public void confetti(EntityPlayer player) {
-
-    double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
-    double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
-    CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.worldObj);
-    creepsentitytrophy.setLocationAndAngles(
-        player.posX + d * 3D, player.posY - 2D, player.posZ + d1 * 3D, player.rotationYaw, 0.0F);
-    if (!this.worldObj.isRemote) {
-      this.worldObj.spawnEntityInWorld(creepsentitytrophy);
-    }
-  }
-
-  private void smoke() {
-    for (int i = 0; i < 7; i++) {
-      double d = this.rand.nextGaussian() * 0.02D;
-      double d2 = this.rand.nextGaussian() * 0.02D;
-      double d4 = this.rand.nextGaussian() * 0.02D;
-      this.worldObj.spawnParticle(
-          EnumParticleTypes.HEART,
-          (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-          this.posY + 0.5D + this.rand.nextFloat() * this.height,
-          (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-          d,
-          d2,
-          d4);
-    }
-
-    for (int j = 0; j < 4; j++) {
-      for (int k = 0; k < 10; k++) {
-        double d1 = this.rand.nextGaussian() * 0.02D;
-        double d3 = this.rand.nextGaussian() * 0.02D;
-        double d5 = this.rand.nextGaussian() * 0.02D;
-        this.worldObj.spawnParticle(
-            EnumParticleTypes.EXPLOSION_NORMAL,
-            (this.posX + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-            this.posY + this.rand.nextFloat() * this.height + j,
-            (this.posZ + this.rand.nextFloat() * this.width * 2.0F) - this.width,
-            d1,
-            d3,
-            d5);
-      }
-    }
-  }
-
   /** (abstract) Protected helper method to write subclass entity data to NBT. */
   @Override
   public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
     super.writeEntityToNBT(nbttagcompound);
-    nbttagcompound.setString("BaseTexture", this.basetexture);
-    nbttagcompound.setString("ZebraName", this.name);
-    nbttagcompound.setBoolean("Tamed", this.tamed);
-    nbttagcompound.setInteger("TamedCookies", this.tamedcookies);
-    nbttagcompound.setInteger("BaseHealth", this.basehealth);
     nbttagcompound.setFloat("ModelSize", this.modelsize);
   }
 
@@ -577,25 +579,7 @@ public class CREEPSEntityZebra extends EntityAnimal {
   @Override
   public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
     super.readEntityFromNBT(nbttagcompound);
-    this.basetexture = nbttagcompound.getString("BaseTexture");
-    this.name = nbttagcompound.getString("ZebraName");
-    this.tamed = nbttagcompound.getBoolean("Tamed");
-
-    if (this.basetexture == null) {
-      this.basetexture = "/textures/entity/zebra.png";
-    }
-
-    this.texture = this.basetexture;
-    this.basehealth = nbttagcompound.getInteger("BaseHealth");
-    this.tamedcookies = nbttagcompound.getInteger("TamedCookies");
     this.modelsize = nbttagcompound.getFloat("ModelSize");
-
-    // Update DataWatcher with loaded data
-    this.dataWatcher.updateObject(
-        fr.elias.morecreeps.client.config.CREEPSConfig.zebraTamedDWID, (byte) (this.tamed ? 1 : 0));
-    this.dataWatcher.updateObject(
-        fr.elias.morecreeps.client.config.CREEPSConfig.zebraNameDWID,
-        this.name != null ? this.name : "");
   }
 
   /** Plays living's sound at its position */
@@ -649,6 +633,7 @@ public class CREEPSEntityZebra extends EntityAnimal {
   public int getMaxSpawnedInChunk() {
     return 5;
   }
+<<<<<<< HEAD
 
   @Override
   public EntityAgeable createChild(EntityAgeable ageable) {
@@ -659,4 +644,6 @@ public class CREEPSEntityZebra extends EntityAnimal {
   public EntityAIControlledByPlayer getAIControlledByPlayer() {
     return this.aiControlledByPlayer;
   }
+=======
+>>>>>>> master
 }

@@ -2,7 +2,7 @@ package fr.elias.morecreeps.client.gui;
 
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe;
-import fr.elias.morecreeps.common.packets.SetGiraffeNamePacket;
+import fr.elias.morecreeps.common.packets.TameableNamePacket;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -49,7 +49,7 @@ public class CREEPSGUIGiraffename extends GuiScreen {
         new GuiTextField(this.fontRendererObj, this.width / 2 - 100, this.height / 4, 200, 20);
     this.namescreen.setMaxStringLength(31);
     this.namescreen.setCanLoseFocus(true);
-    this.namescreen.setText(this.giraffe != null ? this.giraffe.name : "");
+    this.namescreen.setText(this.giraffe != null ? this.giraffe.getTamedName() : "");
   }
 
   @Override
@@ -66,25 +66,18 @@ public class CREEPSGUIGiraffename extends GuiScreen {
       return;
     }
 
-    if (guibutton.id == 0) { // save
+    if (guibutton.id == 0) {
       if (this.field_28217_m) return;
+
+      String s = this.namescreen.getText();
+      if (s == null || s.trim().isEmpty()) {
+        return;
+      }
+
       this.field_28217_m = true;
-
-      String s = this.namescreen != null ? this.namescreen.getText() : "";
-      if (s == null) {
-        s = "";
-      }
-      if (s.length() > 31) {
-        s = s.substring(0, 31);
-      }
-
-      if (this.giraffe != null) {
-        this.giraffe.name = s;
-        if (this.mc != null && this.mc.thePlayer != null) {
-          MoreCreepsAndWeirdos.packetHandler.sendToServer(
-              new SetGiraffeNamePacket(this.giraffe.getEntityId(), s));
-        }
-      }
+      if (this.giraffe == null) return;
+      MoreCreepsAndWeirdos.packetHandler.sendToServer(
+          new TameableNamePacket(this.giraffe.getEntityId(), s));
       this.mc.displayGuiScreen(null);
     }
   }

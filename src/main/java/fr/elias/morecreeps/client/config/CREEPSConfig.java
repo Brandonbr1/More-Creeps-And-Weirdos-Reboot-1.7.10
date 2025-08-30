@@ -20,11 +20,6 @@ public class CREEPSConfig {
   public static boolean jailActive;
   public static boolean Blood = true;
   public static boolean registerGlobally;
-  public static int camelDWID;
-  public static int camelTamedDWID;
-  public static int camelNameDWID;
-  public static int zebraTamedDWID;
-  public static int zebraNameDWID;
   public static float gemSwordDam;
 
   public static int pyramids;
@@ -254,12 +249,6 @@ public class CREEPSConfig {
                   false,
                   "Should it register the mobs globally? This is limited to 256 total mob by default. It is recommended to use EndlessIDs by FalsePattern if you intend to use this option.")
               .getBoolean();
-
-      camelDWID = config.get("DataWatcher", "Camel DataWatcher ID", 20).getInt();
-      camelTamedDWID = config.get("DataWatcher", "Camel Tamed DataWatcher ID", 21).getInt();
-      camelNameDWID = config.get("DataWatcher", "Camel Name DataWatcher ID", 22).getInt();
-      zebraTamedDWID = config.get("DataWatcher", "Zebra Tamed DataWatcher ID", 23).getInt();
-      zebraNameDWID = config.get("DataWatcher", "Zebra Name DataWatcher ID", 24).getInt();
 
       gemSwordDam = (float) config.get("Balance", "Gem Sword Attack Damage", 25D).getDouble(25D);
 
