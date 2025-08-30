@@ -59,6 +59,7 @@ import fr.elias.morecreeps.common.entity.nice.CREEPSEntityLolliman;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityNonSwimmer;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntitySchlump;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntitySquimp;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityTowel;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityZebra;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityBullet;
@@ -1212,6 +1213,15 @@ public class MoreCreepsAndWeirdos {
         CREEPSConfig.ssnowdevil,
         1,
         4,
+        EnumCreatureType.waterCreature,
+        this.oceanAndRiverBiomes());
+    this.addMob(
+        CREEPSEntitySquimp.class,
+        "Squimp",
+        CREEPSConfig.squimp_ID,
+        CREEPSConfig.ssquimp,
+        1,
+        4,
         EnumCreatureType.creature,
         this.allBiomes());
     this.addMob(
@@ -1406,5 +1416,9 @@ public class MoreCreepsAndWeirdos {
       BiomeGenBase.jungle,
       BiomeGenBase.stoneBeach
     };
+  }
+
+  public BiomeGenBase[] oceanAndRiverBiomes() {
+    return new BiomeGenBase[] {BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.river};
   }
 }

@@ -66,6 +66,7 @@ public class CREEPSConfig {
   public static int ssnowdevil;
   public static int sthief;
   public static int szebra;
+  public static int ssquimp;
 
   private static boolean unlimitedSpawn;
 
@@ -121,7 +122,8 @@ public class CREEPSConfig {
       snowdevil_ID,
       thief_ID,
       zebra_ID,
-      rat_man_ID;
+      rat_man_ID,
+      squimp_ID;
 
   public static void preInit(FMLPreInitializationEvent event) {
 
@@ -180,6 +182,7 @@ public class CREEPSConfig {
       ssnowdevil = config.get(spawnNbr, "Snow Devil", 8).getInt();
       sthief = config.get(spawnNbr, "Thief", 8).getInt();
       szebra = config.get(spawnNbr, "Zebra", 8).getInt();
+      ssquimp = config.get(spawnNbr, "Squimp", 3).getInt();
       pyramidGen = config.get(worldGen, "Enable Pyramid Gen", true).getBoolean();
       pyramidRarity =
           config.get(worldGenRarity, "Pyramid rarity", 500, "By default : 500").getInt();
@@ -217,7 +220,6 @@ public class CREEPSConfig {
       digbug_ID = config.get(entityID, "Dig Bug Entity ID", 946).getInt();
       evilscientist_ID = config.get(entityID, "Evil Scientist Entity ID", 950).getInt();
       floob_ID = config.get(entityID, "Floob Entity ID", 952).getInt();
-      rat_man_ID = config.get(entityID, "Rat Man Entity ID", 6532).getInt();
       floobship_ID = config.get(entityID, "Floob Ship Entity ID", 953).getInt();
       g_ID = config.get(entityID, "G Entity ID", 954).getInt();
       googoat_ID = config.get(entityID, "GooGoat Entity ID", 955).getInt();
@@ -243,6 +245,8 @@ public class CREEPSConfig {
       snowdevil_ID = config.get(entityID, "Snow Devil Entity ID", 975).getInt();
       thief_ID = config.get(entityID, "Thief Entity ID", 976).getInt();
       zebra_ID = config.get(entityID, "Zebra Entity ID", 977).getInt();
+      squimp_ID = config.get(entityID, "Squimp Entity ID", 978).getInt();
+      rat_man_ID = config.get(entityID, "Rat Man Entity ID", 979).getInt();
       registerGlobally =
           config
               .get(
@@ -449,6 +453,10 @@ public class CREEPSConfig {
 
       if (sthief < 0 || sthief > 12) {
         sthief = 7;
+      }
+
+      if (ssquimp < 0 || ssquimp > 8) {
+        ssquimp = 4;
       }
 
       if (szebra < 0 || szebra > 12) {
