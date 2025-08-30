@@ -27,6 +27,7 @@ import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityEvilScientist;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityEvilSnowman;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityFloob;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityG;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityHunchbackSkeleton;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityLawyerFromHell;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityManDog;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityPyramidGuardian;
@@ -164,6 +165,9 @@ public class ClientProxy extends CommonProxy {
         CREEPSEntityHotdog.class, new CREEPSRenderHotdog(new CREEPSModelHotdog(), 0.5F));
     RenderingRegistry.registerEntityRenderingHandler(
         CREEPSEntityHunchback.class, new CREEPSRenderHunchback(new CREEPSModelHunchback(), 0.5F));
+    RenderingRegistry.registerEntityRenderingHandler(
+        CREEPSEntityHunchbackSkeleton.class,
+        new CREEPSRenderHunchbackSkeleton(new ModelBiped(), 0.5F));
     RenderingRegistry.registerEntityRenderingHandler(
         CREEPSEntityKid.class, new CREEPSRenderKid(new CREEPSModelKid(), 0.5F));
     RenderingRegistry.registerEntityRenderingHandler(

@@ -104,6 +104,7 @@ public class CREEPSConfig {
       horsehead_ID,
       hotdog_ID,
       hunchback_ID,
+      hunchbackSkeleton_ID,
       invisibleman_ID,
       kid_ID,
       lawyer_ID,
@@ -225,22 +226,23 @@ public class CREEPSConfig {
       horsehead_ID = config.get(entityID, "Horsehead Entity ID", 958).getInt();
       hotdog_ID = config.get(entityID, "Hot Dog Entity ID", 959).getInt();
       hunchback_ID = config.get(entityID, "Hunchback Entity ID", 960).getInt();
-      invisibleman_ID = config.get(entityID, "Invisible Man Entity ID", 961).getInt();
-      kid_ID = config.get(entityID, "Kid Entity ID", 962).getInt();
-      lawyer_ID = config.get(entityID, "Lawyer Entity ID", 963).getInt();
-      lolliman_ID = config.get(entityID, "Lolliman Entity ID", 964).getInt();
-      mandog_ID = config.get(entityID, "Man Dog Entity ID", 965).getInt();
-      mummy_ID = config.get(entityID, "Mummy Entity ID", 966).getInt();
-      nonswimmer_ID = config.get(entityID, "Nonswimmer Entity ID", 967).getInt();
-      preacher_ID = config.get(entityID, "Preacher Entity ID", 968).getInt();
-      robotted_ID = config.get(entityID, "Robot Ted Entity ID", 969).getInt();
-      robottodd_ID = config.get(entityID, "Robot Todd Entity ID", 970).getInt();
-      rocketgiraffe_ID = config.get(entityID, "Rocket Giraffe Entity ID", 971).getInt();
-      rockmonster_ID = config.get(entityID, "Rock Monester Entity ID", 972).getInt();
-      sneakysal_ID = config.get(entityID, "Sneaky Sal Entity ID", 973).getInt();
-      snowdevil_ID = config.get(entityID, "Snow Devil Entity ID", 974).getInt();
-      thief_ID = config.get(entityID, "Thief Entity ID", 975).getInt();
-      zebra_ID = config.get(entityID, "Zebra Entity ID", 976).getInt();
+      hunchbackSkeleton_ID = config.get(entityID, "Hunchback Skeleton Entity ID", 961).getInt();
+      invisibleman_ID = config.get(entityID, "Invisible Man Entity ID", 962).getInt();
+      kid_ID = config.get(entityID, "Kid Entity ID", 963).getInt();
+      lawyer_ID = config.get(entityID, "Lawyer Entity ID", 964).getInt();
+      lolliman_ID = config.get(entityID, "Lolliman Entity ID", 965).getInt();
+      mandog_ID = config.get(entityID, "Man Dog Entity ID", 966).getInt();
+      mummy_ID = config.get(entityID, "Mummy Entity ID", 967).getInt();
+      nonswimmer_ID = config.get(entityID, "Nonswimmer Entity ID", 968).getInt();
+      preacher_ID = config.get(entityID, "Preacher Entity ID", 969).getInt();
+      robotted_ID = config.get(entityID, "Robot Ted Entity ID", 970).getInt();
+      robottodd_ID = config.get(entityID, "Robot Todd Entity ID", 971).getInt();
+      rocketgiraffe_ID = config.get(entityID, "Rocket Giraffe Entity ID", 972).getInt();
+      rockmonster_ID = config.get(entityID, "Rock Monster Entity ID", 973).getInt();
+      sneakysal_ID = config.get(entityID, "Sneaky Sal Entity ID", 974).getInt();
+      snowdevil_ID = config.get(entityID, "Snow Devil Entity ID", 975).getInt();
+      thief_ID = config.get(entityID, "Thief Entity ID", 976).getInt();
+      zebra_ID = config.get(entityID, "Zebra Entity ID", 977).getInt();
       registerGlobally =
           config
               .get(

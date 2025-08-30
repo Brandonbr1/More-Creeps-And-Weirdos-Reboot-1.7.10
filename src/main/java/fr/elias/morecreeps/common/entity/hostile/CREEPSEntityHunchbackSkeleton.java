@@ -5,7 +5,6 @@ import fr.elias.morecreeps.common.entity.netural.CREEPSEntitySnowDevil;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityGuineaPig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,14 +25,14 @@ public class CREEPSEntityHunchbackSkeleton extends EntityMob {
   public String ss;
   public float modelsize;
   public String texture;
-  public double health;
 
   public CREEPSEntityHunchbackSkeleton(World world) {
     super(world);
-    texture = "/textures/entity/hunchbackskeleton1.png";
-    health = rand.nextInt(10) + 10;
-    timeleft = rand.nextInt(500) + 200;
-    modelsize = 1.0F;
+    this.texture = "morecreeps:textures/entity/hunchbackskeleton1.png";
+    this.setHealth(rand.nextInt(10) + 10);
+    this.timeleft = rand.nextInt(600) + 300;
+    this.modelsize = 1.0F;
+    this.hasAttacked = false;
     this.getNavigator().setBreakDoors(true);
     this.tasks.addTask(0, new EntityAISwimming(this));
     this.tasks.addTask(1, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.45D, true));
@@ -44,15 +43,9 @@ public class CREEPSEntityHunchbackSkeleton extends EntityMob {
     this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
   }
 
+  @Override
   public void applyEntityAttributes() {
     super.applyEntityAttributes();
-    this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(health);
-  }
-
-  public CREEPSEntityHunchbackSkeleton(
-      World world, Entity entity, double d, double d1, double d2, boolean flag) {
-    this(world);
-    setPosition(d, d1, d2);
   }
 
   /** Plays living's sound at its position */
@@ -87,24 +80,23 @@ public class CREEPSEntityHunchbackSkeleton extends EntityMob {
    * Called frequently so the entity can update its state every tick as required. For example,
    * zombies and skeletons use this to react to sunlight and start to burn.
    */
+  @Override
   public void onLivingUpdate() {
     super.onLivingUpdate();
-
     if (rand.nextInt(2) == 0) {
       timeleft--;
     }
 
     if (timeleft < 500 && timeleft > 300) {
-      texture = "/textures/entity/hunchbackskeleton2.png";
+      texture = "morecreeps:textures/entity/hunchbackskeleton2.png";
     } else if (timeleft < 300 && timeleft > 200) {
-      texture = "/textures/entity/hunchbackskeleton3.png";
+      texture = "morecreeps:textures/entity/hunchbackskeleton3.png";
     } else if (timeleft < 200 && timeleft > 100) {
-      texture = "/textures/entity/hunchbackskeleton4.png";
+      texture = "morecreeps:textures/entity/hunchbackskeleton4.png";
     } else if (timeleft < 100 && timeleft > 1) {
-      texture = "/textures/entity/hunchbackskeleton5.png";
+      texture = "morecreeps:textures/entity/hunchbackskeleton5.png";
     } else if (timeleft < 1) {
       smoke();
-      health = 0;
       setDead();
     }
   }
@@ -113,6 +105,7 @@ public class CREEPSEntityHunchbackSkeleton extends EntityMob {
    * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in
    * attacking (Animals, Spiders at day, peaceful PigZombies).
    */
+  @Override
   protected Entity findPlayerToAttack() {
     EntityLiving entityliving = getClosestTarget(this, 16D);
 

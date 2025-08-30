@@ -31,6 +31,7 @@ import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityEvilScientist;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityEvilSnowman;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityFloob;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityG;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityHunchbackSkeleton;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityLawyerFromHell;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityManDog;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityMummy;
@@ -1074,6 +1075,15 @@ public class MoreCreepsAndWeirdos {
         1,
         4,
         EnumCreatureType.creature,
+        this.allBiomes());
+    this.addMob(
+        CREEPSEntityHunchbackSkeleton.class,
+        "HunchbackSkeleton",
+        CREEPSConfig.hunchbackSkeleton_ID,
+        0,
+        0,
+        0,
+        EnumCreatureType.monster,
         this.allBiomes());
     // todo terminate the mod
     this.addMob(
