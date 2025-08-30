@@ -55,6 +55,7 @@ public class CREEPSEntityCastleGuard extends EntityMob {
   /** Called to update the entity's position/logic. */
   @Override
   public void onUpdate() {
+
     if (this.hammerswing < 0.0F) {
       this.hammerswing += 0.45F;
     } else {

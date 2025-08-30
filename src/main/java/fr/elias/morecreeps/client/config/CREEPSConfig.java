@@ -252,7 +252,7 @@ public class CREEPSConfig {
                   entityID,
                   "Register Entities Globally.",
                   false,
-                  "Should it register the mobs globally. This is limited to 256 total mob by defualt. It is reccomended to use endless IDS if you intend to use this option.")
+                  "Should it register the mobs globally? This is limited to 256 total mob by default. It is recommended to use EndlessIDs by FalsePattern if you intend to use this option.")
               .getBoolean();
 
       camelDWID = config.get("DataWatcher", "Camel DataWatcher ID", 20).getInt();
