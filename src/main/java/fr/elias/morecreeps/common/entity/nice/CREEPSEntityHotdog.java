@@ -2,7 +2,6 @@ package fr.elias.morecreeps.common.entity.nice;
 
 import fr.elias.morecreeps.client.config.CREEPSConfig;
 import fr.elias.morecreeps.client.gui.handler.CREEPSGuiHandler;
-import fr.elias.morecreeps.client.particles.CREEPSFxBlood;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.ai.CREEPSEntityHunchback;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityArmyGuy;
@@ -12,8 +11,11 @@ import java.util.Iterator;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -472,18 +474,7 @@ public class CREEPSEntityHotdog extends EntityMob {
 
         if (this.rand.nextInt(100) < d1) {
           if (CREEPSConfig.Blood && this.worldObj.isRemote) {
-            for (int i = 0; i < 10; i++) {
-              CREEPSFxBlood creepsfxblood =
-                  new CREEPSFxBlood(
-                      this.worldObj,
-                      entity.posX,
-                      entity.posY + 1.0D,
-                      entity.posZ,
-                      MoreCreepsAndWeirdos.partRed,
-                      0.255F);
-              creepsfxblood.renderDistanceWeight = 20D;
-              Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxblood);
-            }
+            MoreCreepsAndWeirdos.proxy.guineaPigParticles(this.worldObj, this);
           }
 
           float f1 = this.attackStrength * 0.25F;
@@ -1636,8 +1627,7 @@ public class CREEPSEntityHotdog extends EntityMob {
   }
 
   public void confetti() {
-
-    World world = Minecraft.getMinecraft().theWorld;
+    World world = this.worldObj;
     double d = -MathHelper.sin(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
     double d1 = MathHelper.cos(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
     CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(world);

@@ -135,6 +135,13 @@ public class CREEPSEntityRobotTodd extends EntityMob {
       this.motionZ = (d1 / f1) * 0.5D * 0.30000000192092896D + this.motionZ * 0.20000000098023224D;
       this.motionY = 0.35000000196046449D;
       this.jumping = true;
+
+      if (this.attackTime <= 0
+          && f < 2.0F
+          && entity.boundingBox.maxY > this.boundingBox.minY
+          && entity.boundingBox.minY < this.boundingBox.maxY) {
+        super.attackEntityAsMob(entity);
+      }
     }
   }
 

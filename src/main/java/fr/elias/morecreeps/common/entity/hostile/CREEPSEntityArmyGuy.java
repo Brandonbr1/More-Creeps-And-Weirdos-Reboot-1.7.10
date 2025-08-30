@@ -401,7 +401,7 @@ public class CREEPSEntityArmyGuy extends EntityMob
   public void attackEntityWithRangedAttack(EntityLivingBase p_82196_1_, float p_82196_2_) {
     double d2 = this.targetedEntity.posX - this.posX;
     double d3 =
-        (this.targetedEntity.getBoundingBox().minY + this.targetedEntity.height / 2.0F)
+        (this.targetedEntity.boundingBox.minY + this.targetedEntity.height / 2.0F)
             - (this.posY + this.height / 2.0F);
     double d4 = this.targetedEntity.posZ - this.posZ;
     this.renderYawOffset =

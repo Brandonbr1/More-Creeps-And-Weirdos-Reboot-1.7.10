@@ -3,8 +3,6 @@ package fr.elias.morecreeps.common.entity.hostile;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityRocket;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -262,10 +260,13 @@ public class CREEPSEntityCaveman extends EntityMob {
       this.hammerswing = 0.0F;
     }
 
-    EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
-    if (entityplayersp != null) {
-      float f = this.getDistanceToEntity(entityplayersp);
-      this.ignoreFrustumCheck = f < 8F;
+    // EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
+    // taken from findPlayerToAttack() method.
+    EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, 16.0D);
+
+    if (entityplayer != null) {
+      float f = this.getDistanceToEntity(entityplayer);
+      this.ignoreFrustumCheck = f < 16F;
     }
   }
 
@@ -629,12 +630,14 @@ public class CREEPSEntityCaveman extends EntityMob {
   @Override
   public void onDeath(DamageSource damagesource) {
     Object obj = damagesource.getEntity();
+    Entity getent = damagesource.getEntity();
 
     if ((obj instanceof CREEPSEntityRocket) && ((CREEPSEntityRocket) obj).owner != null) {
       obj = ((CREEPSEntityRocket) obj).owner;
     }
+    if (!(obj instanceof EntityPlayer)) return;
 
-    EntityPlayer player = (EntityPlayer) damagesource.getEntity();
+    EntityPlayer player = (EntityPlayer) obj;
     if (player != null) {
       MoreCreepsAndWeirdos.cavemancount++;
       if (!((EntityPlayerMP) player)

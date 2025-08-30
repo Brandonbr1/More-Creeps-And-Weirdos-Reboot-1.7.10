@@ -1,10 +1,8 @@
 package fr.elias.morecreeps.common.entity.nice;
 
-import fr.elias.morecreeps.client.particles.CREEPSFxConfetti;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
@@ -196,7 +194,7 @@ public class CREEPSEntityLolliman extends EntityAnimal {
   }
 
   // this function doesn't exist anymore
-  /*
+  /* really?  protected void updateFallState(double p_70064_1_, boolean p_70064_3_) {
    * protected void updateFallState(double d, boolean flag)
    * {
    * if (!kidmounted)
@@ -402,21 +400,7 @@ public class CREEPSEntityLolliman extends EntityAnimal {
 
   public void smallconfetti() {
     if (this.worldObj.isRemote) {
-      for (int i = 1; i < 20; i++) {
-        for (int j = 0; j < 20; j++) {
-          CREEPSFxConfetti creepsfxconfetti =
-              new CREEPSFxConfetti(
-                  this.worldObj,
-                  this.posX
-                      + (this.worldObj.rand.nextFloat() * 8F - this.worldObj.rand.nextFloat() * 8F),
-                  this.posY + this.rand.nextInt(4) + 6D,
-                  this.posZ
-                      + (this.worldObj.rand.nextFloat() * 8F
-                          - this.worldObj.rand.nextFloat() * 8F));
-          creepsfxconfetti.renderDistanceWeight = 30D;
-          Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxconfetti);
-        }
-      }
+      MoreCreepsAndWeirdos.proxy.spawnLollimanConfetti(this.worldObj, this, this.rand, 20, 20);
     }
   }
 

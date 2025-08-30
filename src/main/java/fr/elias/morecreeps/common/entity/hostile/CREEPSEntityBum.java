@@ -35,6 +35,7 @@ public class CREEPSEntityBum extends EntityMob {
   public ResourceLocation texture;
 
   public CREEPSEntityBum(World world) {
+
     super(world);
     // The texture reference
     this.texture =

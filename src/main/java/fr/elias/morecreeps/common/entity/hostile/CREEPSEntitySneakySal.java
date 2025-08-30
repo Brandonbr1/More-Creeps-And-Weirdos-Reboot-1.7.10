@@ -1,16 +1,19 @@
 package fr.elias.morecreeps.common.entity.hostile;
 
 import fr.elias.morecreeps.client.gui.handler.CREEPSGuiHandler;
-import fr.elias.morecreeps.client.particles.CREEPSFxSmoke;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityBullet;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
 import fr.elias.morecreeps.common.port.EnumParticleTypes;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -315,20 +318,7 @@ public class CREEPSEntitySneakySal extends EntityMob {
     this.sale--;
 
     if (this.worldObj.isRemote) {
-      if (this.rand.nextInt(10) == 0) {
-        double d1 = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
-        double d3 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
-        CREEPSFxSmoke creepsfxsmoke =
-            new CREEPSFxSmoke(
-                this.worldObj,
-                this.posX + d1 * 0.5D,
-                this.posY + 2D,
-                this.posZ + d3 * 0.5D,
-                0.5F,
-                0.5F);
-        creepsfxsmoke.renderDistanceWeight = 15D;
-        Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
-      }
+      MoreCreepsAndWeirdos.proxy.spawnSalparticles(this.worldObj, this, this.rand);
     }
 
     if (this.dissedmax < 1 && this.playerToAttack == null) {

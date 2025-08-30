@@ -29,4 +29,5 @@ public class Reference {
   public static final String TEXTURE_BLACK_SOUL = "blacksoul.png";
   public static final String TEXTURE_BLACK_SOUL_EYES = "blacksoulglow2.png";
   public static final String TEXTURE_G = "g.png";
+  public static final String TEXTURE_SCHLUMP = "schlump.png";
 }

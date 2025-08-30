@@ -57,6 +57,7 @@ import fr.elias.morecreeps.common.entity.nice.CREEPSEntityKid;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityLolliman;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityNonSwimmer;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe;
+import fr.elias.morecreeps.common.entity.nice.CREEPSEntitySchlump;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityTowel;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityZebra;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityBullet;
@@ -164,6 +165,8 @@ public class MoreCreepsAndWeirdos {
   public static int preachercount = 0;
   public static int cavemancount = 0;
   public static boolean cavemanbuilding = false;
+
+  private int startEntityCounter = 1;
 
   // BELOW : This particle system of Minecraft... -_-
   public static Item partBubble,
@@ -1327,6 +1330,15 @@ public class MoreCreepsAndWeirdos {
         0,
         EnumCreatureType.ambient,
         this.allBiomes());
+    this.addMob(
+        CREEPSEntitySchlump.class,
+        "Schlump",
+        1,
+        1,
+        1,
+        1,
+        EnumCreatureType.creature,
+        this.allBiomes());
     proxy.render();
     proxy.renderModelItem();
     // Registers Recipes
@@ -1343,13 +1355,19 @@ public class MoreCreepsAndWeirdos {
       EnumCreatureType typeOfCreature,
       BiomeGenBase... biomes) {
 
+    int dynamicID = this.startEntityCounter++;
+
     if (CREEPSConfig.registerGlobally == true) {
-      int idtemp = id;
-      EntityRegistry.registerGlobalEntityID(classz, name, idtemp, 0x000000, 0xFFFFFF);
+      // this is safe now due to endlessIDS
+      int globalID = EntityRegistry.findGlobalUniqueEntityId();
+      EntityRegistry.registerGlobalEntityID(classz, name, globalID, 0x000000, 0xFFFFFF);
     }
 
-    EntityRegistry.registerModEntity(classz, name, id, this, 40, 1, true);
-    CREEPSList.addCreepEntity(classz, name);
+    EntityRegistry.registerModEntity(classz, name, dynamicID, this, 40, 1, true);
+
+    if (CREEPSConfig.registerGlobally == false) {
+      CREEPSList.addCreepEntity(classz, name);
+    }
 
     if (weightedProb > 0) {
       EntityRegistry.addSpawn(classz, weightedProb, min, max, typeOfCreature, biomes);

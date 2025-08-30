@@ -354,12 +354,16 @@ public class CREEPSEntityThief extends EntityMob {
   @Override
   public void onDeath(DamageSource damagesource) {
     if (!this.worldObj.isRemote) {
+      System.out.println(this.tempDamage);
       if (this.getHeldItem() != null) {
-        //   if (this.tempDamage > 0) {
-        // ItemStack itemstack = this.getHeldItem().copy();
-        this.entityDropItem(this.stolengood, 0.0F);
-        this.stolengood = null;
-        // }
+        ItemStack itemstack = this.getHeldItem().copy();
+        if (this.tempDamage > 0) {
+          this.entityDropItem(itemstack, 0.0F);
+          this.stolengood = null;
+        } else {
+          itemstack.stackSize = this.stolenamount;
+          this.entityDropItem(itemstack, 0.0F);
+        }
       }
     }
 

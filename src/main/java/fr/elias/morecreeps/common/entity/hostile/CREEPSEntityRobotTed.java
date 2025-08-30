@@ -124,6 +124,12 @@ public class CREEPSEntityRobotTed extends EntityMob {
   public void onLivingUpdate() {
     super.onLivingUpdate();
 
+    if (this.robotsize > 1.0F) {
+      super.ignoreFrustumCheck = true;
+    } else {
+      super.ignoreFrustumCheck = false;
+    }
+
     if (this.modelspeed < 0.05F) {
       this.modelspeed = 0.05F;
     }
@@ -201,6 +207,14 @@ public class CREEPSEntityRobotTed extends EntityMob {
     this.motionX = (d1 / f1) * 0.5D * 0.35000000192092895D + this.motionX * 0.20000000098023224D;
     this.motionZ = (d3 / f1) * 0.5D * 0.25000000192092897D + this.motionZ * 0.20000000098023224D;
     this.jumping = true;
+
+    if (this.attackTime <= 0
+        && f < (double) (3.1F - (2.5F - this.robotsize))
+        && entity.boundingBox.maxY > this.boundingBox.minY
+        && entity.boundingBox.minY < this.boundingBox.maxY) {
+      this.attackTime = 20;
+      super.attackEntityAsMob(entity);
+    }
   }
 
   // to make attackEntity works in 1.8
@@ -219,33 +233,22 @@ public class CREEPSEntityRobotTed extends EntityMob {
 
     @Override
     public void updateTask() {
-      try {
-        --this.attackTime;
-        EntityLivingBase entitylivingbase = this.robot.getAttackTarget();
-        double d0 = this.robot.getDistanceSqToEntity(entitylivingbase);
+      --this.attackTime;
+      EntityLivingBase entitylivingbase = this.robot.getAttackTarget();
+      if (entitylivingbase == null) return;
+      double d0 = this.robot.getDistanceSqToEntity(entitylivingbase);
 
-        if (d0 < 4.0D) {
-          if (this.attackTime <= 0) {
-            this.attackTime = 40;
-            this.robot.attackEntityAsMob(entitylivingbase); // or entitylivingbase.attackEntityFrom
-            // blablabla...
-          }
-
-          this.robot
-              .getMoveHelper()
-              .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
-        } else if (d0 < 256.0D) {
-          // ATTACK ENTITY JUST CALLED HERE :D
-          this.robot.attackEntity(entitylivingbase, (float) d0);
-          this.robot.getLookHelper().setLookPositionWithEntity(entitylivingbase, 10.0F, 10.0F);
-        } else {
-          this.robot.getNavigator().clearPathEntity();
-          this.robot
-              .getMoveHelper()
-              .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 0.5D);
-        }
-      } catch (NullPointerException ex) {
-        ex.printStackTrace();
+      if (d0 < 4.0D) {
+        this.robot
+            .getMoveHelper()
+            .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
+      } else if (d0 < 256.0D) {
+        this.robot.getLookHelper().setLookPositionWithEntity(entitylivingbase, 10.0F, 10.0F);
+      } else {
+        this.robot.getNavigator().clearPathEntity();
+        this.robot
+            .getMoveHelper()
+            .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 0.5D);
       }
     }
   }

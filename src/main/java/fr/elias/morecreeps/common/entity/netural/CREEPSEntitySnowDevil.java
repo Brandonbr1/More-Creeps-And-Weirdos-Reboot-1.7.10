@@ -6,9 +6,17 @@ import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
 import fr.elias.morecreeps.common.port.EnumParticleTypes;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -371,26 +379,11 @@ public class CREEPSEntitySnowDevil extends EntityMob {
       }
 
       if (itemstack.getItem() == Items.snowball) {
-        if (!this.world.isRemote) {
-          if (!this.playermp
-              .func_147099_x()
-              .hasAchievementUnlocked(MoreCreepsAndWeirdos.achievesnowdevil)) {
-            this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
-            this.playermp.addStat(MoreCreepsAndWeirdos.achievesnowdevil, 1);
-            this.confetti();
-          }
-        }
 
-        if (this.world.isRemote) {
-          if (!Minecraft.getMinecraft()
-              .thePlayer
-              .getStatFileWriter()
-              .hasAchievementUnlocked(MoreCreepsAndWeirdos.achievesnowdevil)) {
-            this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
-            entityplayer.addStat(MoreCreepsAndWeirdos.achievesnowdevil, 1);
-            this.confetti();
-          }
-        }
+        this.worldObj.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
+        entityplayer.addStat(MoreCreepsAndWeirdos.achievesnowdevil, 1);
+        // this.playermp.addStat(MoreCreepsAndWeirdos.achievesnowdevil, 1);
+        this.confetti();
 
         this.used = true;
         this.health += 2;
@@ -464,16 +457,18 @@ public class CREEPSEntitySnowDevil extends EntityMob {
   /** Called when the mob's health reaches 0. */
   @Override
   public void onDeath(DamageSource damagesource) {
-    if (this.tamed && this.health > 0) return;
+    // if (this.tamed && this.health > 0) return;
+
+    if (!this.worldObj.isRemote) {
+      if (this.rand.nextInt(10) == 0) {
+        this.dropItem(Item.getItemFromBlock(Blocks.ice), this.rand.nextInt(3) + 1);
+        this.dropItem(Item.getItemFromBlock(Blocks.snow), this.rand.nextInt(10) + 1);
+      } else {
+        this.dropItem(Item.getItemFromBlock(Blocks.snow), this.rand.nextInt(5) + 2);
+      }
+    }
 
     super.onDeath(damagesource);
-
-    if (this.rand.nextInt(10) == 0) {
-      this.dropItem(Item.getItemFromBlock(Blocks.ice), this.rand.nextInt(3) + 1);
-      this.dropItem(Item.getItemFromBlock(Blocks.snow), this.rand.nextInt(10) + 1);
-    } else {
-      this.dropItem(Item.getItemFromBlock(Blocks.snow), this.rand.nextInt(5) + 2);
-    }
   }
 
   /** Will get destroyed next tick. */
@@ -490,6 +485,10 @@ public class CREEPSEntitySnowDevil extends EntityMob {
   }
 
   public void confetti() {
+    if (this.entityplayer == null) {
+      System.out.println("no ent found");
+      return;
+    }
     double d = -MathHelper.sin(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
     double d1 = MathHelper.cos(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
     CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.world);

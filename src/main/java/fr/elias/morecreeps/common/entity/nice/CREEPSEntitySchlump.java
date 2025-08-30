@@ -1,14 +1,14 @@
 package fr.elias.morecreeps.common.entity.nice;
 
-import fr.elias.morecreeps.client.particles.CREEPSFxConfetti;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
+import fr.elias.morecreeps.common.Reference;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
 import fr.elias.morecreeps.common.port.EnumParticleTypes;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -40,9 +40,9 @@ public class CREEPSEntitySchlump extends EntityAnimal {
 
   public CREEPSEntitySchlump(World world) {
     super(world);
-    this.texture = "/textures/entity/schlump.png";
+    this.texture = Reference.TEXTURE_PATH_ENTITES + Reference.TEXTURE_SCHLUMP;
     this.moveSpeed = 0.0F;
-    this.health = this.rand.nextInt(10) + 10;
+    // this.health = this.rand.nextInt(10) + 10;
     this.saved = false;
     this.waittime = this.rand.nextInt(1500) + 500;
     this.modelsize = 0.4F;
@@ -54,10 +54,19 @@ public class CREEPSEntitySchlump extends EntityAnimal {
   }
 
   @Override
+  public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
+
+    this.health = this.rand.nextInt(10) + 10;
+    this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.health);
+
+    return super.onSpawnWithEgg(data);
+  }
+
+  @Override
   public void applyEntityAttributes() {
     super.applyEntityAttributes();
-    this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.health);
-    this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(this.moveSpeed);
+    this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1D);
+    this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.1D);
   }
 
   /**
@@ -77,6 +86,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     if (this.inWater) {
       this.setDead();
     }
+    super.onLivingUpdate();
   }
 
   /** Called to update the entity's position/logic. */
@@ -780,23 +790,8 @@ public class CREEPSEntitySchlump extends EntityAnimal {
   }
 
   public void smallconfetti() {
-    if (!worldObj.isRemote) return;
-    for (int i = 1; i < 20; i++) {
-      for (int j = 0; j < 10; j++) {
-        CREEPSFxConfetti creepsfxconfetti =
-            new CREEPSFxConfetti(
-                this.worldObj,
-                this.posX
-                    + (this.worldObj.rand.nextFloat() * 4F - this.worldObj.rand.nextFloat() * 4F),
-                this.posY + this.rand.nextInt(4) + 6D,
-                this.posZ
-                    + (this.worldObj.rand.nextFloat() * 4F - this.worldObj.rand.nextFloat() * 4F));
-        creepsfxconfetti.renderDistanceWeight = 20D;
-        // Alternative not available?
-        // creepsfxconfetti.particleMaxAge = rand.nextInt(40) + 30;
-        Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxconfetti);
-      }
-    }
+    if (!this.worldObj.isRemote) return;
+    MoreCreepsAndWeirdos.proxy.spawnSchlumpParticles(this.worldObj, this, this.rand, 20, 10);
   }
 
   /** Will get destroyed next tick. */

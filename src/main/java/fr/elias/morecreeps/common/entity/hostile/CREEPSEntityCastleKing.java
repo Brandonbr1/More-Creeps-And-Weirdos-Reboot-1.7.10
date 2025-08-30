@@ -1,10 +1,8 @@
 package fr.elias.morecreeps.common.entity.hostile;
 
-import fr.elias.morecreeps.client.particles.CREEPSFxSmoke;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import java.util.Random;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
@@ -83,16 +81,7 @@ public class CREEPSEntityCastleKing extends EntityMob {
     double d = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
     double d1 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
     if (this.worldObj.isRemote) {
-      CREEPSFxSmoke creepsfxsmoke =
-          new CREEPSFxSmoke(
-              this.worldObj,
-              (this.posX + random.nextGaussian() * 0.5D) - random.nextGaussian() * 0.5D,
-              ((this.posY - 1.0D) + random.nextGaussian() * 0.5D) - random.nextGaussian() * 0.5D,
-              (this.posZ + random.nextGaussian() * 0.5D) - random.nextGaussian() * 0.5D,
-              0.55F,
-              0);
-      creepsfxsmoke.renderDistanceWeight = 20D;
-      Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
+      MoreCreepsAndWeirdos.proxy.kingSmoke(this.worldObj, this, random);
     }
 
     if (this.intrudercheck-- < 0) {

@@ -29,6 +29,8 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
     this.snowsize = 1.0F;
     this.isImmuneToFire = true;
     this.getNavigator().setBreakDoors(true);
+    // would die in water, would not make sense for him to not avoid it.
+    this.getNavigator().setAvoidsWater(true);
     this.tasks.addTask(0, new EntityAISwimming(this));
     this.tasks.addTask(4, new CREEPSEntityEvilSnowman.AIAttackTarget());
     this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.5D));
@@ -55,6 +57,12 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
   @Override
   public void onLivingUpdate() {
     super.onLivingUpdate();
+
+    if (this.snowsize > 1.0F) {
+      super.ignoreFrustumCheck = true;
+    } else {
+      super.ignoreFrustumCheck = false;
+    }
 
     if (!this.onGround && !this.isJumping) {
       this.motionY -= 0.0020000000949949026D;
@@ -139,6 +147,14 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
         this.motionZ -= d7 * 0.30000001192092896D;
         this.motionY += 0.76599997282028198D;
       }
+      // Use same equation from ted for snowman, as that makes it so the entity can actually hit you
+      // properly.
+      if (this.attackTime <= 0
+          && f < (double) (3.1F - (2.5F - this.snowsize))
+          && entity.boundingBox.maxY > this.boundingBox.minY
+          && entity.boundingBox.minY < this.boundingBox.maxY) {
+        super.attackEntityAsMob(entity);
+      }
     }
   }
 
@@ -157,34 +173,23 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
 
     @Override
     public void updateTask() {
-      try {
-        --this.attackTime;
-        EntityLivingBase entitylivingbase = this.evilsnowman.getAttackTarget();
-        double d0 = this.evilsnowman.getDistanceSqToEntity(entitylivingbase);
+      --this.attackTime;
+      EntityLivingBase entitylivingbase = this.evilsnowman.getAttackTarget();
+      if (entitylivingbase == null) return;
+      double d0 = this.evilsnowman.getDistanceSqToEntity(entitylivingbase);
 
-        if (d0 < 4.0D) {
-          if (this.attackTime <= 0) {
-            this.attackTime = 20;
-            this.evilsnowman.attackEntityAsMob(entitylivingbase);
-          }
+      if (d0 < 4.0D) {
 
-          this.evilsnowman
-              .getMoveHelper()
-              .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
-        } else if (d0 < 256.0D) {
-          // ATTACK ENTITY GOES HERE
-          this.evilsnowman.attackEntity(entitylivingbase, (float) d0);
-          this.evilsnowman
-              .getLookHelper()
-              .setLookPositionWithEntity(entitylivingbase, 10.0F, 10.0F);
-        } else {
-          this.evilsnowman.getNavigator().clearPathEntity();
-          this.evilsnowman
-              .getMoveHelper()
-              .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 0.5D);
-        }
-      } catch (NullPointerException ex) {
-        ex.printStackTrace();
+        this.evilsnowman
+            .getMoveHelper()
+            .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
+      } else if (d0 < 256.0D) {
+        this.evilsnowman.getLookHelper().setLookPositionWithEntity(entitylivingbase, 10.0F, 10.0F);
+      } else {
+        this.evilsnowman.getNavigator().clearPathEntity();
+        this.evilsnowman
+            .getMoveHelper()
+            .setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 0.5D);
       }
     }
   }

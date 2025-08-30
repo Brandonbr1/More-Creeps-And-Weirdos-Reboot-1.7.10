@@ -97,4 +97,22 @@ public class CommonProxy {
   public void smokeRay(World worldObj, CREEPSEntityRay creepsEntityRay, byte byte0) {}
 
   public void spawnBubbles(Entity entity, World world, int iterAmm) {}
+
+  public void spawnLollimanConfetti(
+      World world, Entity entity, Random rand, int iterAmm1, int iterAmm2) {}
+
+  public void kingSmoke(World world, Entity entity, Random random) {}
+
+  public void spawnSalparticles(World world, Entity entity, Random random) {}
+
+  public void spawnSchlumpParticles(
+      World world, Entity entity, Random rand, int iterAmm1, int iterAmm2) {
+    // TODO Auto-generated method stub
+
+  }
+
+  public void guineaPigParticles(World world, Entity entity) {
+    // TODO Auto-generated method stub
+
+  }
 }

@@ -231,6 +231,80 @@ public class ClientProxy extends CommonProxy {
   }
 
   @Override
+  public void guineaPigParticles(World world, Entity entity) {
+    if (CREEPSConfig.Blood && world.isRemote) {
+      for (int i = 0; i < 10; i++) {
+        CREEPSFxBlood creepsfxblood =
+            new CREEPSFxBlood(
+                world,
+                entity.posX,
+                entity.posY + 1.0D,
+                entity.posZ,
+                MoreCreepsAndWeirdos.partRed,
+                0.255F);
+        creepsfxblood.renderDistanceWeight = 20D;
+        Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxblood);
+      }
+    }
+  }
+
+  @Override
+  public void spawnLollimanConfetti(
+      World world, Entity entity, Random rand, int iterAmm1, int iterAmm2) {
+    // 20 for lolli man
+    for (int i = 1; i < iterAmm1; i++) {
+      for (int j = 0; j < iterAmm2; j++) {
+        CREEPSFxConfetti creepsfxconfetti =
+            new CREEPSFxConfetti(
+                world,
+                entity.posX + (world.rand.nextFloat() * 8F - world.rand.nextFloat() * 8F),
+                entity.posY + rand.nextInt(4) + 6D,
+                entity.posZ + (world.rand.nextFloat() * 8F - world.rand.nextFloat() * 8F));
+        creepsfxconfetti.renderDistanceWeight = 30D;
+        Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxconfetti);
+      }
+    }
+  }
+
+  @Override
+  public void spawnSchlumpParticles(
+      World world, Entity entity, Random rand, int iterAmm1, int iterAmm2) {
+    for (int i = 1; i < iterAmm1; i++) {
+      for (int j = 0; j < iterAmm2; j++) {
+        CREEPSFxConfetti creepsfxconfetti =
+            new CREEPSFxConfetti(
+                world,
+                entity.posX + (world.rand.nextFloat() * 4F - world.rand.nextFloat() * 4F),
+                entity.posY + rand.nextInt(4) + 6D,
+                entity.posZ + (world.rand.nextFloat() * 4F - world.rand.nextFloat() * 4F));
+        creepsfxconfetti.renderDistanceWeight = 20D;
+        // Alternative not available?
+        // Just call it in the actual class
+        // creepsfxconfetti.particleMaxAge = rand.nextInt(40) + 30;
+        Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxconfetti);
+      }
+    }
+  }
+
+  @Override
+  public void spawnSalparticles(World world, Entity entity, Random random) {
+    if (random.nextInt(10) == 0) {
+      double d1 = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
+      double d3 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
+      CREEPSFxSmoke creepsfxsmoke =
+          new CREEPSFxSmoke(
+              world,
+              entity.posX + d1 * 0.5D,
+              entity.posY + 2D,
+              entity.posZ + d3 * 0.5D,
+              0.5F,
+              0.5F);
+      creepsfxsmoke.renderDistanceWeight = 15D;
+      Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
+    }
+  }
+
+  @Override
   public void shrinkBlast(World world, Entity entity, Random rand) {
     if (world.isRemote && entity != null) {
       for (int i = 0; i < 8; i++) {
@@ -428,8 +502,6 @@ public class ClientProxy extends CommonProxy {
               entity.posZ + d4 * 0.40000000596046448D,
               Item.getItemById(12));
       creepsfxdirt.renderDistanceWeight = 6D;
-      // TODO: FIX PARTICLES CRASH
-      //  creepsfxdirt.setParticleTextureIndex(12);
       Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxdirt);
     }
   }
@@ -530,6 +602,23 @@ public class ClientProxy extends CommonProxy {
         Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxfoam);
       }
     }
+  }
+
+  @Override
+  public void kingSmoke(World world, Entity entity, Random random) {
+    double d = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
+    double d1 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
+
+    CREEPSFxSmoke creepsfxsmoke =
+        new CREEPSFxSmoke(
+            world,
+            (entity.posX + random.nextGaussian() * 0.5D) - random.nextGaussian() * 0.5D,
+            ((entity.posY - 1.0D) + random.nextGaussian() * 0.5D) - random.nextGaussian() * 0.5D,
+            (entity.posZ + random.nextGaussian() * 0.5D) - random.nextGaussian() * 0.5D,
+            0.55F,
+            0);
+    creepsfxsmoke.renderDistanceWeight = 20D;
+    Minecraft.getMinecraft().effectRenderer.addEffect(creepsfxsmoke);
   }
 
   @Override
@@ -690,6 +779,7 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public boolean isJumpKeyDown() {
+    System.out.println("Pressed");
     return Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump.getKeyCode());
   }
 

@@ -86,7 +86,9 @@ public class CREEPSList {
   }
 
   /** create a new instance of an entity from NBT store */
+  @SuppressWarnings("null")
   public static Entity createEntityFromNBT(NBTTagCompound p_75615_0_, World p_75615_1_) {
+
     Entity entity = null;
 
     if ("Minecart".equals(p_75615_0_.getString("id"))) {

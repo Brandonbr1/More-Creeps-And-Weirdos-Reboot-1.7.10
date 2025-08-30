@@ -98,11 +98,17 @@ entity.morecreeps.EvilSnowMan.name=Evil SnowMan
 entity.morecreeps.EvilLight.name=Evil Light
 entity.morecreeps.RatMan.name=RatMan
 entity.morecreeps.DogHouse.name=Dog House
+entity.morecreeps.Schlump.name=Schlump
 
 
+<<<<<<< HEAD
 achievement.camel=LifeLong buddies.
 achievement.camel.desc=Camel's are also man's second best friend.
 achievement.rocketgiraffe=Sky High Buddy.
 achievement.rocketgiraffe.desc=Tame a rocket giraffe and reach for the stars.
 achievement.zebra=Striped Companion.
 achievement.zebra.desc=Tame a zebra and enjoy the ride.
+=======
+achievement.camel=Sand Humper
+achievement.camel.desc=Tame a Camel
+>>>>>>> devVtx

@@ -140,7 +140,7 @@ public class CREEPSEntityPrisoner extends EntityMob {
     int i = this.rand.nextInt(4) + 1;
     this.faceEntity(player, 0.0F, 0.0F);
 
-    if (player != null) {
+    if (player != null && !this.worldObj.isRemote) {
       EntityItem entityitem = null;
 
       switch (i) {
