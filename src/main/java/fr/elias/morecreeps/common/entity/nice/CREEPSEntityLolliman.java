@@ -363,11 +363,27 @@ public class CREEPSEntityLolliman extends EntityAnimal {
   @Override
   public boolean interact(EntityPlayer p_70085_1_) {
     if (super.interact(p_70085_1_)) return true;
-    else if (this.worldObj.isRemote
-        && (this.riddenByEntity == null || this.riddenByEntity == p_70085_1_)) {
-      p_70085_1_.mountEntity(this);
-      return true;
-    } else return false;
+    else if (this.worldObj.isRemote) {
+      if (this.riddenByEntity == p_70085_1_) {
+        p_70085_1_.mountEntity(null);
+        return true;
+      } else if (this.riddenByEntity == null) {
+        p_70085_1_.mountEntity(this);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public void onUpdate() {
+    super.onUpdate();
+    if (this.riddenByEntity instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) this.riddenByEntity;
+      if (player.isSneaking()) {
+        player.mountEntity(null);
+      }
+    }
   }
 
   /** Returns the sound this mob makes when it is hurt. */
