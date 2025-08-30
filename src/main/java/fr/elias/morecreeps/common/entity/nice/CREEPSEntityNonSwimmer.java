@@ -138,7 +138,7 @@ public class CREEPSEntityNonSwimmer extends EntityAnimal {
   private CREEPSEntityTowel createTowelEntity() {
     int textureIndex = this.rand.nextInt(6);
     String texturePath = "morecreeps:textures/entity/towel" + textureIndex + ".png";
-    String baseTexturePath = "/textures/entity/towel" + textureIndex + ".png";
+    String baseTexturePath = "morecreeps:textures/entity/towel" + textureIndex + ".png";
 
     CREEPSEntityTowel towelEntity = new CREEPSEntityTowel(this.worldObj);
     towelEntity.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
