@@ -13,6 +13,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -36,13 +37,12 @@ public class CREEPSEntitySquimp extends EntityWaterMob {
   public int stolenamount;
   public String texture;
   public double moveSpeed;
-  public double health;
 
   public CREEPSEntitySquimp(World world) {
     super(world);
-    texture = "/textures/entity/squimp.png";
+    texture = "morecreeps:textures/entity/squimp.png";
     moveSpeed = 0.0F;
-    health = rand.nextInt(20) + 10;
+    this.setHealth(rand.nextInt(20) + 10);
     stolen = false;
     hasAttacked = false;
     foundplayer = false;
@@ -51,7 +51,6 @@ public class CREEPSEntitySquimp extends EntityWaterMob {
 
   public void applyEntityAttributes() {
     super.applyEntityAttributes();
-    this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(health);
     this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(moveSpeed);
   }
 
@@ -70,6 +69,9 @@ public class CREEPSEntitySquimp extends EntityWaterMob {
    * attacking (Animals, Spiders at day, peaceful PigZombies).
    */
   protected Entity findPlayerToAttack() {
+    if (worldObj == null) {
+      return null;
+    }
     EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(this, 20D);
 
     if (entityplayer != null) {
@@ -93,7 +95,7 @@ public class CREEPSEntitySquimp extends EntityWaterMob {
         for (int j = 0; j < 3; j++) {
           double d = entityplayer.posX - posX;
           double d1 =
-              (entityplayer.getBoundingBox().minY + (double) (entityplayer.height / 2.0F))
+              (entityplayer.posY + (double) (entityplayer.height / 2.0F))
                   - (posY + (double) (height / 2.0F));
           double d2 = (entityplayer.posZ - posZ) + 0.5D;
           renderYawOffset = rotationYaw = (-(float) Math.atan2(d, d2) * 180F) / (float) Math.PI;
@@ -143,11 +145,15 @@ public class CREEPSEntitySquimp extends EntityWaterMob {
 
   /** Checks if the entity's current position is a valid location to spawn this entity. */
   public boolean getCanSpawnHere() {
-    if (worldObj == null || getBoundingBox() == null) {
+    if (worldObj == null) {
+      return false;
+    }
+    AxisAlignedBB box = getBoundingBox();
+    if (box == null) {
       return false;
     }
     int i = MathHelper.floor_double(posX);
-    int j = MathHelper.floor_double(this.getBoundingBox().minY);
+    int j = MathHelper.floor_double(box.minY);
     int k = MathHelper.floor_double(posZ);
     int l = worldObj.getBlockLightOpacity(i, j, k);
     Block i1 = worldObj.getBlock(i, j - 1, k);
@@ -155,8 +161,8 @@ public class CREEPSEntitySquimp extends EntityWaterMob {
         && i1 != Blocks.cobblestone
         && i1 != Blocks.planks
         && i1 != Blocks.wool
-        && worldObj.getCollidingBoundingBoxes(this, getBoundingBox()).size() == 0
-        && worldObj.checkBlockCollision(getBoundingBox())
+        && worldObj.getCollidingBoundingBoxes(this, box).size() == 0
+        && worldObj.checkBlockCollision(box)
         && worldObj.canBlockSeeTheSky(i, j, k)
         && rand.nextInt(15) == 0
         && l > 8;

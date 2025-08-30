@@ -27,8 +27,11 @@ import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityEvilScientist;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityEvilSnowman;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityFloob;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityG;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityHunchbackSkeleton;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityLawyerFromHell;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityManDog;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityMummy;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityPrisoner;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityPyramidGuardian;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRatMan;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRobotTed;
@@ -165,6 +168,9 @@ public class ClientProxy extends CommonProxy {
     RenderingRegistry.registerEntityRenderingHandler(
         CREEPSEntityHunchback.class, new CREEPSRenderHunchback(new CREEPSModelHunchback(), 0.5F));
     RenderingRegistry.registerEntityRenderingHandler(
+        CREEPSEntityHunchbackSkeleton.class,
+        new CREEPSRenderHunchbackSkeleton(new ModelBiped(), 0.5F));
+    RenderingRegistry.registerEntityRenderingHandler(
         CREEPSEntityKid.class, new CREEPSRenderKid(new CREEPSModelKid(), 0.5F));
     RenderingRegistry.registerEntityRenderingHandler(
         CREEPSEntityLawyerFromHell.class,
@@ -174,10 +180,14 @@ public class ClientProxy extends CommonProxy {
     RenderingRegistry.registerEntityRenderingHandler(
         CREEPSEntityManDog.class, new CREEPSRenderManDog(new CREEPSModelManDog(), 0.5F));
     RenderingRegistry.registerEntityRenderingHandler(
+        CREEPSEntityMummy.class, new CREEPSRenderMummy(new ModelBiped(), 0.5F));
+    RenderingRegistry.registerEntityRenderingHandler(
         CREEPSEntityNonSwimmer.class,
         new CREEPSRenderNonSwimmer(new CREEPSModelNonSwimmer(), 0.5F));
     RenderingRegistry.registerEntityRenderingHandler(
         CREEPSEntityPreacher.class, new CREEPSRenderPreacher(new CREEPSModelPreacher(), 0.5F));
+    RenderingRegistry.registerEntityRenderingHandler(
+        CREEPSEntityPrisoner.class, new CREEPSRenderPrisoner(new ModelBiped(), 0.5F));
     RenderingRegistry.registerEntityRenderingHandler(
         CREEPSEntityPyramidGuardian.class,
         new CREEPSRenderPyramidGuardian(new CREEPSModelPyramidGuardian(), 0.5F));
@@ -714,7 +724,9 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void addChatMessage(String s) {
-    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(s));
+    if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().thePlayer != null) {
+      Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(s));
+    }
   }
 
   @Override

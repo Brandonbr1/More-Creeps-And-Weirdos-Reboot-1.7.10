@@ -40,7 +40,8 @@ public class CREEPSEntitySchlump extends EntityAnimal {
 
   public CREEPSEntitySchlump(World world) {
     super(world);
-    this.texture = Reference.TEXTURE_PATH_ENTITES + Reference.TEXTURE_SCHLUMP;
+    this.texture =
+        Reference.MOD_ID + ":" + Reference.TEXTURE_PATH_ENTITES + Reference.TEXTURE_SCHLUMP;
     this.moveSpeed = 0.0F;
     // this.health = this.rand.nextInt(10) + 10;
     this.saved = false;

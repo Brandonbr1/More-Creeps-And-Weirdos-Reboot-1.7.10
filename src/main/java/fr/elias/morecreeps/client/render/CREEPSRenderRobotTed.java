@@ -17,8 +17,6 @@ public class CREEPSRenderRobotTed extends RenderLiving {
   public static Random rand = new Random();
   private ModelBase scaleAmount;
   protected CREEPSModelRobotTed modelBipedMain;
-  private static final ResourceLocation armoredCreeperTextures =
-      new ResourceLocation("textures/entity/creeper/creeper_armor.png");
   public float sparkle;
 
   public CREEPSRenderRobotTed(CREEPSModelRobotTed creepsmodelrobotted, float f) {
@@ -30,28 +28,15 @@ public class CREEPSRenderRobotTed extends RenderLiving {
   protected int func_179_a(CREEPSEntityRobotTed creepsentityrobotted, int i, float f) {
     if (creepsentityrobotted.hurtTime > 0) {
       if (i == 1) {
-        float f1 = rand.nextInt(30);
-        this.bindTexture(armoredCreeperTextures);
-        GL11.glMatrixMode(GL11.GL_TEXTURE);
-        GL11.glLoadIdentity();
-        float f2 = f1 * 0.01F;
-        float f3 = f1 * 0.01F;
-        GL11.glTranslatef(f2, f3, 0.0F);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glEnable(GL11.GL_BLEND);
-        float f4 = 0.5F;
-        GL11.glColor4f(f4, f4, f4, 1.0F);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glColor4f(1.0F, 0.5F, 0.5F, 0.5F);
         return 1;
       }
 
       if (i == 2) {
-        GL11.glMatrixMode(GL11.GL_TEXTURE);
-        GL11.glLoadIdentity();
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_BLEND);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       }
     }
 
@@ -75,7 +60,8 @@ public class CREEPSRenderRobotTed extends RenderLiving {
     this.scaleSlime((CREEPSEntityRobotTed) entityliving, f);
   }
 
-  protected int shouldRenderPass(EntityLiving entityliving, int i, float f) {
+  @Override
+  protected int shouldRenderPass(EntityLivingBase entityliving, int i, float f) {
     return this.func_179_a((CREEPSEntityRobotTed) entityliving, i, f);
   }
 

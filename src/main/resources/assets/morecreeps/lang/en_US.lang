@@ -54,6 +54,7 @@ entity.morecreeps.Kid.name=Kid
 entity.morecreeps.Camel.name=Camel
 entity.morecreeps.CamelJockey.name=Camel Jockey
 entity.morecreeps.ArmyGuy.name=Army Guy
+entity.morecreeps.Atom.name=Atom
 entity.morecreeps.BigBaby.name=Big Baby
 entity.morecreeps.BabyMummy.name=Baby Mummy
 entity.morecreeps.BlackSoul.name=Black Soul
@@ -78,6 +79,7 @@ entity.morecreeps.ManDog.name=Man Dog
 entity.morecreeps.Mummy.name=Mummy
 entity.morecreeps.NonSwimmer.name=Non Swimmer
 entity.morecreeps.Preacher.name=Preacher
+entity.morecreeps.Prisoner.name=Prisoner
 entity.morecreeps.RobotTed.name=Robot Ted
 entity.morecreeps.RobotTodd.name=Robot Todd
 entity.morecreeps.RocketGiraffe.name=Rocket Giraffe
@@ -99,16 +101,12 @@ entity.morecreeps.EvilLight.name=Evil Light
 entity.morecreeps.RatMan.name=RatMan
 entity.morecreeps.DogHouse.name=Dog House
 entity.morecreeps.Schlump.name=Schlump
+entity.morecreeps.Squimp.name=Squimp
 
 
-<<<<<<< HEAD
 achievement.camel=LifeLong buddies.
 achievement.camel.desc=Camel's are also man's second best friend.
 achievement.rocketgiraffe=Sky High Buddy.
 achievement.rocketgiraffe.desc=Tame a rocket giraffe and reach for the stars.
 achievement.zebra=Striped Companion.
 achievement.zebra.desc=Tame a zebra and enjoy the ride.
-=======
-achievement.camel=Sand Humper
-achievement.camel.desc=Tame a Camel
->>>>>>> devVtx

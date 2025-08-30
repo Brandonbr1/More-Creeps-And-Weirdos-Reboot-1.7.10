@@ -385,12 +385,14 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
     super.writeEntityToNBT(nbttagcompound);
     nbttagcompound.setBoolean("Tamed", this.isTamed);
     nbttagcompound.setInteger("TamedFood", this.foodsToTame);
-    nbttagcompound.setString("Name", this.tamedName);
+    if (this.tamedName != null && !this.tamedName.isEmpty()) {
+      nbttagcompound.setString("Name", this.tamedName);
+    }
     if (this.isTamed && this.owner != null) {
       nbttagcompound.setString("OwnerName", this.owner.getCommandSenderName());
     }
     nbttagcompound.setInteger("BaseHealth", this.basehealth);
-    if (this.basetexture != null) {
+    if (this.basetexture != null && !this.basetexture.isEmpty()) {
       nbttagcompound.setString("BaseTexture", this.basetexture);
     }
   }
@@ -400,7 +402,9 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
     super.readEntityFromNBT(nbttagcompound);
     this.isTamed = nbttagcompound.getBoolean("Tamed");
     this.foodsToTame = nbttagcompound.getInteger("TamedFood");
-    this.tamedName = nbttagcompound.getString("Name");
+    if (nbttagcompound.hasKey("Name")) {
+      this.tamedName = nbttagcompound.getString("Name");
+    }
     if (this.isTamed && nbttagcompound.hasKey("OwnerName")) {
       String ownerName = nbttagcompound.getString("OwnerName");
       this.owner = this.worldObj.getPlayerEntityByName(ownerName);
