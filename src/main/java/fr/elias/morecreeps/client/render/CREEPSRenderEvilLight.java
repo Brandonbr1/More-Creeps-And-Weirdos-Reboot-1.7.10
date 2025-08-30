@@ -4,7 +4,7 @@ import fr.elias.morecreeps.client.models.CREEPSModelEvilLight;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityEvilLight;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -35,7 +35,8 @@ public class CREEPSRenderEvilLight extends RenderLiving {
     }
   }
 
-  protected int shouldRenderPass(EntityLiving entityliving, int i, float f) {
+  @Override
+  protected int shouldRenderPass(EntityLivingBase entityliving, int i, float f) {
     return glow((CREEPSEntityEvilLight) entityliving, i, f);
   }
 

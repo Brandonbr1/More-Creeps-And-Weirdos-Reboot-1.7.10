@@ -178,7 +178,8 @@ public class CREEPSRenderRobotTodd extends RenderLiving {
     this.scaleSlime((CREEPSEntityRobotTodd) entityliving, f);
   }
 
-  protected int shouldRenderPass(EntityLiving entityliving, int i, float f) {
+  @Override
+  protected int shouldRenderPass(EntityLivingBase entityliving, int i, float f) {
     return this.func_179_a((CREEPSEntityRobotTodd) entityliving, i, f);
   }
 
