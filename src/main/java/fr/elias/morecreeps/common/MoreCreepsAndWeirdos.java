@@ -35,6 +35,7 @@ import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityHunchbackSkeleton;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityLawyerFromHell;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityManDog;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityMummy;
+import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityPrisoner;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityPyramidGuardian;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRatMan;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRobotTed;
@@ -62,6 +63,7 @@ import fr.elias.morecreeps.common.entity.nice.CREEPSEntitySchlump;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntitySquimp;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityTowel;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityZebra;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityAtom;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityBullet;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityDesertLizard;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityEvilLight;
@@ -878,6 +880,15 @@ public class MoreCreepsAndWeirdos {
     EntityRegistry.registerModEntity(
         CREEPSEntityArmyGuyArm.class, "ArmyGuyArm", CREEPSConfig.armyguyArm_ID, this, 40, 1, true);
     this.addMob(
+        CREEPSEntityAtom.class,
+        "Atom",
+        CREEPSConfig.atom_ID,
+        CREEPSConfig.satom,
+        1,
+        4,
+        EnumCreatureType.creature,
+        this.allBiomes());
+    this.addMob(
         CREEPSEntityArmyGuy.class,
         "ArmyGuy",
         CREEPSConfig.armyguy_ID,
@@ -1157,6 +1168,15 @@ public class MoreCreepsAndWeirdos {
         "Preacher",
         CREEPSConfig.preacher_ID,
         CREEPSConfig.spreacher,
+        1,
+        4,
+        EnumCreatureType.creature,
+        this.allBiomes());
+    this.addMob(
+        CREEPSEntityPrisoner.class,
+        "Prisoner",
+        CREEPSConfig.prisoner_ID,
+        CREEPSConfig.sprisoner,
         1,
         4,
         EnumCreatureType.creature,
