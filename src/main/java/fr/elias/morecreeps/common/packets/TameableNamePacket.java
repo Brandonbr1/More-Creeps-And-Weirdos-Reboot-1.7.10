@@ -50,9 +50,15 @@ public class TameableNamePacket implements IMessage {
     public IMessage onMessage(final TameableNamePacket message, final MessageContext ctx) {
       Entity entity = ctx.getServerHandler().playerEntity.worldObj.getEntityByID(message.entityId);
       if (entity instanceof CREEPSEntityTameable) {
-        CREEPSEntityTameable tameable = (CREEPSEntityTameable) entity;
         // Only allow the owner to change the name
-        if (tameable.getIsTamed() && ctx.getServerHandler().playerEntity == tameable.getOwner()) {
+        CREEPSEntityTameable tameable = (CREEPSEntityTameable) entity;
+        if (tameable.getIsTamed()
+            && tameable.getOwnerUUID() != null
+            && ctx.getServerHandler()
+                .playerEntity
+                .getUniqueID()
+                .toString()
+                .equals(tameable.getOwnerUUID())) {
           tameable.setTamedName(message.newName);
         }
       }

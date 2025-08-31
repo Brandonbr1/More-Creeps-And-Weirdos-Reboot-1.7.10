@@ -32,6 +32,7 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
   private String texture;
 
   private EntityPlayer owner;
+  private String ownerUUID;
 
   private boolean itemUsed;
 
@@ -116,6 +117,9 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
 
   public void setOwner(EntityPlayer owner) {
     this.owner = owner;
+    if (owner != null) {
+      this.ownerUUID = owner.getUniqueID().toString();
+    }
   }
 
   private void setBaseTexture(String texture) {
@@ -136,6 +140,10 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
 
   public String getTexture() {
     return this.texture;
+  }
+
+  public String getOwnerUUID() {
+    return this.ownerUUID;
   }
 
   // -----------------------------
@@ -180,11 +188,14 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
     }
 
     if (this.isTamed && entityplayer.isSneaking()) {
-      if (!this.worldObj.isRemote) {
-        MoreCreepsAndWeirdos.guiHandler.tryOpenGui(
-            this.getNameGuiType().id, entityplayer, this.worldObj, this.getEntityId());
+      if (this.ownerUUID != null && entityplayer.getUniqueID().toString().equals(this.ownerUUID)) {
+        this.owner = entityplayer;
+        if (!this.worldObj.isRemote) {
+          MoreCreepsAndWeirdos.guiHandler.tryOpenGui(
+              this.getNameGuiType().id, entityplayer, this.worldObj, this.getEntityId());
+        }
+        return true;
       }
-      return true;
     }
 
     if (itemstack != null
@@ -279,6 +290,7 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
   private void completeTaming(EntityPlayer entityplayer) {
     this.isTamed = true;
     this.owner = entityplayer;
+    this.ownerUUID = entityplayer.getUniqueID().toString();
     if (this.tamedName == null || this.tamedName.length() < 1) {
       this.tamedName = this.getNames()[this.rand.nextInt(this.getNames().length)];
     }
@@ -392,8 +404,8 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
     if (this.tamedName != null && !this.tamedName.isEmpty()) {
       nbttagcompound.setString("Name", this.tamedName);
     }
-    if (this.isTamed && this.owner != null) {
-      nbttagcompound.setString("OwnerName", this.owner.getCommandSenderName());
+    if (this.isTamed && this.ownerUUID != null) {
+      nbttagcompound.setString("OwnerUUID", this.ownerUUID);
     }
     nbttagcompound.setInteger("BaseHealth", this.basehealth);
     if (this.basetexture != null && !this.basetexture.isEmpty()) {
@@ -409,9 +421,9 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
     if (nbttagcompound.hasKey("Name")) {
       this.tamedName = nbttagcompound.getString("Name");
     }
-    if (this.isTamed && nbttagcompound.hasKey("OwnerName")) {
-      String ownerName = nbttagcompound.getString("OwnerName");
-      this.owner = this.worldObj.getPlayerEntityByName(ownerName);
+    if (this.isTamed && nbttagcompound.hasKey("OwnerUUID")) {
+      this.ownerUUID = nbttagcompound.getString("OwnerUUID");
+      this.owner = null;
     }
     this.basehealth = nbttagcompound.getInteger("BaseHealth");
     if (nbttagcompound.hasKey("BaseTexture")) {
