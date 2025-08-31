@@ -170,13 +170,11 @@ public class CREEPSEntitySneakySal extends EntityMob {
 
       try {
         if (this.dissedmax > 0 && !(this.playerToAttack instanceof EntityPlayer)) {
-          entityplayer.openGui(
-              MoreCreepsAndWeirdos.INSTANCE,
+          MoreCreepsAndWeirdos.guiHandler.tryOpenGui(
               CREEPSGuiHandler.GuiType.SNEAKY_SAL.id,
+              entityplayer,
               this.worldObj,
-              this.getEntityId(),
-              0,
-              0);
+              this.getEntityId());
         }
       } catch (Exception e) {
         e.printStackTrace();

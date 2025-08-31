@@ -1,8 +1,11 @@
 package fr.elias.morecreeps.client.gui.handler;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
 import fr.elias.morecreeps.client.gui.*;
 import fr.elias.morecreeps.client.gui.container.GenericContainer;
+import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntitySneakySal;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityCamel;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityGuineaPig;
@@ -14,6 +17,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class CREEPSGuiHandler implements IGuiHandler {
+
+  public int guiCooldown = 0; // Avoid gui get reopened after gui is closed
 
   public enum GuiType {
     CAMEL_NAME(1),
@@ -36,6 +41,15 @@ public class CREEPSGuiHandler implements IGuiHandler {
       }
       return null;
     }
+  }
+
+  public boolean tryOpenGui(int ID, EntityPlayer player, World world, int x) {
+    if (world != null && !world.isRemote && this.guiCooldown == 0) {
+      player.openGui(MoreCreepsAndWeirdos.INSTANCE, ID, world, x, 0, 0);
+      this.guiCooldown = 10;
+      return true;
+    }
+    return false;
   }
 
   @Override
@@ -105,5 +119,12 @@ public class CREEPSGuiHandler implements IGuiHandler {
         return null;
     }
     return null;
+  }
+
+  @SubscribeEvent
+  public void onServerTick(ServerTickEvent event) {
+    if (this.guiCooldown > 0) {
+      this.guiCooldown--;
+    }
   }
 }

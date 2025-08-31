@@ -1,5 +1,6 @@
 package fr.elias.morecreeps.common;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -303,6 +304,8 @@ public class MoreCreepsAndWeirdos {
           return MoreCreepsAndWeirdos.a_floob;
         }
       };
+
+  public static CREEPSGuiHandler guiHandler = new CREEPSGuiHandler();
 
   @Mod.EventHandler
   public void preInit(FMLPreInitializationEvent event) {
@@ -828,12 +831,12 @@ public class MoreCreepsAndWeirdos {
 
     GameRegistry.registerWorldGenerator(new WorldGenStructures(), 0);
     MinecraftForge.EVENT_BUS.register(new CraftingHandlerEvent());
+    FMLCommonHandler.instance().bus().register(guiHandler);
   }
 
   @Mod.EventHandler
   public void init(FMLInitializationEvent event) {
-    NetworkRegistry.INSTANCE.registerGuiHandler(
-        MoreCreepsAndWeirdos.INSTANCE, new CREEPSGuiHandler());
+    NetworkRegistry.INSTANCE.registerGuiHandler(MoreCreepsAndWeirdos.INSTANCE, guiHandler);
     // projectiles registry
     EntityRegistry.registerModEntity(
         CREEPSEntityShrink.class,

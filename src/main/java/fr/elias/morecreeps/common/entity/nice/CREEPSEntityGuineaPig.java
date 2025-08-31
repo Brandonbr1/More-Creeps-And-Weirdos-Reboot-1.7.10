@@ -766,13 +766,11 @@ public class CREEPSEntityGuineaPig extends EntityMob {
     this.used = false;
 
     if (this.tamed && entityplayer.isSneaking()) {
-      entityplayer.openGui(
-          MoreCreepsAndWeirdos.INSTANCE,
+      MoreCreepsAndWeirdos.guiHandler.tryOpenGui(
           CREEPSGuiHandler.GuiType.GUINEA_TRAIN.id,
-          this.world,
-          this.getEntityId(),
-          0,
-          0);
+          entityplayer,
+          this.worldObj,
+          this.getEntityId());
       return true;
     }
 
@@ -826,13 +824,8 @@ public class CREEPSEntityGuineaPig extends EntityMob {
               || itemstack.getItem() == Items.paper
               || itemstack.getItem() == MoreCreepsAndWeirdos.guineapigradio)
           && this.tamed) {
-        entityplayer.openGui(
-            MoreCreepsAndWeirdos.INSTANCE,
-            CREEPSGuiHandler.GuiType.GUINEA.id,
-            this.world,
-            this.getEntityId(),
-            0,
-            0);
+        MoreCreepsAndWeirdos.guiHandler.tryOpenGui(
+            CREEPSGuiHandler.GuiType.GUINEA.id, entityplayer, this.worldObj, this.getEntityId());
       }
 
       if (itemstack.getItem() == Items.diamond && this.tamed) {

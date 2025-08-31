@@ -164,7 +164,7 @@ public class CREEPSGUIHotdog extends GuiScreen {
       field_28217_m = true;
       long l = (new Random()).nextLong();
       String s1 = namescreen.getText();
-      hotdog.setHotdogName(s1); 
+      hotdog.setHotdogName(s1);
       mc.displayGuiScreen(null);
     }
 

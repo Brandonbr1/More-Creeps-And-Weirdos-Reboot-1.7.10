@@ -181,13 +181,8 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
 
     if (this.isTamed && entityplayer.isSneaking()) {
       if (!this.worldObj.isRemote) {
-        entityplayer.openGui(
-            MoreCreepsAndWeirdos.INSTANCE,
-            this.getNameGuiType().id,
-            this.worldObj,
-            this.getEntityId(),
-            0,
-            0);
+        MoreCreepsAndWeirdos.guiHandler.tryOpenGui(
+            this.getNameGuiType().id, entityplayer, this.worldObj, this.getEntityId());
       }
       return true;
     }

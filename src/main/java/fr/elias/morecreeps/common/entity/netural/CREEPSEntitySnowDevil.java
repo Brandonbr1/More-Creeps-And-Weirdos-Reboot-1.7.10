@@ -315,13 +315,8 @@ public class CREEPSEntitySnowDevil extends EntityMob {
     this.used = false;
 
     if (this.tamed && entityplayer.isSneaking()) {
-      entityplayer.openGui(
-          MoreCreepsAndWeirdos.INSTANCE,
-          CREEPSGuiHandler.GuiType.ZEBRA_NAME.id,
-          this.world,
-          this.getEntityId(),
-          0,
-          0);
+      MoreCreepsAndWeirdos.guiHandler.tryOpenGui(
+          CREEPSGuiHandler.GuiType.ZEBRA_NAME.id, entityplayer, this.worldObj, this.getEntityId());
     }
 
     if (itemstack != null) {
