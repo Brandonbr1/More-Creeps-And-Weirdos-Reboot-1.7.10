@@ -183,10 +183,7 @@ public class CREEPSEntityZebra extends CREEPSEntityTameable {
   }
 
   @Override
-  protected void updateAITick() {
-    this.ignoreFrustumCheck = true;
-    this.moveSpeed = 0.45F;
-
+  public void moveEntityWithHeading(float strafe, float forward) {
     if (this.riddenByEntity != null && (this.riddenByEntity instanceof EntityPlayer)) {
       this.moveForward = 0.0F;
       this.moveStrafing = 0.0F;
@@ -264,11 +261,16 @@ public class CREEPSEntityZebra extends CREEPSEntityTameable {
         this.motionZ *= 2.9500000000000002D;
       }
 
-      return;
+      super.moveEntityWithHeading(moveStrafing, moveForward);
     } else {
-      super.updateEntityActionState();
-      return;
+      super.moveEntityWithHeading(strafe, forward);
     }
+  }
+
+  @Override
+  protected void updateAITick() {
+    this.ignoreFrustumCheck = true;
+    this.moveSpeed = 0.65F;
   }
 
   @Override

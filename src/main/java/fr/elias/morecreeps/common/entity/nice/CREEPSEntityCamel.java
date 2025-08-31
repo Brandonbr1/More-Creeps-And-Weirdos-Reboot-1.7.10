@@ -15,7 +15,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
@@ -130,31 +129,6 @@ public class CREEPSEntityCamel extends CREEPSEntityTameable {
 
       if (p_70612_2_ <= 0.0F) {
         p_70612_2_ *= 0.25F;
-      }
-
-      if (this.onGround) {
-        p_70612_1_ = 0.0F;
-        p_70612_2_ = 0.0F;
-      }
-
-      if (this.onGround) {
-        this.motionY = 0.43;
-
-        if (this.isPotionActive(Potion.jump)) {
-          this.motionY += (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F;
-        }
-
-        this.setJumping(true);
-        this.isAirBorne = true;
-
-        if (p_70612_2_ > 0.0F) {
-          float f2 = MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F);
-          float f3 = MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F);
-          this.motionX += -0.4F * f2;
-          this.motionZ += 0.4F * f3;
-        }
-
-        net.minecraftforge.common.ForgeHooks.onLivingJump(this);
       }
 
       this.stepHeight = 1.0F;
