@@ -143,18 +143,24 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
     this.smoke();
 
     if (this.getHealth() <= 0) {
-      this.worldObj.playSoundAtEntity(
-          this,
-          this.getDeathSound(),
-          this.getSoundVolume(),
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      String deathSound = this.getDeathSound();
+      if (deathSound != null) {
+        this.worldObj.playSoundAtEntity(
+            this,
+            deathSound,
+            this.getSoundVolume(),
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
       this.onDeath(damagesource);
     } else {
-      this.worldObj.playSoundAtEntity(
-          this,
-          this.getHurtSound(),
-          this.getSoundVolume(),
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      String hurtSound = this.getHurtSound();
+      if (hurtSound != null) {
+        this.worldObj.playSoundAtEntity(
+            this,
+            hurtSound,
+            this.getSoundVolume(),
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
     }
 
     super.attackEntityFrom(damagesource, i);
@@ -292,15 +298,19 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
     return null;
   }
 
-  /** Returns the sound this mob makes when it is hurt. */
   @Override
-  protected String getHurtSound() {
+  protected String getDeathSound() {
+    if (this.houseoccupied) {
+      return "morecreeps:hotdogdeath";
+    }
     return null;
   }
 
-  /** Returns the sound this mob makes on death. */
   @Override
-  protected String getDeathSound() {
+  protected String getHurtSound() {
+    if (this.houseoccupied) {
+      return "morecreeps:hotdoghurt";
+    }
     return null;
   }
 
