@@ -314,21 +314,6 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
     return null;
   }
 
-  public void confetti() {
-    List<?> list =
-        this.worldObj.getEntitiesWithinAABB(
-            EntityPlayer.class, this.boundingBox.expand(8D, 4D, 8D));
-    for (int i = 0; i < list.size(); i++) {
-      Entity entity = (Entity) list.get(i);
-      float f = this.getDistanceToEntity(entity);
-      if (f < 6F) {
-        if (!this.worldObj.isRemote) {
-          MoreCreepsAndWeirdos.proxy.confettiA((EntityPlayer) entity, this.worldObj);
-        }
-      }
-    }
-  }
-
   /** Will get destroyed next tick. */
   @Override
   public void setDead() {

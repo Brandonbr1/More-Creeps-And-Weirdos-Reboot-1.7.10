@@ -1402,6 +1402,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
   }
 
   public void confetti() {
+    if (this.entityplayer == null || this.worldObj == null) return;
     double d = -MathHelper.sin(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
     double d1 = MathHelper.cos(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
     CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.world);

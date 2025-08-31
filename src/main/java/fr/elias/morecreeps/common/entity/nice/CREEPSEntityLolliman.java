@@ -425,9 +425,7 @@ public class CREEPSEntityLolliman extends EntityAnimal {
   }
 
   public void confetti() {
-    if (this.worldObj.isRemote) {
-      MoreCreepsAndWeirdos.proxy.confettiA(this, this.worldObj);
-    }
+    MoreCreepsAndWeirdos.proxy.confettiA(this, this.worldObj);
   }
 
   /** Will return how many at most can spawn in a chunk at once. */

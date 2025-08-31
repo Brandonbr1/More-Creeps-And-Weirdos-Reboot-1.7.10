@@ -1628,17 +1628,17 @@ public class CREEPSEntityHotdog extends EntityMob {
   }
 
   public void confetti() {
-    World world = this.worldObj;
+    if (this.entityplayer == null || this.worldObj == null) return;
     double d = -MathHelper.sin(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
     double d1 = MathHelper.cos(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
-    CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(world);
+    CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.worldObj);
     creepsentitytrophy.setLocationAndAngles(
         (this.entityplayer).posX + d * 3D,
         (this.entityplayer).posY - 2D,
         (this.entityplayer).posZ + d1 * 3D,
         (this.entityplayer).rotationYaw,
         0.0F);
-    world.spawnEntityInWorld(creepsentitytrophy);
+    this.worldObj.spawnEntityInWorld(creepsentitytrophy);
   }
 
   public void onDeath(Entity entity) {

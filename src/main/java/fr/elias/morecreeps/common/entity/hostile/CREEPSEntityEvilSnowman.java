@@ -316,9 +316,7 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
   }
 
   public void confetti() {
-    if (this.worldObj.isRemote) {
-      MoreCreepsAndWeirdos.proxy.confettiA(this, this.worldObj);
-    }
+    MoreCreepsAndWeirdos.proxy.confettiA(this, this.worldObj);
   }
 
   /** Plays living's sound at its position */
