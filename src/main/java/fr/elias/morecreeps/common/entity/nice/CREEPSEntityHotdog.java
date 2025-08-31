@@ -390,7 +390,10 @@ public class CREEPSEntityHotdog extends EntityMob {
   protected Entity findPlayerToAttack() {
     Object obj = null;
 
-    if (this.tamed && this.wanderstate == 0) {
+    if (this.tamed
+        && this.wanderstate == 0
+        && this.worldObj != null
+        && this.getBoundingBox() != null) {
       List<?> list =
           this.worldObj.getEntitiesWithinAABBExcludingEntity(
               this, this.getBoundingBox().expand(16D, 16D, 16D));
