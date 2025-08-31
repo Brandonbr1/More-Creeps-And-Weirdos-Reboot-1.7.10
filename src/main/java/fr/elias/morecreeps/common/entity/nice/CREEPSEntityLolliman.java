@@ -265,7 +265,8 @@ public class CREEPSEntityLolliman extends EntityAnimal {
     return entityliving;
   }
 
-  public boolean attackEntityFrom(DamageSource damagesource, int i) {
+  @Override
+  public boolean attackEntityFrom(DamageSource damagesource, float i) {
     if (this.riddenByEntity != null && damagesource.getEntity() instanceof EntityPlayer) {
       return false;
     }

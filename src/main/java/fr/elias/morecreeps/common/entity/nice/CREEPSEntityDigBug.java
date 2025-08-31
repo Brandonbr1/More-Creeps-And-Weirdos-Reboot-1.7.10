@@ -494,8 +494,9 @@ public class CREEPSEntityDigBug extends EntityMob {
     return 1;
   }
 
-  public boolean attackEntityFrom(Entity entity, float i) {
-    if (entity instanceof EntityPlayer) {
+  @Override
+  public boolean attackEntityFrom(DamageSource damagesource, float i) {
+    if (damagesource.getEntity() instanceof EntityPlayer) {
       List<?> list =
           this.worldObj.getEntitiesWithinAABBExcludingEntity(
               this, this.getBoundingBox().expand(32D, 32D, 32D));
@@ -505,11 +506,11 @@ public class CREEPSEntityDigBug extends EntityMob {
 
         if (entity1 instanceof CREEPSEntityDigBug) {
           CREEPSEntityDigBug creepsentitydigbug = (CREEPSEntityDigBug) entity1;
-          creepsentitydigbug.becomeAngryAt(entity);
+          creepsentitydigbug.becomeAngryAt(damagesource.getEntity());
         }
       }
 
-      this.becomeAngryAt(entity);
+      this.becomeAngryAt(damagesource.getEntity());
     }
 
     return super.attackEntityFrom(DamageSource.causeMobDamage(this), i);

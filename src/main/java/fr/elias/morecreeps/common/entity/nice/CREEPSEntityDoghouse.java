@@ -133,7 +133,8 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
   }
 
   /** Called when the entity is attacked. */
-  public boolean attackEntityFrom(DamageSource damagesource, int i) {
+  @Override
+  public boolean attackEntityFrom(DamageSource damagesource, float i) {
     if (i < 1) {
       i = 1;
     }

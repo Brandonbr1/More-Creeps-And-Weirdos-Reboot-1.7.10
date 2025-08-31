@@ -177,6 +177,7 @@ public class CREEPSEntityFloobShip extends EntityFlying {
   public void knockBack(Entity entity, int i, double d, double d1) {}
 
   /** Called when the entity is attacked. */
+  @Override
   public boolean attackEntityFrom(DamageSource damagesource, float i) {
     Entity entity = damagesource.getEntity();
 

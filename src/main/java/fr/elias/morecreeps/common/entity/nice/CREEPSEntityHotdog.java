@@ -564,7 +564,8 @@ public class CREEPSEntityHotdog extends EntityMob {
   }
 
   /** Called when the entity is attacked. */
-  public boolean attackEntityFrom(DamageSource damagesource, int i) {
+  @Override
+  public boolean attackEntityFrom(DamageSource damagesource, float i) {
     Entity entity = damagesource.getEntity();
 
     if (entity != this.getAttackTarget()) {

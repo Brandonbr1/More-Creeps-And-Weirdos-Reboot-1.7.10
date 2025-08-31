@@ -159,7 +159,11 @@ public class CREEPSEntityZebra extends CREEPSEntityTameable {
   }
 
   /** Called when the entity is attacked. */
-  public boolean attackEntityFrom(DamageSource damagesource, int i) {
+  @Override
+  public boolean attackEntityFrom(DamageSource damagesource, float i) {
+    if (super.attackEntityFrom(damagesource, i)) {
+      return false;
+    }
     Entity entity = damagesource.getEntity();
 
     if (entity != null && (entity instanceof EntityPlayer) && this.getIsTamed()) {

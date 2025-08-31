@@ -96,6 +96,7 @@ public class CREEPSEntityRatMan extends EntityMob {
   }
 
   /** Called when the entity is attacked. */
+  @Override
   public boolean attackEntityFrom(DamageSource damagesource, float i) {
     Entity entity = damagesource.getEntity();
 

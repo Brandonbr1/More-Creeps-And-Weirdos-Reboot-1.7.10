@@ -163,6 +163,7 @@ public class CREEPSEntityBlorp extends EntityAnimal {
   }
 
   /** Called when the entity is attacked. */
+  @Override
   public boolean attackEntityFrom(DamageSource damagesource, float f) {
     Entity entity = damagesource.getEntity();
 

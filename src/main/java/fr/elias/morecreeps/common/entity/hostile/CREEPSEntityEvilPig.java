@@ -65,7 +65,8 @@ public class CREEPSEntityEvilPig extends EntityMob {
   }
 
   /** Called when the entity is attacked. */
-  public boolean attackEntityFrom(DamageSource damagesource, int i) {
+  @Override
+  public boolean attackEntityFrom(DamageSource damagesource, float i) {
     Entity entity = damagesource.getEntity();
     EntityPlayer player = (EntityPlayer) entity;
     double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
