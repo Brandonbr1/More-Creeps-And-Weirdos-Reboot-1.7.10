@@ -278,6 +278,14 @@ public class CREEPSEntityHorseHead extends EntityAnimal {
         && l > 7;
   }
 
+  @Override
+  public boolean attackEntityFrom(DamageSource damagesource, float damage) {
+    if (this.riddenByEntity != null && damagesource.getEntity() instanceof EntityPlayer) {
+      return false;
+    }
+    return super.attackEntityFrom(damagesource, damage);
+  }
+
   /** (abstract) Protected helper method to write subclass entity data to NBT. */
   @Override
   public void writeEntityToNBT(NBTTagCompound nbttagcompound) {

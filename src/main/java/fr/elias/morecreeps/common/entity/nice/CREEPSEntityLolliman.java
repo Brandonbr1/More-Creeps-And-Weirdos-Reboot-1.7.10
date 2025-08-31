@@ -266,6 +266,9 @@ public class CREEPSEntityLolliman extends EntityAnimal {
   }
 
   public boolean attackEntityFrom(DamageSource damagesource, int i) {
+    if (this.riddenByEntity != null && damagesource.getEntity() instanceof EntityPlayer) {
+      return false;
+    }
     Entity entity = damagesource.getEntity();
     this.entityToAttack = entity;
     return super.attackEntityFrom(damagesource, i);

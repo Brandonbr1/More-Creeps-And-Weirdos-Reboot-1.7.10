@@ -5,6 +5,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIControlledByPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class CREEPSEntityTowel extends EntityCreature {
@@ -77,6 +78,14 @@ public class CREEPSEntityTowel extends EntityCreature {
         && super.riddenByEntity instanceof CREEPSEntityNonSwimmer) {
       super.updateRiderPosition();
     }
+  }
+
+  @Override
+  public boolean attackEntityFrom(DamageSource damagesource, float damage) {
+    if (this.riddenByEntity != null && damagesource.getEntity() instanceof EntityPlayer) {
+      return false;
+    }
+    return super.attackEntityFrom(damagesource, damage);
   }
 
   /** Called to update the entity's position/logic. */

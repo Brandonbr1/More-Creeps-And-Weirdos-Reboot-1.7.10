@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatBase;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -220,6 +221,14 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
 
   protected boolean handleSpecificInteraction(EntityPlayer player, ItemStack itemstack) {
     return false;
+  }
+
+  @Override
+  public boolean attackEntityFrom(DamageSource damagesource, float damage) {
+    if (this.riddenByEntity != null && damagesource.getEntity() instanceof EntityPlayer) {
+      return false;
+    }
+    return super.attackEntityFrom(damagesource, damage);
   }
 
   // -----------------------------

@@ -239,6 +239,9 @@ public class CREEPSEntityCamel extends CREEPSEntityTameable {
   /** Called when the entity is attacked. */
   @Override
   public boolean attackEntityFrom(DamageSource damagesource, float i) {
+    if (!super.attackEntityFrom(damagesource, i)) {
+      return false;
+    }
     Entity entity = damagesource.getEntity();
 
     if (super.attackEntityFrom(DamageSource.causeMobDamage(this), i)) {
