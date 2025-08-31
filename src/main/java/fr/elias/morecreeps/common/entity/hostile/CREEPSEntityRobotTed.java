@@ -12,7 +12,6 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
@@ -22,12 +21,11 @@ public class CREEPSEntityRobotTed extends EntityMob {
 
   public static Random rand = new Random();
   protected double attackRange;
-  private int angerLevel;
+  // private int angerLevel; // TODO (unused)
   public boolean jumping;
   public float robotsize;
   public int floattimer;
   public int floatdir;
-  private PathEntity pathToEntity;
   protected Entity playerToAttack;
   protected boolean hasAttacked;
   public float modelspeed;
@@ -39,7 +37,7 @@ public class CREEPSEntityRobotTed extends EntityMob {
   public CREEPSEntityRobotTed(World world) {
     super(world);
     this.texture = "morecreeps:textures/entity/robotted.png";
-    this.angerLevel = 0;
+    // this.angerLevel = 0; // TODO (unused)
     this.attackRange = 16D;
     this.jumping = false;
     this.robotsize = 2.5F;

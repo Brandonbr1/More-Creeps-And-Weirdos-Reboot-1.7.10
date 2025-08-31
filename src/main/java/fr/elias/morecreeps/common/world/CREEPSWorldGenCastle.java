@@ -29,13 +29,11 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
 
   @Override
   public boolean generate(World world, Random random, int i, int j, int k) {
-    boolean flag = false;
     int l = 0;
     int i1 = 0;
     int j1 = 0;
     this.castleHeight = 5;
     this.alternate = true;
-    boolean flag1 = false;
     char c = 300;
     int k1 = (i + random.nextInt(8)) - random.nextInt(8);
     int l1 = 200;
@@ -157,10 +155,6 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
     if (flag2) return false;
 
     j3 = 0;
-    boolean flag3 = false;
-    boolean flag4 = false;
-    int i5 = i1 - 6;
-    int j5 = random.nextInt(3);
     this.floor = 1;
     this.topFloor = 0;
 
@@ -500,9 +494,6 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
       boolean flag,
       ItemStack itemstack,
       int k1) {
-    boolean flag1 = false;
-    boolean flag2 = false;
-    boolean flag3 = false;
     int l1 = i1 - 13;
     int i2 = random.nextInt(3);
     boolean flag4 = false;
@@ -686,9 +677,6 @@ public class CREEPSWorldGenCastle extends WorldGenerator {
       }
 
       if (this.topFloor == 1) {
-        double d = l;
-        double d1 = l1 + 6;
-        double d2 = j1 + 0.5D;
       } else {
         if (rand.nextInt(5) == 0) {
           world.setBlock(l + 2, l1 + 6, j1 + 2, Blocks.mob_spawner);

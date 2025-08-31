@@ -26,7 +26,6 @@ public class CREEPSRenderPrisoner extends RenderLiving {
    * Args: entityLiving, partialTickTime
    */
   protected void preRenderCallback(EntityLivingBase entityliving, float f) {
-    CREEPSEntityPrisoner creepsentityprisoner = (CREEPSEntityPrisoner) entityliving;
     fattenup((CREEPSEntityPrisoner) entityliving, f);
   }
 

@@ -97,11 +97,7 @@ public class CREEPSEntityCaveman extends EntityMob {
     if (this.isWet()) {
       this.frozen = 0;
     }
-    double moveSpeed =
-        this.getAttributeMap()
-            .getAttributeInstance(SharedMonsterAttributes.movementSpeed)
-            .getAttributeValue();
-    moveSpeed = this.frozen >= 1 ? 0.0F : 0.45F;
+    // double moveSpeed = this.frozen >= 1 ? 0.0F : 0.45F; // TODO (unused)
 
     if (this.wanderstate == 0
         && this.frozen < 1
@@ -509,11 +505,7 @@ public class CREEPSEntityCaveman extends EntityMob {
   @Override
   public boolean getCanSpawnHere() {
     if (this.worldObj == null || this.getBoundingBox() == null) return false;
-    int i = MathHelper.floor_double(this.posX);
-    int j = MathHelper.floor_double(this.posY);
-    int k = MathHelper.floor_double(this.posZ);
     if (this.getBoundingBox() == null) return false;
-    int l = this.worldObj.getFullBlockLightValue(i, j, k);
     if (this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL) return false;
     return super.getCanSpawnHere();
   }
@@ -630,7 +622,6 @@ public class CREEPSEntityCaveman extends EntityMob {
   @Override
   public void onDeath(DamageSource damagesource) {
     Object obj = damagesource.getEntity();
-    Entity getent = damagesource.getEntity();
 
     if ((obj instanceof CREEPSEntityRocket) && ((CREEPSEntityRocket) obj).owner != null) {
       obj = ((CREEPSEntityRocket) obj).owner;

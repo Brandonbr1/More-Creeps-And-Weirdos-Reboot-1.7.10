@@ -23,14 +23,13 @@ public class CREEPSModelRocketGiraffe extends ModelBase {
   public ModelRenderer earL;
   public ModelRenderer earR;
   public ModelRenderer tail2;
-  private float neckangle;
-  private float neckdirection;
-  private float neckoffset;
+  // private float neckangle; // TODO (unused)
+  // private float neckdirection; // TODO (unused)
 
   public CREEPSModelRocketGiraffe() {
     this(0.0F);
-    neckdirection = 1.0F;
-    neckangle = 0.0F;
+    // neckdirection = 1.0F; // TODO (unused)
+    // neckangle = 0.0F; // TODO (unused)
   }
 
   public CREEPSModelRocketGiraffe(float f) {

@@ -24,7 +24,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.DamageSource;
@@ -33,17 +32,14 @@ import net.minecraft.world.World;
 
 public class CREEPSEntityLawyerFromHell extends EntityMob {
 
-  private boolean foundplayer;
-  private boolean stolen;
-  private PathEntity pathToEntity;
+  // private boolean foundplayer; // TODO (unused)
+  // private boolean stolen; // TODO (unused)
+  // private PathEntity pathToEntity; // TODO (unused)
 
   /** returns true if a creature has attacked recently only used for creepers and skeletons */
   protected boolean hasAttacked;
 
   protected ItemStack stolengood;
-  private double goX;
-  private double goZ;
-  private float distance;
   public int itemnumber;
   public int stolenamount;
   public boolean undead;
@@ -66,9 +62,9 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
       this.texture = "morecreeps:textures/entity/lawyerfromhellundead.png";
     }
 
-    this.stolen = false;
+    // this.stolen = false; // TODO (unused)
     this.hasAttacked = false;
-    this.foundplayer = false;
+    // this.foundplayer = false; // TODO (unused)
     this.lawyerstate = 0;
     this.lawyertimer = 0;
 
@@ -106,7 +102,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
 
     if (MoreCreepsAndWeirdos.INSTANCE.currentfine <= 0 && !this.undead) {
       this.lawyerstate = 0;
-      this.pathToEntity = null;
+      // this.pathToEntity = null; // TODO (unused)
       return null;
     }
 
@@ -283,7 +279,7 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
 
     if (this.getAttackTarget() instanceof EntityPlayer) {
       if (MoreCreepsAndWeirdos.INSTANCE.currentfine <= 0 && !this.undead) {
-        this.pathToEntity = null;
+        // this.pathToEntity = null; // TODO (unused)
         return;
       }
 
@@ -721,7 +717,6 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
       tileentitychest2.setInventorySlotContents(l6, null);
     }
 
-    Object obj = null;
     ItemStack aitemstack[] = (entityplayersp).inventory.mainInventory;
 
     for (int j8 = 0; j8 < aitemstack.length; j8++) {
@@ -886,7 +881,6 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
     }
 
     MoreCreepsAndWeirdos.INSTANCE.currentfine = 0;
-    boolean flag = false;
 
     if (MoreCreepsAndWeirdos.INSTANCE.currentfine < 0) {
       MoreCreepsAndWeirdos.INSTANCE.currentfine = 0;
@@ -1053,7 +1047,6 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
   }
 
   public boolean suckMoney(EntityPlayer player) {
-    Object obj = null;
     ItemStack aitemstack[] = player.inventory.mainInventory;
     int i = 0;
 

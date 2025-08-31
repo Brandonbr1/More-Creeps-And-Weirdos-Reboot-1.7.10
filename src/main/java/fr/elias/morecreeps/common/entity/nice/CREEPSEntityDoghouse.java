@@ -7,7 +7,6 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
@@ -86,8 +85,6 @@ public class CREEPSEntityDoghouse extends EntityAnimal {
    */
   @Override
   public boolean interact(EntityPlayer entityplayer) {
-    ItemStack itemstack = entityplayer.inventory.getCurrentItem();
-
     if (this.riddenByEntity == null) {
       List<?> list =
           this.worldObj.getEntitiesWithinAABBExcludingEntity(

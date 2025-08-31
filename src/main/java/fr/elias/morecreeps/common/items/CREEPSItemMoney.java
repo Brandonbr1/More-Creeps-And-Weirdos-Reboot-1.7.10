@@ -35,7 +35,6 @@ public class CREEPSItemMoney extends Item {
   }
 
   public void checkAchievements(World world, EntityPlayer entityplayer) {
-    Object obj = null;
     ItemStack aitemstack[] = entityplayer.inventory.mainInventory;
     int i = 0;
 

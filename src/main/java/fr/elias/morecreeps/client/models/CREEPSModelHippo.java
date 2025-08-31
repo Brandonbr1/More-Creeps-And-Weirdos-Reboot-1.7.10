@@ -37,6 +37,7 @@ public class CREEPSModelHippo extends ModelBase {
   public CREEPSModelHippo(float f, float f1) {
     taildirection = 1;
     float f2 = 0.0F;
+
     headHippo = new ModelRenderer(this, 16, 20);
     headHippo.addBox(-3F, -3F, -5F, 6, 7, 5, f2);
     headHippo.setRotationPoint(1.0F, 13F, -7F);

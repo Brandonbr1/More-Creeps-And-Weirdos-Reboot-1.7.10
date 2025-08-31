@@ -1,7 +1,6 @@
 package fr.elias.morecreeps.client.gui;
 
 import fr.elias.morecreeps.common.entity.netural.CREEPSEntitySnowDevil;
-import java.util.Random;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -68,7 +67,6 @@ public class CREEPSGUISnowdevilname extends GuiScreen {
       }
 
       field_28217_m = true;
-      long l = (new Random()).nextLong();
       String s = namescreen.getText();
       snowdevil.name = s;
       mc.displayGuiScreen(null);

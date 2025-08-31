@@ -19,8 +19,7 @@ public class CREEPSWorldGenPyramid extends WorldGenerator {
   public static Random rand = new Random();
   public boolean chunky;
   public boolean sandy;
-  private int count;
-  private int pyramids;
+  // private int pyramids; // TODO (unused)
   public int rows;
   public int columns;
   public int maze[][];
@@ -35,7 +34,7 @@ public class CREEPSWorldGenPyramid extends WorldGenerator {
   public CREEPSWorldGenPyramid() {}
 
   public boolean generate(World world, Random random, int i, int j, int k) {
-    pyramids = 298;
+    // pyramids = 298;  // TODO (unused)
     rows = 35;
     columns = 35;
     backgroundCode = 0;
@@ -376,7 +375,7 @@ public class CREEPSWorldGenPyramid extends WorldGenerator {
         }
       }
 
-      pyramids = 0;
+      // pyramids = 0; // TODO (unused)
       return true;
     } else {
       return false;

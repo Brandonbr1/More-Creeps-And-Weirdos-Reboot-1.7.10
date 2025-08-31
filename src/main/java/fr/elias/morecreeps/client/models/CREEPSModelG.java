@@ -51,6 +51,7 @@ public class CREEPSModelG extends ModelBase {
     this.heldItemRight = false;
     this.isSneak = false;
     float f2 = 0.0F;
+
     this.eyeL = new ModelRenderer(this, 0, 0);
     this.eyeL.addBox(-3F, -17F, -2.5F, 3, 3, 1, f2);
     this.eyeL.setRotationPoint(0.0F, 8F, 0.0F);
@@ -154,7 +155,7 @@ public class CREEPSModelG extends ModelBase {
       f6 *= f6;
       f6 *= f6;
       f6 = 1.0F - f6;
-      float f7 = MathHelper.sin(f6 * (float) Math.PI);
+
       this.bipedRightArm.rotateAngleZ =
           MathHelper.sin(this.swingProgress * (float) Math.PI) * -0.4F;
     }

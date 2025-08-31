@@ -39,6 +39,7 @@ public class CREEPSModelAtom extends ModelBase {
   public CREEPSModelAtom(float f, float f1) {
     taildirection = 1;
     float f2 = 0.0F;
+
     box1 = new ModelRenderer(this, 0, 18);
     box1.addBox(0.0F, 7F, 0.0F, 2, 2, 2, f2);
     box1.setRotationPoint(0.0F, 16F, 0.0F);

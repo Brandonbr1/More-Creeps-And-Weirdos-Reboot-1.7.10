@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -23,8 +22,6 @@ import org.lwjgl.opengl.GL13;
 public class CREEPSGUIHotdogTraining extends GuiScreen {
 
   private CREEPSEntityHotdog hotdog;
-  private GuiTextField namescreen;
-  private boolean field_28217_m;
   private float xSize_lo;
   private float ySize_lo;
 
@@ -238,7 +235,6 @@ public class CREEPSGUIHotdogTraining extends GuiScreen {
 
   public boolean checkBones() {
     EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
-    Object obj = null;
     ItemStack aitemstack[] = ((EntityPlayer) (entityplayersp)).inventory.mainInventory;
     int i = 0;
 
@@ -252,7 +248,6 @@ public class CREEPSGUIHotdogTraining extends GuiScreen {
 
     if (i >= 5) {
       int k = 5;
-      boolean flag = false;
       label0:
       for (int i1 = 0; i1 < aitemstack.length; i1++) {
         ItemStack itemstack1 = aitemstack[i1];
@@ -260,8 +255,6 @@ public class CREEPSGUIHotdogTraining extends GuiScreen {
         if (itemstack1 == null || itemstack1.getItem() != Items.bone) {
           continue;
         }
-
-        int l = itemstack1.stackSize;
 
         do {
           if (itemstack1.stackSize <= 0 || k <= 0) {
@@ -360,7 +353,6 @@ public class CREEPSGUIHotdogTraining extends GuiScreen {
         height / 4 + 95 + byte0,
         0xff8d13);
     EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
-    Object obj = null;
     ItemStack aitemstack[] = ((EntityPlayer) (entityplayersp)).inventory.mainInventory;
     int l = 0;
 

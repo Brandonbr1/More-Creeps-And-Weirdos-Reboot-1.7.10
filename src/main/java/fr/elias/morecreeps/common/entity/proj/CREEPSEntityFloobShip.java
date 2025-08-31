@@ -9,7 +9,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
@@ -17,13 +16,9 @@ import net.minecraft.world.World;
 
 public class CREEPSEntityFloobShip extends EntityFlying {
 
-  private boolean foundplayer;
-  private PathEntity pathToEntity;
+  // private boolean foundplayer; // TODO (unused)
   protected Entity playerToAttack;
   protected boolean hasAttacked;
-  private double goX;
-  private double goZ;
-  private float distance;
   public boolean landed;
   public int floobcounter;
   public boolean firstreset;
@@ -35,7 +30,7 @@ public class CREEPSEntityFloobShip extends EntityFlying {
     super(world);
     texture = "morecreeps:textures/entity/floobship.png";
     hasAttacked = false;
-    foundplayer = false;
+    // foundplayer = false;  // TODO (unused)
     landed = false;
     setSize(4F, 3F);
     isCollidedVertically = false;
@@ -340,7 +335,6 @@ public class CREEPSEntityFloobShip extends EntityFlying {
     int i = MathHelper.floor_double(posX);
     int j = MathHelper.floor_double(posY);
     int k = MathHelper.floor_double(posZ);
-    int l = worldObj.getFullBlockLightValue(i, j, k);
     Block i1 = worldObj.getBlock(i, j - 1, k);
     int j1 = worldObj.countEntities(CREEPSEntityFloobShip.class);
     return i1 != Blocks.cobblestone

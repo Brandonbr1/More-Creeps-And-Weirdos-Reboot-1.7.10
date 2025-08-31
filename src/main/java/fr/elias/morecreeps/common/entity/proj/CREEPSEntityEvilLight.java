@@ -38,10 +38,9 @@ public class CREEPSEntityEvilLight extends EntityMob {
   @Override
   public void onLivingUpdate() {
     super.onLivingUpdate();
-    float health = this.getHealth();
 
     if (this.lifespan-- < 1 || this.handleWaterMovement()) {
-      health = 0;
+      setHealth(0);
       this.setDead();
     }
 
@@ -74,11 +73,6 @@ public class CREEPSEntityEvilLight extends EntityMob {
     }
 
     super.onLivingUpdate();
-  }
-
-  public void damageEntity(int i) {
-    float health = this.getHealth();
-    health -= i;
   }
 
   @Override

@@ -43,7 +43,6 @@ import fr.elias.morecreeps.common.entity.nice.CREEPSEntityRocketGiraffe;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityZebra;
 import fr.elias.morecreeps.common.port.EnumParticleTypes;
 import java.util.List;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -216,8 +215,6 @@ public class CREEPSEntityShrink extends EntityThrowable {
     }
 
     if (this.aoLightValueZPos) {
-      Block i = this.worldObj.getBlock(this.hitX, this.hitY, this.hitZ);
-
       /*
        * if (i != blockHit)
        * {
@@ -766,7 +763,6 @@ public class CREEPSEntityShrink extends EntityThrowable {
         this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
     this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
     float f3 = 0.99F;
-    float f5 = 0.0F;
     // this.vibratePlayer((EntityPlayer)this.getThrower());
     if (this.handleWaterMovement()) {
       for (int l = 0; l < 4; l++) {
@@ -782,7 +778,6 @@ public class CREEPSEntityShrink extends EntityThrowable {
       }
 
       f3 = 0.8F;
-      float f6 = 0.03F;
       this.setDead();
     }
 

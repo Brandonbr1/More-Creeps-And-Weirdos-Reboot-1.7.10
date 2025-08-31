@@ -23,7 +23,6 @@ public class CREEPSEntityInvisibleMan extends EntityMob {
   private static final Item dropItems[];
   protected double attackRange;
   private int angerLevel;
-  private int randomSoundDelay;
   public float modelsize;
   public String texture;
 

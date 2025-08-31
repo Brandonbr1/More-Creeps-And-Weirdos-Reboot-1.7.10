@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -19,7 +18,6 @@ public class CREEPSEntityThief extends EntityMob {
 
   private boolean foundplayer;
   private boolean stolen;
-  private PathEntity pathToEntity;
 
   /** returns true if a creature has attacked recently only used for creepers and skeletons */
   protected boolean hasAttacked;
@@ -84,7 +82,6 @@ public class CREEPSEntityThief extends EntityMob {
       EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 16D);
 
       if (entityplayer != null && !entityplayer.worldObj.isRemote) {
-        Object obj = null;
         ItemStack aitemstack[] = entityplayer.inventory.mainInventory;
         this.itemnumber = -1;
 
@@ -92,7 +89,6 @@ public class CREEPSEntityThief extends EntityMob {
           ItemStack itemstack1 = aitemstack[i];
 
           if (itemstack1 != null) {
-            ItemStack itemstack = itemstack1;
             this.itemnumber = i;
           }
         }

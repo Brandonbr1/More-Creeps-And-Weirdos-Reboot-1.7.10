@@ -42,6 +42,7 @@ public class CREEPSModelHotdog extends ModelBase {
   public CREEPSModelHotdog(float f, float f1) {
     taildirection = 1;
     float f2 = 0.0F;
+
     float f3 = 0.0F;
     body = new ModelRenderer(this, 30, 0);
     body.addBox(-2F, -1.3F, -6F - f3, 5, 3, 12, f2);

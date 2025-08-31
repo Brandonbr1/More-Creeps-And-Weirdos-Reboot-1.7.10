@@ -22,8 +22,6 @@ import net.minecraft.world.World;
 public class CREEPSEntityPyramidGuardian extends EntityMob {
 
   public static Random rand = new Random();
-  private int count;
-  private int pyramids;
   public int rows;
   public int columns;
   public int maze[][];
@@ -115,8 +113,6 @@ public class CREEPSEntityPyramidGuardian extends EntityMob {
         int i = MathHelper.floor_double(this.posX);
         int j = MathHelper.floor_double(this.posY);
         int k = MathHelper.floor_double(this.posZ);
-        byte byte0 = 35;
-        byte byte1 = 35;
 
         if (this.posY > 60D) {
           for (int l = -4; l < 6; l++) {
@@ -197,7 +193,6 @@ public class CREEPSEntityPyramidGuardian extends EntityMob {
           BlockBed blockbed = (BlockBed) Blocks.bed;
           int i3 = 0;
           int l3 = 1;
-          int i4 = 0;
           this.worldObj.setBlock(i - 15, j + 3, k - 15, blockbed);
           this.worldObj.setBlock((i - 15) + i3, j + 3, (k + l3) - 15, blockbed);
         }

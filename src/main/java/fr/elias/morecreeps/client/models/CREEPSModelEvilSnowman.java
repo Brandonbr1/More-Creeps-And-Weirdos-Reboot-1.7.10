@@ -44,6 +44,7 @@ public class CREEPSModelEvilSnowman extends ModelBase {
 
   public CREEPSModelEvilSnowman(float f, float f1) {
     float f2 = 0.0F;
+
     body2 = new ModelRenderer(this, 20, 0);
     body2.addBox(-5F, -5F, -5F, 11, 11, 11, f2);
     body2.setRotationPoint(0.0F, 17F, 0.0F);

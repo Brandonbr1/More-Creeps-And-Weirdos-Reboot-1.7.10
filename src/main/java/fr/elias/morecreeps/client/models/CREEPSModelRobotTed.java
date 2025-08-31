@@ -47,6 +47,7 @@ public class CREEPSModelRobotTed extends ModelBase {
 
   public CREEPSModelRobotTed(float f, float f1) {
     float f2 = 0.0F;
+
     tedhead = new ModelRenderer(this, 0, 0);
     tedhead.addBox(-2.5F, -6F, -3F, 5, 6, 6, f2);
     tedhead.setRotationPoint(0.0F, 7F, 0.0F);

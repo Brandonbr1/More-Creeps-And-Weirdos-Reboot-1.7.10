@@ -73,10 +73,6 @@ public class CREEPSEntityBum extends EntityMob {
   @Override
   public void onLivingUpdate() {
     super.onLivingUpdate();
-    double moveSpeed =
-        this.getAttributeMap()
-            .getAttributeInstance(SharedMonsterAttributes.movementSpeed)
-            .getAttributeValue();
     if (this.timetopee-- < 0 && !this.bumgave && CREEPSConfig.publicUrination) {
       this.isJumping = false;
 
@@ -85,7 +81,7 @@ public class CREEPSEntityBum extends EntityMob {
       }
 
       this.rotationYaw = this.bumrotation;
-      moveSpeed = 0.0F;
+      // moveSpeed = 0.0F; // TODO (unused)
 
       if (!this.onGround) {
         this.motionY -= 0.5D;

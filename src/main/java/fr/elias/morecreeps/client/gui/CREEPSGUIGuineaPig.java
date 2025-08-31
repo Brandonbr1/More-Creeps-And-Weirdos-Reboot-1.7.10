@@ -1,7 +1,6 @@
 package fr.elias.morecreeps.client.gui;
 
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityGuineaPig;
-import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -187,7 +186,6 @@ public class CREEPSGUIGuineaPig extends GuiScreen {
       }
 
       field_28217_m = true;
-      long l = (new Random()).nextLong();
       String s1 = namescreen.getText();
       guineapig.name = s1;
       mc.displayGuiScreen(null);
@@ -199,16 +197,11 @@ public class CREEPSGUIGuineaPig extends GuiScreen {
       }
 
       field_28217_m = true;
-      long l1 = (new Random()).nextLong();
       String s2 = namescreen.getText();
       guineapig.name = s2;
       guineapig.wanderstate = 0;
-      double moveSpeed =
-          guineapig
-              .getAttributeMap()
-              .getAttributeInstance(SharedMonsterAttributes.movementSpeed)
-              .getAttributeValue();
-      moveSpeed = guineapig.speedboost <= 0 ? guineapig.baseSpeed : guineapig.baseSpeed + 0.5F;
+      guineapig.moveSpeed =
+          guineapig.speedboost <= 0 ? guineapig.baseSpeed : guineapig.baseSpeed + 0.5F;
       mc.displayGuiScreen(null);
     }
 
@@ -216,13 +209,7 @@ public class CREEPSGUIGuineaPig extends GuiScreen {
       String s = namescreen.getText();
       guineapig.name = s;
       guineapig.wanderstate = 1;
-      double moveSpeed =
-          guineapig
-              .getAttributeMap()
-              .getAttributeInstance(SharedMonsterAttributes.movementSpeed)
-              .getAttributeValue();
-
-      moveSpeed = 0.0F;
+      guineapig.moveSpeed = 0.0F;
       mc.displayGuiScreen(null);
     }
 
@@ -232,16 +219,11 @@ public class CREEPSGUIGuineaPig extends GuiScreen {
       }
 
       field_28217_m = true;
-      long l2 = (new Random()).nextLong();
       String s3 = namescreen.getText();
       guineapig.name = s3;
       guineapig.wanderstate = 2;
-      double moveSpeed =
-          guineapig
-              .getAttributeMap()
-              .getAttributeInstance(SharedMonsterAttributes.movementSpeed)
-              .getAttributeValue();
-      moveSpeed = guineapig.speedboost <= 0 ? guineapig.baseSpeed : guineapig.baseSpeed + 0.5F;
+      guineapig.moveSpeed =
+          guineapig.speedboost <= 0 ? guineapig.baseSpeed : guineapig.baseSpeed + 0.5F;
       mc.displayGuiScreen(null);
     }
 

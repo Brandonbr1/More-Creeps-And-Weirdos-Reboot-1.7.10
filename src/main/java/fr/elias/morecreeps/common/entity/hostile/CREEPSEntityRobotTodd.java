@@ -19,7 +19,7 @@ public class CREEPSEntityRobotTodd extends EntityMob {
 
   public static Random rand = new Random();
   protected double attackRange;
-  private int angerLevel;
+  // private int angerLevel; // TODO (unused)
   public boolean jumping;
   public float robotsize;
   public int texswitch;
@@ -31,7 +31,7 @@ public class CREEPSEntityRobotTodd extends EntityMob {
     super(world);
     this.texnumber = 0;
     this.texture = "morecreeps:textures/entity/robottodd1.png";
-    this.angerLevel = 0;
+    // this.angerLevel = 0; // TODO (unused)
     this.attackRange = 16D;
     this.jumping = false;
     this.robotsize = 2.5F;

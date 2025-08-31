@@ -54,6 +54,7 @@ public class CREEPSModelRobotTodd extends ModelBase {
   public CREEPSModelRobotTodd(float f, float f1) {
     taildirection = 1;
     float f2 = 0.0F;
+
     robotHead = new ModelRenderer(this, 5, 0);
     robotHead.addBox(-2.5F, -7F, -1.5F, 5, 5, 3, f2);
     robotHead.setRotationPoint(1.5F, 5F, 0.0F);

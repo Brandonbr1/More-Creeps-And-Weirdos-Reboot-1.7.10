@@ -12,7 +12,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -21,17 +20,15 @@ import net.minecraft.world.World;
 
 public class CREEPSEntitySquimp extends EntityWaterMob {
 
-  private boolean foundplayer;
-  private boolean stolen;
-  private PathEntity pathToEntity;
+  // private boolean foundplayer; // TODO (unused)
+  // private boolean stolen; // TODO (unused)
+  // private PathEntity pathToEntity; // TODO (unused)
   protected Entity playerToAttack;
 
   /** returns true if a creature has attacked recently only used for creepers and skeletons */
   protected boolean hasAttacked;
 
   protected ItemStack stolengood;
-  private double goX;
-  private double goZ;
   private float distance;
   public int itemnumber;
   public int stolenamount;
@@ -43,9 +40,9 @@ public class CREEPSEntitySquimp extends EntityWaterMob {
     texture = "morecreeps:textures/entity/squimp.png";
     moveSpeed = 0.0F;
     this.setHealth(rand.nextInt(20) + 10);
-    stolen = false;
-    hasAttacked = false;
-    foundplayer = false;
+    // stolen = false;
+    hasAttacked = false; // TODO (unused)
+    // foundplayer = false;  // TODO (unused)
     tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8F));
   }
 

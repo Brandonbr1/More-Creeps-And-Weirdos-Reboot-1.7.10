@@ -124,7 +124,6 @@ public class CREEPSEntityBullet extends Entity implements IProjectile {
 
       if (entityplayer != null) {
         this.posY -= 1.7999999523162842D;
-        double d = (entityplayer.rotationPitch / 180F) * (float) Math.PI;
         double d1 = entityplayer.posY - this.posY;
         this.motionY += d1 / 20D;
 

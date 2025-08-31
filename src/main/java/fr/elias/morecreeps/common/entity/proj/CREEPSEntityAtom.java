@@ -14,10 +14,9 @@ import net.minecraft.world.World;
 
 public class CREEPSEntityAtom extends EntityFlying {
 
-  private Random random;
   public static Random rand = new Random();
   protected double attackRange;
-  private int angerLevel;
+  // private int angerLevel; // TODO (unused)
   public boolean jumping;
   public float robotsize;
   public int floattimer;
@@ -28,7 +27,7 @@ public class CREEPSEntityAtom extends EntityFlying {
   public CREEPSEntityAtom(World world) {
     super(world);
     this.renderDistanceWeight = 10D;
-    this.angerLevel = 0;
+    // this.angerLevel = 0; // TODO (unused)
     this.attackRange = 16D;
     this.jumping = false;
     this.floattimer = 0;
@@ -166,12 +165,7 @@ public class CREEPSEntityAtom extends EntityFlying {
       }
 
       if (entity instanceof EntityLivingBase) {
-        double targetMoveSpeed =
-            ((EntityLivingBase) entity)
-                .getAttributeMap()
-                .getAttributeInstance(SharedMonsterAttributes.movementSpeed)
-                .getAttributeValue();
-        targetMoveSpeed *= 0.8D;
+        // targetMoveSpeed *= 0.8D; // TODO (unused)
       }
 
       float f1 = (0.15F / f) * this.atomsize;

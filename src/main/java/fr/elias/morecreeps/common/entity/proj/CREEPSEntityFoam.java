@@ -341,7 +341,6 @@ public class CREEPSEntityFoam extends Entity implements IProjectile {
         this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
     this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
     float f3 = 0.99F;
-    float f5 = 0.0F;
 
     if (this.handleWaterMovement()) {
       for (int k1 = 0; k1 < 4; k1++) {
@@ -357,7 +356,6 @@ public class CREEPSEntityFoam extends Entity implements IProjectile {
       }
 
       f3 = 0.8F;
-      float f6 = 0.03F;
       this.setDead();
     }
 

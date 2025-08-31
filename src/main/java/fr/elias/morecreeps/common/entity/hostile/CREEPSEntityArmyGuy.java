@@ -345,31 +345,30 @@ public class CREEPSEntityArmyGuy extends EntityMob
     this.head = nbttagcompound.getBoolean("Head");
     this.modelsize = nbttagcompound.getFloat("ModelSize");
     this.loyal = nbttagcompound.getBoolean("Loyal");
-    float health = this.getHealth();
 
     if (this.helmet) {
-      health = 60;
+      this.setHealth(60);
     }
 
     if (this.armleft) {
-      health = 50;
+      this.setHealth(50);
     }
 
     if (this.legright) {
-      health = 40;
+      this.setHealth(40);
     }
 
     if (this.armright) {
-      health = 30;
+      this.setHealth(30);
       this.defaultHeldItem = null;
     }
 
     if (this.legleft) {
-      health = 20;
+      this.setHealth(20);
     }
 
     if (this.head) {
-      health = 10;
+      this.setHealth(10);
     }
   }
 
@@ -400,9 +399,6 @@ public class CREEPSEntityArmyGuy extends EntityMob
   @Override
   public void attackEntityWithRangedAttack(EntityLivingBase p_82196_1_, float p_82196_2_) {
     double d2 = this.targetedEntity.posX - this.posX;
-    double d3 =
-        (this.targetedEntity.boundingBox.minY + this.targetedEntity.height / 2.0F)
-            - (this.posY + this.height / 2.0F);
     double d4 = this.targetedEntity.posZ - this.posZ;
     this.renderYawOffset =
         this.rotationYaw = (-(float) Math.atan2(d2, d4) * 180F) / (float) Math.PI;

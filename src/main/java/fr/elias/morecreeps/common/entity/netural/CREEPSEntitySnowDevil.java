@@ -37,10 +37,9 @@ public class CREEPSEntitySnowDevil extends EntityMob {
   World world;
   public boolean rideable;
   public int interest;
-  private boolean primed;
+  // private boolean primed; // TODO (unused)
   public boolean tamed;
   public int basehealth;
-  private float distance;
   public int armor;
   public String basetexture;
   public boolean used;
@@ -110,7 +109,7 @@ public class CREEPSEntitySnowDevil extends EntityMob {
 
   public CREEPSEntitySnowDevil(World world) {
     super(world);
-    this.primed = false;
+    // this.primed = false; // TODO (unused)
     this.basetexture = snowTextures[this.rand.nextInt(snowTextures.length)];
     this.texture = this.basetexture;
     this.setSize(this.width * 1.6F, this.height * 1.6F);

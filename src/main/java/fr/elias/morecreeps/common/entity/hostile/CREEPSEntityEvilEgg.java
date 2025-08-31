@@ -102,7 +102,6 @@ public class CREEPSEntityEvilEgg extends Entity {
   public void onUpdate() {
     double d = this.motionX;
     double d1 = this.motionY;
-    double d2 = this.motionZ;
     this.prevPosX = this.posX;
     this.prevPosY = this.posY;
     this.prevPosZ = this.posZ;

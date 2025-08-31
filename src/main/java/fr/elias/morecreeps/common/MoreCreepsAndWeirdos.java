@@ -147,8 +147,6 @@ public class MoreCreepsAndWeirdos {
 
   public static Random rand = new Random();
 
-  private int count;
-
   public static SimpleNetworkWrapper packetHandler;
 
   public int spittime = 500;

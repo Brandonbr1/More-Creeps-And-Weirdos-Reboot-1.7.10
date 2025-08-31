@@ -2,7 +2,6 @@ package fr.elias.morecreeps.common.items;
 
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntitySchlump;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -74,7 +73,6 @@ public class CREEPSItemBabyJarFull extends Item {
         int k = movingobjectposition.blockX;
         int l = movingobjectposition.blockY + 1;
         int i1 = movingobjectposition.blockZ;
-        Block j1 = world.getBlock(k, l, i1);
         CREEPSEntitySchlump creepsentityschlump = new CREEPSEntitySchlump(world);
         creepsentityschlump.setLocationAndAngles(k, l, i1, entityplayer.rotationYaw, 0.0F);
         world.spawnEntityInWorld(creepsentityschlump);

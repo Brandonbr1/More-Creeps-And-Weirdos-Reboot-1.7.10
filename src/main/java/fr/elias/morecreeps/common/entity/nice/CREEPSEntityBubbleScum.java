@@ -23,9 +23,8 @@ public class CREEPSEntityBubbleScum extends EntityCreature {
 
   public boolean rideable;
   public int interest;
-  private boolean primed;
+  // private boolean primed; // TODO (unused)
   public boolean tamed;
-  private float distance;
   public int armor;
   public boolean used;
   public boolean grab;
@@ -74,7 +73,7 @@ public class CREEPSEntityBubbleScum extends EntityCreature {
 
   public CREEPSEntityBubbleScum(World world) {
     super(world);
-    this.primed = false;
+    // this.primed = false; // TODO (unused)
     this.texture = "morecreeps:textures/entity/bubblescum.png";
     this.setSize(0.6F, 0.6F);
     this.rideable = false;
@@ -133,7 +132,6 @@ public class CREEPSEntityBubbleScum extends EntityCreature {
     this.knockBack(this, i, 3D, 5D);
 
     if (entity instanceof EntityLivingBase) {
-      EntityLivingBase entityToAttack = this.getAttackTarget();
       entityToAttack = (EntityLivingBase) entity;
     }
     return super.attackEntityFrom(damagesource, i);
@@ -278,9 +276,6 @@ public class CREEPSEntityBubbleScum extends EntityCreature {
   public boolean getCanSpawnHere() {
     if (this.worldObj == null || this.getBoundingBox() == null) return false;
     // Method used by Minecraft below, probably better to leave it?
-    int i = MathHelper.floor_double(this.posX);
-    int j = MathHelper.floor_double(this.posY);
-    int k = MathHelper.floor_double(this.posZ);
     return this.worldObj.getCollidingBoundingBoxes(this, this.getBoundingBox()).size() == 0
         && this.rand.nextInt(5) == 0;
   }

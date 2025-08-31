@@ -15,7 +15,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -23,7 +22,6 @@ import net.minecraft.world.World;
 public class CREEPSEntityManDog extends EntityMob {
 
   private boolean foundplayer;
-  private PathEntity pathToEntity;
 
   /** The Entity this EntityCreature is set to attack. */
   protected Entity entityToAttack;
@@ -32,7 +30,6 @@ public class CREEPSEntityManDog extends EntityMob {
   protected boolean hasAttacked;
 
   protected ItemStack stolengood;
-  private float distance;
   public int frisbeetime;
   public boolean chase;
   protected Entity frisbeeent;

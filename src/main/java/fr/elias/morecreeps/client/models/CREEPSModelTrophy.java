@@ -31,6 +31,7 @@ public class CREEPSModelTrophy extends ModelBase {
 
   public CREEPSModelTrophy(float f, float f1) {
     float f2 = 0.0F;
+
     body = new ModelRenderer(this, 32, 24);
     body.addBox(-3F, -2F, -3F, 6, 2, 6, f2);
     body.setRotationPoint(0.0F, 0.0F, 0.0F);

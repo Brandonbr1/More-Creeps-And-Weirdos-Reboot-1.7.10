@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class CREEPSEntityCastleGuard extends EntityMob {
 
   private int angerLevel;
-  private int randomSoundDelay;
+  // private int randomSoundDelay; // TODO (unused)
   public String basetexture;
   public int attackdamage;
   public boolean isSwinging;
@@ -35,7 +35,7 @@ public class CREEPSEntityCastleGuard extends EntityMob {
   public CREEPSEntityCastleGuard(World world) {
     super(world);
     this.angerLevel = 0;
-    this.randomSoundDelay = 0;
+    // this.randomSoundDelay = 0; // TODO (unused)
     this.basetexture = guardTextures[this.rand.nextInt(guardTextures.length)];
     this.texture = this.basetexture;
     this.attacked = false;
@@ -161,7 +161,7 @@ public class CREEPSEntityCastleGuard extends EntityMob {
   private void becomeAngryAt(Entity entity) {
     this.attackEntity(entity, 1);
     this.angerLevel = 400 + this.rand.nextInt(400);
-    this.randomSoundDelay = this.rand.nextInt(40);
+    // this.randomSoundDelay = this.rand.nextInt(40); // TODO (unused)
   }
 
   /** Plays living's sound at its position */

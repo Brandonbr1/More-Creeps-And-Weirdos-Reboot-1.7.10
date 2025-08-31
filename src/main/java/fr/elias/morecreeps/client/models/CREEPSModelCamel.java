@@ -33,6 +33,7 @@ public class CREEPSModelCamel extends ModelBase {
 
   public CREEPSModelCamel(float f, float f1) {
     float f2 = 0.0F;
+
     body = new ModelRenderer(this, 36, 0);
     body.addBox(-1F, -3F, -4.5F, 2, 6, 9, 3.9F);
     body.setRotationPoint(0.0F, 4F, 0.0F);

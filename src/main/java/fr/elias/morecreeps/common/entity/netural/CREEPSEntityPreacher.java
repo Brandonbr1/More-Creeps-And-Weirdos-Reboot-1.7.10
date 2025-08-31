@@ -29,14 +29,13 @@ public class CREEPSEntityPreacher extends EntityMob {
   public boolean rideable;
   protected double attackRange;
   private int angerLevel;
-  private int value;
   private boolean ritual;
   private Entity targetedEntity;
   private Entity victimEntity;
   public int raise;
   public boolean getvictim;
 
-  private float victimspeed;
+  // private float victimspeed; // TODO (unused)
   private int waittime;
   private int raiselevel;
   public int revenge;
@@ -51,7 +50,7 @@ public class CREEPSEntityPreacher extends EntityMob {
     this.ritual = false;
     this.getvictim = false;
     this.raise = 0;
-    this.victimspeed = 0.0F;
+    // this.victimspeed = 0.0F; // TODO (unused)
     this.waittime = this.rand.nextInt(500) + 500;
     this.raiselevel = 0;
     this.revenge = 0;

@@ -8,8 +8,6 @@ import net.minecraft.world.World;
 
 public class CREEPSItemBattery extends Item {
 
-  private int healAmount;
-
   public CREEPSItemBattery() {
     super();
     maxStackSize = 16;

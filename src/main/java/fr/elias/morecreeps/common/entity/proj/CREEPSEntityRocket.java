@@ -389,7 +389,6 @@ public class CREEPSEntityRocket extends Entity {
         this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
     this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
     float f3 = 0.99F;
-    float f5 = 0.0F;
 
     if (this.handleWaterMovement()) {
       for (int l = 0; l < 4; l++) {
@@ -405,7 +404,6 @@ public class CREEPSEntityRocket extends Entity {
       }
 
       f3 = 0.8F;
-      float f6 = 0.03F;
       this.setDead();
     }
 

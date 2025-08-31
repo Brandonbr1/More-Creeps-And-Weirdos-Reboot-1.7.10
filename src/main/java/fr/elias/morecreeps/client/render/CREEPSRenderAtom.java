@@ -5,7 +5,6 @@ import fr.elias.morecreeps.common.Reference;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityAtom;
 import java.util.Random;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,14 +13,12 @@ import org.lwjgl.opengl.GL11;
 
 public class CREEPSRenderAtom extends RenderLiving {
 
-  private ModelBase scaleAmount;
   public float sparkle;
   protected CREEPSModelAtom modelBipedMain;
 
   public CREEPSRenderAtom(CREEPSModelAtom creepsmodelatom, float f) {
     super(creepsmodelatom, f);
     modelBipedMain = creepsmodelatom;
-    scaleAmount = creepsmodelatom;
   }
 
   public void doRenderLayer(

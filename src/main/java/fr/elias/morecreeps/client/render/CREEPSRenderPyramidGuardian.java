@@ -2,7 +2,6 @@ package fr.elias.morecreeps.client.render;
 
 import fr.elias.morecreeps.client.models.CREEPSModelPyramidGuardian;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityPyramidGuardian;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,13 +12,11 @@ public class CREEPSRenderPyramidGuardian extends RenderLiving {
 
   protected CREEPSModelPyramidGuardian modelBipedMain;
   public boolean scaled;
-  private ModelBase scaleAmount;
 
   public CREEPSRenderPyramidGuardian(
       CREEPSModelPyramidGuardian creepsmodelpyramidguardian, float f) {
     super(creepsmodelpyramidguardian, f);
     modelBipedMain = creepsmodelpyramidguardian;
-    scaleAmount = creepsmodelpyramidguardian;
   }
 
   /** sets the scale for the slime based on getSlimeSize in EntitySlime */

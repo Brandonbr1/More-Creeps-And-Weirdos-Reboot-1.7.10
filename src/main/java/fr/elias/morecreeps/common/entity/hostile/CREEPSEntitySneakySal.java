@@ -20,7 +20,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -52,14 +51,12 @@ public class CREEPSEntitySneakySal extends EntityMob {
     "SKY GEM"
   };
   public static final ItemStack itemstack[];
-  private boolean foundplayer;
-  private PathEntity pathToEntity;
+  // private boolean foundplayer; // TODO (unused)
   protected Entity playerToAttack;
 
   /** returns true if a creature has attacked recently only used for creepers and skeletons */
   protected boolean hasAttacked;
 
-  private float distance;
   public boolean tamed;
   public int basehealth;
   public int tamedfood;
@@ -98,7 +95,7 @@ public class CREEPSEntitySneakySal extends EntityMob {
     this.basehealth = this.rand.nextInt(50) + 50;
     this.health = this.basehealth;
     this.hasAttacked = false;
-    this.foundplayer = false;
+    // this.foundplayer = false; // TODO (unused)
     this.setSize(1.5F, 4F);
     this.dissedmax = this.rand.nextInt(4) + 1;
     this.defaultHeldItem = new ItemStack(MoreCreepsAndWeirdos.gun, 1);
@@ -161,8 +158,6 @@ public class CREEPSEntitySneakySal extends EntityMob {
    */
   @Override
   protected boolean interact(EntityPlayer entityplayer) {
-    ItemStack itemstack1 = entityplayer.inventory.getCurrentItem();
-
     if (this.dissedmax > 0) {
       if (this.saleprice == 0.0F || this.sale < 1) {
         this.restockSal();
@@ -268,7 +263,6 @@ public class CREEPSEntitySneakySal extends EntityMob {
     if (this.targetedEntity != null
         && (this.targetedEntity instanceof EntityPlayer)
         && this.canEntityBeSeen(this.targetedEntity)) {
-      float f = this.rotationYaw;
 
       for (int i = 0; i < 360; i++) {
         this.rotationYaw = i;
@@ -294,9 +288,6 @@ public class CREEPSEntitySneakySal extends EntityMob {
 
         if (d2 < d * d && d2 > 3D) {
           double d4 = this.targetedEntity.posX - this.posX;
-          double d5 =
-              (this.targetedEntity.boundingBox.minY + this.targetedEntity.height / 2.0F)
-                  - (this.posY + this.height / 2.0F);
           double d6 = this.targetedEntity.posZ - this.posZ;
           this.renderYawOffset =
               this.rotationYaw = (-(float) Math.atan2(d4, d6) * 180F) / (float) Math.PI;

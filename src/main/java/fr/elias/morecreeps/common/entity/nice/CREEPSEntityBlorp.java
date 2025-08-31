@@ -153,12 +153,6 @@ public class CREEPSEntityBlorp extends EntityAnimal {
   }
 
   public void faceTreeTop(int i, int j, int k, float f) {
-    double d = (double) i - posX;
-    double d1 = (double) k - posZ;
-    double d2 = (double) j - posY;
-    double d3 = MathHelper.sqrt_double(d * d + d1 * d1);
-    float f1 = (float) ((Math.atan2(d1, d) * 180D) / Math.PI);
-    float f2 = (float) ((Math.atan2(d2, d3) * 180D) / Math.PI);
     rotationYaw = (float) (Math.atan2(motionX, motionZ) / Math.PI);
   }
 
@@ -173,7 +167,6 @@ public class CREEPSEntityBlorp extends EntityAnimal {
 
     hungry = false;
     hungrytime = 100;
-    EntityLivingBase entityToAttack = getAttackTarget();
     entityToAttack = (EntityLivingBase) entity;
     return super.attackEntityFrom(damagesource, f);
   }

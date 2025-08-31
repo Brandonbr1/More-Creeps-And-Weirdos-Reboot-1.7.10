@@ -127,7 +127,6 @@ public class CREEPSEntityLolliman extends EntityAnimal {
         this.rockettime = 0;
 
         for (int j = 0; j < this.rand.nextInt(2) + 1; j++) {
-          Object obj = null;
           int l = this.rand.nextInt(4);
           this.treats++;
 

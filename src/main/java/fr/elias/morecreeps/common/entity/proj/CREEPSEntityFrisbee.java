@@ -2,7 +2,6 @@ package fr.elias.morecreeps.common.entity.proj;
 
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
@@ -16,9 +15,7 @@ public class CREEPSEntityFrisbee extends EntityThrowable {
   private int field_20054_d;
   private int field_20053_e;
   public int field_20057_a;
-  private EntityLivingBase field_20051_g;
-  private int field_20050_h;
-  private int field_20049_i;
+  // private int field_20050_h; // TODO (unused)
   protected double initialVelocity;
   double bounceFactor;
   public int lifespan;
@@ -85,7 +82,7 @@ public class CREEPSEntityFrisbee extends EntityThrowable {
     float f3 = MathHelper.sqrt_double(d * d + d2 * d2);
     this.prevRotationYaw = this.rotationYaw = (float) ((Math.atan2(d, d2) * 180D) / Math.PI);
     this.prevRotationPitch = this.rotationPitch = (float) ((Math.atan2(d1, f3) * 180D) / Math.PI);
-    this.field_20050_h = 0;
+    // this.field_20050_h = 0; // TODO (unused)
   }
 
   /** Sets the velocity to the args. Args: x, y, z */
@@ -107,7 +104,6 @@ public class CREEPSEntityFrisbee extends EntityThrowable {
   public void onUpdate() {
     double d = this.motionX;
     double d1 = this.motionY;
-    double d2 = this.motionZ;
     this.prevPosX = this.posX;
     this.prevPosY = this.posY;
     this.prevPosZ = this.posZ;

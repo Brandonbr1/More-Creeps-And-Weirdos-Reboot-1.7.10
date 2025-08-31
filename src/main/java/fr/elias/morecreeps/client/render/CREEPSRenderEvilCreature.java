@@ -2,7 +2,6 @@ package fr.elias.morecreeps.client.render;
 
 import fr.elias.morecreeps.client.models.CREEPSModelEvilCreature;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityEvilCreature;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,12 +12,10 @@ public class CREEPSRenderEvilCreature extends RenderLiving {
 
   protected CREEPSModelEvilCreature modelBipedMain;
   public boolean scaled;
-  private ModelBase scaleAmount;
 
   public CREEPSRenderEvilCreature(CREEPSModelEvilCreature creepsmodelevilcreature, float f) {
     super(creepsmodelevilcreature, f);
     modelBipedMain = creepsmodelevilcreature;
-    scaleAmount = creepsmodelevilcreature;
   }
 
   /** sets the scale for the slime based on getSlimeSize in EntitySlime */

@@ -26,7 +26,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
   World world;
   EntityPlayer entityplayer;
   protected double attackRange;
-  private int waittime;
+  // private int waittime; // TODO (unused)
   public float modelsize;
   public boolean saved;
   public int age;
@@ -45,7 +45,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     this.moveSpeed = 0.0F;
     // this.health = this.rand.nextInt(10) + 10;
     this.saved = false;
-    this.waittime = this.rand.nextInt(1500) + 500;
+    // this.waittime = this.rand.nextInt(1500) + 500; // TODO (unused)
     this.modelsize = 0.4F;
     this.setSize(this.width * this.modelsize, this.height * this.modelsize);
     this.age = 0;
@@ -381,7 +381,6 @@ public class CREEPSEntitySchlump extends EntityAnimal {
 
   public boolean checkItems() {
     int i = 0;
-    Object obj = null;
     List<?> list =
         this.worldObj.getEntitiesWithinAABBExcludingEntity(
             this, this.boundingBox.expand(6D, 6D, 6D));
@@ -659,11 +658,6 @@ public class CREEPSEntitySchlump extends EntityAnimal {
   @Override
   public boolean getCanSpawnHere() {
     if (this.worldObj == null || this.getBoundingBox() == null) return false;
-    int i = MathHelper.floor_double(this.posX);
-    int j = MathHelper.floor_double(this.getBoundingBox().minY);
-    int k = MathHelper.floor_double(this.posZ);
-    int l = this.worldObj.getBlockLightOpacity(i, j, k);
-    int i1 = Block.getIdFromBlock((this.worldObj.getBlock(i, j - 1, k)));
     return true;
   }
 

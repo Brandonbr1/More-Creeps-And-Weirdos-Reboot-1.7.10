@@ -5,12 +5,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -24,8 +22,6 @@ import org.lwjgl.opengl.GL13;
 public class CREEPSGUIGuineaPigTraining extends GuiScreen {
 
   private CREEPSEntityGuineaPig guineapig;
-  private GuiTextField namescreen;
-  private boolean field_28217_m;
   private float xSize_lo;
   private float ySize_lo;
 
@@ -183,16 +179,10 @@ public class CREEPSGUIGuineaPigTraining extends GuiScreen {
       if (checkWheat()) {
         guineapig.skillattack++;
 
-        double attackStrength =
-            guineapig
-                .getAttributeMap()
-                .getAttributeInstance(SharedMonsterAttributes.attackDamage)
-                .getAttributeValue();
-
         if (guineapig.skillattack < 4) {
-          attackStrength += 2;
+          guineapig.attackStrength += 2;
         } else {
-          attackStrength += 4;
+          guineapig.attackStrength += 4;
         }
 
         world.playSoundAtEntity(entityplayersp, "morecreeps:guineapigtrain", 1.0F, 1.0F);
@@ -273,7 +263,6 @@ public class CREEPSGUIGuineaPigTraining extends GuiScreen {
 
   public boolean checkWheat() {
     EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
-    Object obj = null;
     ItemStack aitemstack[] = ((EntityPlayer) (entityplayersp)).inventory.mainInventory;
     int i = 0;
 
@@ -287,7 +276,6 @@ public class CREEPSGUIGuineaPigTraining extends GuiScreen {
 
     if (i >= 5) {
       int k = 5;
-      boolean flag = false;
       label0:
       for (int i1 = 0; i1 < aitemstack.length; i1++) {
         ItemStack itemstack1 = aitemstack[i1];
@@ -295,8 +283,6 @@ public class CREEPSGUIGuineaPigTraining extends GuiScreen {
         if (itemstack1 == null || itemstack1.getItem() != Items.wheat) {
           continue;
         }
-
-        int l = itemstack1.stackSize;
 
         do {
           if (itemstack1.stackSize <= 0 || k <= 0) {
@@ -395,7 +381,6 @@ public class CREEPSGUIGuineaPigTraining extends GuiScreen {
         height / 4 + 95 + byte0,
         0xff8d13);
     EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
-    Object obj = null;
     ItemStack aitemstack[] = ((EntityPlayer) (entityplayersp)).inventory.mainInventory;
     int l = 0;
 

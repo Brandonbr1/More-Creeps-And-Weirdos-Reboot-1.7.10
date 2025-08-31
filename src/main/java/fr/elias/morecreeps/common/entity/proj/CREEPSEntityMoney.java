@@ -27,9 +27,7 @@ public class CREEPSEntityMoney extends EntityThrowable {
   private int field_20053_e;
   private boolean field_20052_f;
   public int field_20057_a;
-  private EntityLivingBase field_20051_g;
-  private int field_20050_h;
-  private int field_20049_i;
+  // private int field_20050_h; // TODO (unused)
   protected double initialVelocity;
   public EntityLivingBase owner;
   double bounceFactor;
@@ -95,7 +93,7 @@ public class CREEPSEntityMoney extends EntityThrowable {
     float f3 = MathHelper.sqrt_double(d * d + d2 * d2);
     this.prevRotationYaw = this.rotationYaw = (float) ((Math.atan2(d, d2) * 180D) / Math.PI);
     this.prevRotationPitch = this.rotationPitch = (float) ((Math.atan2(d1, f3) * 180D) / Math.PI);
-    this.field_20050_h = 0;
+    // this.field_20050_h = 0; // TODO (unused)
   }
 
   /** Sets the velocity to the args. Args: x, y, z */
@@ -117,7 +115,6 @@ public class CREEPSEntityMoney extends EntityThrowable {
   public void onUpdate() {
     double d = this.motionX;
     double d1 = this.motionY;
-    double d2 = this.motionZ;
     this.prevPosX = this.posX;
     this.prevPosY = this.posY;
     this.prevPosZ = this.posZ;
@@ -153,14 +150,12 @@ public class CREEPSEntityMoney extends EntityThrowable {
     }
 
     if (!this.onGround) {
-      Object obj = null;
       List<?> list =
           this.worldObj.getEntitiesWithinAABBExcludingEntity(
               this,
               this.boundingBox
                   .addCoord(this.motionX, this.motionY, this.motionZ)
                   .expand(0.5D, 0.5D, 0.5D));
-      double d3 = 0.0D;
 
       for (int i = 0; i < list.size(); i++) {
         Entity entity = (Entity) list.get(i);
@@ -225,7 +220,6 @@ public class CREEPSEntityMoney extends EntityThrowable {
         this.setDead();
       }
 
-      Object obj = null;
       ItemStack aitemstack[] = entityplayer.inventory.mainInventory;
       int i = 0;
 

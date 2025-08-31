@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 public class CREEPSEntityTombstone extends EntityAnimal {
 
   public int interest;
-  private boolean primed;
+  // private boolean primed; // TODO (unused)
   public boolean tamed;
   public int basehealth;
   public boolean used;
@@ -57,7 +57,7 @@ public class CREEPSEntityTombstone extends EntityAnimal {
     this.texture = "morecreeps:textures/entity/tombstone.png";
     this.basetexture = "";
     this.interest = 0;
-    this.primed = false;
+    // this.primed = false; // TODO (unused)
     this.tamed = false;
     this.basehealth = 0;
     this.used = false;

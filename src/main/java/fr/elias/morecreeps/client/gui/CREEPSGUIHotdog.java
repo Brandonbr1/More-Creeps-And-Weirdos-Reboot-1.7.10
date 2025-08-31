@@ -1,7 +1,6 @@
 package fr.elias.morecreeps.client.gui;
 
 import fr.elias.morecreeps.common.entity.nice.CREEPSEntityHotdog;
-import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -162,7 +161,6 @@ public class CREEPSGUIHotdog extends GuiScreen {
       }
 
       field_28217_m = true;
-      long l = (new Random()).nextLong();
       String s1 = namescreen.getText();
       hotdog.setHotdogName(s1);
       mc.displayGuiScreen(null);
@@ -174,9 +172,9 @@ public class CREEPSGUIHotdog extends GuiScreen {
       }
 
       field_28217_m = true;
-      long l1 = (new Random()).nextLong();
       String s2 = namescreen.getText();
       hotdog.setHotdogName(s2);
+      hotdog.moveSpeed = hotdog.speedboost <= 0 ? hotdog.baseSpeed : hotdog.baseSpeed + 0.5F;
       hotdog.wanderstate = 0;
       mc.displayGuiScreen(null);
     }
@@ -185,6 +183,7 @@ public class CREEPSGUIHotdog extends GuiScreen {
       String s = namescreen.getText();
       hotdog.setHotdogName(s);
       hotdog.wanderstate = 1;
+      hotdog.moveSpeed = 0.0F;
       mc.displayGuiScreen(null);
     }
 
@@ -197,6 +196,7 @@ public class CREEPSGUIHotdog extends GuiScreen {
       String s3 = namescreen.getText();
       hotdog.setHotdogName(s3);
       hotdog.wanderstate = 2;
+      hotdog.moveSpeed = hotdog.speedboost <= 0 ? hotdog.baseSpeed : hotdog.baseSpeed + 0.5F;
       mc.displayGuiScreen(null);
     }
 

@@ -1014,7 +1014,6 @@ public class CREEPSEntityGuineaPig extends EntityMob {
       if (this.tamed) {
         this.armor = itemstack.getItem();
         this.smoke();
-        int k1 = 0;
 
         if (this.armor == Items.leather_boots
             || this.armor == Items.leather_chestplate

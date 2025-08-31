@@ -74,8 +74,6 @@ public class CREEPSItemMiningGem extends Item {
           double d1 = random.nextGaussian() * 0.02D;
           double d4 = random.nextGaussian() * 0.02D;
           double d7 = random.nextGaussian() * 0.02D;
-          double d10 = -MathHelper.sin((entityplayer.rotationYaw * (float) Math.PI) / 180F);
-          double d12 = MathHelper.cos((entityplayer.rotationYaw * (float) Math.PI) / 180F);
           world.spawnParticle(
               EnumParticleTypes.EXPLOSION_NORMAL,
               (double) i + (double) (random.nextFloat() * 1.5F),
@@ -149,8 +147,6 @@ public class CREEPSItemMiningGem extends Item {
           double d2 = random.nextGaussian() * 0.02D;
           double d5 = random.nextGaussian() * 0.02D;
           double d8 = random.nextGaussian() * 0.02D;
-          double d11 = -MathHelper.sin((entityplayer.rotationYaw * (float) Math.PI) / 180F);
-          double d13 = MathHelper.cos((entityplayer.rotationYaw * (float) Math.PI) / 180F);
           world.spawnParticle(
               EnumParticleTypes.SMOKE_NORMAL,
               (double) i + (double) (random.nextFloat() * 1.5F),

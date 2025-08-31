@@ -2,7 +2,6 @@ package fr.elias.morecreeps.common.entity.hostile;
 
 import fr.elias.morecreeps.common.Reference;
 import fr.elias.morecreeps.common.entity.ai.EntityBabyMummyAI;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -94,7 +93,6 @@ public class CREEPSEntityBabyMummy extends EntityMob {
     int i = MathHelper.floor_double(this.posX);
     int j = MathHelper.floor_double(this.posY);
     int k = MathHelper.floor_double(this.posZ);
-    Block i1 = this.worldObj.getBlock(i, j - 1, k);
     int l = this.worldObj.getFullBlockLightValue(i, j, k);
     return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL
         && l > 10

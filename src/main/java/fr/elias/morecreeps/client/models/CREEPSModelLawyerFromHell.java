@@ -32,6 +32,7 @@ public class CREEPSModelLawyerFromHell extends ModelBase {
 
   public CREEPSModelLawyerFromHell(float f, float f1) {
     float f2 = 0.0F;
+
     this.headLawyer = new ModelRenderer(this, 0, 0);
     this.headLawyer.addBox(-4F, -10F, -4F, 8, 8, 8, f2);
     this.headLawyer.setRotationPoint(0.0F, 2.0F, 0.0F);

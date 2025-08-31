@@ -14,25 +14,20 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class CREEPSEntityFloob extends EntityMob {
 
-  private boolean foundplayer;
-  private boolean stolen;
-  private PathEntity pathToEntity;
+  // private boolean foundplayer; // TODO (unused)
+  // private boolean stolen; // TODO (unused)
   protected Entity playerToAttack;
 
   /** returns true if a creature has attacked recently only used for creepers and skeletons */
   protected boolean hasAttacked;
 
   protected ItemStack heldObj;
-  private double goX;
-  private double goZ;
-  private float distance;
   public int itemnumber;
   public int stolenamount;
   public int rayTime;
@@ -43,9 +38,9 @@ public class CREEPSEntityFloob extends EntityMob {
   public CREEPSEntityFloob(World world) {
     super(world);
     texture = "morecreeps:textures/entity/floob.png";
-    stolen = false;
+    // stolen = false; // TODO (unused)
     hasAttacked = false;
-    foundplayer = false;
+    // foundplayer = false; // TODO (unused)
     heldObj = new ItemStack(MoreCreepsAndWeirdos.raygun, 1);
     rayTime = rand.nextInt(50) + 50;
     isImmuneToFire = true;
@@ -94,7 +89,6 @@ public class CREEPSEntityFloob extends EntityMob {
     if (targetedEntity != null
         && (targetedEntity instanceof EntityPlayer)
         && canEntityBeSeen(targetedEntity)) {
-      float f = rotationYaw;
 
       for (int i = 0; i < 360; i++) {
         rotationYaw = i;

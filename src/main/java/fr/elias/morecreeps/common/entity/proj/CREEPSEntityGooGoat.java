@@ -31,8 +31,8 @@ public class CREEPSEntityGooGoat extends EntityAnimal {
   public int goatlevel;
   public float modelspeed;
   public boolean angry;
-  private int angerLevel;
-  private int randomSoundDelay;
+  // private int angerLevel; // TODO (unused)
+  // private int randomSoundDelay; // TODO (unused)
   public String texture;
 
   public CREEPSEntityGooGoat(World world) {
@@ -235,8 +235,8 @@ public class CREEPSEntityGooGoat extends EntityAnimal {
 
   private void becomeAngryAt(Entity entity) {
     this.setRevengeTarget((EntityLivingBase) entity);
-    this.angerLevel = 400 + this.rand.nextInt(400);
-    this.randomSoundDelay = this.rand.nextInt(40);
+    // this.angerLevel = 400 + this.rand.nextInt(400); // TODO (unused)
+    // this.randomSoundDelay = this.rand.nextInt(40); // TODO (unused)
   }
 
   /**

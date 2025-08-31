@@ -5,7 +5,6 @@ import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class CREEPSItemHealingGem extends Item {
@@ -33,8 +32,6 @@ public class CREEPSItemHealingGem extends Item {
         double d = rand.nextGaussian() * 0.02D;
         double d1 = rand.nextGaussian() * 0.02D;
         double d2 = rand.nextGaussian() * 0.02D;
-        double d3 = -MathHelper.sin((entityplayer.rotationYaw * (float) Math.PI) / 180F);
-        double d4 = MathHelper.cos((entityplayer.rotationYaw * (float) Math.PI) / 180F);
         world.spawnParticle(
             EnumParticleTypes.EXPLOSION_NORMAL,
             (entityplayer.posX + rand.nextGaussian() * 0.5D) - rand.nextGaussian() * 0.5D,

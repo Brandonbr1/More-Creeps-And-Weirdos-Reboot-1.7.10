@@ -17,7 +17,7 @@ public class CREEPSModelTowel extends ModelBase {
   }
 
   public CREEPSModelTowel(float f, float f1) {
-    float f2 = 0.0F;
+
     this.body = new ModelRenderer(this, 0, 0);
     this.body.addBox(-9.0F, 0.0F, -13.0F, 18, 1, 25, 0.0F);
     this.body.setRotationPoint(0.0F, 23.0F, 0.0F);

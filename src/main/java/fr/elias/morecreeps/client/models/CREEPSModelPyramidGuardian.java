@@ -150,6 +150,7 @@ public class CREEPSModelPyramidGuardian extends ModelBase {
       f6 *= f6;
       f6 = 1.0F - f6;
       float f7 = MathHelper.sin(f6 * (float) Math.PI);
+
       float f8 =
           MathHelper.sin(swingProgress * (float) Math.PI)
               * -(bipedHead.rotateAngleX - 0.7F)

@@ -71,7 +71,6 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
     int i = MathHelper.floor_double(this.posX);
     int j = MathHelper.floor_double(this.posY);
     int k = MathHelper.floor_double(this.posZ);
-    Block l = this.worldObj.getBlock(i, j - 1, k);
     Block i1 = this.worldObj.getBlock(i, j, k);
     this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(this.snowsize + 1);
 
@@ -135,7 +134,6 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
 
       if (this.rand.nextInt(20) == 0) {
         double d3 = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
-        double d6 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
         this.motionX -= d3 * 1.0D;
         this.motionY += 0.16599999368190765D;
       }

@@ -10,12 +10,12 @@ import net.minecraft.world.World;
 
 public class CREEPSItemBabyJarEmpty extends Item {
 
-  private int healAmount;
+  // private int healAmount; // TODO (unused)
   private boolean messagegiven;
 
   public CREEPSItemBabyJarEmpty() {
     super();
-    this.healAmount = 10;
+    // this.healAmount = 10; // TODO (unused)
     this.maxStackSize = 1;
     this.messagegiven = false;
   }

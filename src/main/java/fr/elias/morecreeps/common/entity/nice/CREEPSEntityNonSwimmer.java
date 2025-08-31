@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 public class CREEPSEntityNonSwimmer extends EntityAnimal {
 
   protected double attackRange;
-  private int waittime;
+  // private int waittime; // TODO (unused)
   public boolean swimming;
   public float modelsize;
   public boolean saved;
@@ -43,7 +43,7 @@ public class CREEPSEntityNonSwimmer extends EntityAnimal {
     this.swimming = false;
     this.saved = false;
     this.towel = false;
-    this.waittime = this.rand.nextInt(1500) + 500;
+    // this.waittime = this.rand.nextInt(1500) + 500; // TODO (unused)
     this.modelsize = 1.0F;
     this.setSize(this.width * 1, this.height * 2);
     this.getNavigator().setBreakDoors(true);

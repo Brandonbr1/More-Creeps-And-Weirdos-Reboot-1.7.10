@@ -11,7 +11,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
@@ -20,7 +19,6 @@ import net.minecraft.world.World;
 public class CREEPSEntityCastleKing extends EntityMob {
 
   private boolean foundplayer;
-  private PathEntity pathToEntity;
   protected Entity playerToAttack;
   EntityPlayer entityplayer;
 
@@ -78,8 +76,6 @@ public class CREEPSEntityCastleKing extends EntityMob {
       this.hammerswing = 0.0F;
     }
 
-    double d = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
-    double d1 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
     if (this.worldObj.isRemote) {
       MoreCreepsAndWeirdos.proxy.kingSmoke(this.worldObj, this, random);
     }
@@ -307,7 +303,6 @@ public class CREEPSEntityCastleKing extends EntityMob {
   public boolean checkGem(ItemStack itemstack) {
     if (this.entityplayer == null) return false;
 
-    Object obj = null;
     ItemStack aitemstack[] = (this.entityplayer).inventory.mainInventory;
     boolean flag = false;
     int i = 0;

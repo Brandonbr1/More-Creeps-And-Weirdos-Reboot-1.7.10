@@ -3,7 +3,6 @@ package fr.elias.morecreeps.client.render;
 import fr.elias.morecreeps.client.models.CREEPSModelRobotTodd;
 import fr.elias.morecreeps.common.entity.hostile.CREEPSEntityRobotTodd;
 import java.util.Random;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -15,14 +14,12 @@ import org.lwjgl.opengl.GL12;
 public class CREEPSRenderRobotTodd extends RenderLiving {
 
   public static Random rand = new Random();
-  private ModelBase scaleAmount;
   protected CREEPSModelRobotTodd modelBipedMain;
   public float sparkle;
 
   public CREEPSRenderRobotTodd(CREEPSModelRobotTodd creepsmodelrobottodd, float f) {
     super(creepsmodelrobottodd, f);
     this.modelBipedMain = creepsmodelrobottodd;
-    this.scaleAmount = creepsmodelrobottodd;
   }
 
   protected boolean func_179_aaaaaaaa(CREEPSEntityRobotTodd creepsentityrobottodd, int i, float f) {

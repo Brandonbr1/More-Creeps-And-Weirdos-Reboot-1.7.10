@@ -3,7 +3,6 @@ package fr.elias.morecreeps.common.entity.hostile;
 import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
 import fr.elias.morecreeps.common.entity.proj.CREEPSEntityTrophy;
 import fr.elias.morecreeps.common.port.EnumParticleTypes;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -28,7 +27,7 @@ public class CREEPSEntityPrisoner extends EntityMob {
     "morecreeps:textures/entity/prisoner5.png"
   };
   protected double attackRange;
-  private int waittime;
+  // private int waittime; // TODO (unused)
   public float modelsize;
   public boolean saved;
   public int timeonland;
@@ -41,7 +40,7 @@ public class CREEPSEntityPrisoner extends EntityMob {
     this.attackRange = 16D;
     this.timeonland = 0;
     this.saved = false;
-    this.waittime = this.rand.nextInt(1500) + 500;
+    // this.waittime = this.rand.nextInt(1500) + 500; // TODO (unused)
     this.modelsize = 1.0F;
 
     if (this.rand.nextInt(2) == 0) {
@@ -83,10 +82,6 @@ public class CREEPSEntityPrisoner extends EntityMob {
     if (this.inWater) {
       this.getYOffset();
     } else {
-      int i = MathHelper.floor_double(this.posX);
-      int j = MathHelper.floor_double(this.posY);
-      int k = MathHelper.floor_double(this.posZ);
-      Block l = this.worldObj.getBlock(i, j, k);
       EntityPlayer entityplayersp = this.worldObj.getClosestPlayerToEntity(this, 2D);
 
       if (entityplayersp != null) {

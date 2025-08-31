@@ -318,10 +318,10 @@ public class ClientProxy extends CommonProxy {
   public void shrinkBlast(World world, Entity entity, Random rand) {
     if (world.isRemote && entity != null) {
       for (int i = 0; i < 8; i++) {
-        byte byte0 = 7;
+        // byte byte0 = 7; TODO (unused)
 
         if (rand.nextInt(4) == 0) {
-          byte0 = 11;
+          // byte0 = 11; TODO (unused)
         }
         CREEPSFxSmoke creepsfxsmoke =
             new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 0.5F, 0);
@@ -369,9 +369,9 @@ public class ClientProxy extends CommonProxy {
   public void rocketGoBoom(World world, Entity entity, Random rand) {
     if (world != null && world.isRemote && entity != null && rand != null) {
       for (int i = 0; i < 20; i++) {
-        Item j = MoreCreepsAndWeirdos.partYellow;
+        // Item j = MoreCreepsAndWeirdos.partYellow; TODO (unused)
         if (rand.nextInt(3) == 0) {
-          j = MoreCreepsAndWeirdos.partRed;
+          // j = MoreCreepsAndWeirdos.partRed; TODO (unused)
         }
         CREEPSFxSmoke creepsfxsmoke =
             new CREEPSFxSmoke(world, entity.posX, entity.posY, entity.posZ, 1.0F, 0F);
@@ -604,8 +604,6 @@ public class ClientProxy extends CommonProxy {
   @Override
   public void foam3(World world, CREEPSEntityCaveman player, int i, int j, int k) {
     if (world.isRemote && player != null) {
-      double d = -MathHelper.sin((player.rotationYaw * (float) Math.PI) / 180F);
-      double d1 = MathHelper.cos((player.rotationYaw * (float) Math.PI) / 180F);
       for (int i1 = 0; i1 < 25; i1++) {
         CREEPSFxFoam creepsfxfoam =
             new CREEPSFxFoam(world, i, j, k, MoreCreepsAndWeirdos.partWhite);
@@ -616,9 +614,6 @@ public class ClientProxy extends CommonProxy {
 
   @Override
   public void kingSmoke(World world, Entity entity, Random random) {
-    double d = -MathHelper.sin((entity.rotationYaw * (float) Math.PI) / 180F);
-    double d1 = MathHelper.cos((entity.rotationYaw * (float) Math.PI) / 180F);
-
     CREEPSFxSmoke creepsfxsmoke =
         new CREEPSFxSmoke(
             world,
@@ -710,10 +705,10 @@ public class ClientProxy extends CommonProxy {
   public void shrinkParticle(World world, Entity entity) {
     if (!world.isRemote) return;
     for (int i = 0; i < 8; i++) {
-      byte byte0 = 7;
+      // byte byte0 = 7; TODO (unused)
 
       if (world.rand.nextInt(4) == 0) {
-        byte0 = 11;
+        // byte0 = 11; TODO (unused)
       }
 
       CREEPSFxSmoke creepsfxsmoke =

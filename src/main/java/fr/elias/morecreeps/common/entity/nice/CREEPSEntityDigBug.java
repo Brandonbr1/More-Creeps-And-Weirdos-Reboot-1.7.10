@@ -40,7 +40,6 @@ public class CREEPSEntityDigBug extends EntityMob {
   public int waittimer;
   public float modelsize;
   public String texture;
-  private int attackTime;
 
   public CREEPSEntityDigBug(World world) {
     super(world);
@@ -235,10 +234,7 @@ public class CREEPSEntityDigBug extends EntityMob {
               }
 
               this.digstage = 2;
-              double moveSpeed =
-                  this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-                      .getAttributeValue();
-              moveSpeed = 0.0D;
+              // double moveSpeed = 0.0D; // TODO (unused)
               this.lifespan = 5000;
               this.motionY = 0.44999998807907104D;
               this.setPosition(
@@ -272,9 +268,7 @@ public class CREEPSEntityDigBug extends EntityMob {
         if ((entity instanceof CREEPSEntityBubbleScum)) {
           if (entity != null) {
             entity.setDead();
-            double moveSpeed =
-                this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue();
-            moveSpeed = 0.4F;
+            // double moveSpeed = 0.4F; // TODO (unused)
             this.motionY = 0.60000002384185791D;
             this.digstage = 3;
             this.digtimer = 50;
