@@ -839,8 +839,11 @@ public class CREEPSEntityHotdog extends EntityMob {
   /** Returns the Y Offset of this entity. */
   @Override
   public double getYOffset() {
-    if (this.ridingEntity instanceof EntityPlayer) return this.getYOffset() - 1.15F;
-    else return this.getYOffset();
+    if (this.ridingEntity instanceof EntityPlayer) {
+      return super.getYOffset() - 1.15F;
+    } else {
+      return super.getYOffset();
+    }
   }
 
   /**
