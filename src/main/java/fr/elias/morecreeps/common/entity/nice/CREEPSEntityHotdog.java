@@ -78,6 +78,7 @@ public class CREEPSEntityHotdog extends EntityMob {
   public int unmounttimer;
   public boolean chunky;
   public String name;
+
   static final String Names[] = {
     "Pogo",
     "Spot",
@@ -157,6 +158,7 @@ public class CREEPSEntityHotdog extends EntityMob {
     this.basehealth = this.rand.nextInt(15) + 5;
     this.health = this.basehealth;
     this.attackStrength = 1;
+    this.syncDataWatcher();
     this.tamed = false;
     this.name = "";
     this.level = 1;
@@ -188,11 +190,110 @@ public class CREEPSEntityHotdog extends EntityMob {
   }
 
   @Override
+  protected void entityInit() {
+    super.entityInit();
+    this.getDataWatcher().addObject(16, ""); // Name
+    this.getDataWatcher().addObject(17, (byte) 0); // Tamed flag
+    this.getDataWatcher().addObject(18, 1); // Level
+    this.getDataWatcher()
+        .addObject(19, this.basetexture != null ? this.basetexture : ""); // Base texture
+    this.getDataWatcher()
+        .addObject(20, this.texture != null ? this.texture : ""); // Current texture
+  }
+
+  @Override
   protected void applyEntityAttributes() {
     super.applyEntityAttributes();
     this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20);
     this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.76f);
     this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1);
+  }
+
+  public void syncDataWatcher() {
+    if (!this.worldObj.isRemote) {
+      this.getDataWatcher().updateObject(16, this.name != null ? this.name : "");
+      this.getDataWatcher().updateObject(17, (byte) (this.tamed ? 1 : 0));
+      this.getDataWatcher().updateObject(18, this.level);
+      this.getDataWatcher().updateObject(19, this.basetexture != null ? this.basetexture : "");
+      this.getDataWatcher().updateObject(20, this.texture != null ? this.texture : "");
+    }
+  }
+
+  public void updateFromDataWatcher() {
+    if (this.worldObj.isRemote) {
+      String syncedName = this.getDataWatcher().getWatchableObjectString(16);
+      if (syncedName != null && !syncedName.equals(this.name)) {
+        this.name = syncedName;
+      }
+
+      boolean syncedTamed = this.getDataWatcher().getWatchableObjectByte(17) == 1;
+      if (syncedTamed != this.tamed) {
+        this.tamed = syncedTamed;
+      }
+
+      int syncedLevel = this.getDataWatcher().getWatchableObjectInt(18);
+      if (syncedLevel != this.level && syncedLevel > 0) {
+        this.level = syncedLevel;
+      }
+
+      String syncedBaseTexture = this.getDataWatcher().getWatchableObjectString(19);
+      if (syncedBaseTexture != null
+          && !syncedBaseTexture.isEmpty()
+          && !syncedBaseTexture.equals(this.basetexture)) {
+        this.basetexture = syncedBaseTexture;
+        if (this.texture == null || this.texture.isEmpty()) {
+          this.texture = syncedBaseTexture;
+        }
+      }
+
+      String syncedTexture = this.getDataWatcher().getWatchableObjectString(20);
+      if (syncedTexture != null
+          && !syncedTexture.isEmpty()
+          && !syncedTexture.equals(this.texture)) {
+        this.texture = syncedTexture;
+      }
+    }
+  }
+
+  public void setHotdogName(String name) {
+    this.name = name;
+    this.syncDataWatcher();
+  }
+
+  public void setHotdogLevel(int level) {
+    this.level = level;
+    this.syncDataWatcher();
+  }
+
+  public void setHotdogTamed(boolean tamed) {
+    this.tamed = tamed;
+    this.syncDataWatcher();
+  }
+
+  public void setHotdogTexture(String texture) {
+    this.texture = texture;
+    this.syncDataWatcher();
+  }
+
+  public void setHotdogBaseTexture(String baseTexture) {
+    this.basetexture = baseTexture;
+    this.texture = baseTexture;
+    this.syncDataWatcher();
+  }
+
+  @Override
+  public String getCommandSenderName() {
+    if (this.tamed && this.name != null && this.name.length() > 0) {
+      return this.name;
+    }
+    return super.getCommandSenderName();
+  }
+
+  public String getDisplayName() {
+    if (this.tamed && this.name != null && this.name.length() > 0) {
+      return this.name + " - " + levelname[Math.min(this.level - 1, levelname.length - 1)];
+    }
+    return "Wild Hotdog";
   }
 
   /** Determines if an entity can be despawned, used on idle far away entities */
@@ -288,16 +389,22 @@ public class CREEPSEntityHotdog extends EntityMob {
   public void onLivingUpdate() {
     super.onLivingUpdate();
 
-    if (this.riddenByEntity != null && this.ridingEntity == null) {
-      if (this.ridingEntity != null) {
-        this.ridingEntity.mountEntity(null);
-      }
+    this.updateFromDataWatcher();
 
-      if (this.riddenByEntity != null) {
-        this.riddenByEntity.mountEntity(null);
+    if (this.ridingEntity instanceof EntityPlayer) {
+      EntityPlayer rider = (EntityPlayer) this.ridingEntity;
+      if (rider.isSneaking() && !this.isDead && this.worldObj != null) {
+        this.mountEntity((Entity) null);
+        this.unmounttimer = 20;
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:hotdogputdown",
+            1.0F,
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+        if (!this.worldObj.isRemote) {
+          MoreCreepsAndWeirdos.proxy.addChatMessage("\247b" + this.name + "\247f: See you later!");
+        }
       }
-
-      this.mountEntity(null);
     }
 
     if (this.ridingEntity != null
@@ -305,8 +412,10 @@ public class CREEPSEntityHotdog extends EntityMob {
         && !(this.ridingEntity instanceof CREEPSEntityGuineaPig)
         && !(this.ridingEntity instanceof CREEPSEntityHotdog)
         && !(this.ridingEntity instanceof CREEPSEntityDoghouse)) {
-      this.mountEntity(null);
-      this.unmounttimer = 20;
+      if (!this.isDead && this.worldObj != null) {
+        this.mountEntity(null);
+        this.unmounttimer = 20;
+      }
     }
 
     if (this.healtimer-- < 1 && this.health < this.basehealth && this.skillhealing > 0) {
@@ -505,6 +614,8 @@ public class CREEPSEntityHotdog extends EntityMob {
             this.dogsize = 1.5F;
           }
 
+          this.syncDataWatcher();
+
           boolean flag = false;
 
           if (this.level == 5) {
@@ -662,6 +773,7 @@ public class CREEPSEntityHotdog extends EntityMob {
     nbttagcompound.setInteger("BaseHealth", this.basehealth);
     nbttagcompound.setInteger("Level", this.level);
     nbttagcompound.setString("BaseTexture", this.basetexture);
+    nbttagcompound.setString("Texture", this.texture);
     nbttagcompound.setFloat("TotalDamage", this.totaldamage);
     nbttagcompound.setBoolean("heavenbuilt", this.heavenbuilt);
     nbttagcompound.setInteger("AttackStrength", this.attackStrength);
@@ -685,6 +797,19 @@ public class CREEPSEntityHotdog extends EntityMob {
     this.tamed = nbttagcompound.getBoolean("Tamed");
     this.name = nbttagcompound.getString("Name");
     this.basetexture = nbttagcompound.getString("BaseTexture");
+
+    if (this.basetexture == null || this.basetexture.isEmpty()) {
+      this.basetexture = dogTextures[this.rand.nextInt(dogTextures.length)];
+    }
+
+    if (nbttagcompound.hasKey("Texture")) {
+      this.texture = nbttagcompound.getString("Texture");
+      if (this.texture == null || this.texture.isEmpty()) {
+        this.texture = this.basetexture;
+      }
+    } else {
+      this.texture = this.basetexture;
+    }
     this.basehealth = nbttagcompound.getInteger("BaseHealth");
     this.level = nbttagcompound.getInteger("Level");
     this.totaldamage = nbttagcompound.getFloat("TotalDamage");
@@ -705,13 +830,13 @@ public class CREEPSEntityHotdog extends EntityMob {
       this.dogsize = 0.7F;
     }
 
-    this.texture = this.basetexture;
-
     if (this.wanderstate == 1) {
       this.moveSpeed = 0.0F;
     } else {
       this.moveSpeed = this.speedboost <= 0 ? this.baseSpeed : this.baseSpeed + 0.5F;
     }
+
+    this.syncDataWatcher();
   }
 
   /** Will get destroyed next tick. */
@@ -756,11 +881,6 @@ public class CREEPSEntityHotdog extends EntityMob {
       this.deathTime = 0;
       return;
     }
-  }
-
-  private void explode() {
-    float f = 2.0F;
-    this.worldObj.createExplosion(null, this.posX, this.posY, this.posZ, f, true);
   }
 
   private void smoke() {
@@ -846,67 +966,85 @@ public class CREEPSEntityHotdog extends EntityMob {
     }
   }
 
+  @Override
+  public double getMountedYOffset() {
+    return this.height * 0.5D * this.dogsize;
+  }
+
   /**
    * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a
    * pig.
    */
   @Override
   public boolean interact(EntityPlayer entityplayer) {
-    ItemStack itemstack = entityplayer.inventory.getCurrentItem();
+    if (entityplayer == null || this.worldObj == null || this.isDead) {
+      return false;
+    }
+
+    ItemStack itemstack = null;
+    try {
+      if (entityplayer.inventory != null) {
+        itemstack = entityplayer.inventory.getCurrentItem();
+      }
+    } catch (Exception e) {
+      return false;
+    }
     this.used = false;
 
     if (this.tamed && entityplayer.isSneaking()) {
-      entityplayer.openGui(
-          MoreCreepsAndWeirdos.INSTANCE,
-          CREEPSGuiHandler.GuiType.HOTDOG.id,
-          this.worldObj,
-          this.getEntityId(),
-          0,
-          0);
-      return true;
+      if (this.worldObj != null && !this.isDead) {
+        entityplayer.openGui(
+            MoreCreepsAndWeirdos.INSTANCE,
+            CREEPSGuiHandler.GuiType.HOTDOG.id,
+            this.worldObj,
+            this.getEntityId(),
+            0,
+            0);
+        return true;
+      } else {
+        return false;
+      }
     }
 
     if (itemstack == null && this.tamed && this.health > 0) {
+      if (entityplayer == null || this.isDead || this.worldObj == null) return false;
       this.rotationYaw = entityplayer.rotationYaw;
-      Object obj = entityplayer;
 
-      if (this.ridingEntity != obj) {
-        int k;
-
-        for (k = 0; ((Entity) obj).riddenByEntity != null && k < 20; k++) {
-          obj = ((Entity) obj).riddenByEntity;
+      if (this.ridingEntity == entityplayer) {
+        this.mountEntity(null);
+        this.unmounttimer = 20;
+        if (this.worldObj != null) {
+          this.worldObj.playSoundAtEntity(
+              this,
+              "morecreeps:hotdogputdown",
+              1.0F,
+              (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
         }
-
-        if (k < 20) {
-          this.rotationYaw = ((Entity) obj).rotationYaw;
-          this.mountEntity((Entity) obj);
+        if (this.worldObj != null && !this.worldObj.isRemote) {
+          MoreCreepsAndWeirdos.proxy.addChatMessage(
+              "\247b" + this.name + "\247f: I'll walk from here!");
+        }
+      } else if (entityplayer.ridingEntity == null && this.ridingEntity == null) {
+        this.mountEntity(entityplayer);
+        if (this.worldObj != null) {
           this.worldObj.playSoundAtEntity(
               this,
               "morecreeps:hotdogpickup",
               1.0F,
               (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
         }
-      } else {
-        int l;
-
-        for (l = 0; ((Entity) obj).riddenByEntity != null && l < 20; l++) {
-          obj = ((Entity) obj).riddenByEntity;
+        if (this.worldObj != null && !this.worldObj.isRemote) {
+          MoreCreepsAndWeirdos.proxy.addChatMessage(
+              "\247b" + this.name + "\247f: Carrying me around!");
         }
-
-        if (l < 20) {
-          this.rotationYaw = ((Entity) obj).rotationYaw;
-          ((Entity) obj).fallDistance = -25F;
-          ((Entity) obj).mountEntity(null);
-
-          if ((Entity) obj instanceof CREEPSEntityHotdog) {
-            ((CREEPSEntityHotdog) obj).unmounttimer = 20;
+      } else {
+        if (this.worldObj != null && !this.worldObj.isRemote) {
+          if (entityplayer.ridingEntity != null) {
+            MoreCreepsAndWeirdos.proxy.addChatMessage("You need to dismount first!");
+          } else {
+            MoreCreepsAndWeirdos.proxy.addChatMessage(
+                "\247b" + this.name + "\247f is busy riding something else!");
           }
-
-          this.worldObj.playSoundAtEntity(
-              this,
-              "morecreeps:hotdogputdown",
-              1.0F,
-              (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
         }
       }
     }
@@ -1132,8 +1270,7 @@ public class CREEPSEntityHotdog extends EntityMob {
           this.health = this.basehealth;
           String s2 = this.basetexture.substring(0, 18 + 14);
           s2 = (new StringBuilder()).append(s2).append("L.png").toString();
-          this.texture = s2;
-          this.basetexture = s2;
+          this.setHotdogBaseTexture(s2);
           this.smoke();
           this.worldObj.playSoundAtEntity(
               this,
@@ -1149,8 +1286,7 @@ public class CREEPSEntityHotdog extends EntityMob {
           this.health = this.basehealth;
           String s3 = this.basetexture.substring(0, 18 + 14);
           s3 = (new StringBuilder()).append(s3).append("G.png").toString();
-          this.texture = s3;
-          this.basetexture = s3;
+          this.setHotdogBaseTexture(s3);
           this.smoke();
           this.worldObj.playSoundAtEntity(
               this,
@@ -1166,8 +1302,7 @@ public class CREEPSEntityHotdog extends EntityMob {
           this.health = this.basehealth;
           String s4 = this.basetexture.substring(0, 18 + 14);
           s4 = (new StringBuilder()).append(s4).append("I.png").toString();
-          this.texture = s4;
-          this.basetexture = s4;
+          this.setHotdogBaseTexture(s4);
           this.smoke();
           this.worldObj.playSoundAtEntity(
               this,
@@ -1183,8 +1318,7 @@ public class CREEPSEntityHotdog extends EntityMob {
           this.health = this.basehealth;
           String s5 = this.basetexture.substring(0, 18 + 14);
           s5 = (new StringBuilder()).append(s5).append("D.png").toString();
-          this.texture = s5;
-          this.basetexture = s5;
+          this.setHotdogBaseTexture(s5);
           this.smoke();
           this.worldObj.playSoundAtEntity(
               this,
@@ -1260,8 +1394,10 @@ public class CREEPSEntityHotdog extends EntityMob {
         this.owner = entityplayer;
 
         if (this.name.length() < 1) {
-          this.name = Names[this.rand.nextInt(Names.length)];
+          this.setHotdogName(Names[this.rand.nextInt(Names.length)]);
         }
+
+        this.syncDataWatcher();
 
         this.worldObj.playSoundAtEntity(
             this,
@@ -1635,6 +1771,8 @@ public class CREEPSEntityHotdog extends EntityMob {
 
   public void confetti() {
     if (this.entityplayer == null || this.worldObj == null) return;
+    if (this.entityplayer.isDead) return;
+    if (this.entityplayer.worldObj == null) return;
     double d = -MathHelper.sin(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
     double d1 = MathHelper.cos(((this.entityplayer).rotationYaw * (float) Math.PI) / 180F);
     CREEPSEntityTrophy creepsentitytrophy = new CREEPSEntityTrophy(this.worldObj);

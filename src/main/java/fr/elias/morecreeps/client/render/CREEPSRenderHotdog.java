@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -139,9 +140,7 @@ public class CREEPSRenderHotdog extends RenderLiving {
     GL11.glTranslatef((float) d, (float) d1, (float) d2);
     float f5 = entity.width;
     GL11.glScalef(f5 * 0.3F, f5 * 0.5F, f5 * 0.5F);
-    Minecraft.getMinecraft()
-        .getTextureManager()
-        .bindTexture(Minecraft.getMinecraft().getTextureMapBlocks().locationBlocksTexture);
+    Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
     Tessellator tessellator = Tessellator.instance;
     float f6 = 1.0F;
     float f7 = 0.5F;
@@ -186,7 +185,12 @@ public class CREEPSRenderHotdog extends RenderLiving {
   }
 
   protected ResourceLocation getEntityTexture(CREEPSEntityHotdog entity) {
-    return new ResourceLocation(entity.texture);
+    String texture = entity.texture;
+
+    if (texture == null || texture.isEmpty()) {
+      texture = entity.basetexture;
+    }
+    return new ResourceLocation(texture);
   }
 
   protected ResourceLocation getEntityTexture(Entity entity) {

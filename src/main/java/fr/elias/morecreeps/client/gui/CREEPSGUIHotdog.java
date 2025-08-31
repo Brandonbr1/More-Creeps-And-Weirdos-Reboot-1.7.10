@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -137,6 +136,10 @@ public class CREEPSGUIHotdog extends GuiScreen {
   /** Called when the screen is unloaded. Used to disable keyboard repeat events */
   public void onGuiClosed() {
     Keyboard.enableRepeatEvents(false);
+    if (hotdog != null) {
+      this.hotdog.syncDataWatcher();
+    }
+    this.hotdog = null;
   }
 
   /**
@@ -161,7 +164,7 @@ public class CREEPSGUIHotdog extends GuiScreen {
       field_28217_m = true;
       long l = (new Random()).nextLong();
       String s1 = namescreen.getText();
-      hotdog.name = s1;
+      hotdog.setHotdogName(s1); 
       mc.displayGuiScreen(null);
     }
 
@@ -173,27 +176,15 @@ public class CREEPSGUIHotdog extends GuiScreen {
       field_28217_m = true;
       long l1 = (new Random()).nextLong();
       String s2 = namescreen.getText();
-      hotdog.name = s2;
+      hotdog.setHotdogName(s2);
       hotdog.wanderstate = 0;
-      double moveSpeed =
-          hotdog
-              .getAttributeMap()
-              .getAttributeInstance(SharedMonsterAttributes.movementSpeed)
-              .getAttributeValue();
-      moveSpeed = hotdog.speedboost <= 0 ? hotdog.baseSpeed : hotdog.baseSpeed + 0.5F;
       mc.displayGuiScreen(null);
     }
 
     if (guibutton.id == 3) {
       String s = namescreen.getText();
-      hotdog.name = s;
+      hotdog.setHotdogName(s);
       hotdog.wanderstate = 1;
-      double moveSpeed =
-          hotdog
-              .getAttributeMap()
-              .getAttributeInstance(SharedMonsterAttributes.movementSpeed)
-              .getAttributeValue();
-      moveSpeed = 0.0F;
       mc.displayGuiScreen(null);
     }
 
@@ -203,16 +194,9 @@ public class CREEPSGUIHotdog extends GuiScreen {
       }
 
       field_28217_m = true;
-      long l2 = (new Random()).nextLong();
       String s3 = namescreen.getText();
-      hotdog.name = s3;
+      hotdog.setHotdogName(s3);
       hotdog.wanderstate = 2;
-      double moveSpeed =
-          hotdog
-              .getAttributeMap()
-              .getAttributeInstance(SharedMonsterAttributes.movementSpeed)
-              .getAttributeValue();
-      moveSpeed = hotdog.speedboost <= 0 ? hotdog.baseSpeed : hotdog.baseSpeed + 0.5F;
       mc.displayGuiScreen(null);
     }
 
