@@ -147,6 +147,10 @@ public class CREEPSEntitySchlump extends EntityAnimal {
   }
 
   public boolean checkHouse() {
+    return checkHouse(true);
+  }
+
+  public boolean checkHouse(boolean showMessages) {
     boolean flag = false;
     List<?> list =
         this.worldObj.getEntitiesWithinAABBExcludingEntity(
@@ -169,13 +173,15 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     } while (true);
 
     if (flag) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          this.worldObj, "Too close to another Schlump. SCHLUMP OVERLOAD!");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-overload",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      if (showMessages) {
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "Too close to another Schlump. SCHLUMP OVERLOAD!");
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:schlump-overload",
+            1.0F,
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
       return false;
     }
 
@@ -184,24 +190,28 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     int k = MathHelper.floor_double(this.posZ);
 
     if (this.worldObj.canBlockSeeTheSky(i, j, k)) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          this.worldObj, "Your Schlump needs to be indoors or it will die!");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-indoors",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      if (showMessages) {
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "Your Schlump needs to be indoors or it will die!");
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:schlump-indoors",
+            1.0F,
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
       return false;
     }
 
     if (this.worldObj.getBlockLightOpacity(i, j, k) > 11) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          this.worldObj, "It is too bright in here for your little Schlump!");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-bright",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      if (showMessages) {
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "It is too bright in here for your little Schlump!");
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:schlump-bright",
+            1.0F,
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
       return false;
     }
 
@@ -220,13 +230,15 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     }
 
     if (l < 60) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          this.worldObj, "Your Schlump doesn't have enough room to grow!");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-room",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      if (showMessages) {
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "Your Schlump doesn't have enough room to grow!");
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:schlump-room",
+            1.0F,
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
       return false;
     }
 
@@ -299,7 +311,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     }
 
     if (j1 > 275) {
-      if (this.age < 10) {
+      if (this.age < 10 && showMessages) {
         MoreCreepsAndWeirdos.proxy.addChatMessage(
             this.worldObj, "This location is great! Your Schlump will love it here! ");
         this.worldObj.playSoundAtEntity(
@@ -311,13 +323,15 @@ public class CREEPSEntitySchlump extends EntityAnimal {
 
       return true;
     } else {
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          this.worldObj, "This is not a good location for your Schlump. It will die here! ");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-sucks",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      if (showMessages) {
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "This is not a good location for your Schlump. It will die here! ");
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:schlump-sucks",
+            1.0F,
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
       return false;
     }
   }
@@ -396,14 +410,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
   }
 
   public void giveReward() {
-    if (!this.checkHouse()) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          this.worldObj, "This is not a good location for your Schlump. It will die here!");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-sucks",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+    if (!this.checkHouse(false)) {
       this.deathtimer = 200;
       return;
     }
