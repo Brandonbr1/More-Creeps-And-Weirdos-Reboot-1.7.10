@@ -17,6 +17,7 @@ public class CREEPSRenderSchlump extends RenderLiving {
   public CREEPSRenderSchlump(CREEPSModelSchlump creepsmodelschlump, float f) {
     super(creepsmodelschlump, f);
     modelBipedMain = creepsmodelschlump;
+    this.setRenderPassModel(creepsmodelschlump);
   }
 
   protected void fattenup(CREEPSEntitySchlump creepsentityschlump, float f) {

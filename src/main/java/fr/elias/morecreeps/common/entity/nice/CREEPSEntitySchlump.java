@@ -291,10 +291,6 @@ public class CREEPSEntitySchlump extends EntityAnimal {
             j1 += 5;
           }
 
-          if (l2 == Blocks.red_flower) {
-            j1 += 5;
-          }
-
           if (l2 == Blocks.crafting_table) {
             j1 += 10;
           }
@@ -362,7 +358,6 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     }
 
     this.hurtTime = this.maxHurtTime = 10;
-    this.smoke();
 
     if (this.health <= 0) {
       this.worldObj.playSoundAtEntity(
@@ -414,6 +409,8 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     }
 
     if (this.checkItems()) return;
+
+    if (this.entityplayer == null) return;
 
     this.worldObj.playSoundAtEntity(this, "morecreeps:schlump-reward", 1.0F, 1.0F);
     this.smallconfetti();
@@ -624,13 +621,14 @@ public class CREEPSEntitySchlump extends EntityAnimal {
                   new ItemStack(MoreCreepsAndWeirdos.money, this.rand.nextInt(3) + 1, 0), 1.0F);
           break;
       }
-
-      double d = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
-      double d1 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
-      entityitem.posX = (this.entityplayer).posX + d * 0.5D;
-      entityitem.posZ = (this.entityplayer).posZ + d1 * 0.5D;
-      entityitem.motionX += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.15F;
-      entityitem.motionZ += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.15F;
+      if (entityitem != null) {
+        double d = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
+        double d1 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
+        entityitem.posX = (this.entityplayer).posX + d * 0.5D;
+        entityitem.posZ = (this.entityplayer).posZ + d1 * 0.5D;
+        entityitem.motionX += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.15F;
+        entityitem.motionZ += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.15F;
+      }
     }
   }
 
@@ -647,6 +645,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     nbttagcompound.setFloat("ModelSize", this.modelsize);
     nbttagcompound.setInteger("Age", this.age);
     nbttagcompound.setInteger("DeathTimer", this.deathtimer);
+    nbttagcompound.setBoolean("Placed", this.placed);
   }
 
   /** (abstract) Protected helper method to read subclass entity data from NBT. */
@@ -656,6 +655,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     this.modelsize = nbttagcompound.getFloat("ModelSize");
     this.age = nbttagcompound.getInteger("Age");
     this.deathtimer = nbttagcompound.getInteger("DeathTimer");
+    this.placed = nbttagcompound.getBoolean("Placed");
   }
 
   /** Checks if the entity's current position is a valid location to spawn this entity. */
