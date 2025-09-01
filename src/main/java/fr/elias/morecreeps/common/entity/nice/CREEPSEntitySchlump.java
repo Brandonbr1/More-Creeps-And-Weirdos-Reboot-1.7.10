@@ -169,7 +169,8 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     } while (true);
 
     if (flag) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage("Too close to another Schlump. SCHLUMP OVERLOAD!");
+      MoreCreepsAndWeirdos.proxy.addChatMessage(
+          this.worldObj, "Too close to another Schlump. SCHLUMP OVERLOAD!");
       this.worldObj.playSoundAtEntity(
           this,
           "morecreeps:schlump-overload",
@@ -183,7 +184,8 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     int k = MathHelper.floor_double(this.posZ);
 
     if (this.worldObj.canBlockSeeTheSky(i, j, k)) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage("Your Schlump needs to be indoors or it will die!");
+      MoreCreepsAndWeirdos.proxy.addChatMessage(
+          this.worldObj, "Your Schlump needs to be indoors or it will die!");
       this.worldObj.playSoundAtEntity(
           this,
           "morecreeps:schlump-indoors",
@@ -194,7 +196,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
 
     if (this.worldObj.getBlockLightOpacity(i, j, k) > 11) {
       MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "It is too bright in here for your little Schlump!");
+          this.worldObj, "It is too bright in here for your little Schlump!");
       this.worldObj.playSoundAtEntity(
           this,
           "morecreeps:schlump-bright",
@@ -218,7 +220,8 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     }
 
     if (l < 60) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage("Your Schlump doesn't have enough room to grow!");
+      MoreCreepsAndWeirdos.proxy.addChatMessage(
+          this.worldObj, "Your Schlump doesn't have enough room to grow!");
       this.worldObj.playSoundAtEntity(
           this,
           "morecreeps:schlump-room",
@@ -302,7 +305,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     if (j1 > 275) {
       if (this.age < 10) {
         MoreCreepsAndWeirdos.proxy.addChatMessage(
-            "This location is great! Your Schlump will love it here! ");
+            this.worldObj, "This location is great! Your Schlump will love it here! ");
         this.worldObj.playSoundAtEntity(
             this,
             "morecreeps:schlump-ok",
@@ -313,7 +316,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
       return true;
     } else {
       MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "This is not a good location for your Schlump. It will die here! ");
+          this.worldObj, "This is not a good location for your Schlump. It will die here! ");
       this.worldObj.playSoundAtEntity(
           this,
           "morecreeps:schlump-sucks",
@@ -333,7 +336,8 @@ public class CREEPSEntitySchlump extends EntityAnimal {
 
     if (itemstack != null && itemstack.getItem() == MoreCreepsAndWeirdos.babyjarempty) {
       if (this.modelsize > 0.5F) {
-        MoreCreepsAndWeirdos.proxy.addChatMessage("That Schlump is too big to fit in a jar! ");
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "That Schlump is too big to fit in a jar! ");
         this.worldObj.playSoundAtEntity(
             this,
             "morecreeps:schlump-big",
@@ -399,7 +403,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
   public void giveReward() {
     if (!this.checkHouse()) {
       MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "This is not a good location for your Schlump. It will die here!");
+          this.worldObj, "This is not a good location for your Schlump. It will die here!");
       this.worldObj.playSoundAtEntity(
           this,
           "morecreeps:schlump-sucks",

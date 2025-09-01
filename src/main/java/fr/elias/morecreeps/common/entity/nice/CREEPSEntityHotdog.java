@@ -402,7 +402,8 @@ public class CREEPSEntityHotdog extends EntityMob {
             1.0F,
             (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
         if (!this.worldObj.isRemote) {
-          MoreCreepsAndWeirdos.proxy.addChatMessage("\247b" + this.name + "\247f: See you later!");
+          MoreCreepsAndWeirdos.proxy.addChatMessage(
+              this.worldObj, "\247b" + this.name + "\247f: See you later!");
         }
       }
     }
@@ -652,6 +653,7 @@ public class CREEPSEntityHotdog extends EntityMob {
           }
 
           MoreCreepsAndWeirdos.proxy.addChatMessage(
+              this.worldObj,
               (new StringBuilder())
                   .append("\247b")
                   .append(this.name)
@@ -1017,7 +1019,7 @@ public class CREEPSEntityHotdog extends EntityMob {
         }
         if (this.worldObj != null && !this.worldObj.isRemote) {
           MoreCreepsAndWeirdos.proxy.addChatMessage(
-              "\247b" + this.name + "\247f: I'll walk from here!");
+              this.worldObj, "\247b" + this.name + "\247f: I'll walk from here!");
         }
       } else if (entityplayer.ridingEntity == null && this.ridingEntity == null) {
         this.mountEntity(entityplayer);
@@ -1030,15 +1032,15 @@ public class CREEPSEntityHotdog extends EntityMob {
         }
         if (this.worldObj != null && !this.worldObj.isRemote) {
           MoreCreepsAndWeirdos.proxy.addChatMessage(
-              "\247b" + this.name + "\247f: Carrying me around!");
+              this.worldObj, "\247b" + this.name + "\247f: Carrying me around!");
         }
       } else {
         if (this.worldObj != null && !this.worldObj.isRemote) {
           if (entityplayer.ridingEntity != null) {
-            MoreCreepsAndWeirdos.proxy.addChatMessage("You need to dismount first!");
+            MoreCreepsAndWeirdos.proxy.addChatMessage(this.worldObj, "You need to dismount first!");
           } else {
             MoreCreepsAndWeirdos.proxy.addChatMessage(
-                "\247b" + this.name + "\247f is busy riding something else!");
+                this.worldObj, "\247b" + this.name + "\247f is busy riding something else!");
           }
         }
       }
@@ -1085,8 +1087,9 @@ public class CREEPSEntityHotdog extends EntityMob {
                 1.0F,
                 (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
             MoreCreepsAndWeirdos.proxy.addChatMessage(
-                "Your Hotdog must be level 25 to build Hot Dog Heaven.");
+                this.worldObj, "Your Hotdog must be level 25 to build Hot Dog Heaven.");
             MoreCreepsAndWeirdos.proxy.addChatMessage(
+                this.worldObj,
                 (new StringBuilder())
                     .append("\247b")
                     .append(this.name)
@@ -1096,6 +1099,7 @@ public class CREEPSEntityHotdog extends EntityMob {
           }
         } else {
           MoreCreepsAndWeirdos.proxy.addChatMessage(
+              this.worldObj,
               (new StringBuilder())
                   .append("\247b")
                   .append(this.name)
@@ -1110,6 +1114,7 @@ public class CREEPSEntityHotdog extends EntityMob {
 
         if (this.wanderstate == 0) {
           MoreCreepsAndWeirdos.proxy.addChatMessage(
+              this.worldObj,
               (new StringBuilder())
                   .append("\2473")
                   .append(this.name)
@@ -1119,6 +1124,7 @@ public class CREEPSEntityHotdog extends EntityMob {
           this.moveSpeed = 0.0F;
         } else if (this.wanderstate == 1) {
           MoreCreepsAndWeirdos.proxy.addChatMessage(
+              this.worldObj,
               (new StringBuilder())
                   .append("\2473")
                   .append(this.name)
@@ -1128,6 +1134,7 @@ public class CREEPSEntityHotdog extends EntityMob {
           this.moveSpeed = this.speedboost <= 0 ? this.baseSpeed : this.baseSpeed + 0.5F;
         } else if (this.wanderstate == 2) {
           MoreCreepsAndWeirdos.proxy.addChatMessage(
+              this.worldObj,
               (new StringBuilder())
                   .append("\2473")
                   .append(this.name)
@@ -1170,6 +1177,7 @@ public class CREEPSEntityHotdog extends EntityMob {
             1.0F,
             (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
         MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj,
             (new StringBuilder())
                 .append("\2473")
                 .append(this.name)
@@ -1406,7 +1414,8 @@ public class CREEPSEntityHotdog extends EntityMob {
 
   public void buildHeaven(EntityPlayer entityplayer, int i, int j, int k) {
     if (j > 95) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage("You are too far up to build Hotdog Heaven!");
+      MoreCreepsAndWeirdos.proxy.addChatMessage(
+          this.worldObj, "You are too far up to build Hotdog Heaven!");
       return;
     }
 
@@ -1446,7 +1455,7 @@ public class CREEPSEntityHotdog extends EntityMob {
           "morecreeps:guineapighotel",
           1.0F,
           (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-      MoreCreepsAndWeirdos.proxy.addChatMessage("HOT DOG HEAVEN HAS BEEN BUILT!");
+      MoreCreepsAndWeirdos.proxy.addChatMessage(this.worldObj, "HOT DOG HEAVEN HAS BEEN BUILT!");
       // worldObj.setBlockWithNotify(i, j, k, Block.planks.blockID);
       this.worldObj.setBlock(i, j, k, Blocks.planks);
       // worldObj.setBlockWithNotify(i, j + 1, k, Block.torchWood.blockID);
@@ -1732,7 +1741,7 @@ public class CREEPSEntityHotdog extends EntityMob {
       }
     } else {
       MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "Hotdog Heaven cannot be built here, choose another spot!");
+          this.worldObj, "Hotdog Heaven cannot be built here, choose another spot!");
     }
   }
 

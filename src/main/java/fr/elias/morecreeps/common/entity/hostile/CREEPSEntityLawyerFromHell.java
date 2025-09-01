@@ -356,11 +356,11 @@ public class CREEPSEntityLawyerFromHell extends EntityMob {
         // test
         super.attackEntity(entity, f);
 
-        MoreCreepsAndWeirdos.proxy.addChatMessage(" ");
+        MoreCreepsAndWeirdos.proxy.addChatMessage(this.worldObj, " ");
         MoreCreepsAndWeirdos.proxy.addChatMessage(
-            "\2474  BUSTED! \2476Sending guilty player to Jail");
+            this.worldObj, "\2474  BUSTED! \2476Sending guilty player to Jail");
         MoreCreepsAndWeirdos.proxy.addChatMessage(
-            ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
+            this.worldObj, ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
         this.buildJail((EntityPlayer) entity);
       }
 

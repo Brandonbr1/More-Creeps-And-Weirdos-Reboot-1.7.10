@@ -450,6 +450,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
           }
 
           MoreCreepsAndWeirdos.proxy.addChatMessage(
+              this.worldObj,
               (new StringBuilder())
                   .append("\247b")
                   .append(this.name)
@@ -532,6 +533,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
           1.0F,
           (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
       MoreCreepsAndWeirdos.proxy.addChatMessage(
+          this.worldObj,
           (new StringBuilder())
               .append("\247b")
               .append(this.name)
@@ -831,7 +833,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
       if (itemstack.getItem() == Items.diamond && this.tamed) {
         if (this.ridingEntity != null) {
           MoreCreepsAndWeirdos.proxy.addChatMessage(
-              "Put your Guinea Pig down before building the Guinea Pig Hotel!");
+              this.worldObj, "Put your Guinea Pig down before building the Guinea Pig Hotel!");
         } else if (!this.hotelbuilt) {
           if (this.level >= 20) {
 
@@ -845,8 +847,9 @@ public class CREEPSEntityGuineaPig extends EntityMob {
             this.createDisco(entityplayer, i + 2, i1, j1 + 2);
           } else {
             MoreCreepsAndWeirdos.proxy.addChatMessage(
-                "Your Guinea Pig must be level 20 to build a Hotel.");
+                this.worldObj, "Your Guinea Pig must be level 20 to build a Hotel.");
             MoreCreepsAndWeirdos.proxy.addChatMessage(
+                this.worldObj,
                 (new StringBuilder())
                     .append("\247b")
                     .append(this.name)
@@ -856,6 +859,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
           }
         } else {
           MoreCreepsAndWeirdos.proxy.addChatMessage(
+              this.worldObj,
               (new StringBuilder())
                   .append("\247b")
                   .append(this.name)
@@ -870,6 +874,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
 
         if (this.wanderstate == 0) {
           MoreCreepsAndWeirdos.proxy.addChatMessage(
+              this.worldObj,
               (new StringBuilder())
                   .append("\2473")
                   .append(this.name)
@@ -879,6 +884,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
           this.moveSpeed = 0.0F;
         } else if (this.wanderstate == 1) {
           MoreCreepsAndWeirdos.proxy.addChatMessage(
+              this.worldObj,
               (new StringBuilder())
                   .append("\2473")
                   .append(this.name)
@@ -888,6 +894,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
           this.moveSpeed = this.speedboost <= 0 ? this.baseSpeed : this.baseSpeed + 0.5F;
         } else if (this.wanderstate == 2) {
           MoreCreepsAndWeirdos.proxy.addChatMessage(
+              this.worldObj,
               (new StringBuilder())
                   .append("\2473")
                   .append(this.name)
@@ -930,6 +937,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
             1.0F,
             (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
         MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj,
             (new StringBuilder())
                 .append("\2473")
                 .append(this.name)
@@ -1214,7 +1222,7 @@ public class CREEPSEntityGuineaPig extends EntityMob {
           "morecreeps:guineapighotel",
           1.0F,
           (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-      MoreCreepsAndWeirdos.proxy.addChatMessage("GUINEA PIG HOTEL BUILT!");
+      MoreCreepsAndWeirdos.proxy.addChatMessage(this.worldObj, "GUINEA PIG HOTEL BUILT!");
 
       for (int j1 = 0; j1 < byte1 + 4; j1++) {
         for (int l3 = -2; l3 < byte0 + 2; l3++) {
@@ -1389,7 +1397,8 @@ public class CREEPSEntityGuineaPig extends EntityMob {
         }
       }
     } else {
-      MoreCreepsAndWeirdos.proxy.addChatMessage("Too many obstructions, choose another spot!");
+      MoreCreepsAndWeirdos.proxy.addChatMessage(
+          this.worldObj, "Too many obstructions, choose another spot!");
     }
   }
 

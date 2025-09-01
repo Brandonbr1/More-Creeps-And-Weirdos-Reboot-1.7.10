@@ -250,7 +250,7 @@ public class CREEPSEntityHorseHead extends EntityAnimal {
 
     } else {
       MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "Unmount all creatures before riding your Horse Head");
+          this.worldObj, "Unmount all creatures before riding your Horse Head");
     }
 
     return false;

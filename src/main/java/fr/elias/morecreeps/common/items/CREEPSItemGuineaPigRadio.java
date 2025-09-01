@@ -89,7 +89,7 @@ public class CREEPSItemGuineaPigRadio extends Item {
       }
     } else {
       MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "Get off that creature before using the Guinea Pig Radio");
+          world, "Get off that creature before using the Guinea Pig Radio");
     }
 
     return itemstack;
