@@ -22,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class CREEPSEntitySneakySal extends EntityMob {
@@ -383,27 +384,31 @@ public class CREEPSEntitySneakySal extends EntityMob {
   /** Checks if the entity's current position is a valid location to spawn this entity. */
   @Override
   public boolean getCanSpawnHere() {
-    // TODO VALIDATE.
     if (this.worldObj == null) return false;
-    int i = MathHelper.floor_double(this.posX);
-    int j = MathHelper.floor_double(this.boundingBox.minY);
-    //  int j = MathHelper.floor_double(this.getBoundingBox().minY);
-    int k = MathHelper.floor_double(this.posZ);
-    int l = this.worldObj.getBlockLightOpacity(i, j, k);
-    Block i1 = this.worldObj.getBlock(i, j - 1, k);
-    return i1 != Blocks.snow
-        && i1 != Blocks.cobblestone
-        && i1 != Blocks.planks
-        && i1 != Blocks.wool
-        && this.worldObj
-                .getCollidingBoundingBoxes(this, this.boundingBox)
-                //  && this.worldObj.getCollidingBoundingBoxes(this, this.getBoundingBox())
-                .size()
-            == 0
-        && this.worldObj.checkBlockCollision(this.getBoundingBox())
-        && this.worldObj.canBlockSeeTheSky(i, j, k)
-        && this.rand.nextInt(15) == 0
-        && l > 8;
+
+    if (this.boundingBox == null) {
+      this.setSize(this.width <= 0 ? 0.6F : this.width, this.height <= 0 ? 1.8F : this.height);
+      this.setPosition(this.posX, this.posY, this.posZ);
+    }
+
+    final int i = MathHelper.floor_double(this.posX);
+    final int j = MathHelper.floor_double(this.boundingBox.minY);
+    final int k = MathHelper.floor_double(this.posZ);
+
+    // Don’t spawn in Peaceful
+    if (this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL) return false;
+
+    // Basic light & ground checks
+    final int light = this.worldObj.getBlockLightOpacity(i, j, k);
+    final Block blockBelow = this.worldObj.getBlock(i, j - 1, k);
+    if (blockBelow == null || blockBelow.getMaterial().isLiquid()) return false;
+
+    // 1.7.10 uses boundingBox (field), not getBoundingBox()
+    if (!this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty()) return false;
+    if (this.worldObj.checkBlockCollision(this.boundingBox)) return false;
+    if (this.worldObj.isAnyLiquid(this.boundingBox)) return false;
+
+    return light > 6 && super.getCanSpawnHere();
   }
 
   /** Will return how many at most can spawn in a chunk at once. */
