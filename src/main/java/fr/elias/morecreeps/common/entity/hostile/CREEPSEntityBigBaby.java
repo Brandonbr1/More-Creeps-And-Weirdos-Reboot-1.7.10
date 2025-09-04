@@ -181,10 +181,11 @@ public class CREEPSEntityBigBaby extends EntityMob {
         this.setDead();
         entityplayer.inventory.setInventorySlotContents(
             entityplayer.inventory.currentItem, new ItemStack(MoreCreepsAndWeirdos.babyjarfull));
-        MoreCreepsAndWeirdos.proxy.addChatMessage("Now turn that Baby into a Schlump on the floor");
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "Now turn that Baby into a Schlump on the floor");
         this.worldObj.playSoundAtEntity(this, "morecreeps:babytakehome", 1.0F, 1.0F);
       } else {
-        MoreCreepsAndWeirdos.proxy.addChatMessage("That baby is too large");
+        MoreCreepsAndWeirdos.proxy.addChatMessage(this.worldObj, "That baby is too large");
         this.worldObj.playSoundAtEntity(this, "morecreeps:babyshrink", 1.0F, 1.0F);
       }
     }

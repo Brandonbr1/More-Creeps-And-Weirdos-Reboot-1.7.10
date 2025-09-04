@@ -147,6 +147,10 @@ public class CREEPSEntitySchlump extends EntityAnimal {
   }
 
   public boolean checkHouse() {
+    return checkHouse(true);
+  }
+
+  public boolean checkHouse(boolean showMessages) {
     boolean flag = false;
     List<?> list =
         this.worldObj.getEntitiesWithinAABBExcludingEntity(
@@ -169,12 +173,15 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     } while (true);
 
     if (flag) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage("Too close to another Schlump. SCHLUMP OVERLOAD!");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-overload",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      if (showMessages) {
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "Too close to another Schlump. SCHLUMP OVERLOAD!");
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:schlump-overload",
+            1.0F,
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
       return false;
     }
 
@@ -183,23 +190,28 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     int k = MathHelper.floor_double(this.posZ);
 
     if (this.worldObj.canBlockSeeTheSky(i, j, k)) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage("Your Schlump needs to be indoors or it will die!");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-indoors",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      if (showMessages) {
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "Your Schlump needs to be indoors or it will die!");
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:schlump-indoors",
+            1.0F,
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
       return false;
     }
 
     if (this.worldObj.getBlockLightOpacity(i, j, k) > 11) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "It is too bright in here for your little Schlump!");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-bright",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      if (showMessages) {
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "It is too bright in here for your little Schlump!");
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:schlump-bright",
+            1.0F,
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
       return false;
     }
 
@@ -218,12 +230,15 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     }
 
     if (l < 60) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage("Your Schlump doesn't have enough room to grow!");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-room",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      if (showMessages) {
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "Your Schlump doesn't have enough room to grow!");
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:schlump-room",
+            1.0F,
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
       return false;
     }
 
@@ -288,10 +303,6 @@ public class CREEPSEntitySchlump extends EntityAnimal {
             j1 += 5;
           }
 
-          if (l2 == Blocks.red_flower) {
-            j1 += 5;
-          }
-
           if (l2 == Blocks.crafting_table) {
             j1 += 10;
           }
@@ -300,9 +311,9 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     }
 
     if (j1 > 275) {
-      if (this.age < 10) {
+      if (this.age < 10 && showMessages) {
         MoreCreepsAndWeirdos.proxy.addChatMessage(
-            "This location is great! Your Schlump will love it here! ");
+            this.worldObj, "This location is great! Your Schlump will love it here! ");
         this.worldObj.playSoundAtEntity(
             this,
             "morecreeps:schlump-ok",
@@ -312,13 +323,15 @@ public class CREEPSEntitySchlump extends EntityAnimal {
 
       return true;
     } else {
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "This is not a good location for your Schlump. It will die here! ");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-sucks",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      if (showMessages) {
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "This is not a good location for your Schlump. It will die here! ");
+        this.worldObj.playSoundAtEntity(
+            this,
+            "morecreeps:schlump-sucks",
+            1.0F,
+            (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+      }
       return false;
     }
   }
@@ -333,7 +346,8 @@ public class CREEPSEntitySchlump extends EntityAnimal {
 
     if (itemstack != null && itemstack.getItem() == MoreCreepsAndWeirdos.babyjarempty) {
       if (this.modelsize > 0.5F) {
-        MoreCreepsAndWeirdos.proxy.addChatMessage("That Schlump is too big to fit in a jar! ");
+        MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj, "That Schlump is too big to fit in a jar! ");
         this.worldObj.playSoundAtEntity(
             this,
             "morecreeps:schlump-big",
@@ -358,7 +372,6 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     }
 
     this.hurtTime = this.maxHurtTime = 10;
-    this.smoke();
 
     if (this.health <= 0) {
       this.worldObj.playSoundAtEntity(
@@ -397,19 +410,14 @@ public class CREEPSEntitySchlump extends EntityAnimal {
   }
 
   public void giveReward() {
-    if (!this.checkHouse()) {
-      MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "This is not a good location for your Schlump. It will die here!");
-      this.worldObj.playSoundAtEntity(
-          this,
-          "morecreeps:schlump-sucks",
-          1.0F,
-          (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+    if (!this.checkHouse(false)) {
       this.deathtimer = 200;
       return;
     }
 
     if (this.checkItems()) return;
+
+    if (this.entityplayer == null) return;
 
     this.worldObj.playSoundAtEntity(this, "morecreeps:schlump-reward", 1.0F, 1.0F);
     this.smallconfetti();
@@ -620,13 +628,14 @@ public class CREEPSEntitySchlump extends EntityAnimal {
                   new ItemStack(MoreCreepsAndWeirdos.money, this.rand.nextInt(3) + 1, 0), 1.0F);
           break;
       }
-
-      double d = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
-      double d1 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
-      entityitem.posX = (this.entityplayer).posX + d * 0.5D;
-      entityitem.posZ = (this.entityplayer).posZ + d1 * 0.5D;
-      entityitem.motionX += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.15F;
-      entityitem.motionZ += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.15F;
+      if (entityitem != null) {
+        double d = -MathHelper.sin((this.rotationYaw * (float) Math.PI) / 180F);
+        double d1 = MathHelper.cos((this.rotationYaw * (float) Math.PI) / 180F);
+        entityitem.posX = (this.entityplayer).posX + d * 0.5D;
+        entityitem.posZ = (this.entityplayer).posZ + d1 * 0.5D;
+        entityitem.motionX += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.15F;
+        entityitem.motionZ += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.15F;
+      }
     }
   }
 
@@ -643,6 +652,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     nbttagcompound.setFloat("ModelSize", this.modelsize);
     nbttagcompound.setInteger("Age", this.age);
     nbttagcompound.setInteger("DeathTimer", this.deathtimer);
+    nbttagcompound.setBoolean("Placed", this.placed);
   }
 
   /** (abstract) Protected helper method to read subclass entity data from NBT. */
@@ -652,6 +662,7 @@ public class CREEPSEntitySchlump extends EntityAnimal {
     this.modelsize = nbttagcompound.getFloat("ModelSize");
     this.age = nbttagcompound.getInteger("Age");
     this.deathtimer = nbttagcompound.getInteger("DeathTimer");
+    this.placed = nbttagcompound.getBoolean("Placed");
   }
 
   /** Checks if the entity's current position is a valid location to spawn this entity. */

@@ -208,6 +208,7 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
     if (!this.itemUsed && !this.isTamed && !this.worldObj.isRemote) {
       String plural = this.foodsToTame > 1 ? "s" : "";
       MoreCreepsAndWeirdos.proxy.addChatMessage(
+          this.worldObj,
           "You need \2476"
               + this.foodsToTame
               + " "
@@ -249,6 +250,7 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
 
       if (this.foodsToTame > 0) {
         MoreCreepsAndWeirdos.proxy.addChatMessage(
+            this.worldObj,
             "You need \2476"
                 + this.foodsToTame
                 + " "
@@ -310,8 +312,9 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
       entityplayer.addStat(achievement, 1);
     }
 
-    MoreCreepsAndWeirdos.proxy.addChatMessage("");
-    MoreCreepsAndWeirdos.proxy.addChatMessage("\2476" + this.tamedName + " \247fhas been tamed!");
+    MoreCreepsAndWeirdos.proxy.addChatMessage(this.worldObj, "");
+    MoreCreepsAndWeirdos.proxy.addChatMessage(
+        this.worldObj, "\2476" + this.tamedName + " \247fhas been tamed!");
     this.worldObj.playSoundAtEntity(
         this,
         "morecreeps:ggpiglevelup",
@@ -385,10 +388,10 @@ public abstract class CREEPSEntityTameable extends EntityAnimal
       entityplayer.mountEntity(this);
     } else if (this.getModelSize() < 1.0F && this.isTamed) {
       MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "Your " + this.getCreatureTypeName() + " is too small to ride!");
+          this.worldObj, "Your " + this.getCreatureTypeName() + " is too small to ride!");
     } else if (entityplayer.ridingEntity != null) {
       MoreCreepsAndWeirdos.proxy.addChatMessage(
-          "Unmount all creatures before riding your " + getCreatureTypeName());
+          this.worldObj, "Unmount all creatures before riding your " + getCreatureTypeName());
     }
     return true;
   }

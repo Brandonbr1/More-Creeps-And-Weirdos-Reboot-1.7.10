@@ -64,7 +64,7 @@ public class CommonProxy {
 
   public void bubble(World world, EntityLivingBase entity) {}
 
-  public void addChatMessage(String s) {}
+  public void addChatMessage(World world, String s) {}
 
   public void playSoundEffectAtPlayer(World world, String s, float volume, float pitch) {}
 

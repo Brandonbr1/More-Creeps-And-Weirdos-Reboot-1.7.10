@@ -13,7 +13,6 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class CREEPSEntityTombstone extends EntityAnimal {
@@ -113,16 +112,16 @@ public class CREEPSEntityTombstone extends EntityAnimal {
     this.used = false;
 
     if (itemstack == null) {
-      entityplayer.addChatMessage(
-          new ChatComponentText(
-              "Use a \2474LifeGem\247f on this tombstone to bring your pet back to life!"));
+      MoreCreepsAndWeirdos.proxy.addChatMessage(
+          this.worldObj,
+          "Use a \2474LifeGem\247f on this tombstone to bring your pet back to life!");
       return false;
     }
 
     if (itemstack != null && itemstack.getItem() != MoreCreepsAndWeirdos.lifegem) {
-      entityplayer.addChatMessage(
-          new ChatComponentText(
-              "Use a \2474LifeGem\247f on this tombstone to bring your pet back to life!"));
+      MoreCreepsAndWeirdos.proxy.addChatMessage(
+          this.worldObj,
+          "Use a \2474LifeGem\247f on this tombstone to bring your pet back to life!");
       return false;
     }
 

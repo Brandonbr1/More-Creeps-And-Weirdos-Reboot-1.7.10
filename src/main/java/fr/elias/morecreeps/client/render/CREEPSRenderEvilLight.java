@@ -21,10 +21,6 @@ public class CREEPSRenderEvilLight extends RenderLiving {
   protected int glow(CREEPSEntityEvilLight creepsentityevillight, int i, float f) {
     if (i != 0) {
       return -1;
-    }
-
-    if (i != 0) {
-      return -1;
     } else {
       bindTexture(this.evil_glow);
       float f1 = (1.0F - creepsentityevillight.getBrightness(1.0F)) * 0.5F;
