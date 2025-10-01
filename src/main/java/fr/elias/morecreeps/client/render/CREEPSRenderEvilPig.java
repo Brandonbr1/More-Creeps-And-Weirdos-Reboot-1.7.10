@@ -9,7 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class CREEPSRenderEvilPig extends RenderLiving {
-  private static final ResourceLocation TEXTURE = new ResourceLocation("morecreeps:textures/entity/evilpig.png");
+  private static final ResourceLocation TEXTURE =
+      new ResourceLocation("morecreeps:textures/entity/evilpig.png");
 
   public CREEPSRenderEvilPig(ModelBase model, float shadow) {
     super(model, shadow);

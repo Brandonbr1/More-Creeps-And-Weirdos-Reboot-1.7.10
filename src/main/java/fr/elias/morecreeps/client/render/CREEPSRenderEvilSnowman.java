@@ -10,32 +10,32 @@ import org.lwjgl.opengl.GL11;
 
 public class CREEPSRenderEvilSnowman extends RenderLiving {
 
-  public float snowsize;
   protected CREEPSModelEvilSnowman modelBipedMain;
 
   public CREEPSRenderEvilSnowman(CREEPSModelEvilSnowman creepsmodelevilsnowman, float f) {
     super(creepsmodelevilsnowman, f);
-    modelBipedMain = creepsmodelevilsnowman;
+    this.modelBipedMain = creepsmodelevilsnowman;
   }
 
   protected void preRenderScale(CREEPSEntityEvilSnowman creepsentityevilsnowman, float f) {
-    shadowSize = creepsentityevilsnowman.snowsize * 0.5F;
+    this.shadowSize = creepsentityevilsnowman.snowsize * 0.5F;
     GL11.glScalef(
         creepsentityevilsnowman.snowsize,
         creepsentityevilsnowman.snowsize,
         creepsentityevilsnowman.snowsize);
   }
 
+  @Override
   protected void preRenderCallback(EntityLivingBase entityliving, float f) {
-    preRenderScale((CREEPSEntityEvilSnowman) entityliving, f);
+    this.preRenderScale((CREEPSEntityEvilSnowman) entityliving, f);
   }
 
   protected ResourceLocation getEntityTexture(CREEPSEntityEvilSnowman entity) {
     return new ResourceLocation(entity.texture);
   }
 
+  @Override
   protected ResourceLocation getEntityTexture(Entity entity) {
-
-    return getEntityTexture((CREEPSEntityEvilSnowman) entity);
+    return this.getEntityTexture((CREEPSEntityEvilSnowman) entity);
   }
 }

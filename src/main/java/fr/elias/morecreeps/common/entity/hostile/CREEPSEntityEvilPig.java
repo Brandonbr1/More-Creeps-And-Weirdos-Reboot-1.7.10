@@ -24,7 +24,8 @@ public class CREEPSEntityEvilPig extends EntityMob {
     this.tasks.addTask(5, new EntityAILookIdle(this));
 
     this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-    this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+    this.targetTasks.addTask(
+        2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
   }
 
   @Override
@@ -40,9 +41,10 @@ public class CREEPSEntityEvilPig extends EntityMob {
     while (a > 180F) a -= 360F;
     return a;
   }
+
   private static float approachAngle(float current, float target, float maxStep) {
     float diff = wrapTo180(target - current);
-    if (diff >  maxStep) diff =  maxStep;
+    if (diff > maxStep) diff = maxStep;
     if (diff < -maxStep) diff = -maxStep;
     return current + diff;
   }
@@ -58,13 +60,13 @@ public class CREEPSEntityEvilPig extends EntityMob {
       double dx = tgt.posX - this.posX;
       double dz = tgt.posZ - this.posZ;
       double horiz = MathHelper.sqrt_double(dx * dx + dz * dz);
-      float look = (float)(-Math.atan2(dy, horiz) * 180.0D / Math.PI);
+      float look = (float) (-Math.atan2(dy, horiz) * 180.0D / Math.PI);
       desiredPitch = MathHelper.clamp_float(look, -12.0F, 12.0F);
     }
 
     float next = approachAngle(this.rotationPitch, desiredPitch, 4.0F);
-    this.rotationPitch     = next;
-    this.prevRotationPitch = next;  // removing interpolation jitter
+    this.rotationPitch = next;
+    this.prevRotationPitch = next; // removing interpolation jitter
   }
 
   @Override
@@ -72,7 +74,18 @@ public class CREEPSEntityEvilPig extends EntityMob {
     return super.attackEntityAsMob(entity);
   }
 
-  @Override protected String getLivingSound() { return "mob.pig.say"; }
-  @Override protected String getHurtSound()   { return "mob.pig.say"; }
-  @Override protected String getDeathSound()  { return "mob.pig.death"; }
+  @Override
+  protected String getLivingSound() {
+    return "mob.pig.say";
+  }
+
+  @Override
+  protected String getHurtSound() {
+    return "mob.pig.say";
+  }
+
+  @Override
+  protected String getDeathSound() {
+    return "mob.pig.death";
+  }
 }

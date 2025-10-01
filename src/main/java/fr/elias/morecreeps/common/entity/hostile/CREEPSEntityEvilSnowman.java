@@ -29,6 +29,7 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
     this.snowsize = 1.0F;
     this.isImmuneToFire = true;
     this.getNavigator().setBreakDoors(true);
+    this.setEntitySize(this.width * this.snowsize, this.height * this.snowsize);
     // would die in water, would not make sense for him to not avoid it.
     this.getNavigator().setAvoidsWater(true);
     this.tasks.addTask(0, new EntityAISwimming(this));
@@ -48,6 +49,10 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
     this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(25D);
     this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
     this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1D);
+  }
+
+  public void setEntitySize(float width, float height) {
+    this.setSize(width, height);
   }
 
   /**
@@ -242,18 +247,6 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
   /** Called when the mob is falling. Calculates and applies fall damage. */
   public void fall(float distance, float damageMultiplier) {}
 
-  /** (abstract) Protected helper method to write subclass entity data to NBT. */
-  @Override
-  public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-    super.writeEntityToNBT(nbttagcompound);
-  }
-
-  /** (abstract) Protected helper method to read subclass entity data from NBT. */
-  @Override
-  public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-    super.readEntityFromNBT(nbttagcompound);
-  }
-
   /** Checks if the entity's current position is a valid location to spawn this entity. */
   @Override
   public boolean getCanSpawnHere() {
@@ -331,6 +324,19 @@ public class CREEPSEntityEvilSnowman extends EntityMob {
               + 1.0F
               + (1.0F - this.snowsize) * 2.0F);
     }
+  }
+
+  @Override
+  public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+    super.writeEntityToNBT(nbttagcompound);
+    nbttagcompound.setFloat("SnowSize", this.snowsize);
+  }
+
+  /** (abstract) Protected helper method to read subclass entity data from NBT. */
+  @Override
+  public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+    super.readEntityFromNBT(nbttagcompound);
+    this.snowsize = nbttagcompound.getFloat("SnowSize");
   }
 
   /** Returns the sound this mob makes while it's alive. */

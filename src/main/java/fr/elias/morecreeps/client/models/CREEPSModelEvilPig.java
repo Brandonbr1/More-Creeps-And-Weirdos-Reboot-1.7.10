@@ -101,25 +101,32 @@ public class CREEPSModelEvilPig extends ModelBase {
     leg4.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
 
     // Smooth, consistent head yaw/pitch (all heads follow the same look)
-    final float yawRad   = f3 * ((float)Math.PI / 180F);
-    final float pitchRad = -f4 * ((float)Math.PI / 180F);
-    headEvilpig.rotateAngleY  = yawRad; headEvilpig.rotateAngleX  = pitchRad;
-    headEvilpig1.rotateAngleY = yawRad; headEvilpig1.rotateAngleX = pitchRad;
-    headEvilpig2.rotateAngleY = yawRad; headEvilpig2.rotateAngleX = pitchRad;
-    headEvilpig3.rotateAngleY = yawRad; headEvilpig3.rotateAngleX = pitchRad;
-    headEvilpig4.rotateAngleY = yawRad; headEvilpig4.rotateAngleX = pitchRad;
-    headEvilpig5.rotateAngleY = yawRad; headEvilpig5.rotateAngleX = pitchRad;
+    final float yawRad = f3 * ((float) Math.PI / 180F);
+    final float pitchRad = -f4 * ((float) Math.PI / 180F);
+    headEvilpig.rotateAngleY = yawRad;
+    headEvilpig.rotateAngleX = pitchRad;
+    headEvilpig1.rotateAngleY = yawRad;
+    headEvilpig1.rotateAngleX = pitchRad;
+    headEvilpig2.rotateAngleY = yawRad;
+    headEvilpig2.rotateAngleX = pitchRad;
+    headEvilpig3.rotateAngleY = yawRad;
+    headEvilpig3.rotateAngleX = pitchRad;
+    headEvilpig4.rotateAngleY = yawRad;
+    headEvilpig4.rotateAngleX = pitchRad;
+    headEvilpig5.rotateAngleY = yawRad;
+    headEvilpig5.rotateAngleX = pitchRad;
 
     // --- Jitter fix: replace per-frame RNG “teleport” with smooth tweened pop-out ---
     // f2 == ageInTicks (ticksExisted + partialTicks) from RenderLivingBase
     // Cycle which head is extended every ~8 ticks, with a sine ease for smooth in/out.
-    final float cycle   = f2 * 0.125F;                 // slower cycle
+    final float cycle = f2 * 0.125F; // slower cycle
     final int activeIdx = MathHelper.floor_float(cycle) % 6;
-    final float phase   = cycle - MathHelper.floor_float(cycle);
-    final float extend  = MathHelper.sin(phase * (float)Math.PI) * 3.0F; // 0..3 blocks (matches your +/-3 deltas)
+    final float phase = cycle - MathHelper.floor_float(cycle);
+    final float extend =
+        MathHelper.sin(phase * (float) Math.PI) * 3.0F; // 0..3 blocks (matches your +/-3 deltas)
 
     // Reset to base, then extend the active head only.
-    headEvilpig.rotationPointZ  = baseZ0 - (activeIdx == 0 ? extend : 0F);
+    headEvilpig.rotationPointZ = baseZ0 - (activeIdx == 0 ? extend : 0F);
     headEvilpig1.rotationPointZ = baseZ1 - (activeIdx == 1 ? extend : 0F);
     headEvilpig2.rotationPointZ = baseZ2 - (activeIdx == 2 ? extend : 0F);
     headEvilpig3.rotationPointZ = baseZ3 - (activeIdx == 3 ? extend : 0F);

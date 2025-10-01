@@ -42,6 +42,7 @@ public class CREEPSRenderGooGoat extends RenderLiving {
 
   /** sets the scale for the slime based on getSlimeSize in EntitySlime */
   protected void scaleSlime(CREEPSEntityGooGoat creepsentitygoogoat, float f) {
+    System.out.println(creepsentitygoogoat.goatsize);
     GL11.glPushMatrix();
     GL11.glEnable(GL11.GL_NORMALIZE);
     GL11.glEnable(GL11.GL_BLEND);
