@@ -73,20 +73,11 @@ public class CREEPSConfig {
 
     private static boolean unlimitedSpawn;
 
-    public static int shrink_projectile_ID, ray_projectile_ID, money_projectile_ID, bullet_projectile_ID,
-        grow_projectile_ID, gdonut_projectile_ID, frisbee_projectile_ID, foam_projectile_ID;
-    public static int armyguy_ID, armyguyArm_ID, atom_ID, babymummy_ID, bigbaby_ID, blacksoul_ID, blorp_ID, bum_ID,
-        bubblescum_ID, camel_ID, cameljockey_ID, caveman_ID, desertlizard_ID, digbug_ID, evilchicken_ID,
-        evilcreature_ID, evilpig_ID, evilscientist_ID, evilsnowman_ID, floob_ID, floobship_ID, g_ID, googoat_ID,
-        guineapig_ID, hippo_ID, horsehead_ID, hotdog_ID, hunchback_ID, hunchbackSkeleton_ID, invisibleman_ID, kid_ID,
-        lawyer_ID, lolliman_ID, mandog_ID, mummy_ID, nonswimmer_ID, preacher_ID, prisoner_ID, robotted_ID, robottodd_ID,
-        rocketgiraffe_ID, rockmonster_ID, sneakysal_ID, snowdevil_ID, thief_ID, zebra_ID, rat_man_ID, squimp_ID;
-
     public static void preInit(FMLPreInitializationEvent event) {
 
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
         String spawnNbr = "Spawn Number";
-        String entityID = "Entity";
+    //    String entityID = "Entity";
         String mobProperty = "Mob Property";
         String itemProperty = "Item Property";
         String worldGen = "World Gen";
@@ -203,123 +194,10 @@ public class CREEPSConfig {
             Blood = config.get(mobProperty, "Enable blood", true)
                 .getBoolean();
             sblorpmaxsize = config.get(mobProperty, "Blorp Max Size", 6)
-                .getInt();
-            ///////////////// PROJECTILE START/////////////////////////
-            shrink_projectile_ID = config.get(entityID, "Shrink Projectile ID", 925)
-                .getInt();
-            ray_projectile_ID = config.get(entityID, "Ray Projectile ID", 926)
-                .getInt();
-            money_projectile_ID = config.get(entityID, "Money Projectile ID", 927)
-                .getInt();
-            bullet_projectile_ID = config.get(entityID, "Bullet Projectile ID", 928)
-                .getInt();
-            grow_projectile_ID = config.get(entityID, "Grow Projectile ID", 929)
-                .getInt();
-            gdonut_projectile_ID = config.get(entityID, "Goo Donut Projectile ID", 930)
-                .getInt();
-            frisbee_projectile_ID = config.get(entityID, "Frisbee Projectile ID", 931)
-                .getInt();
-            foam_projectile_ID = config.get(entityID, "Foam Projectile ID", 932)
-                .getInt();
-            ///////////////// PROJECTILE END///////////////////////////
-            armyguy_ID = config.get(entityID, "Army Guy ID", 934)
-                .getInt();
-            armyguyArm_ID = config.get(entityID, "Army Guy Arm ID", 935)
-                .getInt();
-            atom_ID = config.get(entityID, "Atom Entity ID", 936)
-                .getInt();
-            babymummy_ID = config.get(entityID, "Baby Mummy Entity ID", 937)
-                .getInt();
-            bigbaby_ID = config.get(entityID, "Big Baby Entity ID", 938)
-                .getInt();
-            blacksoul_ID = config.get(entityID, "Black Soul Entity ID", 939)
-                .getInt();
-            blorp_ID = config.get(entityID, "Blorp Entity ID", 940)
-                .getInt();
-            bum_ID = config.get(entityID, "Bum Entity ID", 941)
-                .getInt();
-            bubblescum_ID = config.get(entityID, "Bubble Scum Entity ID", 942)
-                .getInt();
-            camel_ID = config.get(entityID, "Camel Entity ID", 943)
-                .getInt();
-            cameljockey_ID = config.get(entityID, "Camel Jockey Entity ID", 944)
-                .getInt();
-            caveman_ID = config.get(entityID, "Caveman Entity ID", 945)
-                .getInt();
-            desertlizard_ID = config.get(entityID, "Desert Lizard Entity ID", 946)
-                .getInt();
-            digbug_ID = config.get(entityID, "Dig Bug Entity ID", 947)
-                .getInt();
-            evilscientist_ID = config.get(entityID, "Evil Scientist Entity ID", 948)
-                .getInt();
-            floob_ID = config.get(entityID, "Floob Entity ID", 949)
-                .getInt();
-            floobship_ID = config.get(entityID, "Floob Ship Entity ID", 950)
-                .getInt();
-            g_ID = config.get(entityID, "G Entity ID", 951)
-                .getInt();
-            googoat_ID = config.get(entityID, "GooGoat Entity ID", 952)
-                .getInt();
-            guineapig_ID = config.get(entityID, "Guinea Pig Entity ID", 953)
-                .getInt();
-            hippo_ID = config.get(entityID, "Hippo Entity ID", 954)
-                .getInt();
-            horsehead_ID = config.get(entityID, "Horsehead Entity ID", 955)
-                .getInt();
-            hotdog_ID = config.get(entityID, "Hot Dog Entity ID", 956)
-                .getInt();
-            hunchback_ID = config.get(entityID, "Hunchback Entity ID", 957)
-                .getInt();
-            hunchbackSkeleton_ID = config.get(entityID, "Hunchback Skeleton Entity ID", 958)
-                .getInt();
-            invisibleman_ID = config.get(entityID, "Invisible Man Entity ID", 959)
-                .getInt();
-            kid_ID = config.get(entityID, "Kid Entity ID", 960)
-                .getInt();
-            lawyer_ID = config.get(entityID, "Lawyer Entity ID", 961)
-                .getInt();
-            lolliman_ID = config.get(entityID, "Lolliman Entity ID", 962)
-                .getInt();
-            mandog_ID = config.get(entityID, "Man Dog Entity ID", 963)
-                .getInt();
-            mummy_ID = config.get(entityID, "Mummy Entity ID", 964)
-                .getInt();
-            nonswimmer_ID = config.get(entityID, "Nonswimmer Entity ID", 965)
-                .getInt();
-            preacher_ID = config.get(entityID, "Preacher Entity ID", 966)
-                .getInt();
-            prisoner_ID = config.get(entityID, "Prisoner Entity ID", 967)
-                .getInt();
-            robotted_ID = config.get(entityID, "Robot Ted Entity ID", 968)
-                .getInt();
-            robottodd_ID = config.get(entityID, "Robot Todd Entity ID", 969)
-                .getInt();
-            rocketgiraffe_ID = config.get(entityID, "Rocket Giraffe Entity ID", 970)
-                .getInt();
-            rockmonster_ID = config.get(entityID, "Rock Monster Entity ID", 971)
-                .getInt();
-            sneakysal_ID = config.get(entityID, "Sneaky Sal Entity ID", 972)
-                .getInt();
-            snowdevil_ID = config.get(entityID, "Snow Devil Entity ID", 973)
-                .getInt();
-            thief_ID = config.get(entityID, "Thief Entity ID", 974)
-                .getInt();
-            zebra_ID = config.get(entityID, "Zebra Entity ID", 975)
-                .getInt();
-            squimp_ID = config.get(entityID, "Squimp Entity ID", 976)
-                .getInt();
-            rat_man_ID = config.get(entityID, "Rat Man Entity ID", 977)
-                .getInt();
-            registerGlobally = config.get(
-                entityID,
-                "Register Entities Globally.",
-                false,
-                "Should it register the mobs globally? This is limited to 256 total mob by default. It is recommended to use EndlessIDs by FalsePattern if you intend to use this option.")
-                .getBoolean();
-
+                .getInt();    
             gemSwordDam = (float) config.get("Balance", "Gem Sword Attack Damage", 25D)
                 .getDouble(25D);
-
+          
             rocketGiraffeRiddenSpeed = config
                 .get(
                     "Balance",

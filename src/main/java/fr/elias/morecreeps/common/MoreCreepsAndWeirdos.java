@@ -1,8 +1,11 @@
 package fr.elias.morecreeps.common;
 
+import java.lang.reflect.Method;
 import java.util.Random;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
@@ -16,6 +19,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -683,57 +687,48 @@ public class MoreCreepsAndWeirdos {
     public void init(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(MoreCreepsAndWeirdos.INSTANCE, guiHandler);
         // projectiles registry
-        EntityRegistry.registerModEntity(
+        addProjectile(
             CREEPSEntityShrink.class,
             "ShrinkEnt",
-            CREEPSConfig.shrink_projectile_ID,
             this,
             40,
             1,
             true);
-        EntityRegistry
-            .registerModEntity(CREEPSEntityRay.class, "RayEnt", CREEPSConfig.ray_projectile_ID, this, 40, 1, true);
-        EntityRegistry.registerModEntity(
+        addProjectile(CREEPSEntityRay.class, "RayEnt", this, 40, 1, true);
+        addProjectile(
             CREEPSEntityMoney.class,
             "MoneyEnt",
-            CREEPSConfig.money_projectile_ID,
             this,
             40,
             1,
             true);
-        EntityRegistry.registerModEntity(
+        addProjectile(
             CREEPSEntityBullet.class,
             "BulletEnt",
-            CREEPSConfig.bullet_projectile_ID,
             this,
             40,
             1,
             true);
-        EntityRegistry
-            .registerModEntity(CREEPSEntityGrow.class, "GrowEnt", CREEPSConfig.grow_projectile_ID, this, 40, 1, true);
-        EntityRegistry.registerModEntity(
+        addProjectile(CREEPSEntityGrow.class, "GrowEnt", this, 40, 1, true);
+        addProjectile(
             CREEPSEntityGooDonut.class,
             "GooDonutEnt",
-            CREEPSConfig.gdonut_projectile_ID,
             this,
             40,
             1,
             true);
-        EntityRegistry.registerModEntity(
+        addProjectile(
             CREEPSEntityFrisbee.class,
             "FrisbeeEnt",
-            CREEPSConfig.frisbee_projectile_ID,
             this,
             40,
             1,
             true);
-        EntityRegistry.registerModEntity(CREEPSEntityEvilEgg.class, "Evilegg", 453467, this, 40, 1, true);
-        EntityRegistry
-            .registerModEntity(CREEPSEntityFoam.class, "FoamEnt", CREEPSConfig.foam_projectile_ID, this, 40, 1, true);
-        EntityRegistry.registerModEntity(
+        addProjectile(CREEPSEntityEvilEgg.class, "Evilegg", this, 40, 1, true);
+        addProjectile(CREEPSEntityFoam.class, "FoamEnt", this, 40, 1, true);
+        addProjectile(
             CREEPSEntityArmyGuyArm.class,
             "ArmyGuyArm",
-            CREEPSConfig.armyguyArm_ID,
             this,
             40,
             1,
@@ -741,7 +736,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityAtom.class,
             "Atom",
-            CREEPSConfig.atom_ID,
             CREEPSConfig.satom,
             1,
             4,
@@ -750,7 +744,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityArmyGuy.class,
             "ArmyGuy",
-            CREEPSConfig.armyguy_ID,
             CREEPSConfig.sarmyguy,
             1,
             4,
@@ -759,7 +752,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityBigBaby.class,
             "BigBaby",
-            CREEPSConfig.bigbaby_ID,
             CREEPSConfig.sbigbaby,
             1,
             4,
@@ -768,7 +760,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityBabyMummy.class,
             "BabyMummy",
-            CREEPSConfig.babymummy_ID,
             CREEPSConfig.sbabymummy,
             1,
             4,
@@ -777,7 +768,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityBlackSoul.class,
             "BlackSoul",
-            CREEPSConfig.blacksoul_ID,
             CREEPSConfig.sblacksoul,
             1,
             4,
@@ -786,7 +776,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityBlorp.class,
             "Blorp",
-            CREEPSConfig.blorp_ID,
             CREEPSConfig.sblorp,
             1,
             4,
@@ -795,7 +784,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityBubbleScum.class,
             "BubbleScum",
-            CREEPSConfig.bubblescum_ID,
             CREEPSConfig.sbubblescum,
             1,
             4,
@@ -804,7 +792,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityBum.class,
             "Bum",
-            CREEPSConfig.bum_ID,
             CREEPSConfig.sbum,
             1,
             4,
@@ -813,7 +800,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityCamel.class,
             "Camel",
-            CREEPSConfig.camel_ID,
             CREEPSConfig.scamel,
             1,
             4,
@@ -822,7 +808,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityCamelJockey.class,
             "CamelJockey",
-            CREEPSConfig.cameljockey_ID,
             CREEPSConfig.scameljockey,
             1,
             4,
@@ -831,7 +816,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityCaveman.class,
             "Caveman",
-            CREEPSConfig.caveman_ID,
             CREEPSConfig.scaveman,
             1,
             4,
@@ -840,7 +824,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityDesertLizard.class,
             "DesertLizard",
-            CREEPSConfig.desertlizard_ID,
             CREEPSConfig.sdesertlizard,
             1,
             4,
@@ -849,7 +832,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityDigBug.class,
             "DigBug",
-            CREEPSConfig.digbug_ID,
             CREEPSConfig.sdigbug,
             1,
             4,
@@ -858,7 +840,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityEvilScientist.class,
             "EvilScientist",
-            CREEPSConfig.evilscientist_ID,
             CREEPSConfig.sevilscientist,
             1,
             4,
@@ -867,7 +848,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityFloob.class,
             "Floob",
-            CREEPSConfig.floob_ID,
             CREEPSConfig.sfloob,
             1,
             4,
@@ -876,7 +856,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityFloobShip.class,
             "FloobShip",
-            CREEPSConfig.floobship_ID,
             CREEPSConfig.sfloobship,
             1,
             4,
@@ -886,7 +865,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityG.class,
             "G",
-            CREEPSConfig.g_ID,
             CREEPSConfig.sg,
             1,
             4,
@@ -895,7 +873,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityGooGoat.class,
             "GooGoat",
-            CREEPSConfig.googoat_ID,
             CREEPSConfig.sgoogoat,
             1,
             4,
@@ -904,7 +881,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityGuineaPig.class,
             "GuineaPig",
-            CREEPSConfig.guineapig_ID,
             CREEPSConfig.sguineapig,
             1,
             4,
@@ -913,7 +889,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityHippo.class,
             "Hippo",
-            CREEPSConfig.hippo_ID,
             CREEPSConfig.shippo,
             1,
             4,
@@ -922,7 +897,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityHorseHead.class,
             "HorseHead",
-            CREEPSConfig.horsehead_ID,
             CREEPSConfig.shorsehead,
             1,
             4,
@@ -932,7 +906,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityHotdog.class,
             "Hotdog",
-            CREEPSConfig.hotdog_ID,
             CREEPSConfig.shotdog,
             1,
             4,
@@ -941,7 +914,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityHunchback.class,
             "Hunchback",
-            CREEPSConfig.hunchback_ID,
             CREEPSConfig.shunchback,
             1,
             4,
@@ -950,7 +922,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityHunchbackSkeleton.class,
             "HunchbackSkeleton",
-            CREEPSConfig.hunchbackSkeleton_ID,
             0,
             0,
             0,
@@ -960,7 +931,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityInvisibleMan.class,
             "InvisibleMan",
-            CREEPSConfig.invisibleman_ID,
             CREEPSConfig.sinvisibleman,
             1,
             4,
@@ -969,7 +939,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityKid.class,
             "Kid",
-            CREEPSConfig.kid_ID,
             CREEPSConfig.skid,
             1,
             4,
@@ -978,7 +947,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityLawyerFromHell.class,
             "LawyerFromHell",
-            CREEPSConfig.lawyer_ID,
             CREEPSConfig.slawyerfromhell,
             1,
             4,
@@ -987,7 +955,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityLolliman.class,
             "Lolliman",
-            CREEPSConfig.lolliman_ID,
             CREEPSConfig.slolliman,
             1,
             4,
@@ -996,7 +963,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityManDog.class,
             "ManDog",
-            CREEPSConfig.mandog_ID,
             CREEPSConfig.smandog,
             1,
             4,
@@ -1007,7 +973,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityMummy.class,
             "Mummy",
-            CREEPSConfig.mummy_ID,
             CREEPSConfig.smummy,
             1,
             4,
@@ -1016,7 +981,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityNonSwimmer.class,
             "NonSwimmer",
-            CREEPSConfig.nonswimmer_ID,
             CREEPSConfig.snonswimmer,
             1,
             4,
@@ -1025,7 +989,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityPreacher.class,
             "Preacher",
-            CREEPSConfig.preacher_ID,
             CREEPSConfig.spreacher,
             1,
             4,
@@ -1034,7 +997,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityPrisoner.class,
             "Prisoner",
-            CREEPSConfig.prisoner_ID,
             CREEPSConfig.sprisoner,
             1,
             4,
@@ -1043,7 +1005,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityRobotTodd.class,
             "RobotTodd",
-            CREEPSConfig.robottodd_ID,
             CREEPSConfig.srobottodd,
             1,
             4,
@@ -1052,7 +1013,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityRobotTed.class,
             "RobotTed",
-            CREEPSConfig.robotted_ID,
             CREEPSConfig.srobotted,
             1,
             4,
@@ -1061,7 +1021,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityRocketGiraffe.class,
             "RocketGiraffe",
-            CREEPSConfig.rocketgiraffe_ID,
             CREEPSConfig.srocketgiraffe,
             1,
             4,
@@ -1070,7 +1029,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityRockMonster.class,
             "RockMonster",
-            CREEPSConfig.rockmonster_ID,
             CREEPSConfig.srockmonster,
             1,
             4,
@@ -1079,7 +1037,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntitySneakySal.class,
             "SneakySal",
-            CREEPSConfig.sneakysal_ID,
             CREEPSConfig.ssneakysal,
             1,
             4,
@@ -1088,7 +1045,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntitySnowDevil.class,
             "SnowDevil",
-            CREEPSConfig.snowdevil_ID,
             CREEPSConfig.ssnowdevil,
             1,
             4,
@@ -1097,7 +1053,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntitySquimp.class,
             "Squimp",
-            CREEPSConfig.squimp_ID,
             CREEPSConfig.ssquimp,
             1,
             4,
@@ -1106,7 +1061,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityThief.class,
             "Thief",
-            CREEPSConfig.thief_ID,
             CREEPSConfig.sthief,
             1,
             4,
@@ -1115,7 +1069,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityZebra.class,
             "Zebra",
-            CREEPSConfig.zebra_ID,
             CREEPSConfig.szebra,
             1,
             4,
@@ -1124,17 +1077,15 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityRatMan.class,
             "RatMan",
-            CREEPSConfig.rat_man_ID,
             CREEPSConfig.szebra,
             1,
             4,
             EnumCreatureType.creature,
             this.allBiomes());
-        this.addMob(CREEPSEntityDoghouse.class, "DogHouse", 5432, 0, 0, 0, EnumCreatureType.creature, this.allBiomes());
+        this.addMob(CREEPSEntityDoghouse.class, "DogHouse", 0, 0, 0, EnumCreatureType.creature, this.allBiomes());
         this.addMob(
             CREEPSEntityCastleKing.class,
             "CastleKing",
-            3537,
             1,
             1,
             1,
@@ -1143,7 +1094,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityEvilChicken.class,
             "EvilChicken",
-            3531,
             1,
             1,
             1,
@@ -1152,7 +1102,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityPyramidGuardian.class,
             "PyramidGuardian",
-            3532,
             1,
             1,
             1,
@@ -1161,7 +1110,6 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityEvilCreature.class,
             "EntityEvilCreature",
-            3533,
             1,
             1,
             1,
@@ -1170,27 +1118,24 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityCastleCritter.class,
             "CastleCritter",
-            3534,
             1,
             1,
             1,
             EnumCreatureType.monster,
             this.allBiomes());
-        this.addMob(CREEPSEntityEvilPig.class, "EvilPig", 3535, 1, 1, 1, EnumCreatureType.monster, this.allBiomes());
+        this.addMob(CREEPSEntityEvilPig.class, "EvilPig", 1, 1, 1, EnumCreatureType.monster, this.allBiomes());
         this.addMob(
             CREEPSEntityCastleGuard.class,
             "CastleGuard",
-            3536,
             1,
             1,
             1,
             EnumCreatureType.monster,
             this.allBiomes());
-        this.addMob(CREEPSEntityTowel.class, "TowelEntity", 6432, 1, 1, 1, EnumCreatureType.monster, this.allBiomes());
+        this.addMob(CREEPSEntityTowel.class, "TowelEntity", 1, 1, 1, EnumCreatureType.monster, this.allBiomes());
         this.addMob(
             CREEPSEntityEvilSnowman.class,
             "EvilSnowMan",
-            3538,
             1,
             1,
             1,
@@ -1199,43 +1144,32 @@ public class MoreCreepsAndWeirdos {
         this.addMob(
             CREEPSEntityEvilLight.class,
             "EvilLight",
-            567853,
             0,
             0,
             0,
             EnumCreatureType.ambient,
             this.allBiomes());
-        this.addMob(CREEPSEntitySchlump.class, "Schlump", 1, 1, 1, 1, EnumCreatureType.creature, this.allBiomes());
+        this.addMob(CREEPSEntitySchlump.class, "Schlump", 1, 1, 1, EnumCreatureType.creature, this.allBiomes());
         proxy.render();
         proxy.renderModelItem();
         // Registers Recipes
         CREEPSRecipeHandler.Init(event);
     }
 
-    public void addMob(Class<? extends EntityLiving> classz, String name, int id, int weightedProb, int min, int max,
+    private void addMob(Class<? extends EntityLiving> classz, String name, int weightedProb, int min, int max,
         EnumCreatureType typeOfCreature, BiomeGenBase... biomes) {
 
-        int dynamicID = this.startEntityCounter++;
 
-        if (CREEPSConfig.registerGlobally == true) {
-            // this is safe now due to endlessIDS
-            int globalID = EntityRegistry.findGlobalUniqueEntityId();
-            EntityRegistry.registerGlobalEntityID(classz, name, globalID, 0x000000, 0xFFFFFF);
-        }
-
-        EntityRegistry.registerModEntity(classz, name, dynamicID, this, 40, 1, true);
-
-        if (CREEPSConfig.registerGlobally == false) {
-            CREEPSList.addCreepEntity(classz, name);
-        }
+        EntityRegistry.registerModEntity(classz, name, this.startEntityCounter++, this, 40, 1, true);
+        CREEPSList.addCreepEntity(classz, name);
 
         if (weightedProb > 0) {
             EntityRegistry.addSpawn(classz, weightedProb, min, max, typeOfCreature, biomes);
         }
     }
-
-    public BiomeGenBase[] allBiomesModded() {
-        return BiomeGenBase.getBiomeGenArray();
+    
+    private void addProjectile(Class<? extends Entity> entityClass, String entityName, Object mod, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
+    	EntityRegistry.registerModEntity(entityClass, entityName, this.startEntityCounter++, this, 40, 1, true);
     }
 
     public BiomeGenBase[] allBiomes() {
