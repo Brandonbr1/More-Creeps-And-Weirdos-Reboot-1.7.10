@@ -8,28 +8,28 @@ import net.minecraft.world.World;
 
 public class CREEPSItemPopsicle extends Item {
 
-  private int healAmount;
+    private int healAmount;
 
-  public CREEPSItemPopsicle() {
-    super();
-    healAmount = 4;
-    maxStackSize = 16;
-  }
+    public CREEPSItemPopsicle() {
+        super();
+        healAmount = 4;
+        maxStackSize = 16;
+    }
 
-  /** returns the action that specifies what animation to play when the items is being used */
-  public EnumAction getItemUseAction(ItemStack itemstack) {
-    return EnumAction.eat;
-  }
+    /** returns the action that specifies what animation to play when the items is being used */
+    public EnumAction getItemUseAction(ItemStack itemstack) {
+        return EnumAction.eat;
+    }
 
-  /**
-   * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
-   * world, entityPlayer
-   */
-  public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
-    entityplayer.swingItem();
-    world.playSoundAtEntity(entityplayer, "morecreeps:lick", 1.0F, 1.0F);
-    itemstack.stackSize--;
-    entityplayer.heal(healAmount);
-    return itemstack;
-  }
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
+     * world, entityPlayer
+     */
+    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
+        entityplayer.swingItem();
+        world.playSoundAtEntity(entityplayer, "morecreeps:lick", 1.0F, 1.0F);
+        itemstack.stackSize--;
+        entityplayer.heal(healAmount);
+        return itemstack;
+    }
 }

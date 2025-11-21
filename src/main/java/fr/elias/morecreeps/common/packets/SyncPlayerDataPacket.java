@@ -9,27 +9,27 @@ import io.netty.buffer.ByteBuf;
 
 public class SyncPlayerDataPacket implements IMessage {
 
-  public SyncPlayerDataPacket() {}
+    public SyncPlayerDataPacket() {}
 
-  public int currentFine;
-  //  public SyncPlayerDataPacket(CREEPSExtendedPlayerProps props)
-  //  {
+    public int currentFine;
+    // public SyncPlayerDataPacket(CREEPSExtendedPlayerProps props)
+    // {
 
-  //  }
-
-  @Override
-  public void fromBytes(ByteBuf buf) {}
-
-  @Override
-  public void toBytes(ByteBuf buf) {}
-
-  public static class Handler implements IMessageHandler<SyncPlayerDataPacket, IMessage> {
+    // }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public IMessage onMessage(SyncPlayerDataPacket message, MessageContext ctx) {
+    public void fromBytes(ByteBuf buf) {}
 
-      return null;
+    @Override
+    public void toBytes(ByteBuf buf) {}
+
+    public static class Handler implements IMessageHandler<SyncPlayerDataPacket, IMessage> {
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public IMessage onMessage(SyncPlayerDataPacket message, MessageContext ctx) {
+
+            return null;
+        }
     }
-  }
 }

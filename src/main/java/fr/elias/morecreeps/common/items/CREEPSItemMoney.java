@@ -1,73 +1,74 @@
 package fr.elias.morecreeps.common.items;
 
-import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
-import fr.elias.morecreeps.common.entity.proj.CREEPSEntityMoney;
 import java.util.Random;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import fr.elias.morecreeps.common.MoreCreepsAndWeirdos;
+import fr.elias.morecreeps.common.entity.proj.CREEPSEntityMoney;
+
 public class CREEPSItemMoney extends Item {
 
-  public static Random rand = new Random();
+    public static Random rand = new Random();
 
-  public CREEPSItemMoney() {
-    super();
-    maxStackSize = 50;
-  }
-
-  /**
-   * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
-   * world, entityPlayer
-   */
-  public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
-    checkAchievements(world, entityplayer);
-    itemstack.stackSize--;
-    world.playSoundAtEntity(
-        entityplayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
-    if (!world.isRemote) {
-      world.spawnEntityInWorld(new CREEPSEntityMoney(world, entityplayer));
+    public CREEPSItemMoney() {
+        super();
+        maxStackSize = 50;
     }
 
-    return itemstack;
-  }
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
+     * world, entityPlayer
+     */
+    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
+        checkAchievements(world, entityplayer);
+        itemstack.stackSize--;
+        world.playSoundAtEntity(entityplayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-  public void checkAchievements(World world, EntityPlayer entityplayer) {
-    ItemStack aitemstack[] = entityplayer.inventory.mainInventory;
-    int i = 0;
+        if (!world.isRemote) {
+            world.spawnEntityInWorld(new CREEPSEntityMoney(world, entityplayer));
+        }
 
-    for (int j = 0; j < aitemstack.length; j++) {
-      ItemStack itemstack = aitemstack[j];
-
-      if (itemstack != null && itemstack.getItem() == MoreCreepsAndWeirdos.money) {
-        i += itemstack.stackSize;
-      }
+        return itemstack;
     }
 
-    boolean flag = false;
+    public void checkAchievements(World world, EntityPlayer entityplayer) {
+        ItemStack aitemstack[] = entityplayer.inventory.mainInventory;
+        int i = 0;
 
-    if (i > 99) {
-      flag = true;
-      MoreCreepsAndWeirdos.proxy.confettiA(entityplayer, world);
-      entityplayer.addStat(MoreCreepsAndWeirdos.achieve100bucks, 1);
-    }
+        for (int j = 0; j < aitemstack.length; j++) {
+            ItemStack itemstack = aitemstack[j];
 
-    if (i > 499) {
-      flag = true;
-      MoreCreepsAndWeirdos.proxy.confettiA(entityplayer, world);
-      entityplayer.addStat(MoreCreepsAndWeirdos.achieve500bucks, 1);
-    }
+            if (itemstack != null && itemstack.getItem() == MoreCreepsAndWeirdos.money) {
+                i += itemstack.stackSize;
+            }
+        }
 
-    if (i > 999) {
-      flag = true;
-      MoreCreepsAndWeirdos.proxy.confettiA(entityplayer, world);
-      entityplayer.addStat(MoreCreepsAndWeirdos.achieve1000bucks, 1);
-    }
+        boolean flag = false;
 
-    if (flag) {
-      world.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
+        if (i > 99) {
+            flag = true;
+            MoreCreepsAndWeirdos.proxy.confettiA(entityplayer, world);
+            entityplayer.addStat(MoreCreepsAndWeirdos.achieve100bucks, 1);
+        }
+
+        if (i > 499) {
+            flag = true;
+            MoreCreepsAndWeirdos.proxy.confettiA(entityplayer, world);
+            entityplayer.addStat(MoreCreepsAndWeirdos.achieve500bucks, 1);
+        }
+
+        if (i > 999) {
+            flag = true;
+            MoreCreepsAndWeirdos.proxy.confettiA(entityplayer, world);
+            entityplayer.addStat(MoreCreepsAndWeirdos.achieve1000bucks, 1);
+        }
+
+        if (flag) {
+            world.playSoundAtEntity(entityplayer, "morecreeps:achievement", 1.0F, 1.0F);
+        }
     }
-  }
 }
