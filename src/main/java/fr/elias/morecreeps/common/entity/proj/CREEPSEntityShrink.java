@@ -366,8 +366,9 @@ public class CREEPSEntityShrink extends EntityThrowable {
                     }
 
                     if (movingobjectposition.entityHit instanceof CREEPSEntityGooGoat) {
-                        if (((CREEPSEntityGooGoat) movingobjectposition.entityHit).goatsize > 0.4F) {
-                            ((CREEPSEntityGooGoat) movingobjectposition.entityHit).goatsize -= 0.4F;
+                        if (((CREEPSEntityGooGoat) movingobjectposition.entityHit).getSlimeSize() > 0.4F) {
+                        	float size =  ((CREEPSEntityGooGoat) movingobjectposition.entityHit).getSlimeSize();
+                            ((CREEPSEntityGooGoat) movingobjectposition.entityHit).setEntitySize(size -= 0.4F); // .goatsize -= 0.4F;
                             ((CREEPSEntityGooGoat) movingobjectposition.entityHit).modelspeed -= 0.15F;
                         } else {
                             ((CREEPSEntityGooGoat) movingobjectposition.entityHit).setDead();
